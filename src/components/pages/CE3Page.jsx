@@ -92,6 +92,19 @@ function CE3Page() {
         </div>
       </section>
 
+      <div className="text-center w-full py-20">
+        <h3>Ongoing development</h3>
+        <button
+          onClick={() =>
+            RedirectTo(
+              "https://jaymar921.github.io/jaymar_plugin_wiki/CE3_WIKI/"
+            )
+          }
+        >
+          Plugin Info
+        </button>
+      </div>
+
       <section className="justify-items-center py-4">
         <div className="w-[80%] md:w-[50%]">
           <h3 className="text-[1.2em] md:text-[1.5em] text-purple-500 font-bold">
@@ -158,19 +171,6 @@ function CE3Page() {
       </section>
 
       <section className="w-full">{subContentWindow()}</section>
-
-      {/* <div className="text-center w-full py-20">
-        <h3>Ongoing development</h3>
-        <button
-          onClick={() =>
-            RedirectTo(
-              "https://jaymar921.github.io/jaymar_plugin_wiki/CE3_WIKI/"
-            )
-          }
-        >
-          Plugin Wiki
-        </button>
-      </div> */}
     </div>
   );
 }
