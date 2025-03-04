@@ -3,6 +3,7 @@ import { PluginInformation } from "../contants";
 import { RedirectTo } from "../utils/PageUtility";
 import CE3_Classes from "./ce3_subcontent/CE3_Classes";
 import WindowWrap from "../modals/windowWrap";
+import CE3_Enchants from "./ce3_subcontent/CE3_Enchants";
 
 function CE3Page() {
   const [subcontent, setSubcontent] = useState("none");
@@ -18,6 +19,8 @@ function CE3Page() {
     switch (subcontent) {
       case "classes":
         return <CE3_Classes />;
+      case "enchants":
+        return <CE3_Enchants />;
       default:
         return <></>;
     }
@@ -92,7 +95,7 @@ function CE3Page() {
         </div>
       </section>
 
-      <div className="text-center w-full py-20">
+      {/* <div className="text-center w-full py-20">
         <h3>Ongoing development</h3>
         <button
           onClick={() =>
@@ -103,7 +106,7 @@ function CE3Page() {
         >
           Plugin Info
         </button>
-      </div>
+      </div> */}
 
       <section className="justify-items-center py-4">
         <div className="w-[80%] md:w-[50%]">
