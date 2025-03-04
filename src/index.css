@@ -1,5 +1,10 @@
 @import "tailwindcss";
 
+@font-face {
+  font-family: 'joystix_monospace';
+  src: url('./assets/fonts/joystixmonospace.otf') format('opentype');
+}
+
 :root {
   font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
@@ -25,7 +30,6 @@ a:hover {
 }
 
 button {
-  border-radius: 8px;
   border: 1px solid transparent;
   padding: 0.6em 1.2em;
   font-size: 1em;
@@ -60,4 +64,29 @@ button:focus-visible {
   background-image: url('assets/custom_enchants_3/banner.jpg');
   background-repeat: no-repeat;
   background-position: center;
+}
+
+.pixel-font{
+  font-family: 'joystix_monospace', sans-serif;
+}
+
+
+/* width */
+::-webkit-scrollbar {
+  width: 3px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #161616; 
+}
+ 
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #3d3d3d; 
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #747474; 
 }
