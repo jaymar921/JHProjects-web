@@ -66,7 +66,15 @@ function CE3Page() {
 
         <div className="w-[80%] md:w-[50%] md:flex justify-evenly py-8">
           <div className="md:w-[200px] p-2 text-center border-2 border-slate-700 shadow-2xl rounded-md text-md">
-            <p className="p-2 px-2">Download premium now!</p>
+            <p className="p-2 px-2 relative">
+              Download premium now!{" "}
+              <span
+                title="One time payment!"
+                className="text-white md:text-sm font-bold px-1 absolute right-[-35px] md:right-[-25px] top-[-10px] bg-yellow-500 rotate-35 select-none"
+              >
+                ${PluginInformation.price} <i class="fa-solid fa-tag"></i>
+              </span>
+            </p>
             <button
               className="rounded-xl"
               onClick={() => RedirectTo(PluginInformation.buyLink)}

@@ -8,6 +8,7 @@ import {
 export const PluginInformation = {
   title: "Custom Enchantments 3",
   subtitle: "Elevate your server with Epic RPG Gameplay!",
+  price: 12.89,
   author: "JayMar921",
   authorSocial: "https://jayharronabejar.vercel.app/",
   description:
