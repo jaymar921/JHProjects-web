@@ -3,7 +3,7 @@ import { CommandList } from "../contants/custom_enchants_3/CE3Constants";
 
 function CE3_CommandTableComponent() {
   return (
-    <table>
+    <table className="my-2">
       <thead>
         <tr>
           <th className="text-xs md:text-lg">Command</th>
