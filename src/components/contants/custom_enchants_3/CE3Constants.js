@@ -16,7 +16,18 @@ export const PluginInformation = {
   trialLink:
     "https://www.spigotmc.org/resources/%E2%9C%AFcustom-enchantments-2-1-16-1-21-4-%E2%9C%AF.89793/download?version=579656",
   buyLink: "https://www.spigotmc.org/resources/102275/",
-  supportLink: "https://buymeacoffee.com/jaymar921",
+  supportLink: [
+    {
+      title: "Buy JayMar a coffee",
+      link: "https://buymeacoffee.com/jaymar921",
+      icon: "fa-solid fa-mug-hot text-yellow-500",
+    },
+    {
+      title: "PayPal",
+      link: "https://www.paypal.com/paypalme/JayMar921",
+      icon: "fa-brands fa-paypal text-blue-400",
+    },
+  ],
   classes: {
     description:
       "Shape your adventure with three powerful classes: Warrior, Archer, and Mage! Each path unlocks unique skills, buffs, and playstyles, bringing an epic RPG experience to your server. Dominate battles, master magic, or strike from the shadows, the choice is yours!",
