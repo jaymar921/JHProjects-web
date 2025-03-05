@@ -3,8 +3,8 @@ import React from "react";
 function WindowWrap({ children, title = "", close = () => {} }) {
   return (
     <>
-      <div className="fixed top-0 w-full h-full bg-[rgba(0,0,0,0.5)]">
-        <div className="w-[80%] rounded-md pb-2 bg-[rgba(0,0,0,0.9)] pixel-font m-auto mt-8">
+      <div className="fixed top-0 w-full h-full bg-[rgba(0,0,0,0.8)]">
+        <div className="w-[80%] rounded-md pb-2 bg-[rgba(27,27,27,0.9)] pixel-font m-auto mt-8">
           <div className="relative top-0 right-0 pb-8">
             <button
               className="absolute right-0 rounded-none rounded-tr-sm"
