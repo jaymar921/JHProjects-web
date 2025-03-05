@@ -6,18 +6,22 @@ function CE3_CommandTableComponent() {
     <table>
       <thead>
         <tr>
-          <th>Command</th>
-          <th>Description</th>
-          <th>Require OP</th>
+          <th className="text-xs md:text-lg">Command</th>
+          <th className="text-xs md:text-lg">Description</th>
+          <th className="text-xs md:text-lg">Require OP</th>
         </tr>
       </thead>
       <tbody>
         {CommandList.map((command) => {
           return (
             <tr className="border-b-2 border-gray-700">
-              <td className="pixel-font text-xs px-2">{command.command}</td>
-              <td>{command.description}</td>
-              <td className="text-center">
+              <td className="pixel-font text-[0.5em] md:text-xs px-2">
+                {command.command}
+              </td>
+              <td className="text-[0.8em] md:text-xs lg:text-lg">
+                {command.description}
+              </td>
+              <td className="text-center text-[0.7em] md:text-xs ">
                 {command.requireOp && (
                   <i class="fa-solid fa-circle-check text-green-500"></i>
                 )}
