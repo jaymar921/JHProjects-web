@@ -14,15 +14,15 @@ function CE3_EnchantComponent({ enchantment }) {
   } = enchantment;
   return (
     <div className="w-full border-2 p-2">
-      <h1 className="text-xl">
+      <h1 className="text-2xl font-mono font-extrabold">
         {title}
         <span className="text-amber-400 pl-2">
           {currency}
           {price}
-          <i class="fa-solid fa-tag"></i>
+          <i class="fa-solid fa-tag pl-2"></i>
         </span>
       </h1>
-      <h3 className="text-red-300">Max Level: {maxLevel}</h3>
+      <h3 className="text-red-300 text-sm">Max Level: {maxLevel}</h3>
       <h3 className="text-blue-400">({type} ENCHANTMENT)</h3>
       <p className="text-gray-400 font-mono">{description}</p>
       {damageType && damageType.length > 0 && (
