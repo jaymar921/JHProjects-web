@@ -111,6 +111,77 @@ export const PluginInformation = {
   },
 };
 
+export const CommandList = [
+  {
+    command: "/ce skills",
+    description:
+      "Open the select Skills UI (on level 10, you can select classes)",
+    requireOp: false,
+  },
+  {
+    command: "/ce skills add [player] [amount]",
+    description: "Add level to player by amount",
+    requireOp: true,
+  },
+  {
+    command: "/ce skills reset [player]",
+    description: "Reset player skill level back to 0",
+    requireOp: true,
+  },
+  {
+    command: "/ce shop",
+    description:
+      "Shows the list of shops and it's location within the world. Opens the shop UI if `EnableShopCommand` setting is enabled in config.yml",
+    requireOp: false,
+  },
+  {
+    command: "/ce shop add [mobType] [shopType] [shopName]",
+    description: "Create a shop at the player's location",
+    requireOp: true,
+  },
+  {
+    command: "/ce shop remove [shopName]",
+    description: "Remove a shop",
+    requireOp: true,
+  },
+  {
+    command: "/ce rank",
+    description: "Shows the top 10 player rank",
+    requireOp: false,
+  },
+  {
+    command: "/ce allies",
+    description: "Shows the list of allied players",
+    requireOp: false,
+  },
+  {
+    command: "/ce allies add [playerName]",
+    description:
+      "Add a player into the ally list [Make sure that the player is online]",
+    requireOp: false,
+  },
+  {
+    command: "/ce allies remove [playerName]",
+    description: "Remove a player from the ally list",
+    requireOp: false,
+  },
+  {
+    command: "/ce help",
+    description: "Shows the plugin Help UI",
+    requireOp: false,
+  },
+  {
+    command: "/ce info",
+    description: "Shows the plugin settings information",
+    requireOp: false,
+  },
+  {
+    command: "/ce setting",
+    description: "Modify plugin settings | may require admin access",
+    requireOp: false,
+  },
+];
+
 export const Enchantments = [
   {
     title: "Life Steal",

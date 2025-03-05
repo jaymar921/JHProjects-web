@@ -4,9 +4,13 @@ import { RedirectTo } from "../utils/PageUtility";
 import CE3_Classes from "./ce3_subcontent/CE3_Classes";
 import WindowWrap from "../modals/windowWrap";
 import CE3_Enchants from "./ce3_subcontent/CE3_Enchants";
+import { CommandList } from "../contants/custom_enchants_3/CE3Constants";
+import CE3_CommandTableComponent from "../page_components/CE3_CommandTableComponent";
 
 function CE3Page() {
   const [subcontent, setSubcontent] = useState("none");
+  const [showCommand, setShowCommand] = useState(false);
+
   useEffect(() => {
     document.title = "Custom Enchantments 3";
   }, []);
@@ -64,6 +68,11 @@ function CE3Page() {
           <p className="w-full text-justify">{PluginInformation.description}</p>
         </div>
 
+        <div className="w-[80%] md:w-[50%] pt-8">
+          <h3 className="text-[1.2em] md:text-[1.5em] text-purple-500 font-bold">
+            Get your copy now!
+          </h3>
+        </div>
         <div className="w-[80%] md:w-[50%] md:flex justify-evenly py-8">
           <div className="md:w-[200px] p-2 text-center border-2 border-slate-700 shadow-2xl rounded-md text-md">
             <p className="p-2 px-2 relative">
@@ -95,11 +104,40 @@ function CE3Page() {
             <p className="p-2 px-2">Show support by donating</p>
             <button
               className="rounded-xl"
-              onClick={() => RedirectTo(PluginInformation.supportLink)}
+              onClick={() => setSubcontent("support")}
             >
               <i class="fa-solid fa-shield-heart"></i> Support
             </button>
           </div>
+        </div>
+
+        <div className="w-[80%] md:w-[50%] pt-8">
+          <h3 className="text-[1.2em] md:text-[1.5em] text-purple-500 font-bold">
+            Plugin Commands
+          </h3>
+          {!showCommand && (
+            <div className="text-center pt-4">
+              <button
+                className="rounded-lg pixel-font"
+                onClick={() => setShowCommand(true)}
+              >
+                Show Commands
+              </button>
+            </div>
+          )}
+          {showCommand && (
+            <div>
+              <CE3_CommandTableComponent />
+              <div className="text-center pt-4">
+                <button
+                  className="rounded-lg pixel-font"
+                  onClick={() => setShowCommand(false)}
+                >
+                  Hide Commands
+                </button>
+              </div>
+            </div>
+          )}
         </div>
       </section>
 
