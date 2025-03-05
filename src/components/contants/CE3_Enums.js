@@ -17,7 +17,7 @@ export const EnchantType = {
   PICKAXE: "PICKAXE",
   SHOVEL: "SHOVEL",
   HOE: "HOE",
-  FISHING_ROD: "FISHING_ROOD",
+  FISHING_ROD: "FISHING_ROD",
 };
 
 export const DamageType = {
