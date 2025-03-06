@@ -46,12 +46,12 @@ function CE3Page() {
       default:
         return (
           <>
-            <div className="text-center w-full py-20">
+            <div className="text-center w-full py-20 text-xs">
               <h3 className="pb-8">... Ongoing development ...</h3>
               <a
                 href="https://jaymar921.github.io/jaymar_plugin_wiki/CE3_WIKI/"
                 target="_blank"
-                className="p-2 border-2"
+                className="p-2 border-2 text-[10px] md:text-sm"
               >
                 View Plugin Info (Old site)
               </a>

@@ -58,7 +58,7 @@ function CE3_Enchants() {
         <select
           value={enchantType}
           onChange={onChange}
-          className="py-2 px-4 bg-gray-800 rounded-lg text-xs md:text-lg"
+          className="py-2 px-4 bg-gray-800 rounded-lg text-[11px] md:text-lg"
         >
           <option value="all">All Enchants</option>
           <option value={EnchantType.SWORD}>Sword Enchants</option>
