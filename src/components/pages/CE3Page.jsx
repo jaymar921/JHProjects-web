@@ -4,11 +4,12 @@ import { RedirectTo } from "../utils/PageUtility";
 import CE3_Classes from "./ce3_subcontent/CE3_Classes";
 import WindowWrap from "../modals/windowWrap";
 import CE3_Enchants from "./ce3_subcontent/CE3_Enchants";
-import { CommandList } from "../contants/custom_enchants_3/CE3Constants";
 import CE3_CommandTableComponent from "../page_components/CE3_CommandTableComponent";
 import CE3_Support from "../page_components/CE3_Support";
 import CE3_Shops from "./ce3_subcontent/CE3_Shops";
 import PageFooter from "../page_components/PageFooter";
+import CE3_Settings from "./ce3_subcontent/CE3_Settings";
+import CE3_LOGO from "../../assets/custom_enchants_3/ce3-logo.png";
 
 function CE3Page() {
   const [subcontent, setSubcontent] = useState("none");
@@ -16,6 +17,14 @@ function CE3Page() {
 
   useEffect(() => {
     document.title = "Custom Enchantments 3";
+
+    let link = document.querySelector("link[rel~='icon']");
+    if (!link) {
+      link = document.createElement("link");
+      link.rel = "icon";
+      document.getElementsByTagName("head")[0].appendChild(link);
+    }
+    link.href = CE3_LOGO;
   }, []);
 
   const closeWindow = () => {
@@ -32,8 +41,23 @@ function CE3Page() {
         return <CE3_Support />;
       case "shops or quests":
         return <CE3_Shops />;
+      case "settings":
+        return <CE3_Settings />;
       default:
-        return <></>;
+        return (
+          <>
+            <div className="text-center w-full py-20">
+              <h3 className="pb-8">... Ongoing development ...</h3>
+              <a
+                href="https://jaymar921.github.io/jaymar_plugin_wiki/CE3_WIKI/"
+                target="_blank"
+                className="p-2 border-2"
+              >
+                View Plugin Info (Old site)
+              </a>
+            </div>
+          </>
+        );
     }
   };
 
@@ -88,14 +112,14 @@ function CE3Page() {
                 title="One time payment!"
                 className="text-white md:text-sm font-bold px-1 absolute right-[-35px] md:right-[-25px] top-[-10px] bg-yellow-500 rotate-35 select-none"
               >
-                ${PluginInformation.price} <i class="fa-solid fa-tag"></i>
+                ${PluginInformation.price} <i className="fa-solid fa-tag"></i>
               </span>
             </p>
             <button
               className="rounded-xl"
               onClick={() => RedirectTo(PluginInformation.buyLink)}
             >
-              <i class="fa-solid fa-cart-shopping"></i> Buy Plugin
+              <i className="fa-solid fa-cart-shopping"></i> Buy Plugin
             </button>
           </div>
           <div className="md:w-[200px] p-2 text-center border-2 border-slate-700 shadow-2xl rounded-md mt-4 md:mt-0">
@@ -104,7 +128,7 @@ function CE3Page() {
               className="rounded-xl"
               onClick={() => RedirectTo(PluginInformation.trialLink)}
             >
-              <i class="fa-solid fa-file-arrow-down"></i> Try Plugin
+              <i className="fa-solid fa-file-arrow-down"></i> Try Plugin
             </button>
           </div>
           <div className="md:w-[200px] p-2 text-center border-2 border-slate-700 shadow-2xl rounded-md mt-4 md:mt-0">
@@ -113,7 +137,7 @@ function CE3Page() {
               className="rounded-xl"
               onClick={() => setSubcontent("support")}
             >
-              <i class="fa-solid fa-shield-heart"></i> Support
+              <i className="fa-solid fa-shield-heart"></i> Support
             </button>
           </div>
         </div>
@@ -162,7 +186,7 @@ function CE3Page() {
               className="rounded-xl"
               onClick={() => setSubcontent("classes")}
             >
-              <i class="fa-solid fa-hat-wizard"></i> Classes
+              <i className="fa-solid fa-hat-wizard"></i> Classes
             </button>
           </div>
           <div className="col-span-1 p-2 text-center border-2 border-slate-700 shadow-2xl rounded-md mt-4 md:mt-0">
@@ -171,7 +195,7 @@ function CE3Page() {
               className="rounded-xl"
               onClick={() => setSubcontent("shops or quests")}
             >
-              <i class="fa-solid fa-shop"></i> Shops
+              <i className="fa-solid fa-shop"></i> Shops
             </button>
           </div>
           <div className="col-span-1  p-2 text-center border-2 border-slate-700 shadow-2xl rounded-md mt-4 md:mt-0">
@@ -180,7 +204,7 @@ function CE3Page() {
               className="rounded-xl"
               onClick={() => setSubcontent("enchants")}
             >
-              <i class="fa-solid fa-wand-magic-sparkles"></i> Enchants
+              <i className="fa-solid fa-wand-magic-sparkles"></i> Enchants
             </button>
           </div>
           <div className="col-span-1 p-2 text-center border-2 border-slate-700 shadow-2xl rounded-md mt-4 md:mt-0">
@@ -189,7 +213,7 @@ function CE3Page() {
               className="rounded-xl"
               onClick={() => setSubcontent("plots")}
             >
-              <i class="fa-solid fa-city"></i> Plots
+              <i className="fa-solid fa-city"></i> Plots
             </button>
           </div>
           <div className="col-span-1 p-2 text-center border-2 border-slate-700 shadow-2xl rounded-md mt-4 md:mt-0">
@@ -198,7 +222,7 @@ function CE3Page() {
               className="rounded-xl"
               onClick={() => setSubcontent("items")}
             >
-              <i class="fa-solid fa-cube"></i> Items
+              <i className="fa-solid fa-cube"></i> Items
             </button>
           </div>
           <div className="col-span-1 p-2 text-center border-2 border-slate-700 shadow-2xl rounded-md mt-4 md:mt-0">
@@ -207,7 +231,7 @@ function CE3Page() {
               className="rounded-xl"
               onClick={() => setSubcontent("settings")}
             >
-              <i class="fa-solid fa-gears"></i> Settings
+              <i className="fa-solid fa-gears"></i> Settings
             </button>
           </div>
         </div>
