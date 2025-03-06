@@ -640,7 +640,7 @@ export const Enchantments = [
     currency: Currency.LEVEL,
   },
   {
-    title: "IMPLATE",
+    title: "IMPLANT",
     type: [EnchantType.BOW],
     description: "The dark matter will give a strength to your bow",
     damageType: [DamageType.PHYSICAL_DMG],
