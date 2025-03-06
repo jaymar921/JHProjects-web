@@ -14,6 +14,20 @@ function CE3_Classes() {
           {PluginInformation.classes.description}
         </p>
       </div>
+      <div className="p-8 text-center">
+        <p>
+          To activate, you have to open the Skills GUI by using the ce skill
+          command. Minimum requirement will be level 10. Once ready, just spend
+          your skill points
+        </p>
+        <p className="rounded-sm mt-2 font-mono bg-slate-700 p-4 text-left w-full">
+          <i class="fa-solid fa-angle-right"></i>{" "}
+          {PluginInformation.classes.command}
+        </p>
+      </div>
+      <h1 className="text-center text-md md:text-xl text-purple-500">
+        Classes
+      </h1>
       <div className="p-8 grid grid-cols-1 lg:grid-cols-3 gap-2">
         {PluginInformation.classes.class.map((clazz) => {
           return (
