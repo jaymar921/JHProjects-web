@@ -4,7 +4,7 @@ import CE3_LOGO from "../../../assets/custom_enchants_3/ce3-logo.png";
 function CE3_Settings() {
   return (
     <div>
-      <div className="w-[20%] m-auto border-2 border-gray-800 p-4 rounded-xl mt-8 select-none">
+      <div className="w-[20%] lg:w-[10%] m-auto border-2 border-gray-800 p-4 rounded-xl mt-8 select-none">
         <img className="w-full h-full" src={CE3_LOGO} />
       </div>
       <h1 className="text-center text-xl md:text-3xl text-yellow-400 pt-4 mb-2 mt-4 select-none">
