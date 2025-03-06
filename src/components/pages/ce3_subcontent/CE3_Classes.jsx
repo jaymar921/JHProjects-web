@@ -10,11 +10,11 @@ function CE3_Classes() {
       </div>
       <div className="p-8">
         <h1 className="text-md md:text-xl text-purple-500">About</h1>
-        <p className="text-xs md:text-[1em]">
+        <p className=" text-xs md:text-lg">
           {PluginInformation.classes.description}
         </p>
       </div>
-      <div className="p-8 text-center">
+      <div className="p-8 text-center text-xs md:text-lg">
         <p>
           To activate, you have to open the Skills GUI by using the ce skill
           command. Minimum requirement will be level 10. Once ready, just spend
