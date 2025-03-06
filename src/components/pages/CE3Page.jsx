@@ -7,6 +7,8 @@ import CE3_Enchants from "./ce3_subcontent/CE3_Enchants";
 import { CommandList } from "../contants/custom_enchants_3/CE3Constants";
 import CE3_CommandTableComponent from "../page_components/CE3_CommandTableComponent";
 import CE3_Support from "../page_components/CE3_Support";
+import CE3_Shops from "./ce3_subcontent/CE3_Shops";
+import PageFooter from "../page_components/PageFooter";
 
 function CE3Page() {
   const [subcontent, setSubcontent] = useState("none");
@@ -28,6 +30,8 @@ function CE3Page() {
         return <CE3_Enchants />;
       case "support":
         return <CE3_Support />;
+      case "shops or quests":
+        return <CE3_Shops />;
       default:
         return <></>;
     }
@@ -162,10 +166,10 @@ function CE3Page() {
             </button>
           </div>
           <div className="col-span-1 p-2 text-center border-2 border-slate-700 shadow-2xl rounded-md mt-4 md:mt-0">
-            <p className="p-2 px-2">Setup Enchantment Shop</p>
+            <p className="p-2 px-2">Setup Shops or Quests</p>
             <button
               className="rounded-xl"
-              onClick={() => setSubcontent("shops")}
+              onClick={() => setSubcontent("shops or quests")}
             >
               <i class="fa-solid fa-shop"></i> Shops
             </button>
@@ -223,6 +227,8 @@ function CE3Page() {
           View Plugin Info (Old site)
         </button>
       </div>
+
+      <PageFooter />
     </div>
   );
 }
