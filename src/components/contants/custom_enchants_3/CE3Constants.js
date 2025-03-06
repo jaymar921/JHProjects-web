@@ -156,6 +156,27 @@ export const CommandList = [
     requireOp: true,
   },
   {
+    command: "/ce quest",
+    description:
+      "Shows the list of quests and it's location within the world. If player is on quest, it shows the active quest details",
+    requireOp: false,
+  },
+  {
+    command: "/ce quest add",
+    description: "Create a new Quest",
+    requireOp: true,
+  },
+  {
+    command: "/ce quest remove",
+    description: "Remove an exisiting quest",
+    requireOp: true,
+  },
+  {
+    command: "/ce quest list",
+    description: "Shows the list of created quests",
+    requireOp: true,
+  },
+  {
     command: "/ce rank",
     description: "Shows the top 10 player rank",
     requireOp: false,
@@ -190,6 +211,11 @@ export const CommandList = [
     command: "/ce setting",
     description: "Modify plugin settings | may require admin access",
     requireOp: false,
+  },
+  {
+    command: "/ce reload",
+    description: "Soft reload plugin",
+    requireOp: true,
   },
 ];
 

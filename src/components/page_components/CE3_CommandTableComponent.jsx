@@ -8,7 +8,7 @@ function CE3_CommandTableComponent() {
         <tr>
           <th className="text-xs md:text-lg">Command</th>
           <th className="text-xs md:text-lg">Description</th>
-          <th className="text-xs md:text-lg">Require OP</th>
+          <th className="text-xs md:text-lg">Admin</th>
         </tr>
       </thead>
       <tbody>
