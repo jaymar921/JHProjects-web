@@ -177,6 +177,11 @@ export const CommandList = [
     requireOp: true,
   },
   {
+    command: "/ce quest modifyEntity",
+    description: "Replace the associated quests on a Quest Entity",
+    requireOp: true,
+  },
+  {
     command: "/ce rank",
     description: "Shows the top 10 player rank",
     requireOp: false,
@@ -215,6 +220,36 @@ export const CommandList = [
   {
     command: "/ce reload",
     description: "Soft reload plugin",
+    requireOp: true,
+  },
+  {
+    command: "/ce ___reset___",
+    description: "[TEST COMMAND] Reset yourself back to skill level 0",
+    requireOp: true,
+  },
+  {
+    command: "/ce ___test___",
+    description: "[TEST COMMAND] Grant max skill level (200)",
+    requireOp: true,
+  },
+  {
+    command: "/ce ___lootplot___",
+    description: "[TEST COMMAND] Generate a looting plot nearby",
+    requireOp: true,
+  },
+  {
+    command: "/ce ___treasure___",
+    description: "[TEST COMMAND] Retrieve all Treasure Items",
+    requireOp: true,
+  },
+  {
+    command: "/ce ___ceItem___",
+    description: "[TEST COMMAND] Retrieve a custom CE Item",
+    requireOp: true,
+  },
+  {
+    command: "/ce ___itemData___",
+    description: "[TEST COMMAND] Get information about the MainHand item",
     requireOp: true,
   },
 ];
