@@ -239,19 +239,6 @@ function CE3Page() {
 
       <section className="w-full">{subContentWindow()}</section>
 
-      <div className="text-center w-full py-20">
-        <h3 className="pb-2">... Ongoing development ...</h3>
-        <button
-          onClick={() =>
-            RedirectTo(
-              "https://jaymar921.github.io/jaymar_plugin_wiki/CE3_WIKI/"
-            )
-          }
-        >
-          View Plugin Info (Old site)
-        </button>
-      </div>
-
       <PageFooter />
     </div>
   );
