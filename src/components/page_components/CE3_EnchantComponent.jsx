@@ -15,7 +15,7 @@ function CE3_EnchantComponent({ enchantment }) {
     manaCost,
   } = enchantment;
   return (
-    <div className="w-full border-2 p-2 font-mono ">
+    <div className="w-full p-2 font-mono rounded-xl shadow-xs shadow-blue-300 hover:bg-[rgba(255,255,255,0.05)]">
       <h3 className="text-blue-400 text-center text-xs">
         ({type} ENCHANTMENT)
       </h3>

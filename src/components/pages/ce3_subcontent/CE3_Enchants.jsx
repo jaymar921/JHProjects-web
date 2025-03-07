@@ -87,7 +87,7 @@ function CE3_Enchants() {
       <div className="p-2">
         <p>Shown: {enchantments.length}</p>
       </div>
-      <div className="w-full grid md:grid-cols-3 xl:grid-cols-5 gap-2 p-2 select-none">
+      <div className="w-full grid md:grid-cols-3 xl:grid-cols-5 gap-4 p-2 select-none">
         {enchantments.map((enchantment) => (
           <CE3_EnchantComponent enchantment={enchantment} />
         ))}
