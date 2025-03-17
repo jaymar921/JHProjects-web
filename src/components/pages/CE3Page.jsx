@@ -10,6 +10,7 @@ import CE3_Shops from "./ce3_subcontent/CE3_Shops";
 import PageFooter from "../page_components/PageFooter";
 import CE3_Settings from "./ce3_subcontent/CE3_Settings";
 import CE3_LOGO from "../../assets/custom_enchants_3/ce3-logo.png";
+import CE3_LootingPlots from "./ce3_subcontent/CE3_LootingPlots";
 
 function CE3Page() {
   const [subcontent, setSubcontent] = useState("none");
@@ -43,6 +44,8 @@ function CE3Page() {
         return <CE3_Shops />;
       case "settings":
         return <CE3_Settings />;
+      case "looting plots":
+        return <CE3_LootingPlots />;
       default:
         return (
           <>
@@ -211,7 +214,7 @@ function CE3Page() {
             <p className="p-2 px-2">Custom Looting plots</p>
             <button
               className="rounded-xl"
-              onClick={() => setSubcontent("plots")}
+              onClick={() => setSubcontent("looting plots")}
             >
               <i className="fa-solid fa-city"></i> Plots
             </button>
