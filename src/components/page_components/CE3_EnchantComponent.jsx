@@ -15,28 +15,43 @@ function CE3_EnchantComponent({ enchantment }) {
     manaCost,
   } = enchantment;
   return (
-    <div className="w-full border-2 p-2 font-mono ">
-      <h3 className="text-blue-400 text-center">({type} ENCHANTMENT)</h3>
-      <h1 className="text-2xl font-extrabold">
-        {title}
-        <span className="text-amber-400 pl-2">
-          <span className="px-1">{currency}</span>
-          {price}
-          <i class="fa-solid fa-tag pl-2"></i>
-        </span>
-      </h1>
-      <h3 className="text-red-300 text-sm">
-        <i class="fa-solid fa-caret-up"></i> Max Level: {maxLevel}
+    <div className="w-full p-2 font-mono rounded-xl shadow-xs shadow-blue-300 hover:bg-[rgba(255,255,255,0.05)]">
+      <h3 className="text-blue-400 text-center text-xs">
+        ({type} ENCHANTMENT)
       </h3>
+      <h1 className="text-2xl font-extrabold text-center">{title}</h1>
+      <div className="text-amber-400 text-sm flex">
+        <div className="w-[50%] md:w-[60%]">
+          <p>
+            <i class="fa-solid fa-tag"></i> Price:
+          </p>
+        </div>
+        <div>
+          <span className="pr-1">{currency}</span>
+          {price}
+        </div>
+      </div>
+      <div className="text-red-300 text-sm flex">
+        <div className="w-[50%] md:w-[60%]">
+          <i class="fa-solid fa-caret-up"></i> Max Level:
+        </div>
+        <div>{maxLevel}</div>
+      </div>
       {manaCost !== 0 && (
-        <h3 className="text-blue-300 text-sm">
-          <i class="fa-solid fa-droplet"></i> Mana cost: {manaCost}
-        </h3>
+        <div className="text-blue-300 text-sm flex">
+          <div className="w-[50%] md:w-[60%]">
+            <i class="fa-solid fa-droplet"></i> Mana cost:
+          </div>
+          <div>{manaCost}</div>
+        </div>
       )}
       {cooldown !== 0 && (
-        <h3 className="text-yellow-300 text-sm">
-          <i class="fa-solid fa-clock-rotate-left"></i> Cooldown: {cooldown}
-        </h3>
+        <div className="text-yellow-300 text-sm flex">
+          <div className="w-[50%] md:w-[60%]">
+            <i class="fa-solid fa-clock-rotate-left"></i> Cooldown:
+          </div>
+          <div>{cooldown}</div>
+        </div>
       )}
       <p className="text-gray-200 font-mono py-2 font-bold">{description}</p>
       {damageType && damageType.length > 0 && (

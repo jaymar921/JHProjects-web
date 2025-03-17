@@ -58,7 +58,7 @@ function CE3_Enchants() {
         <select
           value={enchantType}
           onChange={onChange}
-          className="py-2 px-4 bg-gray-800 rounded-lg"
+          className="py-2 px-4 bg-gray-800 rounded-lg text-[11px] md:text-lg"
         >
           <option value="all">All Enchants</option>
           <option value={EnchantType.SWORD}>Sword Enchants</option>
@@ -87,7 +87,7 @@ function CE3_Enchants() {
       <div className="p-2">
         <p>Shown: {enchantments.length}</p>
       </div>
-      <div className="w-full grid md:grid-cols-3 xl:grid-cols-5 gap-2 p-2">
+      <div className="w-full grid md:grid-cols-3 xl:grid-cols-5 gap-4 p-2 select-none">
         {enchantments.map((enchantment) => (
           <CE3_EnchantComponent enchantment={enchantment} />
         ))}

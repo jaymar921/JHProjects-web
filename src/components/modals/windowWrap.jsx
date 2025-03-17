@@ -4,6 +4,10 @@ function WindowWrap({ children, title = "", close = () => {} }) {
   return (
     <>
       <div className="fixed top-0 w-full h-full bg-[rgba(0,0,0,0.8)]">
+        <div
+          className="absolute z-[-1] top-0 w-screen h-screen"
+          onClick={close}
+        ></div>
         <div className="w-[80%] rounded-md pb-2 bg-[rgba(27,27,27,0.9)] pixel-font m-auto mt-8">
           <div className="relative top-0 right-0 pb-8">
             <button

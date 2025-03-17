@@ -156,6 +156,32 @@ export const CommandList = [
     requireOp: true,
   },
   {
+    command: "/ce quest",
+    description:
+      "Shows the list of quests and it's location within the world. If player is on quest, it shows the active quest details",
+    requireOp: false,
+  },
+  {
+    command: "/ce quest add",
+    description: "Create a new Quest",
+    requireOp: true,
+  },
+  {
+    command: "/ce quest remove",
+    description: "Remove an exisiting quest",
+    requireOp: true,
+  },
+  {
+    command: "/ce quest list",
+    description: "Shows the list of created quests",
+    requireOp: true,
+  },
+  {
+    command: "/ce quest modifyEntity",
+    description: "Replace the associated quests on a Quest Entity",
+    requireOp: true,
+  },
+  {
     command: "/ce rank",
     description: "Shows the top 10 player rank",
     requireOp: false,
@@ -190,6 +216,41 @@ export const CommandList = [
     command: "/ce setting",
     description: "Modify plugin settings | may require admin access",
     requireOp: false,
+  },
+  {
+    command: "/ce reload",
+    description: "Soft reload plugin",
+    requireOp: true,
+  },
+  {
+    command: "/ce ___reset___",
+    description: "[TEST COMMAND] Reset yourself back to skill level 0",
+    requireOp: true,
+  },
+  {
+    command: "/ce ___test___",
+    description: "[TEST COMMAND] Grant max skill level (200)",
+    requireOp: true,
+  },
+  {
+    command: "/ce ___lootplot___",
+    description: "[TEST COMMAND] Generate a looting plot nearby",
+    requireOp: true,
+  },
+  {
+    command: "/ce ___treasure___",
+    description: "[TEST COMMAND] Retrieve all Treasure Items",
+    requireOp: true,
+  },
+  {
+    command: "/ce ___ceItem___",
+    description: "[TEST COMMAND] Retrieve a custom CE Item",
+    requireOp: true,
+  },
+  {
+    command: "/ce ___itemData___",
+    description: "[TEST COMMAND] Get information about the MainHand item",
+    requireOp: true,
   },
 ];
 
@@ -640,7 +701,7 @@ export const Enchantments = [
     currency: Currency.LEVEL,
   },
   {
-    title: "IMPLATE",
+    title: "IMPLANT",
     type: [EnchantType.BOW],
     description: "The dark matter will give a strength to your bow",
     damageType: [DamageType.PHYSICAL_DMG],
