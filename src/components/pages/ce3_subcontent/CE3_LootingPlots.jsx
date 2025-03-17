@@ -1,5 +1,4 @@
 import React from "react";
-import lootingPlotVideo from "../../../assets/custom_enchants_3/video/ce_lootingplot.mp4";
 
 function CE3_LootingPlots() {
   return (
@@ -10,7 +9,7 @@ function CE3_LootingPlots() {
       <div className="w-[90%] md:w-[60%] xl:w-[40%] m-auto">
         <video
           className="w-full"
-          src={lootingPlotVideo}
+          src="https://media.githubusercontent.com/media/jaymar921/JHProjects-web/refs/heads/main/src/assets/custom_enchants_3/video/ce_lootingplot.mp4"
           autoPlay
           loop
           muted
