@@ -11,6 +11,7 @@ import PageFooter from "../page_components/PageFooter";
 import CE3_Settings from "./ce3_subcontent/CE3_Settings";
 import CE3_LOGO from "../../assets/custom_enchants_3/ce3-logo.png";
 import CE3_LootingPlots from "./ce3_subcontent/CE3_LootingPlots";
+import CE3_CustomItems from "./ce3_subcontent/CE3_CustomItems";
 
 function CE3Page() {
   const [subcontent, setSubcontent] = useState("none");
@@ -46,6 +47,8 @@ function CE3Page() {
         return <CE3_Settings />;
       case "looting plots":
         return <CE3_LootingPlots />;
+      case "custom items":
+        return <CE3_CustomItems />;
       default:
         return (
           <>
@@ -232,7 +235,7 @@ function CE3Page() {
             <p className="p-2 px-2">Custom Items List</p>
             <button
               className="rounded-xl"
-              onClick={() => setSubcontent("items")}
+              onClick={() => setSubcontent("custom items")}
             >
               <i className="fa-solid fa-cube"></i> Items
             </button>
