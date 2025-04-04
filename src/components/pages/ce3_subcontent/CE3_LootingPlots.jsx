@@ -4,9 +4,9 @@ function CE3_LootingPlots() {
   return (
     <div className="w-full">
       <h1 className="text-center text-sm md:text-md text-purple-500 mb-4">
-        Custom Enchantments 3 v1.0.7
+        Added in v1.0.7
       </h1>
-      <div className="w-[90%] md:w-[60%] xl:w-[40%] m-auto">
+      {/* <div className="w-[90%] md:w-[60%] xl:w-[40%] m-auto">
         <video
           className="w-full"
           src="https://media.githubusercontent.com/media/jaymar921/JHProjects-web/refs/heads/main/src/assets/custom_enchants_3/video/ce_lootingplot.mp4"
@@ -15,7 +15,7 @@ function CE3_LootingPlots() {
           muted
           title="Looting Plot in action"
         ></video>
-      </div>
+      </div> */}
 
       <div className="p-8 text-center text-xs md:text-lg">
         <p>

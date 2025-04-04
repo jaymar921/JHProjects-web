@@ -11,6 +11,7 @@ import PageFooter from "../page_components/PageFooter";
 import CE3_Settings from "./ce3_subcontent/CE3_Settings";
 import CE3_LOGO from "../../assets/custom_enchants_3/ce3-logo.png";
 import CE3_LootingPlots from "./ce3_subcontent/CE3_LootingPlots";
+import CE3_CustomItems from "./ce3_subcontent/CE3_CustomItems";
 
 function CE3Page() {
   const [subcontent, setSubcontent] = useState("none");
@@ -46,6 +47,8 @@ function CE3Page() {
         return <CE3_Settings />;
       case "looting plots":
         return <CE3_LootingPlots />;
+      case "custom items":
+        return <CE3_CustomItems />;
       default:
         return (
           <>
@@ -95,6 +98,15 @@ function CE3Page() {
         </div>
       </div>
       <section className="justify-items-center py-4">
+        <iframe
+          className="w-auto md:w-[500px] lg:w-[700px] md:h-[300px] lg:h-[350px] mb-8"
+          src="https://www.youtube.com/embed/GoPewGMGEf0?si=Jjdrk3c7kIYRjdzq"
+          title="YouTube video player"
+          frameborder="0"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          referrerPolicy="strict-origin-when-cross-origin"
+          allowFullScreen
+        ></iframe>
         <div className="w-[80%] md:w-[50%]">
           <h3 className="text-[1.2em] md:text-[1.5em] text-purple-500 font-bold">
             About
@@ -115,14 +127,15 @@ function CE3Page() {
                 title="One time payment!"
                 className="text-white md:text-sm font-bold px-1 absolute right-[-35px] md:right-[-25px] top-[-10px] bg-yellow-500 rotate-35 select-none"
               >
-                ${PluginInformation.price} <i className="fa-solid fa-tag"></i>
+                ${PluginInformation.price} <i className="fa-solid fa-tag"></i>{" "}
               </span>
             </p>
             <button
               className="rounded-xl"
               onClick={() => RedirectTo(PluginInformation.buyLink)}
             >
-              <i className="fa-solid fa-cart-shopping"></i> Buy Plugin
+              <i className="fa-solid fa-cart-shopping"></i> Buy Plugin{" "}
+              <p className="text-[10px]">One Time Payment!</p>
             </button>
           </div>
           <div className="md:w-[200px] p-2 text-center border-2 border-slate-700 shadow-2xl rounded-md mt-4 md:mt-0">
@@ -132,6 +145,7 @@ function CE3Page() {
               onClick={() => RedirectTo(PluginInformation.trialLink)}
             >
               <i className="fa-solid fa-file-arrow-down"></i> Try Plugin
+              <p className="text-[10px]">v1.2.0-lite</p>
             </button>
           </div>
           <div className="md:w-[200px] p-2 text-center border-2 border-slate-700 shadow-2xl rounded-md mt-4 md:mt-0">
@@ -140,7 +154,9 @@ function CE3Page() {
               className="rounded-xl"
               onClick={() => setSubcontent("support")}
             >
+              <p className="text-[5px]">&nbsp;</p>
               <i className="fa-solid fa-shield-heart"></i> Support
+              <p className="text-[5px]">&nbsp;</p>
             </button>
           </div>
         </div>
@@ -223,7 +239,7 @@ function CE3Page() {
             <p className="p-2 px-2">Custom Items List</p>
             <button
               className="rounded-xl"
-              onClick={() => setSubcontent("items")}
+              onClick={() => setSubcontent("custom items")}
             >
               <i className="fa-solid fa-cube"></i> Items
             </button>
@@ -237,6 +253,12 @@ function CE3Page() {
               <i className="fa-solid fa-gears"></i> Settings
             </button>
           </div>
+          {/* <div className="col-span-1 p-2 text-center border-2 border-slate-700 shadow-2xl rounded-md mt-4 md:mt-0">
+            <p className="p-2 px-2">Changelog</p>
+            <button className="rounded-xl" onClick={() => setSubcontent("")}>
+              <i className="fa-solid fa-book"></i> Versions
+            </button>
+          </div> */}
         </div>
       </section>
 
