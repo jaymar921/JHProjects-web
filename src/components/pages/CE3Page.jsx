@@ -127,14 +127,15 @@ function CE3Page() {
                 title="One time payment!"
                 className="text-white md:text-sm font-bold px-1 absolute right-[-35px] md:right-[-25px] top-[-10px] bg-yellow-500 rotate-35 select-none"
               >
-                ${PluginInformation.price} <i className="fa-solid fa-tag"></i>
+                ${PluginInformation.price} <i className="fa-solid fa-tag"></i>{" "}
               </span>
             </p>
             <button
               className="rounded-xl"
               onClick={() => RedirectTo(PluginInformation.buyLink)}
             >
-              <i className="fa-solid fa-cart-shopping"></i> Buy Plugin
+              <i className="fa-solid fa-cart-shopping"></i> Buy Plugin{" "}
+              <p className="text-[10px]">One Time Payment!</p>
             </button>
           </div>
           <div className="md:w-[200px] p-2 text-center border-2 border-slate-700 shadow-2xl rounded-md mt-4 md:mt-0">
@@ -144,6 +145,7 @@ function CE3Page() {
               onClick={() => RedirectTo(PluginInformation.trialLink)}
             >
               <i className="fa-solid fa-file-arrow-down"></i> Try Plugin
+              <p className="text-[10px]">v1.2.0-lite</p>
             </button>
           </div>
           <div className="md:w-[200px] p-2 text-center border-2 border-slate-700 shadow-2xl rounded-md mt-4 md:mt-0">
@@ -152,7 +154,9 @@ function CE3Page() {
               className="rounded-xl"
               onClick={() => setSubcontent("support")}
             >
+              <p className="text-[5px]">&nbsp;</p>
               <i className="fa-solid fa-shield-heart"></i> Support
+              <p className="text-[5px]">&nbsp;</p>
             </button>
           </div>
         </div>
@@ -249,6 +253,12 @@ function CE3Page() {
               <i className="fa-solid fa-gears"></i> Settings
             </button>
           </div>
+          {/* <div className="col-span-1 p-2 text-center border-2 border-slate-700 shadow-2xl rounded-md mt-4 md:mt-0">
+            <p className="p-2 px-2">Changelog</p>
+            <button className="rounded-xl" onClick={() => setSubcontent("")}>
+              <i className="fa-solid fa-book"></i> Versions
+            </button>
+          </div> */}
         </div>
       </section>
 
