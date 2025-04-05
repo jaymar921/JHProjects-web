@@ -983,7 +983,8 @@ export const Enchantments = [
   {
     title: "COMPANION HEALING",
     type: [EnchantType.ANIMAL_ARMOR],
-    description: "Slowly heals your companion [Applies to horse armor]",
+    description:
+      "Slowly heals your companion [Applies to horse and wolf armor]",
     damageType: [],
     resistanceType: [],
     absorbType: [],
@@ -991,6 +992,20 @@ export const Enchantments = [
     cooldown: 0,
     maxLevel: 5,
     price: 5,
+    currency: Currency.LEVEL,
+  },
+  {
+    title: "COMPANION THORNS",
+    type: [EnchantType.ANIMAL_ARMOR],
+    description:
+      "Applies thorns and slowness effect to the attacker [Applies to horse and wolf armor]",
+    damageType: [],
+    resistanceType: [],
+    absorbType: [],
+    manaCost: 0,
+    cooldown: 0,
+    maxLevel: 5,
+    price: 10,
     currency: Currency.LEVEL,
   },
 ];
