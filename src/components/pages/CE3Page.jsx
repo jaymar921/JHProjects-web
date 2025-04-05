@@ -189,6 +189,52 @@ function CE3Page() {
             </div>
           )}
         </div>
+
+        <div className="w-[80%] md:w-[50%] pt-8">
+          <h3 className="text-[1.2em] md:text-[1.5em] text-purple-500 font-bold">
+            Setup Permissions
+          </h3>
+
+          <div className="text-justify pt-4">
+            <p>
+              Custom Enchantments 3 - RPG plugin is an independent plugin and
+              does not rely on a 3rd-party permissions plugin. It has it's own
+              built-in permissions file.
+              <br />
+              <br />
+              In order for you to have full access to the plugin commands such
+              as create shops or quests, give player levels or currency, and do
+              the test plugin commands. You are required to modify the{" "}
+              <span className="font-bold">Authorization.yml</span> file, see
+              example below.
+            </p>
+            <div class="mx-auto mt-8 bg-gray-900 rounded-lg overflow-hidden">
+              <div class="px-4">
+                <pre>
+                  <code class="text-sm" lang="md">
+                    <p className="mt-5 mb-0 font-bold bg-gray-700 w-fit py-2 px-2 rounded-md">
+                      [CustomEnchantments3/PluginData/Authorization.yml]
+                    </p>
+                    {`
+# Aside from OPed players that has access to
+# the plugin's admin commands, you can also list
+# players by their 'names' to allow them using the
+# command.
+plugin_admin_access:
+  - JayMar921
+  - MikaPiaChu921
+  - Sekai47
+# For bedrock players [using geyser/floodgate]
+  - .JhonoBrine
+  - .AxicaCattleya
+  - .EliteLeonidas
+                    `}
+                  </code>
+                </pre>
+              </div>
+            </div>
+          </div>
+        </div>
       </section>
 
       <section className="justify-items-center py-4">
