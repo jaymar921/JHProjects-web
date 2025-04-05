@@ -10,7 +10,7 @@ export const PluginInformation = {
   subtitle: "Elevate your server with Epic RPG Gameplay!",
   price: 12.89,
   author: "JayMar921",
-  authorSocial: "https://jayharronabejar.vercel.app/",
+  authorSocial: "https://www.youtube.com/jaymar921",
   description:
     "Take your server to the next level with Custom Enchantments 3! Unlock powerful enchantments, dive into an immersive RPG experience, and choose your path as a Warrior, Archer, or Mage, each with unique abilities and playstyles. But that's not all! Venture into custom-built structures, uncover exclusive loot, and enjoy fully customizable features tailored to your world. Bring adventure, strategy, and limitless customization to your players today!",
   trialLink:
