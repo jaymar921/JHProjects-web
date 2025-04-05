@@ -209,7 +209,7 @@ function CE3Page() {
               example below.
             </p>
             <div class="mx-auto mt-8 bg-gray-900 rounded-lg overflow-hidden">
-              <div class="px-4">
+              <div class="px-4 overflow-auto">
                 <pre>
                   <code class="text-sm" lang="md">
                     <p className="mt-5 mb-0 font-bold bg-gray-700 w-fit py-2 px-2 rounded-md">
