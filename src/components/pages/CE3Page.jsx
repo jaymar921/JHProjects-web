@@ -102,7 +102,6 @@ function CE3Page() {
           className="w-auto md:w-[500px] lg:w-[700px] md:h-[300px] lg:h-[350px] mb-8"
           src="https://www.youtube.com/embed/GoPewGMGEf0?si=Jjdrk3c7kIYRjdzq"
           title="YouTube video player"
-          frameborder="0"
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
           referrerPolicy="strict-origin-when-cross-origin"
           allowFullScreen
@@ -208,10 +207,10 @@ function CE3Page() {
               <span className="font-bold">Authorization.yml</span> file, see
               example below.
             </p>
-            <div class="mx-auto mt-8 bg-gray-900 rounded-lg overflow-hidden">
-              <div class="px-4 overflow-auto">
+            <div className="mx-auto mt-8 bg-gray-900 rounded-lg overflow-hidden">
+              <div className="px-4 overflow-auto">
                 <pre>
-                  <code class="text-sm" lang="md">
+                  <code className="text-sm" lang="md">
                     <p className="mt-5 mb-0 font-bold bg-gray-700 w-fit py-2 px-2 rounded-md">
                       [CustomEnchantments3/PluginData/Authorization.yml]
                     </p>
