@@ -34,6 +34,14 @@ function CE3_Shops() {
         </p>
       </div>
 
+      <iframe
+        className="w-[90%] lg:w-[50%] m-auto h-[400px] mb-8"
+        src="https://www.youtube.com/embed/Me7zZfF8e1s?si=OW_q1mlAPnSL8zxJ"
+        title="YouTube video player"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+        referrerPolicy="strict-origin-when-cross-origin"
+        allowFullScreen
+      ></iframe>
       <h1 className="text-center text-xl md:text-3xl text-yellow-400 pt-4 mb-2">
         Create Your Shop
       </h1>
@@ -113,10 +121,9 @@ function CE3_Shops() {
         className="w-[90%] lg:w-[50%] m-auto h-[400px] mb-8"
         src="https://www.youtube.com/embed/8Ojqnw-8Mnc?si=yt0FDYUMAaVbQG1e"
         title="YouTube video player"
-        frameborder="0"
         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
         referrerPolicy="strict-origin-when-cross-origin"
-        allowfullscreen
+        allowFullScreen
       ></iframe>
     </div>
   );
