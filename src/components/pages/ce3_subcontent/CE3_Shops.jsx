@@ -54,6 +54,10 @@ function CE3_Shops() {
           </span>
         </div>
         <p>• It will create a shop at your position and pointing direction</p>
+        <p className="text-red-300">
+          • Note that the [mobType] and [shopType] in the create shop command is
+          <span className="text-red-500"> case sensitive</span>
+        </p>
       </div>
 
       <h1 className="text-center text-md md:text-xl text-purple-500 pt-4">
