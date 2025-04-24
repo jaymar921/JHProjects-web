@@ -23,6 +23,7 @@ function CE3_Enchants() {
           arr = Enchantments.filter((e) =>
             e.type.includes(EnchantType.GENERAL)
           );
+          break;
         case EnchantType.WEAPONS:
           arr = Enchantments.filter(
             (e) =>
@@ -82,6 +83,10 @@ function CE3_Enchants() {
           <option value={EnchantType.SHOVEL}>Shovel Enchants</option>
           <option value={EnchantType.HOE}>Hoe Enchants</option>
           <option value={EnchantType.FISHING_ROD}>Fishing Rod Enchants</option>
+          <option value={EnchantType.ANIMAL_ARMOR}>
+            Animal Armor Enchants
+          </option>
+          <option value={EnchantType.MACE}>Mace Enchants</option>
         </select>
       </div>
       <div className="p-2">
