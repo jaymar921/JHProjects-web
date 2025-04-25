@@ -12,6 +12,7 @@ import CE3_Settings from "./ce3_subcontent/CE3_Settings";
 import CE3_LOGO from "../../assets/custom_enchants_3/ce3-logo.png";
 import CE3_LootingPlots from "./ce3_subcontent/CE3_LootingPlots";
 import CE3_CustomItems from "./ce3_subcontent/CE3_CustomItems";
+import CE3_DonatePi from "./ce3_subcontent/CE3_DonatePi";
 
 function CE3Page() {
   const [subcontent, setSubcontent] = useState("none");
@@ -40,7 +41,9 @@ function CE3Page() {
       case "enchants":
         return <CE3_Enchants />;
       case "support":
-        return <CE3_Support />;
+        return <CE3_Support setSubcontent={setSubcontent} />;
+      case "donate pi":
+        return <CE3_DonatePi setSubcontent={setSubcontent} />;
       case "shops or quests":
         return <CE3_Shops />;
       case "settings":
