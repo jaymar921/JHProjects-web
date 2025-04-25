@@ -5,6 +5,8 @@ import {
   ResistanceType,
 } from "../CE3_Enums";
 
+import PiNetworkImg from "../../../assets/custom_enchants_3/pi_network.png";
+
 export const PluginInformation = {
   title: "Custom Enchantments 3",
   subtitle: "Elevate your server with Epic RPG Gameplay!",
@@ -26,6 +28,13 @@ export const PluginInformation = {
       title: "PayPal",
       link: "https://www.paypal.com/paypalme/JayMar921",
       icon: "fa-brands fa-paypal text-blue-400",
+    },
+    {
+      title: "Pi Network",
+      onClick: (setSubcontent) => {
+        setSubcontent?.("donate pi");
+      },
+      logo: PiNetworkImg,
     },
   ],
   classes: {
