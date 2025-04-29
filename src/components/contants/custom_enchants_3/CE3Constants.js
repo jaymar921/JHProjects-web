@@ -10,7 +10,7 @@ import PiNetworkImg from "../../../assets/custom_enchants_3/pi_network.png";
 export const PluginInformation = {
   title: "Custom Enchantments 3",
   subtitle: "Elevate your server with Epic RPG Gameplay!",
-  price: 12.89,
+  price: 15.89,
   author: "JayMar921",
   authorSocial: "https://www.youtube.com/jaymar921",
   description:
