@@ -165,6 +165,40 @@ function CE3Page() {
 
         <div className="w-[80%] md:w-[50%] pt-8">
           <h3 className="text-[1.2em] md:text-[1.5em] text-purple-500 font-bold">
+            Server Requirements
+          </h3>
+          <div className="mx-auto mt-8 bg-gray-900 rounded-lg overflow-hidden">
+            <div className="px-4 overflow-auto">
+              <pre>
+                <code className="text-sm" lang="md">
+                  <p className="mt-5 mb-0 font-bold bg-gray-700 w-fit py-2 px-2 rounded-md">
+                    [Minimum Server Requirement]
+                  </p>
+                  {`
+- CPU:     1Ghz | At least 2 Cores
+- RAM:     At least 2GB
+- STORAGE: At least 1GB
+- NETWORK: At least 3mbps
+
+Note: [PREMIUM VERSION] is not available in Aternos.
+      You are required to have a dedicated server if
+      you want to use the full feature of this plugin.
+                    `}
+                  <p className="mt-5 mb-0 font-bold bg-gray-700 w-fit py-2 px-2 rounded-md">
+                    [Supported Server Softwares]
+                  </p>
+                  {`
+- SPIGOT [1.16 - 1.21+] (Recommended)
+- PAPER  [1.16 - 1.21+]
+                  `}
+                </code>
+              </pre>
+            </div>
+          </div>
+        </div>
+
+        <div className="w-[80%] md:w-[50%] pt-8">
+          <h3 className="text-[1.2em] md:text-[1.5em] text-purple-500 font-bold">
             Plugin Commands
           </h3>
           {!showCommand && (
