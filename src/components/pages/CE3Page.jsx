@@ -103,7 +103,7 @@ function CE3Page() {
       <section className="justify-items-center py-4">
         <iframe
           className="w-auto md:w-[500px] lg:w-[700px] md:h-[300px] lg:h-[350px] mb-8"
-          src="https://www.youtube.com/embed/GoPewGMGEf0?si=Jjdrk3c7kIYRjdzq"
+          src="https://www.youtube.com/embed/0A0tKMnEpIA?si=--DmxZQMp0GW-q4J"
           title="YouTube video player"
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
           referrerPolicy="strict-origin-when-cross-origin"
