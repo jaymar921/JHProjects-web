@@ -13,6 +13,7 @@ import CE3_LOGO from "../../assets/custom_enchants_3/ce3-logo.png";
 import CE3_LootingPlots from "./ce3_subcontent/CE3_LootingPlots";
 import CE3_CustomItems from "./ce3_subcontent/CE3_CustomItems";
 import CE3_DonatePi from "./ce3_subcontent/CE3_DonatePi";
+import CE3_BugReport from "./ce3_subcontent/CE3_BugReport";
 
 function CE3Page() {
   const [subcontent, setSubcontent] = useState("none");
@@ -52,6 +53,8 @@ function CE3Page() {
         return <CE3_LootingPlots />;
       case "custom items":
         return <CE3_CustomItems />;
+      case "bug report":
+        return <CE3_BugReport />;
       default:
         return (
           <>
@@ -341,6 +344,26 @@ plugin_admin_access:
               <i className="fa-solid fa-book"></i> Versions
             </button>
           </div> */}
+        </div>
+      </section>
+
+      <section className="justify-items-center py-4">
+        <div className="w-[80%] md:w-[50%]">
+          <h3 className="text-[1.2em] md:text-[1.5em] text-purple-500 font-bold">
+            Developer Support
+          </h3>
+        </div>
+
+        <div className="w-[80%] md:w-[50%] md:grid md:grid-cols-2 xl:grid-cols-3 md:gap-2 justify-evenly py-8 ">
+          <div className="col-span-1 p-2 text-center border-2 border-slate-700 shadow-2xl rounded-md mt-4 md:mt-0">
+            <p className="p-2 px-2">Report Bugs</p>
+            <button
+              className="rounded-xl"
+              onClick={() => setSubcontent("bug report")}
+            >
+              <i className="fa-solid fa-bug"></i> Report
+            </button>
+          </div>
         </div>
       </section>
 
