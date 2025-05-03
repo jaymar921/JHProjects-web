@@ -21,7 +21,7 @@ function CE3_Classes() {
           your skill points
         </p>
         <p className="rounded-sm mt-2 font-mono bg-slate-700 p-4 text-left w-full">
-          <i class="fa-solid fa-angle-right"></i>{" "}
+          <i className="fa-solid fa-angle-right"></i>{" "}
           {PluginInformation.classes.command}
         </p>
       </div>
@@ -31,7 +31,10 @@ function CE3_Classes() {
       <div className="p-8 grid grid-cols-1 lg:grid-cols-3 gap-2">
         {PluginInformation.classes.class.map((clazz, index) => {
           return (
-            <div key={`${index}-${Math.random()}`} className="border-2 p-3 ">
+            <div
+              key={`A-${index}-${Math.random() * 9999}`}
+              className="border-2 p-3 "
+            >
               <h1 className={`${clazz.color} text-xl pb-2`}>
                 {clazz.icon && <i className={`${clazz.icon} pr-2`}></i>}
                 {clazz.title}
@@ -46,22 +49,26 @@ function CE3_Classes() {
                 <p className="font-bold text-red-300">
                   {clazz.main_attribute.toUpperCase()}
                 </p>
-                {clazz.attributes.map((attr) => {
+                {clazz.attributes.map((attr, attrIndex) => {
                   return (
-                    <>
-                      <div className="py-2">
-                        <p className="text-gray-400">{attr}</p>
-                      </div>
-                    </>
+                    <div
+                      key={`B-${attrIndex}-${Math.random() * 99999}`}
+                      className="py-2"
+                    >
+                      <p className="text-gray-400">{attr}</p>
+                    </div>
                   );
                 })}
                 <h1 className="text-[1.2em] font-bold text-purple-500 pt-4">
                   SKILLS
                 </h1>
-                {clazz.skills.map((skill) => {
+                {clazz.skills.map((skill, index_1) => {
                   return (
                     <>
-                      <div className="py-2">
+                      <div
+                        key={`C-${index_1}-${Math.random() * 99999}`}
+                        className="py-2"
+                      >
                         <h1 className="font-bold text-red-300">
                           {skill.title}
                         </h1>

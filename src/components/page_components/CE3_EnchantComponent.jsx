@@ -23,7 +23,7 @@ function CE3_EnchantComponent({ enchantment }) {
       <div className="text-amber-400 text-sm flex">
         <div className="w-[50%] md:w-[60%]">
           <p>
-            <i class="fa-solid fa-tag"></i> Price:
+            <i className="fa-solid fa-tag"></i> Price:
           </p>
         </div>
         <div>
@@ -33,14 +33,14 @@ function CE3_EnchantComponent({ enchantment }) {
       </div>
       <div className="text-red-300 text-sm flex">
         <div className="w-[50%] md:w-[60%]">
-          <i class="fa-solid fa-caret-up"></i> Max Level:
+          <i className="fa-solid fa-caret-up"></i> Max Level:
         </div>
         <div>{maxLevel}</div>
       </div>
       {manaCost !== 0 && (
         <div className="text-blue-300 text-sm flex">
           <div className="w-[50%] md:w-[60%]">
-            <i class="fa-solid fa-droplet"></i> Mana cost:
+            <i className="fa-solid fa-droplet"></i> Mana cost:
           </div>
           <div>{manaCost}</div>
         </div>
@@ -48,7 +48,7 @@ function CE3_EnchantComponent({ enchantment }) {
       {cooldown !== 0 && (
         <div className="text-yellow-300 text-sm flex">
           <div className="w-[50%] md:w-[60%]">
-            <i class="fa-solid fa-clock-rotate-left"></i> Cooldown:
+            <i className="fa-solid fa-clock-rotate-left"></i> Cooldown:
           </div>
           <div>{cooldown}</div>
         </div>
@@ -57,24 +57,36 @@ function CE3_EnchantComponent({ enchantment }) {
       {damageType && damageType.length > 0 && (
         <>
           <h3 className="pt-2">Damage Type:</h3>
-          {damageType.map((dT) => {
-            return <p className="font-mono">- {dT}</p>;
+          {damageType.map((dT, A) => {
+            return (
+              <p key={`ENC-A-${A}`} className="font-mono">
+                - {dT}
+              </p>
+            );
           })}
         </>
       )}
       {resistanceType && resistanceType.length > 0 && (
         <>
           <h3 className="pt-2">Counter Resistance:</h3>
-          {resistanceType.map((dT) => {
-            return <p className="font-mono">- {dT}</p>;
+          {resistanceType.map((dT, B) => {
+            return (
+              <p key={`ENC-B-${B}`} className="font-mono">
+                - {dT}
+              </p>
+            );
           })}
         </>
       )}
       {absorbType && absorbType.length > 0 && (
         <>
           <h3 className="pt-2">Absorb Damage:</h3>
-          {absorbType.map((dT) => {
-            return <p className="font-mono">- {dT}</p>;
+          {absorbType.map((dT, C) => {
+            return (
+              <p key={`ENC-C-${C}`} className="font-mono">
+                - {dT}
+              </p>
+            );
           })}
         </>
       )}

@@ -47,7 +47,7 @@ function CE3_BugReport() {
               href="https://github.com/JnH-Projects/Custom-Enchantments-3/issues/new/choose"
               target="_blank"
             >
-              <i class="fa-brands fa-github text-white"></i> Github Issues
+              <i className="fa-brands fa-github text-white"></i> Github Issues
             </a>
           </div>
         </div>

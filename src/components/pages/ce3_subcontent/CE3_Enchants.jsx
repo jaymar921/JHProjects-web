@@ -93,8 +93,11 @@ function CE3_Enchants() {
         <p>Shown: {enchantments.length}</p>
       </div>
       <div className="w-full grid md:grid-cols-3 xl:grid-cols-5 gap-4 p-2 select-none">
-        {enchantments.map((enchantment) => (
-          <CE3_EnchantComponent enchantment={enchantment} />
+        {enchantments.map((enchantment, index) => (
+          <CE3_EnchantComponent
+            key={`ENC-${index * Math.random()}`}
+            enchantment={enchantment}
+          />
         ))}
       </div>
     </div>

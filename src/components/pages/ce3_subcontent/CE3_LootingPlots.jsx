@@ -32,10 +32,9 @@ function CE3_LootingPlots() {
         className="w-[90%] lg:w-[50%] m-auto h-[400px] my-8"
         src="https://www.youtube.com/embed/fMuJxkC2Ebc?si=iqve_mUQgclx9n-f"
         title="YouTube video player"
-        frameborder="0"
         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
         referrerPolicy="strict-origin-when-cross-origin"
-        allowfullscreen
+        allowFullScreen
       ></iframe>
 
       <h1 className="text-center text-md md:text-xl text-purple-500">

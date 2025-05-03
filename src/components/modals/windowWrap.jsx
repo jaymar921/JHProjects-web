@@ -14,7 +14,7 @@ function WindowWrap({ children, title = "", close = () => {} }) {
               className="absolute right-0 rounded-none rounded-tr-sm"
               onClick={close}
             >
-              <i class="fa-solid fa-xmark"></i>
+              <i className="fa-solid fa-xmark"></i>
             </button>
           </div>
           <div className="text-center">
