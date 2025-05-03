@@ -29,9 +29,9 @@ function CE3_Classes() {
         Classes
       </h1>
       <div className="p-8 grid grid-cols-1 lg:grid-cols-3 gap-2">
-        {PluginInformation.classes.class.map((clazz) => {
+        {PluginInformation.classes.class.map((clazz, index) => {
           return (
-            <div className="border-2 p-3 ">
+            <div key={`${index}-${Math.random()}`} className="border-2 p-3 ">
               <h1 className={`${clazz.color} text-xl pb-2`}>
                 {clazz.icon && <i className={`${clazz.icon} pr-2`}></i>}
                 {clazz.title}
