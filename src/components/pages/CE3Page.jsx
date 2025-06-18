@@ -150,7 +150,7 @@ function CE3Page() {
               onClick={() => RedirectTo(PluginInformation.trialLink)}
             >
               <i className="fa-solid fa-file-arrow-down"></i> Try Plugin
-              <p className="text-[10px]">v1.2.0-lite-r.1</p>
+              <p className="text-[10px]">{PluginInformation.trialTitle}</p>
             </button>
           </div>
           <div className="md:w-[200px] p-2 text-center border-2 border-slate-700 shadow-2xl rounded-md mt-4 md:mt-0">

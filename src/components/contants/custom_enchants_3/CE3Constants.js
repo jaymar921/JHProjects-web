@@ -5,7 +5,7 @@ import {
   ResistanceType,
 } from "../CE3_Enums";
 
-import PiNetworkImg from "../../../assets/custom_enchants_3/pi_network.png";
+//import PiNetworkImg from "../../../assets/custom_enchants_3/pi_network.png";
 
 export const PluginInformation = {
   title: "Custom Enchantments 3",
@@ -16,7 +16,8 @@ export const PluginInformation = {
   description:
     "Take your server to the next level with Custom Enchantments 3! Unlock powerful enchantments, dive into an immersive RPG experience, and choose your path as a Warrior, Archer, or Mage, each with unique abilities and playstyles. But that's not all! Venture into custom-built structures, uncover exclusive loot, and enjoy fully customizable features tailored to your world. Bring adventure, strategy, and limitless customization to your players today!",
   trialLink:
-    "https://www.spigotmc.org/resources/%E2%9C%AFcustom-enchantments-2-1-16-1-21-4-%E2%9C%AF.89793/download?version=586524",
+    "https://www.spigotmc.org/resources/%E2%9C%AFcustom-enchantments-3-1-16-free-%E2%9C%AF.89793/download?version=593302",
+  trialTitle: "v1.2.0-lite-r.2",
   buyLink: "https://www.spigotmc.org/resources/102275/",
   supportLink: [
     {
@@ -29,13 +30,13 @@ export const PluginInformation = {
       link: "https://www.paypal.com/paypalme/JayMar921",
       icon: "fa-brands fa-paypal text-blue-400",
     },
-    {
-      title: "Pi Network",
-      onClick: (setSubcontent) => {
-        setSubcontent?.("donate pi");
-      },
-      logo: PiNetworkImg,
-    },
+    // {
+    //   title: "Pi Network",
+    //   onClick: (setSubcontent) => {
+    //     setSubcontent?.("donate pi");
+    //   },
+    //   logo: PiNetworkImg,
+    // },
   ],
   classes: {
     description:
