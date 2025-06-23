@@ -5,7 +5,7 @@ import {
   ResistanceType,
 } from "../CE3_Enums";
 
-//import PiNetworkImg from "../../../assets/custom_enchants_3/pi_network.png";
+import spigotImg from "../../../assets/custom_enchants_3/spigot.png";
 
 export const PluginInformation = {
   title: "Custom Enchantments 3",
@@ -19,6 +19,7 @@ export const PluginInformation = {
     "https://www.spigotmc.org/resources/%E2%9C%AFcustom-enchantments-3-1-16-free-%E2%9C%AF.89793/download?version=593302",
   trialTitle: "v1.2.0-lite-r.2",
   buyLink: "https://www.spigotmc.org/resources/102275/",
+  paypalPaymentLink: "https://www.paypal.com/paypalme/JayMar921",
   supportLink: [
     {
       title: "Buy JayMar a coffee",
@@ -37,6 +38,20 @@ export const PluginInformation = {
     //   },
     //   logo: PiNetworkImg,
     // },
+  ],
+  buyLink: [
+    {
+      title: "Spigot",
+      link: "https://www.spigotmc.org/resources/102275/",
+      logo: spigotImg,
+    },
+    {
+      title: "PayPal",
+      onClick: (setSubcontent) => {
+        setSubcontent?.("buy through paypal");
+      },
+      icon: "fa-brands fa-paypal text-blue-400",
+    },
   ],
   classes: {
     description:
