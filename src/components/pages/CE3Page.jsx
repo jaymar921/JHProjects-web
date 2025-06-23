@@ -14,6 +14,8 @@ import CE3_LootingPlots from "./ce3_subcontent/CE3_LootingPlots";
 import CE3_CustomItems from "./ce3_subcontent/CE3_CustomItems";
 import CE3_DonatePi from "./ce3_subcontent/CE3_DonatePi";
 import CE3_BugReport from "./ce3_subcontent/CE3_BugReport";
+import CE3_BuyPlugin from "../page_components/CE3_BuyPlugin";
+import CE3_BUY_PayPal from "./ce3_subcontent/CE3_BUY_PayPal";
 
 function CE3Page() {
   const [subcontent, setSubcontent] = useState("none");
@@ -43,6 +45,10 @@ function CE3Page() {
         return <CE3_Enchants />;
       case "support":
         return <CE3_Support setSubcontent={setSubcontent} />;
+      case "buy plugin":
+        return <CE3_BuyPlugin setSubcontent={setSubcontent} />;
+      case "buy through paypal":
+        return <CE3_BUY_PayPal setSubcontent={setSubcontent} />;
       case "donate pi":
         return <CE3_DonatePi setSubcontent={setSubcontent} />;
       case "shops or quests":
@@ -137,7 +143,7 @@ function CE3Page() {
             </p>
             <button
               className="rounded-xl"
-              onClick={() => RedirectTo(PluginInformation.buyLink)}
+              onClick={() => setSubcontent("buy plugin")}
             >
               <i className="fa-solid fa-cart-shopping"></i> Buy Plugin{" "}
               <p className="text-[10px]">One Time Payment!</p>
