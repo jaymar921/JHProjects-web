@@ -138,7 +138,10 @@ function CE3Page() {
                 title="One time payment!"
                 className="text-white md:text-sm font-bold px-1 absolute right-[-35px] md:right-[-25px] top-[-10px] bg-yellow-500 rotate-35 select-none"
               >
-                ${PluginInformation.price} <i className="fa-solid fa-tag"></i>{" "}
+                {PluginInformation.currency_symbol}
+                {
+                  PluginInformation.price
+                } <i className="fa-solid fa-tag"></i>{" "}
               </span>
             </p>
             <button
