@@ -10,7 +10,7 @@ import spigotImg from "../../../assets/custom_enchants_3/spigot.png";
 export const PluginInformation = {
   title: "Custom Enchantments 3",
   subtitle: "Elevate your server with Epic RPG Gameplay!",
-  price: 8.99,
+  price: 10.99,
   currency_symbol: "£",
   author: "JayMar921",
   authorSocial: "https://www.youtube.com/jaymar921",
@@ -18,7 +18,7 @@ export const PluginInformation = {
     "Take your server to the next level with Custom Enchantments 3! Unlock powerful enchantments, dive into an immersive RPG experience, and choose your path as a Warrior, Archer, or Mage, each with unique abilities and playstyles. But that's not all! Venture into custom-built structures, uncover exclusive loot, and enjoy fully customizable features tailored to your world. Bring adventure, strategy, and limitless customization to your players today!",
   trialLink:
     "https://www.spigotmc.org/resources/%E2%9C%AF-custom-enchantments-3-1-16-free-%E2%9C%AF.89793/",
-  trialTitle: "v1.2.0-lite-r.5",
+  trialTitle: "v1.2.0-lite-r.6",
   buyLink: "https://www.spigotmc.org/resources/102275/",
   paypalPaymentLink: "https://www.paypal.com/paypalme/JayMar921",
   supportLink: [
