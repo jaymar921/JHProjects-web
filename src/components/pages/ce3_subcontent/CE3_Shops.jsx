@@ -102,6 +102,12 @@ function CE3_Shops() {
         <p>• Raco Shop</p>
         <p>• Disenchant</p>
         <p>• Animal Armor</p>
+        <p>
+          • Mace <span className="text-yellow-300 font-mono">(1.2.1)</span>
+        </p>
+        <p>
+          • Spear <span className="text-yellow-300 font-mono">(1.2.1)</span>
+        </p>
       </div>
 
       <h1 className="text-center text-xl md:text-3xl text-yellow-400 mt-8 pt-4 mb-2">

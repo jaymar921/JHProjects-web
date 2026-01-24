@@ -5,7 +5,7 @@ function CE3_EnchantComponent({ enchantment }) {
     title,
     currency,
     price,
-    type,
+    type = [],
     description,
     damageType,
     resistanceType,
@@ -17,7 +17,7 @@ function CE3_EnchantComponent({ enchantment }) {
   return (
     <div className="w-full p-2 font-mono rounded-xl shadow-xs shadow-blue-300 hover:bg-[rgba(255,255,255,0.05)]">
       <h3 className="text-blue-400 text-center text-xs">
-        ({type} ENCHANTMENT)
+        ({type.map(String).join(", ")} ENCHANTMENT)
       </h3>
       <h1 className="text-2xl font-extrabold text-center">{title}</h1>
       <div className="text-amber-400 text-sm flex">

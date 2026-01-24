@@ -6,11 +6,12 @@ import {
 } from "../CE3_Enums";
 
 import spigotImg from "../../../assets/custom_enchants_3/spigot.png";
+import wiseImg from "../../../assets/custom_enchants_3/wise.png";
 
 export const PluginInformation = {
   title: "Custom Enchantments 3",
   subtitle: "Elevate your server with Epic RPG Gameplay!",
-  price: 10.99,
+  price: 12.99,
   currency_symbol: "£",
   author: "JayMar921",
   authorSocial: "https://www.youtube.com/jaymar921",
@@ -18,8 +19,8 @@ export const PluginInformation = {
     "Take your server to the next level with Custom Enchantments 3! Unlock powerful enchantments, dive into an immersive RPG experience, and choose your path as a Warrior, Archer, or Mage, each with unique abilities and playstyles. But that's not all! Venture into custom-built structures, uncover exclusive loot, and enjoy fully customizable features tailored to your world. Bring adventure, strategy, and limitless customization to your players today!",
   trialLink:
     "https://www.spigotmc.org/resources/%E2%9C%AF-custom-enchantments-3-1-16-free-%E2%9C%AF.89793/",
-  trialTitle: "v1.2.0-lite-r.6",
-  buyLink: "https://www.spigotmc.org/resources/102275/",
+  trialTitle: "v1.2.1-lite",
+  //buyLink: "https://www.spigotmc.org/resources/102275/",
   paypalPaymentLink: "https://www.paypal.com/paypalme/JayMar921",
   supportLink: [
     {
@@ -31,6 +32,11 @@ export const PluginInformation = {
       title: "PayPal",
       link: "https://www.paypal.com/paypalme/JayMar921",
       icon: "fa-brands fa-paypal text-blue-400",
+    },
+    {
+      title: "Donate via Wise",
+      link: "https://wise.com/pay/me/jayharronmara",
+      logo: wiseImg,
     },
     // {
     //   title: "Pi Network",
@@ -53,6 +59,13 @@ export const PluginInformation = {
       },
       icon: "fa-brands fa-paypal text-blue-400",
     },
+    // {
+    //   title: "Wise",
+    //   onClick: (setSubcontent) => {
+    //     setSubcontent?.("buy through wise");
+    //   },
+    //   logo: wiseImg,
+    // },
   ],
   classes: {
     description:
@@ -115,7 +128,7 @@ export const PluginInformation = {
           },
         ],
       },
-      ,
+      
       {
         title: "Mage",
         icon: "fa-solid fa-hat-wizard",
@@ -283,7 +296,7 @@ export const CommandList = [
 export const Enchantments = [
   {
     title: "Life Steal",
-    type: [EnchantType.SWORD],
+    type: [EnchantType.SWORD, EnchantType.SPEAR],
     description: "Get a chance to steal your enemies health",
     damageType: [DamageType.PHYSICAL_DMG],
     resistanceType: [ResistanceType.PHYSICAL_RESIST],
@@ -296,7 +309,7 @@ export const Enchantments = [
   },
   {
     title: "Bleed",
-    type: [EnchantType.SWORD],
+    type: [EnchantType.SWORD, EnchantType.SPEAR, EnchantType.MACE],
     description: "Get a chance of bleeding the enemy",
     damageType: [DamageType.PHYSICAL_DMG],
     resistanceType: [ResistanceType.PHYSICAL_RESIST],
@@ -309,7 +322,7 @@ export const Enchantments = [
   },
   {
     title: "Critical",
-    type: [EnchantType.SWORD],
+    type: [EnchantType.SWORD, EnchantType.SPEAR, EnchantType.MACE],
     description: "Deal critical damage to enemy by chance",
     damageType: [DamageType.PHYSICAL_DMG_CRIT],
     resistanceType: [ResistanceType.PHYSICAL_RESIST],
@@ -361,7 +374,7 @@ export const Enchantments = [
   },
   {
     title: "Execute",
-    type: [EnchantType.SWORD],
+    type: [EnchantType.SWORD, EnchantType.MACE],
     description: "Deal more damage when your enemy is on low health",
     damageType: [DamageType.PHYSICAL_DMG],
     resistanceType: [ResistanceType.PHYSICAL_RESIST],
@@ -394,7 +407,7 @@ export const Enchantments = [
   },
   {
     title: "SOUL EATER",
-    type: [EnchantType.SWORD],
+    type: [EnchantType.SWORD, EnchantType.SPEAR],
     description: "Capture your enemy's soul! Slowly stack your sword damage",
     damageType: [DamageType.PHYSICAL_DMG],
     resistanceType: [ResistanceType.PHYSICAL_RESIST],
@@ -407,7 +420,7 @@ export const Enchantments = [
   },
   {
     title: "WIND STRIKE",
-    type: [EnchantType.SWORD],
+    type: [EnchantType.SWORD, EnchantType.SPEAR],
     description: "Dashes to enemy",
     damageType: [DamageType.MAGICAL_DMG],
     resistanceType: [ResistanceType.MAGICAL_RESIST],
@@ -927,7 +940,7 @@ export const Enchantments = [
   },
   {
     title: "DRAGON BREATH",
-    type: [EnchantType.SWORD],
+    type: [EnchantType.SWORD, EnchantType.SPEAR],
     description: "Inflict your enemies on fire in a radius",
     damageType: [DamageType.PHYSICAL_DMG, DamageType.MAGICAL_DMG],
     resistanceType: [
@@ -995,7 +1008,7 @@ export const Enchantments = [
   },
   {
     title: "GOOEY",
-    type: [EnchantType.SWORD],
+    type: [EnchantType.SWORD, EnchantType.SPEAR],
     description: "Get a chance to launch your enemy 8 blocks above",
     damageType: [DamageType.PHYSICAL_DMG],
     resistanceType: [ResistanceType.PHYSICAL_RESIST],
@@ -1032,6 +1045,20 @@ export const Enchantments = [
     cooldown: 0,
     maxLevel: 5,
     price: 10,
+    currency: Currency.LEVEL,
+  },
+  {
+    title: "STEALTH",
+    type: [EnchantType.SWORD, EnchantType.SPEAR],
+    description:
+      "Deals additional 10% damager per level while on sneak",
+    damageType: [DamageType.PHYSICAL_DMG],
+    resistanceType: [ResistanceType.PHYSICAL_RESIST],
+    absorbType: [],
+    manaCost: 0,
+    cooldown: 0,
+    maxLevel: 5,
+    price: 15,
     currency: Currency.LEVEL,
   },
 ];
