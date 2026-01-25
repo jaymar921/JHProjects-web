@@ -139,9 +139,8 @@ function CE3Page() {
                 className="text-white md:text-sm font-bold px-1 absolute right-[-35px] md:right-[-25px] top-[-10px] bg-yellow-500 rotate-35 select-none"
               >
                 {PluginInformation.currency_symbol}
-                {
-                  PluginInformation.price
-                } <i className="fa-solid fa-tag"></i>{" "}
+                {PluginInformation.price}{" "}
+                <i className="fa-solid fa-tag"></i>{" "}
               </span>
             </p>
             <button
@@ -274,7 +273,7 @@ plugin_admin_access:
   - Sekai47
 # For bedrock players [using geyser/floodgate]
   - .JhonoBrine
-  - .AxicaCattleya
+  - .JezTerBahYout
   - .EliteLeonidas
                     `}
                   </code>
