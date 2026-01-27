@@ -23,6 +23,7 @@ function CE3_Enchants() {
           arr = Enchantments.filter((e) =>
             e.type.includes(EnchantType.GENERAL)
           );
+          break;
         case EnchantType.WEAPONS:
           arr = Enchantments.filter(
             (e) =>
@@ -82,14 +83,21 @@ function CE3_Enchants() {
           <option value={EnchantType.SHOVEL}>Shovel Enchants</option>
           <option value={EnchantType.HOE}>Hoe Enchants</option>
           <option value={EnchantType.FISHING_ROD}>Fishing Rod Enchants</option>
+          <option value={EnchantType.ANIMAL_ARMOR}>
+            Animal Armor Enchants
+          </option>
+          <option value={EnchantType.MACE}>Mace Enchants</option>
         </select>
       </div>
       <div className="p-2">
         <p>Shown: {enchantments.length}</p>
       </div>
       <div className="w-full grid md:grid-cols-3 xl:grid-cols-5 gap-4 p-2 select-none">
-        {enchantments.map((enchantment) => (
-          <CE3_EnchantComponent enchantment={enchantment} />
+        {enchantments.map((enchantment, index) => (
+          <CE3_EnchantComponent
+            key={`ENC-${index * Math.random()}`}
+            enchantment={enchantment}
+          />
         ))}
       </div>
     </div>

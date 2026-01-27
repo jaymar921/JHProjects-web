@@ -12,6 +12,10 @@ import CE3_Settings from "./ce3_subcontent/CE3_Settings";
 import CE3_LOGO from "../../assets/custom_enchants_3/ce3-logo.png";
 import CE3_LootingPlots from "./ce3_subcontent/CE3_LootingPlots";
 import CE3_CustomItems from "./ce3_subcontent/CE3_CustomItems";
+import CE3_DonatePi from "./ce3_subcontent/CE3_DonatePi";
+import CE3_BugReport from "./ce3_subcontent/CE3_BugReport";
+import CE3_BuyPlugin from "../page_components/CE3_BuyPlugin";
+import CE3_BUY_PayPal from "./ce3_subcontent/CE3_BUY_PayPal";
 
 function CE3Page() {
   const [subcontent, setSubcontent] = useState("none");
@@ -40,7 +44,13 @@ function CE3Page() {
       case "enchants":
         return <CE3_Enchants />;
       case "support":
-        return <CE3_Support />;
+        return <CE3_Support setSubcontent={setSubcontent} />;
+      case "buy plugin":
+        return <CE3_BuyPlugin setSubcontent={setSubcontent} />;
+      case "buy through paypal":
+        return <CE3_BUY_PayPal setSubcontent={setSubcontent} />;
+      case "donate pi":
+        return <CE3_DonatePi setSubcontent={setSubcontent} />;
       case "shops or quests":
         return <CE3_Shops />;
       case "settings":
@@ -49,6 +59,8 @@ function CE3Page() {
         return <CE3_LootingPlots />;
       case "custom items":
         return <CE3_CustomItems />;
+      case "bug report":
+        return <CE3_BugReport />;
       default:
         return (
           <>
@@ -100,9 +112,8 @@ function CE3Page() {
       <section className="justify-items-center py-4">
         <iframe
           className="w-auto md:w-[500px] lg:w-[700px] md:h-[300px] lg:h-[350px] mb-8"
-          src="https://www.youtube.com/embed/GoPewGMGEf0?si=Jjdrk3c7kIYRjdzq"
+          src="https://www.youtube.com/embed/0A0tKMnEpIA?si=--DmxZQMp0GW-q4J"
           title="YouTube video player"
-          frameborder="0"
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
           referrerPolicy="strict-origin-when-cross-origin"
           allowFullScreen
@@ -127,12 +138,14 @@ function CE3Page() {
                 title="One time payment!"
                 className="text-white md:text-sm font-bold px-1 absolute right-[-35px] md:right-[-25px] top-[-10px] bg-yellow-500 rotate-35 select-none"
               >
-                ${PluginInformation.price} <i className="fa-solid fa-tag"></i>{" "}
+                {PluginInformation.currency_symbol}
+                {PluginInformation.price}{" "}
+                <i className="fa-solid fa-tag"></i>{" "}
               </span>
             </p>
             <button
               className="rounded-xl"
-              onClick={() => RedirectTo(PluginInformation.buyLink)}
+              onClick={() => setSubcontent("buy plugin")}
             >
               <i className="fa-solid fa-cart-shopping"></i> Buy Plugin{" "}
               <p className="text-[10px]">One Time Payment!</p>
@@ -145,7 +158,7 @@ function CE3Page() {
               onClick={() => RedirectTo(PluginInformation.trialLink)}
             >
               <i className="fa-solid fa-file-arrow-down"></i> Try Plugin
-              <p className="text-[10px]">v1.2.0-lite</p>
+              <p className="text-[10px]">{PluginInformation.trialTitle}</p>
             </button>
           </div>
           <div className="md:w-[200px] p-2 text-center border-2 border-slate-700 shadow-2xl rounded-md mt-4 md:mt-0">
@@ -158,6 +171,40 @@ function CE3Page() {
               <i className="fa-solid fa-shield-heart"></i> Support
               <p className="text-[5px]">&nbsp;</p>
             </button>
+          </div>
+        </div>
+
+        <div className="w-[80%] md:w-[50%] pt-8">
+          <h3 className="text-[1.2em] md:text-[1.5em] text-purple-500 font-bold">
+            Server Requirements
+          </h3>
+          <div className="mx-auto mt-8 bg-gray-900 rounded-lg overflow-hidden">
+            <div className="px-4 overflow-auto">
+              <pre>
+                <code className="text-sm" lang="md">
+                  <p className="mt-5 mb-0 font-bold bg-gray-700 w-fit py-2 px-2 rounded-md">
+                    [Minimum Server Requirement]
+                  </p>
+                  {`
+- CPU:     1Ghz | At least 2 Cores
+- RAM:     At least 2GB
+- STORAGE: At least 1GB
+- NETWORK: At least 3mbps
+
+Note: [PREMIUM VERSION] is not available in Aternos.
+      You are required to have a dedicated server if
+      you want to use the full feature of this plugin.
+                    `}
+                  <p className="mt-5 mb-0 font-bold bg-gray-700 w-fit py-2 px-2 rounded-md">
+                    [Supported Server Softwares]
+                  </p>
+                  {`
+- SPIGOT [1.16 - 1.21+] (Recommended)
+- PAPER  [1.16 - 1.21+]
+                  `}
+                </code>
+              </pre>
+            </div>
           </div>
         </div>
 
@@ -188,6 +235,52 @@ function CE3Page() {
               </div>
             </div>
           )}
+        </div>
+
+        <div className="w-[80%] md:w-[50%] pt-8">
+          <h3 className="text-[1.2em] md:text-[1.5em] text-purple-500 font-bold">
+            Setup Permissions
+          </h3>
+
+          <div className="text-justify pt-4">
+            <p>
+              Custom Enchantments 3 - RPG plugin is an independent plugin and
+              does not rely on a 3rd-party permissions plugin. It has it's own
+              built-in permissions file.
+              <br />
+              <br />
+              In order for you to have full access to the plugin commands such
+              as create shops or quests, give player levels or currency, and do
+              the test plugin commands. You are required to modify the{" "}
+              <span className="font-bold">Authorization.yml</span> file, see
+              example below.
+            </p>
+            <div className="mx-auto mt-8 bg-gray-900 rounded-lg overflow-hidden">
+              <div className="px-4 overflow-auto">
+                <pre>
+                  <code className="text-sm" lang="md">
+                    <p className="mt-5 mb-0 font-bold bg-gray-700 w-fit py-2 px-2 rounded-md">
+                      [CustomEnchantments3/PluginData/Authorization.yml]
+                    </p>
+                    {`
+# Aside from OPed players that has access to
+# the plugin's admin commands, you can also list
+# players by their 'names' to allow them using the
+# command.
+plugin_admin_access:
+  - JayMar921
+  - MikaPiaChu921
+  - Sekai47
+# For bedrock players [using geyser/floodgate]
+  - .JhonoBrine
+  - .JezTerBahYout
+  - .EliteLeonidas
+                    `}
+                  </code>
+                </pre>
+              </div>
+            </div>
+          </div>
         </div>
       </section>
 
@@ -259,6 +352,26 @@ function CE3Page() {
               <i className="fa-solid fa-book"></i> Versions
             </button>
           </div> */}
+        </div>
+      </section>
+
+      <section className="justify-items-center py-4">
+        <div className="w-[80%] md:w-[50%]">
+          <h3 className="text-[1.2em] md:text-[1.5em] text-purple-500 font-bold">
+            Developer Support
+          </h3>
+        </div>
+
+        <div className="w-[80%] md:w-[50%] md:grid md:grid-cols-2 xl:grid-cols-3 md:gap-2 justify-evenly py-8 ">
+          <div className="col-span-1 p-2 text-center border-2 border-slate-700 shadow-2xl rounded-md mt-4 md:mt-0">
+            <p className="p-2 px-2">Report Bugs</p>
+            <button
+              className="rounded-xl"
+              onClick={() => setSubcontent("bug report")}
+            >
+              <i className="fa-solid fa-bug"></i> Report
+            </button>
+          </div>
         </div>
       </section>
 

@@ -22,7 +22,7 @@ function CE3_Settings() {
             href="https://github.com/JnH-Projects/Custom-Enchantments-3"
             target="_blank"
           >
-            <i class="fa-brands fa-github text-white"></i> Github Link
+            <i className="fa-brands fa-github text-white"></i> Github Link
           </a>
         </div>
       </div>
