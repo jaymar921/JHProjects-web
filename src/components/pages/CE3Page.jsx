@@ -16,6 +16,7 @@ import CE3_DonatePi from "./ce3_subcontent/CE3_DonatePi";
 import CE3_BugReport from "./ce3_subcontent/CE3_BugReport";
 import CE3_BuyPlugin from "../page_components/CE3_BuyPlugin";
 import CE3_BUY_PayPal from "./ce3_subcontent/CE3_BUY_PayPal";
+import CE3_ChangeLogs from "./ce3_subcontent/CE3_ChangeLogs";
 
 function CE3Page() {
   const [subcontent, setSubcontent] = useState("none");
@@ -61,6 +62,8 @@ function CE3Page() {
         return <CE3_CustomItems />;
       case "bug report":
         return <CE3_BugReport />;
+      case "change logs":
+        return <CE3_ChangeLogs />;
       default:
         return (
           <>
@@ -152,7 +155,10 @@ function CE3Page() {
             </button>
           </div>
           <div className="md:w-[200px] p-2 text-center border-2 border-slate-700 shadow-2xl rounded-md mt-4 md:mt-0">
-            <p className="p-2 px-2">Unsure yet? You can try the plugin</p>
+            <p className="p-2 px-2">
+              <span className="text-red-500">Unsure yet?</span> Try the plugin
+              first!
+            </p>
             <button
               className="rounded-xl"
               onClick={() => RedirectTo(PluginInformation.trialLink)}
@@ -370,6 +376,24 @@ plugin_admin_access:
               onClick={() => setSubcontent("bug report")}
             >
               <i className="fa-solid fa-bug"></i> Report
+            </button>
+          </div>
+        </div>
+
+        <div className="w-[80%] md:w-[50%]">
+          <h3 className="text-[1.2em] md:text-[1.5em] text-purple-500 font-bold">
+            Other Updates
+          </h3>
+        </div>
+
+        <div className="w-[80%] md:w-[50%] md:grid md:grid-cols-2 xl:grid-cols-3 md:gap-2 justify-evenly py-8 ">
+          <div className="col-span-1 p-2 text-center border-2 border-slate-700 shadow-2xl rounded-md mt-4 md:mt-0">
+            <p className="p-2 px-2">Plugin Updates</p>
+            <button
+              className="rounded-xl"
+              onClick={() => setSubcontent("change logs")}
+            >
+              <i className="fa-solid fa-clipboard-list"></i> Logs
             </button>
           </div>
         </div>
