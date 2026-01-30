@@ -66,7 +66,7 @@ export const CE3_Logs = [
         sublist: ["Spear Shop", "Mace Shop"],
       },
     ],
-    note: "More info at: https://jhprojects.vercel.app/ce3",
+    note: "More info at: https://jhprojects.vercel.app/ce3 | FREE VERSION STOPS HERE",
   },
   {
     update_version: "1.2.0-r.6",
