@@ -566,8 +566,9 @@ export const CE3_Logs = [
       },
       {
         update: "Fixed RACO Exchange Bug",
-        sublist:
+        sublist: [
           "Added exception handling in PlayerData, if PlayerData is not found then re-register the player",
+        ],
       },
       {
         update:
