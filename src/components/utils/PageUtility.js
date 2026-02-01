@@ -17,15 +17,13 @@ export const getIcon = (type) => {
 
 export function getYearsAndMonthsFromDate(inputDate) {
   try {
-    // Convert input to Date object
-    const startDate = new Date(inputDate);
-    if (isNaN(startDate)) {
-      throw new Error("Invalid date format");
+    if (inputDate === null) {
+      return "In Development";
     }
 
+    const startDate = new Date(inputDate);
     const today = new Date();
 
-    // Calculate year and month difference
     let years = today.getFullYear() - startDate.getFullYear();
     let months = today.getMonth() - startDate.getMonth();
     let days = today.getDate() - startDate.getDate();
@@ -36,9 +34,21 @@ export function getYearsAndMonthsFromDate(inputDate) {
       months += 12;
     }
 
-    return `${years > 0 ? `${years} yr${years > 1 ? "s" : ""} ` : ""}${months > 0 ? `${months} mo ` : ""}${days > 0 ? `${days} days` : ""} ago`;
+    // Adjust if the current day is before the start day
+    if (days < 0) {
+      months--;
+      // Get number of days in the previous month
+      const prevMonth = new Date(today.getFullYear(), today.getMonth(), 0);
+      days += prevMonth.getDate();
+      if (months < 0) {
+        years--;
+        months += 12;
+      }
+    }
+
+    return `${years > 0 ? `${years} yr${years > 1 ? "s" : ""} ` : ""}${months > 0 ? `${months} mo ` : ""}${days > 0 ? `${days} day${days > 1 ? "s" : ""} ` : ""}ago`;
   } catch (error) {
     console.error(error.message);
-    return { years: 0, months: 0 };
+    return { years: 0, months: 0, days: 0 };
   }
 }
