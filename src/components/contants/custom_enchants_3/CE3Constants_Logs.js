@@ -1,5 +1,26 @@
 export const CE3_Logs = [
   {
+    update_version: "1.3.0",
+    release_date: null,
+    changes: [
+      {
+        update: "Bug Fixes",
+        sublist: [
+          "Fixed Skill doesn't get disabled in other worlds",
+          "Fixed SoundOrb error on lower version down to 1.16.4",
+        ],
+      },
+      {
+        update: "Modifications",
+        sublist: [
+          "Massive Overhaul in Custom Enchantment price configuration, Custom Enchantments can now be configured to be bought using RACO(Built-in currency)",
+          "Updated Custom Model Data",
+        ],
+      },
+    ],
+    note: "More info at: https://jhprojects.vercel.app/ce3",
+  },
+  {
     update_version: "1.2.2",
     release_date: "01/28/2026",
     changes: [
