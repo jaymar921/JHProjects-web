@@ -36,7 +36,7 @@ function CE3_ChangeLogs() {
         <hr className="my-4 border-blue-300" />
         {filteredLog.map((log, index) => (
           <Changelog
-            key={`${index}-${log.release_date}-${log.update_version}`}
+            key={`${index}-${log.release_date ?? "new"}-${log.update_version}`}
             className="p-2 my-4 cursor-pointer shadow-amber-50 shadow-xs"
             log={log}
           />

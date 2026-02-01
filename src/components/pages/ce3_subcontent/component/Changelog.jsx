@@ -23,9 +23,15 @@ function Changelog({ log, className }) {
       </div>
       {showContent && (
         <div className="w-full">
+          <p>
+            Release Date:{" "}
+            {log.release_date ?? (
+              <span className="text-green-400">In Development</span>
+            )}
+          </p>
           {log.changes.map((change, index) => (
             <div
-              key={`${log.update_version}-${log.release_date}-${index}`}
+              key={`${log.update_version}-${log.release_date ?? "new"}-${index}`}
               className="text-sm"
             >
               {change.sublist ? (
