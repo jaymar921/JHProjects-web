@@ -352,7 +352,16 @@ plugin_admin_access:
               className="rounded-xl"
               onClick={() => setSubcontent("buy enchantments")}
             >
-              <i className="fa-solid fa-dollar-sign"></i> Buy Enchant
+              <i className="fa-solid fa-dollar-sign"></i> Buying
+            </button>
+          </div>
+          <div className="col-span-1 p-2 text-center border-2 border-slate-700 shadow-2xl rounded-md mt-4 md:mt-0">
+            <p className="p-2 px-2">Built-in Currency</p>
+            <button
+              className="rounded-xl"
+              onClick={() => setSubcontent("raco currency")}
+            >
+              <i className="fa-solid fa-coins"></i> RACO
             </button>
           </div>
           <div className="col-span-1 p-2 text-center border-2 border-slate-700 shadow-2xl rounded-md mt-4 md:mt-0">
