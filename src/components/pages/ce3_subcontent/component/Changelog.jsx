@@ -14,25 +14,29 @@ function Changelog({ log, className }) {
       <div>
         <div className="flex place-items-center">
           <div>
-            <h1 className="text-xl text-red-500 w-50">{log.update_version} </h1>
+            <h1 className="md:text-xl text-xs text-red-500 w-fit">
+              {log.update_version}{" "}
+            </h1>
           </div>
-          <div className="text-xs text-blue-300 text-right w-full">
+          <div className="md:text-xs text-[10px] text-blue-300 text-right m-auto mr-0">
             <p>{getYearsAndMonthsFromDate(log.release_date)}</p>
           </div>
         </div>
       </div>
       {showContent && (
-        <div className="w-full">
+        <div className="w-full md:text-xl text-xs">
           <p>
             Release Date:{" "}
-            {log.release_date ?? (
+            {log.release_date ? (
+              <span className="text-purple-400">{log.release_date}</span>
+            ) : (
               <span className="text-green-400">In Development</span>
             )}
           </p>
           {log.changes.map((change, index) => (
             <div
               key={`${log.update_version}-${log.release_date ?? "new"}-${index}`}
-              className="text-sm"
+              className="md:text-sm text-xs"
             >
               {change.sublist ? (
                 <>
