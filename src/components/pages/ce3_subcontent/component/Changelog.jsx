@@ -14,7 +14,9 @@ function Changelog({ log, className }) {
       <div>
         <div className="flex place-items-center">
           <div>
-            <h1 className="md:text-xl text-xs text-red-500 w-fit">
+            <h1
+              className={`md:text-xl text-xs ${log.release_date ? "text-red-500" : "text-orange-500"} w-fit`}
+            >
               {log.update_version}{" "}
             </h1>
           </div>
