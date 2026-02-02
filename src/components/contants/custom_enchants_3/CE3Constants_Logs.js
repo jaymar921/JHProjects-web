@@ -4,17 +4,29 @@ export const CE3_Logs = [
     release_date: null,
     changes: [
       {
+        update: "Security Patch",
+        sublist: [
+          "Removed premium/trial condition from the source code. Updates are now included in the premium version, while trial users can continue using the free version up to 1.2.1-lite",
+        ],
+      },
+      {
         update: "Bug Fixes",
         sublist: [
-          "Fixed Skill doesn't get disabled in other worlds",
-          "Fixed SoundOrb error on lower version down to 1.16.4",
+          "Fixed issue where skills were not disabled in other worlds",
+          "Fixed PlaySound:Orb [Not Found] error on versions 1.20 down to 1.16.4",
         ],
       },
       {
         update: "Modifications",
         sublist: [
-          "Massive Overhaul in Custom Enchantment price configuration, Custom Enchantments can now be configured to be bought using RACO(Built-in currency)",
+          "Major overhaul of Custom Enchantment price configuration. Custom Enchantments can now be purchased using RACO (built-in currency)",
           "Updated Custom Model Data",
+        ],
+      },
+      {
+        update: "New Features",
+        sublist: [
+          "Added CustomEnchantments 3 [1.21] resource pack (Enchantment Book only)",
         ],
       },
     ],
