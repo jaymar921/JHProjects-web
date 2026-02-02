@@ -17,6 +17,7 @@ import CE3_BugReport from "./ce3_subcontent/CE3_BugReport";
 import CE3_BuyPlugin from "../page_components/CE3_BuyPlugin";
 import CE3_BUY_PayPal from "./ce3_subcontent/CE3_BUY_PayPal";
 import CE3_ChangeLogs from "./ce3_subcontent/CE3_ChangeLogs";
+import CE3_BuyEnchantment from "./ce3_subcontent/CE3_BuyEnchantment";
 
 function CE3Page() {
   const [subcontent, setSubcontent] = useState("none");
@@ -64,6 +65,8 @@ function CE3Page() {
         return <CE3_BugReport />;
       case "change logs":
         return <CE3_ChangeLogs />;
+      case "buy enchantments":
+        return <CE3_BuyEnchantment />;
       default:
         return (
           <>
@@ -341,6 +344,24 @@ plugin_admin_access:
               onClick={() => setSubcontent("custom items")}
             >
               <i className="fa-solid fa-cube"></i> Items
+            </button>
+          </div>
+          <div className="col-span-1 p-2 text-center border-2 border-slate-700 shadow-2xl rounded-md mt-4 md:mt-0">
+            <p className="p-2 px-2">Buy Enchantments</p>
+            <button
+              className="rounded-xl"
+              onClick={() => setSubcontent("buy enchantments")}
+            >
+              <i className="fa-solid fa-dollar-sign"></i> Buy Enchant
+            </button>
+          </div>
+          <div className="col-span-1 p-2 text-center border-2 border-slate-700 shadow-2xl rounded-md mt-4 md:mt-0">
+            <p className="p-2 px-2">Resource Pack</p>
+            <button
+              className="rounded-xl"
+              onClick={() => setSubcontent("resource pack")}
+            >
+              <i className="fa-solid fa-folder-tree"></i> RP
             </button>
           </div>
           <div className="col-span-1 p-2 text-center border-2 border-slate-700 shadow-2xl rounded-md mt-4 md:mt-0">
