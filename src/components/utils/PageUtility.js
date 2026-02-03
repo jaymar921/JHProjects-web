@@ -46,7 +46,7 @@ export function getYearsAndMonthsFromDate(inputDate) {
       }
     }
 
-    return `${years > 0 ? `${years} yr${years > 1 ? "s" : ""} ` : ""}${months > 0 ? `${months} mo ` : ""}${days > 0 ? `${days} day${days > 1 ? "s" : ""} ` : ""}ago`;
+    return `${years > 0 ? `${years} yr${years > 1 ? "s" : ""} ` : ""}${months > 0 ? `${months} mo ` : ""}${days > 0 ? `${days} day${days > 1 ? "s" : ""} ` : "few hours "}ago`;
   } catch (error) {
     console.error(error.message);
     return { years: 0, months: 0, days: 0 };

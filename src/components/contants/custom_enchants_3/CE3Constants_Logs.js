@@ -1,7 +1,7 @@
 export const CE3_Logs = [
   {
     update_version: "1.3.0",
-    release_date: null,
+    release_date: "02/03/2026",
     changes: [
       {
         update: "Security Patch",
@@ -21,6 +21,7 @@ export const CE3_Logs = [
         sublist: [
           "Major overhaul of Custom Enchantment price configuration. Custom Enchantments can now be purchased using RACO (built-in currency)",
           "Updated Custom Model Data",
+          "Trading System updated for future update, added GraphData for storing transactions",
         ],
       },
       {
