@@ -355,6 +355,8 @@ plugin_admin_access:
               <i className="fa-solid fa-dollar-sign"></i> Buying
             </button>
           </div>
+          {/*
+          
           <div className="col-span-1 p-2 text-center border-2 border-slate-700 shadow-2xl rounded-md mt-4 md:mt-0">
             <p className="p-2 px-2">Built-in Currency</p>
             <button
@@ -373,6 +375,9 @@ plugin_admin_access:
               <i className="fa-solid fa-folder-tree"></i> RP
             </button>
           </div>
+          
+          */}
+
           <div className="col-span-1 p-2 text-center border-2 border-slate-700 shadow-2xl rounded-md mt-4 md:mt-0">
             <p className="p-2 px-2">Plugin Default Settings</p>
             <button
