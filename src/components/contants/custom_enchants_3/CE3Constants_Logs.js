@@ -1,5 +1,19 @@
 export const CE3_Logs = [
   {
+    update_version: "1.3.1",
+    release_date: "02/15/2026",
+    changes: [
+      {
+        update: "Bug Fixes",
+        sublist: [
+          "Fixed issue where skills were not disabled in other worlds [again]",
+          "Fixed TNTError spam in console, this happens when it fails to detect the source entity",
+        ],
+      },
+    ],
+    note: "More info at: https://jhprojects.vercel.app/ce3",
+  },
+  {
     update_version: "1.3.0",
     release_date: "02/03/2026",
     changes: [
