@@ -1,5 +1,19 @@
 export const CE3_Logs = [
   {
+    update_version: "1.3.2",
+    release_date: "03/02/2026",
+    changes: [
+      {
+        update: "Optimization",
+        sublist: [
+          "PlayerData modification, added caching to reduce lag from being re-created on load",
+          "Move/Attacking/Join Event is optimized, implemented data caching for faster load",
+        ],
+      },
+    ],
+    note: "Please save a copy of the files inside CustomEnchantments3 before installing the update.",
+  },
+  {
     update_version: "1.3.1",
     release_date: "02/15/2026",
     changes: [
