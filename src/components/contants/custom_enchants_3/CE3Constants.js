@@ -11,7 +11,12 @@ import wiseImg from "../../../assets/custom_enchants_3/wise.png";
 export const PluginInformation = {
   title: "Custom Enchantments 3",
   subtitle: "Elevate your server with Epic RPG Gameplay!",
-  price: 12.99,
+  version: "1.4.0",
+  versionReleaseDate: "08/22/2026",
+  versionHighlight:
+    "Full optimization pass across the whole plugin, plus 16 bug fixes. Tested on Minecraft 26.2.",
+  supportedVersions: "1.16.4 - 26.2",
+  price: 10.99,
   currency_symbol: "£",
   author: "JayMar921",
   authorSocial: "https://jayharronabejar.vercel.app/",
@@ -20,7 +25,6 @@ export const PluginInformation = {
   trialLink:
     "https://www.spigotmc.org/resources/%E2%9C%AF-custom-enchantments-3-1-16-free-%E2%9C%AF.89793/",
   trialTitle: "v1.2.1-lite",
-  //buyLink: "https://www.spigotmc.org/resources/102275/",
   paypalPaymentLink: "https://www.paypal.com/paypalme/JayMar921",
   supportLink: [
     {
@@ -38,13 +42,6 @@ export const PluginInformation = {
       link: "https://wise.com/pay/me/jayharronmara",
       logo: wiseImg,
     },
-    // {
-    //   title: "Pi Network",
-    //   onClick: (setSubcontent) => {
-    //     setSubcontent?.("donate pi");
-    //   },
-    //   logo: PiNetworkImg,
-    // },
   ],
   buyLink: [
     {
@@ -59,13 +56,6 @@ export const PluginInformation = {
       },
       icon: "fa-brands fa-paypal text-blue-400",
     },
-    // {
-    //   title: "Wise",
-    //   onClick: (setSubcontent) => {
-    //     setSubcontent?.("buy through wise");
-    //   },
-    //   logo: wiseImg,
-    // },
   ],
   classes: {
     description:
