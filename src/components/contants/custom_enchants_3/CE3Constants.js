@@ -11,6 +11,11 @@ import wiseImg from "../../../assets/custom_enchants_3/wise.png";
 export const PluginInformation = {
   title: "Custom Enchantments 3",
   subtitle: "Elevate your server with Epic RPG Gameplay!",
+  version: "1.4.0",
+  versionReleaseDate: "08/22/2026",
+  versionHighlight:
+    "Full optimization pass across the whole plugin, plus 16 bug fixes. Tested on Minecraft 26.2.",
+  supportedVersions: "1.16.4 - 26.2",
   price: 10.99,
   currency_symbol: "£",
   author: "JayMar921",

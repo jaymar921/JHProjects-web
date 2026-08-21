@@ -6,6 +6,8 @@ function CE3_ChangeLogs() {
   const [filteredLog, setFilter] = useState(CE3_Logs);
   const [input, setInput] = useState("");
 
+  const latestVersion = CE3_Logs.find((log) => log.release_date);
+
   const doFilter = (e) => {
     setInput(e.target.value);
 
@@ -20,27 +22,49 @@ function CE3_ChangeLogs() {
 
   return (
     <div className="w-full font-mono">
-      <div className="p-8">
-        <h1 className="text-md md:text-xl text-purple-500">Plugin Updates</h1>
-        <p className="py-2">
-          Here's the list of updates from latest to oldest:
+      <div className="p-4 md:p-8">
+        <div className="flex flex-wrap place-items-center gap-3">
+          <h1 className="pixel-font text-[11px] text-purple-300 md:text-lg">
+            Plugin Updates
+          </h1>
+          {latestVersion && (
+            <span className="pixel-font border border-lime-400/50 bg-lime-500/15 px-2 py-1 text-[8px] tracking-widest text-lime-300">
+              LATEST v{latestVersion.update_version}
+            </span>
+          )}
+        </div>
+        <p className="py-2 text-xs text-slate-400 md:text-sm">
+          Every release from newest to oldest. Click a version to open it.
         </p>
-        <div>
+
+        <div className="relative mt-2">
+          <i className="fa-solid fa-magnifying-glass absolute top-1/2 left-3 -translate-y-1/2 text-xs text-slate-500"></i>
           <input
             placeholder="Looking for a specific update?"
-            className="w-full p-2 shadow-xs shadow-amber-50"
+            className="w-full border border-slate-700 bg-[rgba(0,0,0,0.5)] py-2 pr-3 pl-9 text-xs text-slate-200 outline-none placeholder:text-slate-600 focus:border-lime-400/60 md:text-sm"
             onChange={doFilter}
             value={input}
           />
         </div>
-        <hr className="my-4 border-blue-300" />
-        {filteredLog.map((log, index) => (
-          <Changelog
-            key={`${index}-${log.release_date ?? "new"}-${log.update_version}`}
-            className="p-2 my-4 cursor-pointer shadow-amber-50 shadow-xs"
-            log={log}
-          />
-        ))}
+
+        <p className="pt-3 text-[10px] tracking-widest text-slate-500 uppercase">
+          {filteredLog.length} of {CE3_Logs.length} releases shown
+        </p>
+
+        <div className="mt-4 flex flex-col gap-3">
+          {filteredLog.map((log) => (
+            <Changelog
+              key={`${log.release_date ?? "new"}-${log.update_version}`}
+              isLatest={log.update_version === latestVersion?.update_version}
+              log={log}
+            />
+          ))}
+          {filteredLog.length === 0 && (
+            <p className="py-10 text-center text-xs text-slate-500">
+              No release matches &quot;{input}&quot;.
+            </p>
+          )}
+        </div>
       </div>
     </div>
   );

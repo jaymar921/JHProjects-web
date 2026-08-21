@@ -1,5 +1,103 @@
 export const CE3_Logs = [
   {
+    update_version: "1.4.0",
+    release_date: "08/22/2026",
+    changes: [
+      {
+        update: "Read this first",
+        sublist: [
+          "If you use '/ce reload', your players' RACO balances were being wiped every time. The reload code looked in the wrong file for the saved balances, found nothing, and reset everyone to 0. The next save wrote that back to disk. This is fixed, but any balance already lost is gone. Restarting the server was never affected, only '/ce reload'",
+          "Seven of the fixes change gameplay, see the Balance Changes below. Nothing else in this update should be noticeable in play",
+          "No features were added or removed in this update",
+        ],
+      },
+      {
+        update: "Performance",
+        sublist: [
+          "Enchantment reads no longer allocate a JSON parser, a reflection object and a key on every single call",
+          "A single sword hit used to cost several hundred JSON parses because every attack and defence handler built its own player object, reading the main hand, off hand and all four armor pieces twice over. That is down to a handful now",
+          "Player data is now loaded when it is actually needed instead of up front",
+          "Enchantment name lookups are a map lookup instead of scanning all 58 entries every time",
+          "Server version checks are cached instead of re-parsing the version string, this was being called twice per step inside 360-step particle loops",
+          "PlayerMoveEvent, the busiest event on any server, no longer reads your boots several times per tick",
+          "Block breaking with Deforestation was quadratic on large trees, now it is not",
+          "Loot plot generation used to scan around 4.5 million blocks on the main thread, twice. It now reads chunk block entity lists instead",
+          "Event handlers (quests, disenchant, shop clicks, crop harvest, consume, anvil) now check cheap conditions first before reading inventories",
+          "Scheduled tasks trimmed: auto-repair, companion healing, shop entity checker, magnetic checker and the status handler loops",
+        ],
+      },
+      {
+        update: "Memory Leaks Fixed",
+        sublist: [
+          "A permission object was being stacked on the player on every single '/ce' command and never removed",
+          "The currency exchange screen kept refreshing once a second forever, for every player who had ever opened it, even after they logged off",
+          "The world list grew forever, and gained another background task on every reload",
+          "Decorative particle drops (blood, gold nuggets) were added to a list that was never cleaned up and searched on every item pickup on the map",
+          "There was no logout handler at all, so per-player data piled up until restart. A new QuitEvent releases per-player state on logout",
+        ],
+      },
+      {
+        update: "Bug Fixes [16 total]",
+        sublist: [
+          "CE-001 [CRITICAL] '/ce reload' wiped all RACO balances",
+          "CE-002 Armor enchantments ignored CustomEnchantsWorld. Tank, Magic Resist, Regain, Freeze, Thorns, Mana Shield, Sturdy, Omni Vamp and Blindness kept working in worlds where the plugin is supposed to be off",
+          "CE-003 PENETRATION did nothing at all. The warrior passive was writing the wrong stat, onto an object that got thrown away immediately",
+          "CE-004 ContainsEnchantment(ItemStack, String) returned inside its loop, so it only ever tested one entry",
+          "CE-005 Protected boundaries were not blocking mob spawns. The check was backwards, it only blocked spawns in worlds where the plugin was disabled",
+          "CE-006 Loot plots almost never spawned. The 'is there a bed nearby' check also matched BEDROCK, and the search scanned millions of blocks on the main thread",
+          "CE-007 Offline shop sales lost money. If you sold two items while offline you were only paid for the second one",
+          "CE-008 LightSpiritManaCost in config.yml did nothing, the Lightning cost was being written over the top of it",
+          "CE-009 Several 1.21.x versions (1.21, 1.21.0, 1.21.2, 1.21.3, 1.21.6, 1.21.7, 1.21.9) were treated as unsupported, which quietly turned off anything version-gated. Version checks are numeric now",
+          "CE-010 Distance checks against shops in a different world threw an error and aborted the whole handler",
+          "CE-011 Empty loot rarity lists crashed chest generation for the whole world once that rarity rolled",
+          "CE-012 The last treasure item could never drop. 'Ancient Netherite Scrap' was unobtainable, and 'Lucky Treasure' dropped at double the intended rate",
+          "CE-013 There was no PlayerQuitEvent handler, so per-player state accumulated until restart and pinned disconnected players in memory",
+          "CE-014 Three background tasks were reading player inventories and writing mana from async threads, which is not safe with the Bukkit API. All moved to the main thread",
+          "CE-015 setAttackSpeed fell through to an attribute constant that does not exist on 1.20 and below",
+          "CE-016 Dummy shops could be killed. The damage readout worked, but with melee the hit also landed for real. Fire, lava, fall damage, explosions and mobs could kill one too",
+        ],
+      },
+      {
+        update: "Balance Changes [your players may notice these]",
+        sublist: [
+          "PENETRATION now works. Warriors ignore 0.5% of physical defence per level, 5% at level 10",
+          "Armor enchantments stop working in worlds not listed in CustomEnchantsWorld. The default empty list means all worlds, so most servers see no change",
+          "Hostile mobs no longer spawn inside protected boundaries",
+          "Loot plots will actually generate now, including underground. Turn LootPlotSpawnChance down if it is too frequent. Trapped chests also count as player building now",
+          "Light Spirit's mana cost drops from 12.5 to 10 with the default config. Lightning is unchanged, but its shop description now shows the right number",
+          "'Ancient Netherite Scrap' is obtainable and 'Lucky Treasure' drops at a normal rate",
+          "Dummies do not die and no longer get knocked around. They still flash when you hit them and still show the damage number",
+        ],
+      },
+      {
+        update: "Worth Testing [please report anything odd]",
+        sublist: [
+          "Hitting a dummy shop with your strongest weapon, it should survive and still show the damage",
+          "Melee combat against players wearing enchanted armor",
+          "Mob spawning inside a protected boundary",
+          "Light Spirit mana usage",
+          "'/ce reload', then check a player's RACO balance is still there",
+          "Loot plot generation, if you have GenerateLootPlots: true",
+        ],
+      },
+    ],
+    note: "Tested on Minecraft 26.2. Please back up your plugins/CustomEnchantments3 folder before updating.",
+  },
+  {
+    update_version: "1.3.3",
+    release_date: "08/21/2026",
+    changes: [
+      {
+        update: "Version Support",
+        sublist: [
+          "Updated to Minecraft 26.2",
+          "The version parser now recognises the new Minecraft versioning scheme (26, 27, 28, 29) alongside the old 1.x series",
+        ],
+      },
+    ],
+    note: "Please save a copy of the files inside CustomEnchantments3 before installing the update.",
+  },
+  {
     update_version: "1.3.2",
     release_date: "03/02/2026",
     changes: [
