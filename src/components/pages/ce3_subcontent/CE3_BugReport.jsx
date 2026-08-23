@@ -11,9 +11,11 @@ import {
   Terminal,
   TerminalLabel,
 } from "../../page_components/CE3_UIKit";
+import { PluginInformation } from "../../contants";
 
 const NEW_ISSUE =
   "https://github.com/JnH-Projects/Custom-Enchantments-3/issues/new/choose";
+const CONTACT_EMAIL = PluginInformation.payment.contactEmail;
 
 function CE3_BugReport() {
   return (
@@ -78,6 +80,60 @@ function CE3_BugReport() {
               the docs need work.
             </Note>
           </div>
+        </Panel>
+      </Section>
+
+      <Section>
+        <Panel accent="sky" className="p-5">
+          <SubHeading accent="sky">CONTACT BY EMAIL</SubHeading>
+          <Body className="pt-3">
+            Email{" "}
+            <a
+              className="text-sky-300 underline"
+              href={`mailto:${CONTACT_EMAIL}`}
+            >
+              {CONTACT_EMAIL}
+            </a>{" "}
+            with the template below when you need to contact the developer
+            directly.
+          </Body>
+          <Note accent="rose" icon="fa-solid fa-plug-circle-xmark">
+            We do not provide support for third-party plugins. Custom
+            Enchantments 3 is a standalone plugin and is not responsible for
+            compatibility issues caused by another plugin.
+          </Note>
+          <Terminal title="Email template" className="mt-4">
+            <pre>
+              <code className="text-[10px] leading-relaxed text-slate-300 md:text-sm">
+                {`To: ${CONTACT_EMAIL}
+Subject: [CE3 BUG] <short description>
+
+Hello,
+
+Plugin version: <version>
+Minecraft version: <version>
+Server software: <Spigot or Paper>
+
+Description:
+<What went wrong>
+
+Expected behavior:
+<What should have happened>
+
+Steps to reproduce:
+1. <Step one>
+2. <Step two>
+
+Other plugins and relevant context:
+<Include only details that may affect the issue>
+
+Logs or screenshots:
+<Attach the full error or screenshots>
+
+Thank you.`}
+              </code>
+            </pre>
+          </Terminal>
         </Panel>
       </Section>
 
