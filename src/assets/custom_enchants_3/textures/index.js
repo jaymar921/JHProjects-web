@@ -30,6 +30,8 @@ import bowMastery from "./skill/bow_mastery.png";
 import unswervingShot from "./skill/unswerving_shot.png";
 import swiftEscape from "./skill/swift_escape.png";
 import hourGlass from "./skill/hour_glass.png";
+import wizardMastery from "./skill/wizard_mastery.png";
+import manaCharge from "./skill/mana_charge.png";
 
 import bookArmor from "./book/101001.png";
 import bookBow from "./book/102001.png";
@@ -84,6 +86,8 @@ export const SKILL_ICONS = {
   "UNSWERVING SHOT": unswervingShot,
   "SWIFT ESCAPE": swiftEscape,
   HOURGLASS: hourGlass,
+  "WIZARD MASTERY": wizardMastery,
+  "MANA CHARGE": manaCharge,
 };
 
 /** Enchantment book art, one per item class (see TextureModelling.java). */
