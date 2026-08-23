@@ -1,4 +1,3 @@
-import React from "react";
 
 /**
  * Shared "HUD" building blocks for the Custom Enchantments 3 page.
@@ -151,6 +150,8 @@ export function ActionCard({
   hint,
   badge,
   onClick,
+  image,
+  imageAlt,
   accent = "lime",
 }) {
   const a = accentOf(accent);
@@ -165,6 +166,16 @@ export function ActionCard({
         >
           {badge}
         </span>
+      )}
+      {image && (
+        <div className="mb-4 overflow-hidden border border-slate-700/70 bg-[#0b0d11]">
+          <img
+            src={image}
+            alt={imageAlt ?? title}
+            loading="lazy"
+            className="w-full transition-transform duration-300 group-hover:scale-[1.03]"
+          />
+        </div>
       )}
       <div className="flex place-items-center gap-3">
         <span
@@ -218,5 +229,184 @@ export function TerminalLabel({ children }) {
     <p className="mt-4 mb-0 w-fit border border-slate-600/60 bg-[rgba(255,255,255,0.05)] px-2 py-1 pixel-font text-[8px] md:text-[10px] text-lime-300">
       {children}
     </p>
+  );
+}
+
+/* ------------------------------------------------------------------ *
+ * Pieces below are shared by the sub content panels so every window   *
+ * reads like the rest of the page.                                    *
+ * ------------------------------------------------------------------ */
+
+/** An in game command or a config key, dropped inline in a sentence. */
+export function Cmd({ children, accent = "lime" }) {
+  const a = accentOf(accent);
+  return (
+    <span
+      className={`pixel-font mx-0.5 inline-block border px-1.5 py-0.5 text-[8px] leading-normal md:text-[10px] ${a.chip} bg-[rgba(0,0,0,0.5)]`}
+    >
+      {children}
+    </span>
+  );
+}
+
+/** Small label pill, used for lists of types and versions. */
+export function Chip({ children, accent = "lime" }) {
+  const a = accentOf(accent);
+  return (
+    <span
+      className={`inline-block border px-2 py-1 text-[10px] md:text-xs ${a.chip} bg-[rgba(0,0,0,0.35)]`}
+    >
+      {children}
+    </span>
+  );
+}
+
+export function SubHeading({ children, accent = "lime", className = "" }) {
+  const a = accentOf(accent);
+  return (
+    <h4
+      className={`pixel-font text-[10px] tracking-wider md:text-xs ${a.text} ${className}`}
+    >
+      {children}
+    </h4>
+  );
+}
+
+/** Body copy, so every panel shares one text size and colour. */
+export function Body({ children, className = "" }) {
+  return (
+    <p
+      className={`text-xs leading-relaxed text-slate-300 md:text-sm ${className}`}
+    >
+      {children}
+    </p>
+  );
+}
+
+/** A single line of guidance with an accent marker instead of a bullet. */
+export function Bullet({ children, accent = "lime" }) {
+  const a = accentOf(accent);
+  return (
+    <li className="flex gap-3 py-1">
+      <span className={`mt-[7px] h-1.5 w-1.5 shrink-0 ${a.chip} border`} />
+      <span className="text-xs leading-relaxed text-slate-300 md:text-sm">
+        {children}
+      </span>
+    </li>
+  );
+}
+
+export function Bullets({ children, className = "" }) {
+  return <ul className={`list-none ${className}`}>{children}</ul>;
+}
+
+/** Numbered setup step. The number sits in a bordered box on the left. */
+export function Step({ n, children, accent = "lime" }) {
+  const a = accentOf(accent);
+  return (
+    <li className="flex gap-3 py-2">
+      <span
+        className={`pixel-font inline-flex h-6 w-6 shrink-0 place-items-center justify-center border text-[9px] ${a.chip}`}
+      >
+        {n}
+      </span>
+      <span className="pt-1 text-xs leading-relaxed text-slate-300 md:text-sm">
+        {children}
+      </span>
+    </li>
+  );
+}
+
+export function Steps({ children, className = "" }) {
+  return <ol className={`list-none ${className}`}>{children}</ol>;
+}
+
+/** Highlighted aside for warnings and things worth reading twice. */
+export function Note({ children, icon = "fa-solid fa-circle-info", accent = "amber" }) {
+  const a = accentOf(accent);
+  return (
+    <div
+      className={`flex gap-3 border-l-2 bg-[rgba(0,0,0,0.4)] p-3 ${a.corner} border-l-2`}
+    >
+      <i className={`${icon} pt-0.5 text-xs ${a.text}`}></i>
+      <p className="text-[11px] leading-relaxed text-slate-400 md:text-xs">
+        {children}
+      </p>
+    </div>
+  );
+}
+
+/** A screenshot or piece of feature art, framed and captioned. */
+export function Shot({ src, alt, caption, accent = "lime", className = "", fit = "contain" }) {
+  return (
+    <figure className={className}>
+      <Panel accent={accent} className="p-1">
+        <img
+          src={src}
+          alt={alt}
+          loading="lazy"
+          className={`w-full ${fit === "cover" ? "h-[220px] object-cover md:h-[320px]" : "h-auto"}`}
+        />
+      </Panel>
+      {caption && (
+        <figcaption className="pt-2 text-center text-[10px] tracking-wide text-slate-500 md:text-xs">
+          {caption}
+        </figcaption>
+      )}
+    </figure>
+  );
+}
+
+/** Framed 16:9 slot for the YouTube walkthroughs and the loot plot clip. */
+export function Media({ children, caption, accent = "lime", className = "" }) {
+  return (
+    <figure className={className}>
+      <Panel accent={accent} className="p-1">
+        <div className="aspect-video w-full [&>iframe]:h-full [&>iframe]:w-full [&>video]:h-full [&>video]:w-full [&>video]:object-cover">
+          {children}
+        </div>
+      </Panel>
+      {caption && (
+        <figcaption className="pt-2 text-center text-[10px] tracking-wide text-slate-500 md:text-xs">
+          {caption}
+        </figcaption>
+      )}
+    </figure>
+  );
+}
+
+/** The squared off button used everywhere on the page. */
+export function PixelButton({
+  children,
+  onClick,
+  icon,
+  accent = "lime",
+  className = "",
+  as = "button",
+  href,
+}) {
+  const a = accentOf(accent);
+  const cls = `pixel-font inline-flex place-items-center justify-center gap-2 rounded-none border-2 bg-[rgba(0,0,0,0.5)] px-4 py-3 text-[9px] tracking-widest transition-all hover:-translate-y-0.5 md:text-[11px] ${a.button} ${className}`;
+  if (as === "a")
+    return (
+      <a className={cls} href={href} target="_blank" rel="noreferrer">
+        {icon && <i className={icon}></i>}
+        {children}
+      </a>
+    );
+  return (
+    <button className={cls} onClick={onClick}>
+      {icon && <i className={icon}></i>}
+      {children}
+    </button>
+  );
+}
+
+/** Wrapper that gives every sub content window the same rhythm. */
+export function Section({ children, className = "" }) {
+  return (
+    <section className={`w-full py-6 ${className}`}>
+      <div className="mx-auto w-[94%] md:w-[88%]">{children}</div>
+    </section>
   );
 }

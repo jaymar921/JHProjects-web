@@ -1,4 +1,3 @@
-import React from "react";
 
 function WindowWrap({ children, title = "", close = () => {} }) {
   return (
@@ -8,7 +7,7 @@ function WindowWrap({ children, title = "", close = () => {} }) {
           className="absolute top-0 z-[-1] h-screen w-screen"
           onClick={close}
         ></div>
-        <div className="relative m-auto mt-6 w-[92%] border border-lime-400/40 bg-[rgba(11,13,17,0.96)] pixel-font shadow-[0_0_45px_rgba(0,0,0,0.8)] md:w-[80%]">
+        <div className="relative m-auto mt-6 w-[92%] border border-lime-400/40 bg-[rgba(11,13,17,0.96)] shadow-[0_0_45px_rgba(0,0,0,0.8)] md:w-[80%]">
           <span className="pointer-events-none absolute -top-px -left-px h-4 w-4 border-t-2 border-l-2 border-lime-400/80" />
           <span className="pointer-events-none absolute -top-px -right-px h-4 w-4 border-t-2 border-r-2 border-lime-400/80" />
           <span className="pointer-events-none absolute -bottom-px -left-px h-4 w-4 border-b-2 border-l-2 border-lime-400/80" />

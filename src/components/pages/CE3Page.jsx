@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { PluginInformation } from "../contants";
 import {
   CommandList,
@@ -21,6 +21,7 @@ import CE3_DonatePi from "./ce3_subcontent/CE3_DonatePi";
 import CE3_BugReport from "./ce3_subcontent/CE3_BugReport";
 import CE3_BuyPlugin from "../page_components/CE3_BuyPlugin";
 import CE3_BUY_PayPal from "./ce3_subcontent/CE3_BUY_PayPal";
+import CE3_BUY_Wise from "./ce3_subcontent/CE3_BUY_Wise";
 import CE3_ChangeLogs from "./ce3_subcontent/CE3_ChangeLogs";
 import CE3_BuyEnchantment from "./ce3_subcontent/CE3_BuyEnchantment";
 import {
@@ -31,6 +32,7 @@ import {
   Terminal,
   TerminalLabel,
 } from "../page_components/CE3_UIKit";
+import * as FeatureArt from "../../assets/custom_enchants_3/features";
 
 const pageStyles = `
   .ce3-pixelated { image-rendering: pixelated; }
@@ -93,6 +95,8 @@ function CE3Page() {
         return <CE3_BuyPlugin setSubcontent={setSubcontent} />;
       case "buy through paypal":
         return <CE3_BUY_PayPal setSubcontent={setSubcontent} />;
+      case "buy through wise":
+        return <CE3_BUY_Wise setSubcontent={setSubcontent} />;
       case "donate pi":
         return <CE3_DonatePi setSubcontent={setSubcontent} />;
       case "shops or quests":
@@ -441,7 +445,9 @@ release scheme (26, 27, 28, 29).
             In order for you to have full access to the plugin commands such as
             create shops or quests, give player levels or currency, and do the
             test plugin commands. You are required to modify the{" "}
-            <span className="font-bold text-amber-300">Authorization.yml</span>{" "}
+            <span className="font-bold text-amber-300">
+              Authorization.yml
+            </span>{" "}
             file, see example below.
           </p>
           <Terminal
@@ -484,6 +490,7 @@ plugin_admin_access:
               accent="amber"
               icon="fa-solid fa-hat-wizard"
               title="CLASSES"
+              image={FeatureArt.classes}
               description="Warrior, Archer and Mage. Player roles and class paths with their own skills and passives."
               buttonIcon="fa-solid fa-hat-wizard"
               buttonLabel="Classes"
@@ -492,7 +499,8 @@ plugin_admin_access:
             <ActionCard
               accent="lime"
               icon="fa-solid fa-shop"
-              title="SHOPS & QUESTS"
+              title="SHOPS &amp; QUESTS"
+              image={FeatureArt.shopsQuests}
               description="Build shops, training dummies and quest givers straight from in game commands."
               buttonIcon="fa-solid fa-shop"
               buttonLabel="Shops"
@@ -502,6 +510,7 @@ plugin_admin_access:
               accent="purple"
               icon="fa-solid fa-wand-magic-sparkles"
               title="ENCHANTS"
+              image={FeatureArt.enchantments}
               description={`The full list of ${Enchantments.length}+ custom enchantments, their damage types, mana costs and levels.`}
               buttonIcon="fa-solid fa-wand-magic-sparkles"
               buttonLabel="Enchants"
@@ -511,6 +520,7 @@ plugin_admin_access:
               accent="sky"
               icon="fa-solid fa-city"
               title="LOOTING PLOTS"
+              image={FeatureArt.lootPlots}
               description="Custom structures that generate in your world, loaded with loot worth hunting for."
               buttonIcon="fa-solid fa-city"
               buttonLabel="Plots"
@@ -520,6 +530,7 @@ plugin_admin_access:
               accent="rose"
               icon="fa-solid fa-cube"
               title="CUSTOM ITEMS"
+              image={FeatureArt.treasures}
               description="Treasures, abilities and craftables that only exist inside Custom Enchantments 3."
               buttonIcon="fa-solid fa-cube"
               buttonLabel="Items"
@@ -529,6 +540,7 @@ plugin_admin_access:
               accent="lime"
               icon="fa-solid fa-coins"
               title="BUYING"
+              image={FeatureArt.racoEconomy}
               description="How players buy enchantments with levels or with RACO, the built-in currency."
               buttonIcon="fa-solid fa-dollar-sign"
               buttonLabel="Buying"
@@ -538,6 +550,7 @@ plugin_admin_access:
               accent="sky"
               icon="fa-solid fa-gears"
               title="SETTINGS"
+              image={FeatureArt.configuration}
               description="Every option in config.yml explained, from world restrictions to loot plot spawn rates."
               buttonIcon="fa-solid fa-gears"
               buttonLabel="Settings"
@@ -585,7 +598,7 @@ plugin_admin_access:
               buttonLabel="Open Wiki"
               onClick={() =>
                 RedirectTo(
-                  "https://jaymar921.github.io/jaymar_plugin_wiki/CE3_WIKI/"
+                  "https://jaymar921.github.io/jaymar_plugin_wiki/CE3_WIKI/",
                 )
               }
             />

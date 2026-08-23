@@ -7,7 +7,7 @@ function App() {
     <BrowserRouter>
       <Routes>
         <Route index element={<HomePage />} />
-        <Route path="ce3" element={<CE3Page />} />
+        <Route path="customenchantments3" element={<CE3Page />} />
       </Routes>
     </BrowserRouter>
   );

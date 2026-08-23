@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { getYearsAndMonthsFromDate } from "../../../utils/PageUtility";
 
 function Changelog({ log, className = "", isLatest = false }) {

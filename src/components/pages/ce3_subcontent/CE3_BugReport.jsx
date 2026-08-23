@@ -1,57 +1,104 @@
-import React from "react";
+import {
+  Body,
+  Bullet,
+  Bullets,
+  Note,
+  Panel,
+  PixelButton,
+  Section,
+  SectionHeading,
+  SubHeading,
+  Terminal,
+  TerminalLabel,
+} from "../../page_components/CE3_UIKit";
+
+const NEW_ISSUE =
+  "https://github.com/JnH-Projects/Custom-Enchantments-3/issues/new/choose";
 
 function CE3_BugReport() {
   return (
-    <div className="w-full">
-      <div className="w-[90%] m-auto">
-        <div className="p-8">
-          <h1 className="text-md md:text-xl text-purple-500">Found a bug?</h1>
-          <p className="py-2">
-            Help the developer by reporting an issue that is found in the
-            plugin.
-          </p>
+    <div className="w-full pb-6">
+      <Section>
+        <SectionHeading
+          icon="fa-solid fa-bug"
+          title="Found a bug?"
+          subtitle="Version 1.4.0 shipped 16 fixes that all started as reports like yours."
+          accent="rose"
+        />
+        <Body className="pt-5 text-justify">
+          If something is broken, the fastest way to get it fixed is to tell the
+          developer exactly what happened. A good report usually gets turned
+          around in a release or two.
+        </Body>
+      </Section>
 
-          {/* Code block */}
+      <Section>
+        <Terminal title="What to include in your report" className="mt-2">
+          <pre>
+            <code className="text-[10px] md:text-sm" lang="md">
+              <TerminalLabel>[BUG REPORTING REQUIREMENT]</TerminalLabel>
+              {`
+> DESCRIPTION
+  - A clear and concise description of what the bug is.
+> EXPECTED BEHAVIOR
+  - What you expected to happen instead.
+> SCREENSHOT
+  - Anything visual helps. Error messages help the most.
+> SERVER VERSION
+  - Lets the developer track down a version specific bug.
+> ADDITIONAL CONTEXT
+  - Other plugins, your config, anything unusual.
+`}
+            </code>
+          </pre>
+        </Terminal>
+      </Section>
 
-          <div className="mx-auto mt-8 bg-gray-900 rounded-lg overflow-hidden">
-            <div className="px-4 overflow-auto">
-              <pre>
-                <code className="text-sm" lang="md">
-                  <p className="mt-5 mb-0 font-bold bg-gray-700 w-fit py-2 px-2 rounded-md">
-                    [BUG REPORTING REQUIREMENT]
-                  </p>
-                  {`
-➡ DESCRIPTION
-   • A clear and consise description of what the bug is.
-➡ EXPECTED BEHAVIOR 
-   • A clear and consise description of what you expected to happen.
-➡ SCREENSHOT
-   • If applicable, add screenshots to help explain your problem (Error Messages will helps a lot). 
-➡ SERVER VERSION 
-   • Helps the developer to track a specific version that causes the bug
-➡ ADDITIONAL CONTEXT
-   • Add any other context about the problem
-                    `}
-                </code>
-              </pre>
-            </div>
+      <Section>
+        <Panel accent="amber" className="p-5">
+          <SubHeading accent="amber">BEFORE YOU POST</SubHeading>
+          <Bullets className="pt-3">
+            <Bullet accent="amber">
+              Check you are on the latest build. Quite a few reports turn out to
+              be something already fixed.
+            </Bullet>
+            <Bullet accent="amber">
+              Copy the full stack trace from your server console if there is
+              one. The first few lines are rarely enough.
+            </Bullet>
+            <Bullet accent="amber">
+              Mention whether you are on Spigot or Paper, and which Minecraft
+              version.
+            </Bullet>
+          </Bullets>
+          <div className="pt-4">
+            <Note accent="sky" icon="fa-solid fa-comments">
+              Not sure it is a bug? Open an issue anyway. A question that turns
+              out to be a config problem is still useful, since it usually means
+              the docs need work.
+            </Note>
           </div>
+        </Panel>
+      </Section>
 
-          <p className="py-2">
-            Click the link below to submit a report at github
-          </p>
-
-          <div className="text-center p-8">
-            <a
-              className="border-b-2 p-2 border-white cursor-pointer text-xs md:text-lg"
-              href="https://github.com/JnH-Projects/Custom-Enchantments-3/issues/new/choose"
-              target="_blank"
+      <Section>
+        <Panel accent="rose" className="p-6 text-center">
+          <Body className="mx-auto max-w-lg">
+            Reports go through GitHub Issues, where you can follow along and see
+            when the fix lands.
+          </Body>
+          <div className="pt-5">
+            <PixelButton
+              as="a"
+              href={NEW_ISSUE}
+              accent="rose"
+              icon="fa-brands fa-github"
             >
-              <i className="fa-brands fa-github text-white"></i> Github Issues
-            </a>
+              OPEN A NEW ISSUE
+            </PixelButton>
           </div>
-        </div>
-      </div>
+        </Panel>
+      </Section>
     </div>
   );
 }

@@ -3,7 +3,7 @@ import React from "react";
 function HomePage() {
   return (
     <div>
-      <a href="/ce3">Custom Enchantments 3</a>
+      <a href="/customenchantments3">Custom Enchantments 3</a>
     </div>
   );
 }

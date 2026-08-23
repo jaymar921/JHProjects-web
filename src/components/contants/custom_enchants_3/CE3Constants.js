@@ -7,6 +7,7 @@ import {
 
 import spigotImg from "../../../assets/custom_enchants_3/spigot.png";
 import wiseImg from "../../../assets/custom_enchants_3/wise.png";
+import wisePaymentQr from "../../../assets/custom_enchants_3/wise-payment-qr.png";
 
 export const PluginInformation = {
   title: "Custom Enchantments 3",
@@ -16,7 +17,7 @@ export const PluginInformation = {
   versionHighlight:
     "Full optimization pass across the whole plugin, plus 16 bug fixes. Tested on Minecraft 26.2.",
   supportedVersions: "1.16.4 - 26.2",
-  price: 10.99,
+  price: 21.99,
   currency_symbol: "£",
   author: "JayMar921",
   authorSocial: "https://jayharronabejar.vercel.app/",
@@ -25,7 +26,25 @@ export const PluginInformation = {
   trialLink:
     "https://www.spigotmc.org/resources/%E2%9C%AF-custom-enchantments-3-1-16-free-%E2%9C%AF.89793/",
   trialTitle: "v1.2.1-lite",
-  paypalPaymentLink: "https://www.paypal.com/paypalme/JayMar921",
+  payment: {
+    contactEmail: "jaymarplugins@gmail.com",
+    paymentSubject: "Custom Enchantments 3 Plugin Payment",
+    spigotAccountRequirement:
+      "You must have a Spigot account before paying. Your Spigot username is required to receive the plugin.",
+    exactPaymentNotice:
+      "Pay the exact amount shown. There is no return or refund policy for payments that are less or more than the required amount.",
+    paypal: {
+      link: "https://www.paypal.com/paypalme/JayMar921",
+      discountPercent: 3,
+      currencySymbol: "£",
+    },
+    wise: {
+      link: "https://wise.com/pay/me/jayharronmara",
+      qr: wisePaymentQr,
+      discountPercent: 5,
+      currencySymbol: "£",
+    },
+  },
   supportLink: [
     {
       title: "Buy JayMar a coffee",
@@ -55,6 +74,13 @@ export const PluginInformation = {
         setSubcontent?.("buy through paypal");
       },
       icon: "fa-brands fa-paypal text-blue-400",
+    },
+    {
+      title: "Wise",
+      onClick: (setSubcontent) => {
+        setSubcontent?.("buy through wise");
+      },
+      logo: wiseImg,
     },
   ],
   classes: {
@@ -135,7 +161,7 @@ export const PluginInformation = {
         skills: [
           {
             title: "WIZARD MASTERY",
-            description: "Increase cassting range / spell radius by 0.2 blocks",
+            description: "Increase casting range / spell radius by 0.2 blocks",
           },
           {
             title: "HOURGLASS",
