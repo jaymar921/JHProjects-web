@@ -17,7 +17,7 @@ export const PluginInformation = {
   versionHighlight:
     "Full optimization pass across the whole plugin, plus 16 bug fixes. Tested on Minecraft 26.2.",
   supportedVersions: "1.16.4 - 26.2",
-  price: 21.99,
+  price: 18.99,
   currency_symbol: "£",
   author: "JayMar921",
   authorSocial: "https://jayharronabejar.vercel.app/",
