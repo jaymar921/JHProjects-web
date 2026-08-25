@@ -67,6 +67,10 @@ function CE3Page() {
   const [subcontent, setSubcontent] = useState("none");
   const [showCommand, setShowCommand] = useState(false);
 
+  const isPageOnly =
+    typeof window !== "undefined" &&
+    new URLSearchParams(window.location.search).get("page_only") === "true";
+
   useEffect(() => {
     document.title = "Custom Enchantments 3";
 
@@ -144,6 +148,18 @@ function CE3Page() {
   return (
     <div className="relative w-full overflow-x-hidden bg-[#0e1014]">
       <style>{pageStyles}</style>
+      <style>{`.back-btn{position:absolute;top:10px;left:10px;z-index:60} @media (max-width:640px){.back-btn{top:5px;left:5px}}`}</style>
+
+      {!isPageOnly && (
+        <button
+          className="back-btn pixel-font rounded border border-slate-600 bg-[rgba(0,0,0,0.6)] px-2 py-1 text-xs sm:text-sm text-slate-200 hover:bg-[rgba(255,255,255,0.03)]"
+          onClick={() => (window.location.href = "/")}
+          aria-label="Back to home"
+        >
+          <i className="fa-solid fa-arrow-left mr-2"></i>
+          Back
+        </button>
+      )}
 
       {/* ---------------------------------------------------------- HERO */}
       <header className="relative flex min-h-[560px] w-full place-items-center justify-center overflow-hidden md:min-h-[640px]">
