@@ -1,0 +1,21 @@
+# https://jhprojects.vercel.app/robots.txt
+
+User-agent: *
+Allow: /
+
+# The plugin pages are the point of the site, so they are named explicitly
+# rather than left to the catch all above.
+Allow: /customenchantments3
+Allow: /kumandras-economy
+Allow: /donation
+
+# This is a client rendered single page app. A crawler that cannot fetch the
+# bundle and the images has nothing to index, so the build output stays open.
+Allow: /assets/
+Allow: /*.js$
+Allow: /*.css$
+Allow: /*.svg$
+Allow: /*.png$
+Allow: /*.jpg$
+
+Sitemap: https://jhprojects.vercel.app/sitemap.xml

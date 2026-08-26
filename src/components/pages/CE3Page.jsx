@@ -82,7 +82,9 @@ function CE3Page() {
     new URLSearchParams(window.location.search).get("page_only") === "true";
 
   useEffect(() => {
-    document.title = "Custom Enchantments 3";
+    // Kept in step with the <title> in customenchantments3.html, so a crawler
+    // that renders the page does not see a different title to the served one.
+    document.title = "Custom Enchantments 3 | 134 Enchantments, 134 Treasures";
 
     let link = document.querySelector("link[rel~='icon']");
     if (!link) {
