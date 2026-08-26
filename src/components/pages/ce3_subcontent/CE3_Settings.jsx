@@ -22,7 +22,14 @@ const FILES = [
   ["lang.yml", "Every line of text your players will read"],
   ["PlayerData.yml", "Skills, allies and RACO balances"],
   ["ShopConfig.yml", "The shop entities you have placed"],
-  ["QuestConfig.yml", "Quests and which shop hands them out"],
+  [
+    "QuestConfig.yml",
+    "Quests and which shop hands them out, 25 seeded on a fresh server",
+  ],
+  [
+    "bandits.yml",
+    "Bandit camps: crew size, difficulty, drops and their 100 names",
+  ],
   ["ExpConfig.yml", "XP per mob type and per block type"],
   ["LootItems.yml", "Your custom loot item definitions"],
   ["LootPlots.yml", "Saved loot plot structures"],
@@ -115,6 +122,14 @@ ShowActionBar: true                # health, speed and mana readout
 GenerateLootPlots: true      # rebuild saved plots near players
 CustomLootingAllowed: true   # inject LootItems.yml into chests
 `}
+              <TerminalLabel>[Treasures, new in 1.5.0]</TerminalLabel>
+              {`
+TreasureItemChance: 0.05        # chance a chest slot gives a treasure
+TreasurePhysicalDamageCap: 6.0  # 0 keeps physical_dmg decorative
+TreasureMagicalDamageCap: 6.0   # 0 restores the old uncapped total
+TreasurePhysicalDefenseScale: 0.25
+MagicWandNoEnchantOnCraft: false # true crafts a blank wand
+`}
             </code>
           </pre>
         </Terminal>
@@ -134,9 +149,7 @@ CustomLootingAllowed: true   # inject LootItems.yml into chests
           accent="amber"
         />
         <Panel accent="amber" className="mt-6 p-5">
-          <SubHeading accent="amber">
-            /ce settings protection add
-          </SubHeading>
+          <SubHeading accent="amber">/ce settings protection add</SubHeading>
           <Body className="pt-3 text-justify">
             Draw a box around anything you want left alone. Inside it the plugin
             blocks the following:
@@ -160,9 +173,7 @@ CustomLootingAllowed: true   # inject LootItems.yml into chests
 
       <Section>
         <Panel accent="lime" className="p-6 text-center">
-          <SubHeading accent="lime">
-            DEFAULT AND COMMUNITY CONFIGS
-          </SubHeading>
+          <SubHeading accent="lime">DEFAULT AND COMMUNITY CONFIGS</SubHeading>
           <Body className="mx-auto max-w-xl pt-3">
             Grab a fresh copy of the default settings, or share the setup you
             have tuned so other server owners can start from it.

@@ -1,5 +1,112 @@
 export const CE3_Logs = [
   {
+    update_version: "1.5.0",
+    release_date: "08/26/2026",
+    changes: [
+      {
+        update: "Read this first",
+        sublist: [
+          "This is the big content release. 1.4.0 made the plugin fast and deliberately added nothing, this one is the opposite. Enchantments go from 58 to 134 and treasure items go from 34 to 134",
+          "There are four new systems in here as well: bandit camps on loot plots, 25 quests that ship ready to hand out, a price chart in the currency screen, and a switch for how the magic wand comes off the crafting bench",
+          "Your config carries over. On the first start after updating the plugin rewrites config.yml with the new keys and keeps every value you had set, saving the old file as config.yml.old. Prices, rates and toggles all survive",
+          "Two treasure stats start doing something. 'physical_dmg' and 'physical_def' have been written onto treasure items and shown in their lore since the feature shipped, and nothing ever read them back. They reach the damage code now. Set TreasurePhysicalDamageCap: 0 and TreasurePhysicalDefenseScale: 0 if you would rather they stayed decorative",
+          "And a third one gets a ceiling. 'magical_dmg' always worked, but it is summed across everything you carry and had no cap, so a stack of one treasure was unlimited magic damage. TreasureMagicalDamageCap defaults to 6.0, set it to 0 for the old uncapped behaviour",
+          "Treasure drops are weighted now. Which treasure you get used to be a flat random pick, which was fine at 34 items. At 134 it would make the best item in the game exactly as likely as a Dried Fish, so there are five tiers with weights you control from config",
+        ],
+      },
+      {
+        update: "76 New Enchantments [23 tools, 30 weapons, 23 armor]",
+        sublist: [
+          "Tools: Widebore mines a 3x3 two blocks deep. Quarryjack builds up haste the longer you keep digging. Kilnfire drops ore already smelted. Scytheswing harvests the whole row of crops. Drillseed replants the row behind you. Sifting Hands pulls something worth having out of gravel and sand, very occasionally a treasure. Hairsbreadth stops your tool at one durability instead of letting it break. Ironmonger makes it cheaper at the anvil",
+          "Swords, spears and maces: Grudgework stacks bonus damage the longer you stay on one target. Bloodtithe costs you a heart per swing and pays back far more. Ironjaw guarantees a floor of damage that no defence can stop. Ribcracker turns your fall distance into a mace hit. Lancework also strikes whoever is standing behind them. Skullsplit occasionally leaves the head",
+          "Bows: Quiverburst fires two extra arrows every few shots. Tetherline ties the target to the spot it was hit. Ashfletch leaves a blinding cloud where it lands. Longdraw rewards holding the shot past full draw. Marrowshot ignores part of their magic defence",
+          "Tridents: Tidewrack leaves a whirlpool that pulls everything in. Stormhook drags the target back to you. Skipstone ricochets off a wall into the nearest enemy",
+          "Wands: eight new spells. Chainarc is a bolt that jumps between targets, losing strength each jump. Gravewell opens a patch of ground that drains them and heals you, capped so it cannot be farmed. Mirrorstep swaps you with whatever you are looking at. Cindershroud reduces your damage taken and sets melee attackers alight. Hushfall takes away a target's abilities without touching their health. Emberwake, Glasswind and Sundial round it out",
+          "Armor: Deadweight refuses knockback, levitation and pulls, and at level 3 it refuses the ones other CE enchantments cause too. Slagplate converts part of the physical damage you take into magic damage. Backdraft throws everything off you when a big hit lands. Wardweave adds maximum mana per piece. Sprintwell refills mana while you run. Ripostewall sends blocked damage back through the shield",
+          "Two new item classes came with this, so shovels and fishing rods can carry enchantments now",
+          "Every one of them is a config line. Set a price to 0 and it disappears from your server completely, same as always",
+        ],
+      },
+      {
+        update: "100 New Treasure Items",
+        sublist: [
+          "Carrying one is enough, there is nothing to equip. They give mana regen, cooldown reduction, defence, damage, health regen, XP multipliers and RACO on kill",
+          "Every one is new art: a 16x16 sprite drawn for this release, its own name, its own flavour line and its own stat block. No two of them share an effect",
+          "Five themes so the list does not read as one long pirate joke. Pirate call signs like Bosun Whistle and Marooners Coin. Elemental pieces like Rimefang and Solar Filament. Relics like Oathring and Throne Fragment. Oddities like Backward Compass, Jar of Held Breath and Knot That Unties Itself. Cursed things like Nine Fingered Glove and Heart of the Deep Wreck",
+          "Weighted drop table: Common 32 items at about 1 in 1,100 per loot roll, Uncommon 37 at about 1 in 2,500, Rare 44 at about 1 in 6,400, Epic 15 at about 1 in 23,000, Legendary 6 at about 1 in 115,000",
+          "TreasureItemChance is unchanged at 5% and still decides whether a chest slot gives a treasure at all. The five TreasureWeight keys control the rest. Set a tier to 0 to take it out of chest loot entirely",
+        ],
+      },
+      {
+        update: "Bandits",
+        sublist: [
+          "Loot plots used to be a chest and a walk home. There is something guarding them now",
+          "A camp sits dormant on a generated loot plot until a player comes within 15 blocks, then a crew of 2 to 5 spawns and one of them is the leader. Crews are built from zombies, skeletons, wither skeletons and witches, and everyone is named 'CE3-' plus one of 100 pirate style names shipped in bandits.yml: Blackjaw Morgan, Salt Tom Rourke, Gutter Kate. If notifications are on, the chat line names the leader you are about to meet",
+          "They wear helmets, so a camp that generates on the surface is still there when you arrive in daylight. Their gear never drops",
+          "They are a fight, not free loot. An ordinary bandit carries 1.6x a vanilla mob's health and an extra point of damage, a leader carries 3x and an extra 3.5. They also put on a show with effects borrowed from the wand spells: Light Spirit, Death Ray, Fireball, Frost and Nebula, on a chance roll every few seconds",
+          "A bandit never carries or drops a custom enchantment. The abilities are presentation. What they do drop is RACO, and a treasure item on a 6% roll, 30% from the leader, pulled from the same weighted table chest loot uses so rare stays rare",
+          "Everything above is a line in bandits.yml: crew size, spawn and despawn radius, the 900 second camp cooldown, health and damage multipliers, which mobs can appear, which mobs can lead, the ability list and chance, both drop chances, the RACO payouts and the name list. 'Enabled: false' at the top turns the whole thing off",
+        ],
+      },
+      {
+        update: "25 Quests, Already Written",
+        sublist: [
+          "The QUEST shop entity worked, but a fresh server had an empty QuestConfig.yml, so it had nothing to hand out until an admin sat down and authored quests through the chat prompts",
+          "25 quests are seeded on first start now. Spawning the entity is enough",
+          "They are ordinary quests, identical to what '/ce quest add' produces, so you can list, edit and remove them the usual way. They only get written when the quest list is empty, so a server that already has quests is never touched, and quests you delete stay deleted",
+          "Rewards are deliberately modest: vanilla items and a small RACO payout, sitting below what the exchange pays for the same time spent. Nothing in the set awards a custom enchantment, a treasure item, or anything with a stat line on it. They exist to give a new player a reason to go somewhere, not to shortcut progression",
+        ],
+      },
+      {
+        update: "The RACO Price Chart",
+        sublist: [
+          "Every trade has been logged and rolled up into hourly OHLC candles since 1.3.0, and nothing ever showed them to anyone",
+          "The currency exchange has a chart item in the middle now. Hover it and the tooltip draws the price history as a candlestick chart in block characters, up to 24 hourly candles over nine rows of price, with the last close, the high, the low and the number of coins in circulation underneath. Green closed up, red closed down",
+          "It reads the candles the plugin was already building. No new aggregation, no second set of numbers, and it changes no economy behaviour at all",
+        ],
+      },
+      {
+        update: "The Magic Wand Craft Toggle",
+        sublist: [
+          "New key, MagicWandNoEnchantOnCraft, default false",
+          "A freshly crafted magic wand has always come out with Fire Ball already on it as its primary enchantment. Set this to true and it comes out blank, so wand progression starts at the shop like every other item class. The default keeps today's behaviour, so existing servers see no change unless they ask for one",
+        ],
+      },
+      {
+        update: "The Resource Pack",
+        sublist: [
+          "120 new sprites. 100 for the new treasures, and 20 for the original items that never had a texture at all",
+          "There is a fix in here worth knowing about. The pack had treasure textures, but nothing pointing at them in the format Minecraft 1.21.4 and later actually reads, so on a modern server every treasure item rendered as its plain vanilla material. All 134 are wired up properly now",
+          "The original 34 keep their existing texture ids on purpose. Renumbering them would have blanked the texture on every treasure already sitting in someone's inventory",
+        ],
+      },
+      {
+        update: "Shops Look Different",
+        sublist: [
+          "Shop screens used to fill every slot they were not putting a book in with a glass pane. A shop with six books in a double chest showed six books and twenty two panes",
+          "They draw a frame now and leave the unused space empty. Books fill left to right with no gaps",
+          "Several shops grew to fit the new books. Armor is the only class that outgrew a double chest, at 29 books against 28 slots, so it has a second page with a Next sign. The magic shop is unchanged, its books sit in three separate groups and the old layout suits it",
+        ],
+      },
+      {
+        update: "Also Fixed",
+        sublist: [
+          "'/ce reload' used to stack a duplicate set of tutorial and crafting screens every single time it ran. The list never got cleared, so it grew for the life of the server and the treasure pages could end up showing stale items",
+          "The treasure pool now rebuilds on reload, so a drop weight change takes effect without restarting",
+          "A handful of potion, particle and damage constants that Minecraft renamed after 1.16.4 are resolved by name now, so they cannot crash a listener on an older server",
+        ],
+      },
+      {
+        update: "Compatibility",
+        sublist: [
+          "Spigot and Paper, 1.16.4 through to 26.2, unchanged. No other plugins required, and there is still no NMS anywhere in the plugin",
+          "Everything from 1.4.0's optimization pass is still in place. A sword swing still costs a handful of reads instead of several hundred, loot plots still read chunk data instead of scanning millions of blocks, and the 16 bugs that release fixed are still fixed",
+        ],
+      },
+    ],
+    note: "Tested on Minecraft 26.2. Please back up your plugins/CustomEnchantments3 folder before updating, and let me know if anything acts up in the discussions page.",
+  },
+  {
     update_version: "1.4.0",
     release_date: "08/22/2026",
     changes: [

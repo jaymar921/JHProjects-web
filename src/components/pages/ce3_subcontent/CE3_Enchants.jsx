@@ -34,6 +34,7 @@ const FILTERS = [
   { value: EnchantType.HOE, label: "Hoe" },
   { value: EnchantType.FISHING_ROD, label: "Fishing Rod" },
   { value: EnchantType.MACE, label: "Mace" },
+  { value: EnchantType.SPEAR, label: "Spear" },
 ];
 
 const byTitle = (a, b) => a.title.localeCompare(b.title);
@@ -70,7 +71,7 @@ function CE3_Enchants() {
     return Enchantments.filter(
       (enchantment) =>
         matches(enchantment, enchantType) &&
-        (!term || enchantment.title.toLowerCase().includes(term))
+        (!term || enchantment.title.toLowerCase().includes(term)),
     ).sort(byTitle);
   }, [enchantType, search]);
 

@@ -60,10 +60,9 @@ function CE3_LootingPlots() {
           <div className="w-full pt-6 lg:w-1/2 lg:pt-0">
             <Body className="text-justify">
               Loot plots are structures you build yourself and hand to the
-              plugin. Turn{" "}
-              <Cmd accent="sky">GenerateLootPlots</Cmd> on and it rebuilds your
-              saved plots near players as they explore, then fills the chests
-              inside from your loot table.
+              plugin. Turn <Cmd accent="sky">GenerateLootPlots</Cmd> on and it
+              rebuilds your saved plots near players as they explore, then fills
+              the chests inside from your loot table.
             </Body>
             <div className="pt-5">
               <SubHeading accent="sky">WHERE THEY CAN SPAWN</SubHeading>
@@ -74,6 +73,16 @@ function CE3_LootingPlots() {
                   </Chip>
                 ))}
               </div>
+            </div>
+            <div className="pt-5">
+              <Note accent="rose" icon="fa-solid fa-skull">
+                Since 1.5.0 the chest is not the only thing waiting for you. A
+                bandit camp of 2 to 5 sits dormant on a generated plot until you
+                walk within 15 blocks of it, and one of them leads. Set{" "}
+                <Cmd accent="rose">Enabled: false</Cmd> in{" "}
+                <Cmd accent="rose">bandits.yml</Cmd> if you want the old quiet
+                plots back.
+              </Note>
             </div>
             <div className="pt-5">
               <Note accent="lime" icon="fa-solid fa-gauge-high">

@@ -117,7 +117,10 @@ function CE3_Shops() {
                 look.
               </Step>
               <Step n="2" accent="amber">
-                Run <Cmd accent="amber">/ce shop add [mobType] [shopType] [shopName]</Cmd>
+                Run{" "}
+                <Cmd accent="amber">
+                  /ce shop add [mobType] [shopType] [shopName]
+                </Cmd>
               </Step>
               <Step n="3" accent="amber">
                 The shop spawns at your position, pointing the way you were
@@ -213,14 +216,24 @@ function CE3_Shops() {
               within 8 blocks.
             </Bullet>
             <Bullet accent="amber">
-              Finish the count, walk back to the shop that issued it, and collect
-              RACO, an item and XP.
+              Finish the count, walk back to the shop that issued it, and
+              collect RACO, an item and XP.
             </Bullet>
             <Bullet accent="amber">
               Turning a quest down puts it on cooldown for as long as
               SelectQuestCoolDown says.
             </Bullet>
           </Bullets>
+          <div className="pt-4">
+            <Note accent="lime" icon="fa-solid fa-scroll">
+              You do not have to write any of this yourself to get started. From
+              1.5.0 a fresh server is seeded with 25 quests on first start, so
+              spawning the entity is enough. They are ordinary quests, identical
+              to what <Cmd accent="lime">/ce quest add</Cmd> produces, and they
+              are only written when the quest list is empty, so a server that
+              already has quests is never touched.
+            </Note>
+          </div>
         </Panel>
       </Section>
 

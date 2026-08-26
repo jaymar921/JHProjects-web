@@ -95,9 +95,13 @@ function CE3_BuyEnchantment() {
           </Bullets>
           <div className="pt-4">
             <Note accent="sky" icon="fa-solid fa-chart-line">
-              Every trade is logged, and every 30 minutes those trades are rolled
-              up into hourly candles. The market has a real history you can look
-              back on.
+              Every trade is logged, and every 30 minutes those trades are
+              rolled up into hourly candles. The market has a real history you
+              can look back on. Since 1.5.0 the currency exchange has a chart
+              item in the middle of it: hover that and the tooltip draws up to
+              24 hourly candles in block characters, with the last close, the
+              high, the low and the coins in circulation underneath. Green
+              closed up, red closed down.
             </Note>
           </div>
         </Panel>

@@ -101,7 +101,7 @@ function CE3_CustomItems() {
         <SectionHeading
           icon="fa-solid fa-gem"
           title="Treasure artifacts"
-          subtitle="34 named items, each carrying its own passive bonus."
+          subtitle="134 named items, each carrying its own passive bonus. 100 of them are new in 1.5.0."
           accent="rose"
         />
         <Panel accent="rose" className="mt-6 p-5">

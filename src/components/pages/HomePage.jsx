@@ -27,7 +27,7 @@ function HomePage() {
           >
             <h2 className="font-semibold">Kumandra's Economy</h2>
             <p className="text-xs text-slate-500">
-              Blue, glassy economy plugin — free to play. Click for details.
+              Blue, glassy economy plugin, free to play. Click for details.
             </p>
           </a>
         </div>

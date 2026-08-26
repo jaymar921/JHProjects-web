@@ -3,6 +3,7 @@ import enchantments from "./enchantments.svg";
 import shopsQuests from "./shops-quests.svg";
 import lootPlots from "./loot-plots.svg";
 import treasures from "./treasures.svg";
+import bandits from "./bandits.svg";
 import racoEconomy from "./raco-economy.svg";
 import configuration from "./configuration.svg";
 import crafting from "./crafting.svg";
@@ -13,6 +14,7 @@ export {
   shopsQuests,
   lootPlots,
   treasures,
+  bandits,
   racoEconomy,
   configuration,
   crafting,
