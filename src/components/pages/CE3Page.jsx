@@ -24,6 +24,7 @@ import CE3_CustomItems from "./ce3_subcontent/CE3_CustomItems";
 import CE3_DonatePi from "./ce3_subcontent/CE3_DonatePi";
 import CE3_BugReport from "./ce3_subcontent/CE3_BugReport";
 import CE3_Bandits from "./ce3_subcontent/CE3_Bandits";
+import CE3_TrialGate from "./ce3_subcontent/CE3_TrialGate";
 import CE3_BuyPlugin from "../page_components/CE3_BuyPlugin";
 import CE3_BUY_PayPal from "./ce3_subcontent/CE3_BUY_PayPal";
 import CE3_BUY_Wise from "./ce3_subcontent/CE3_BUY_Wise";
@@ -109,6 +110,10 @@ function CE3Page() {
         return <CE3_Support setSubcontent={setSubcontent} />;
       case "buy plugin":
         return <CE3_BuyPlugin setSubcontent={setSubcontent} />;
+      case "free trial":
+        return (
+          <CE3_TrialGate setSubcontent={setSubcontent} downloads={downloads} />
+        );
       case "buy through paypal":
         return <CE3_BUY_PayPal setSubcontent={setSubcontent} />;
       case "buy through wise":
@@ -226,7 +231,7 @@ function CE3Page() {
             </button>
             <button
               className="pixel-font w-full max-w-[260px] rounded-none border-2 border-slate-400/50 bg-[rgba(0,0,0,0.6)] py-3 text-[10px] tracking-widest text-slate-200 transition-all hover:-translate-y-0.5 hover:border-slate-200 hover:bg-[rgba(255,255,255,0.08)] md:w-auto md:px-6 md:text-xs"
-              onClick={() => RedirectTo(PluginInformation.trialLink)}
+              onClick={() => setSubcontent("free trial")}
             >
               <i className="fa-solid fa-file-arrow-down pr-2"></i>
               PLAY FREE
@@ -632,7 +637,7 @@ function CE3Page() {
               buttonIcon="fa-solid fa-file-arrow-down"
               buttonLabel="Try Plugin"
               hint={`v${downloads.liteVersion}, ${formatDownloads(downloads.lite)} downloads`}
-              onClick={() => RedirectTo(PluginInformation.trialLink)}
+              onClick={() => setSubcontent("free trial")}
             />
             <ActionCard
               accent="rose"
