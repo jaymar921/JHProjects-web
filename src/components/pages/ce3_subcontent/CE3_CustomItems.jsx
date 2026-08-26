@@ -17,7 +17,7 @@ import {
   Shot,
   StatChip,
   SubHeading,
-} from "../../page_components/CE3_UIKit";
+} from "../../page_components/PixelUIKit";
 
 const LOOT_ITEMS_YML =
   "https://github.com/JnH-Projects/Custom-Enchantments-3/blob/main/loot_items/default/LootItems.yml";

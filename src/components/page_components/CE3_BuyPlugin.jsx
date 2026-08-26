@@ -8,7 +8,7 @@ import {
   Section,
   SectionHeading,
   StatChip,
-} from "./CE3_UIKit";
+} from "./PixelUIKit";
 
 const ACCENTS = ["lime", "sky"];
 const { payment } = PluginInformation;

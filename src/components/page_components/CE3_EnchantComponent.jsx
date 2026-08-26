@@ -1,4 +1,4 @@
-import { Corners } from "./CE3_UIKit";
+import { Corners } from "./PixelUIKit";
 
 /** Colour an enchantment card by the first item class it applies to. */
 const ACCENT_BY_TYPE = {

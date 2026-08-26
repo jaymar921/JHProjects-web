@@ -1,18 +1,39 @@
 import { useState } from "react";
-import { getYearsAndMonthsFromDate } from "../../../utils/PageUtility";
+import { getYearsAndMonthsFromDate } from "../utils/PageUtility";
 
-function Changelog({ log, className = "", isLatest = false }) {
+/**
+ * One release in a patch note list. Shared by every plugin page, so the accent
+ * is passed in rather than baked in: CE3 runs lime, Kumandra's Economy runs
+ * emerald. Written out in full below so Tailwind keeps the classes.
+ */
+const ACCENTS = {
+  lime: {
+    border: "border-lime-400/60",
+    text: "text-lime-300",
+    badge: "border-lime-400/50 bg-lime-500/15 text-lime-300",
+    marker: "text-lime-500",
+  },
+  emerald: {
+    border: "border-emerald-400/60",
+    text: "text-emerald-300",
+    badge: "border-emerald-400/50 bg-emerald-500/15 text-emerald-300",
+    marker: "text-emerald-500",
+  },
+};
+
+function Changelog({ log, className = "", isLatest = false, accent = "lime" }) {
   const [showContent, setShowContent] = useState(isLatest);
+  const a = ACCENTS[accent] ?? ACCENTS.lime;
 
-  const accent = log.release_date
+  const border = log.release_date
     ? isLatest
-      ? "border-lime-400/60"
+      ? a.border
       : "border-slate-700/70"
     : "border-amber-400/60";
 
   return (
     <div
-      className={`relative border ${accent} bg-[rgba(11,13,17,0.6)] transition-colors hover:border-slate-500 ${className}`}
+      className={`relative border ${border} bg-[rgba(11,13,17,0.6)] transition-colors hover:border-slate-500 ${className}`}
     >
       <button
         className="flex w-full rounded-none place-items-center gap-3 border-0 bg-transparent px-4 py-3 text-left hover:bg-[rgba(255,255,255,0.04)]"
@@ -25,13 +46,15 @@ function Changelog({ log, className = "", isLatest = false }) {
         ></i>
         <span
           className={`pixel-font text-[10px] md:text-sm ${
-            log.release_date ? "text-lime-300" : "text-amber-300"
+            log.release_date ? a.text : "text-amber-300"
           }`}
         >
           v{log.update_version}
         </span>
         {isLatest && log.release_date && (
-          <span className="pixel-font border border-lime-400/50 bg-lime-500/15 px-2 py-1 text-[7px] tracking-widest text-lime-300 md:text-[8px]">
+          <span
+            className={`pixel-font border px-2 py-1 text-[7px] tracking-widest md:text-[8px] ${a.badge}`}
+          >
             LATEST
           </span>
         )}
@@ -52,7 +75,7 @@ function Changelog({ log, className = "", isLatest = false }) {
             {log.release_date ? (
               <span className="text-purple-300">{log.release_date}</span>
             ) : (
-              <span className="text-lime-300">In development</span>
+              <span className={a.text}>In development</span>
             )}
           </p>
 
@@ -71,7 +94,7 @@ function Changelog({ log, className = "", isLatest = false }) {
                       key={`${log.update_version}-${index}-${subIndex}`}
                       className="py-1 text-[11px] leading-relaxed text-slate-300 md:text-sm"
                     >
-                      <span className="pr-2 text-lime-500">&gt;</span>
+                      <span className={`pr-2 ${a.marker}`}>&gt;</span>
                       {item}
                     </li>
                   ))}

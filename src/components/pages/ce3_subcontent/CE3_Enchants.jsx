@@ -10,7 +10,7 @@ import {
   SectionHeading,
   Shot,
   StatChip,
-} from "../../page_components/CE3_UIKit";
+} from "../../page_components/PixelUIKit";
 
 const FILTERS = [
   { value: "all", label: "All Enchants" },

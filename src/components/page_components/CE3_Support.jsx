@@ -6,7 +6,7 @@ import {
   PixelButton,
   Section,
   SectionHeading,
-} from "./CE3_UIKit";
+} from "./PixelUIKit";
 
 const ACCENTS = ["amber", "sky", "lime"];
 

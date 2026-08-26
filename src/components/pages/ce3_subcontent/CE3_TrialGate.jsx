@@ -9,7 +9,7 @@ import {
   Section,
   SectionHeading,
   SubHeading,
-} from "../../page_components/CE3_UIKit";
+} from "../../page_components/PixelUIKit";
 
 /**
  * Shown when someone asks for the free lite build. It does not block the

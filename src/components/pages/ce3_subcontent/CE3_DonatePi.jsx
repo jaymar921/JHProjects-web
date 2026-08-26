@@ -8,7 +8,7 @@ import {
   Section,
   SectionHeading,
   SubHeading,
-} from "../../page_components/CE3_UIKit";
+} from "../../page_components/PixelUIKit";
 
 function CE3_DonatePi({ setSubcontent }) {
   const wallet = import.meta.env.VITE_PI_WALLET_ADDRESS ?? "";

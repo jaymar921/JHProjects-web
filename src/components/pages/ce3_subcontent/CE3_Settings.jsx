@@ -13,7 +13,7 @@ import {
   SubHeading,
   Terminal,
   TerminalLabel,
-} from "../../page_components/CE3_UIKit";
+} from "../../page_components/PixelUIKit";
 
 const REPO = "https://github.com/JnH-Projects/Custom-Enchantments-3";
 

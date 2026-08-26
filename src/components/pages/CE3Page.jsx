@@ -39,7 +39,7 @@ import {
   StatChip,
   Terminal,
   TerminalLabel,
-} from "../page_components/CE3_UIKit";
+} from "../page_components/PixelUIKit";
 import * as FeatureArt from "../../assets/custom_enchants_3/features";
 import * as ReleaseArt from "../../assets/custom_enchants_3/marketing_1_5_0";
 

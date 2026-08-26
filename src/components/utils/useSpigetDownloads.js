@@ -106,3 +106,43 @@ export function useSpigetDownloads() {
 
   return downloads;
 }
+
+/** The Kumandra's Economy listing. Free, so there is only the one resource. */
+export const KUMANDRA_RESOURCE = 96466;
+
+/** Shown when the Kumandra listing cannot be reached. */
+export const KUMANDRA_FALLBACK = {
+  downloads: 3200,
+  version: "1.7",
+};
+
+/**
+ * The same lookup as useSpigetDownloads, for a single listing. Returns the
+ * download count, the newest posted version name and a "live" flag, with the
+ * fallback already in state so a caller never has to render a loading branch.
+ */
+export function useSpigetResource(
+  resourceId,
+  fallback = { downloads: 0, version: "" },
+) {
+  const [resource, setResource] = useState({ ...fallback, live: false });
+
+  useEffect(() => {
+    const controller = new AbortController();
+
+    Promise.all([
+      readDownloads(resourceId, controller.signal),
+      readLatestVersion(resourceId, controller.signal),
+    ])
+      .then(([downloads, version]) => {
+        setResource({ downloads, version, live: true });
+      })
+      .catch(() => {
+        // Offline, rate limited or blocked. The fallback is already in state.
+      });
+
+    return () => controller.abort();
+  }, [resourceId]);
+
+  return resource;
+}

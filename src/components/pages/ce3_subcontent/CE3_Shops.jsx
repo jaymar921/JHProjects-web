@@ -17,7 +17,7 @@ import {
   Step,
   Steps,
   SubHeading,
-} from "../../page_components/CE3_UIKit";
+} from "../../page_components/PixelUIKit";
 
 const MOB_TYPES = ["HORSE", "PIGLIN", "PILLAGER", "SHEEP", "VILLAGER", "WOLF"];
 

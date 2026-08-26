@@ -10,7 +10,7 @@ import {
   Step,
   Steps,
   SubHeading,
-} from "../../page_components/CE3_UIKit";
+} from "../../page_components/PixelUIKit";
 
 const { payment } = PluginInformation;
 const wisePrice =

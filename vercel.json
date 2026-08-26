@@ -5,6 +5,10 @@
       "destination": "/customenchantments3.html"
     },
     {
+      "source": "/kumandras-economy",
+      "destination": "/kumandras-economy.html"
+    },
+    {
       "source": "/(.*)",
       "destination": "/"
     }

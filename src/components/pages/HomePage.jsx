@@ -25,9 +25,10 @@ function HomePage() {
             href="/kumandras-economy"
             className="block rounded-lg border p-4 hover:shadow"
           >
-            <h2 className="font-semibold">Kumandra's Economy</h2>
+            <h2 className="font-semibold">Kumandra&apos;s Economy</h2>
             <p className="text-xs text-slate-500">
-              Blue, glassy economy plugin, free to play. Click for details.
+              A whole server economy in one free jar. Jobs, trading, delivery,
+              shops and quests.
             </p>
           </a>
         </div>

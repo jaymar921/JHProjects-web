@@ -14,7 +14,7 @@ import {
   SubHeading,
   Terminal,
   TerminalLabel,
-} from "../../page_components/CE3_UIKit";
+} from "../../page_components/PixelUIKit";
 
 /** A sample of the 100 names shipped in bandits.yml. */
 const SAMPLE_NAMES = [

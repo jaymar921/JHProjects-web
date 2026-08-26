@@ -14,7 +14,7 @@ import {
   Shot,
   StatChip,
   SubHeading,
-} from "../../page_components/CE3_UIKit";
+} from "../../page_components/PixelUIKit";
 
 /** Each class keeps the accent it is drawn with in the feature art. */
 const ACCENT_BY_CLASS = ["rose", "lime", "sky"];

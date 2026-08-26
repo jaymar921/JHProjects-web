@@ -8,16 +8,20 @@ export default defineConfig({
   build: {
     rollupOptions: {
       /**
-       * Two entry points, one app. customenchantments3.html carries the Open
-       * Graph tags for its own link preview, because the crawlers that build
-       * those previews do not run JavaScript and would otherwise only ever see
-       * index.html. vercel.json serves it for /customenchantments3.
+       * Three entry points, one app. Each plugin page carries the Open Graph
+       * tags for its own link preview, because the crawlers that build those
+       * previews do not run JavaScript and would otherwise only ever see
+       * index.html. vercel.json serves each one for its route.
        */
       input: {
         main: resolve(import.meta.dirname, "index.html"),
         customenchantments3: resolve(
           import.meta.dirname,
           "customenchantments3.html",
+        ),
+        kumandrasEconomy: resolve(
+          import.meta.dirname,
+          "kumandras-economy.html",
         ),
       },
     },

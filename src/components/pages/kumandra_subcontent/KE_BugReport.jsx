@@ -1,3 +1,4 @@
+import { PluginInformation } from "../../contants/kumandra/KumandraConstants";
 import {
   Body,
   Bullet,
@@ -11,26 +12,24 @@ import {
   Terminal,
   TerminalLabel,
 } from "../../page_components/PixelUIKit";
-import { PluginInformation } from "../../contants";
 
-const NEW_ISSUE =
-  "https://github.com/JnH-Projects/Custom-Enchantments-3/issues/new/choose";
-const CONTACT_EMAIL = PluginInformation.payment.contactEmail;
+const CONTACT_EMAIL = PluginInformation.contactEmail;
 
-function CE3_BugReport() {
+function KE_BugReport() {
   return (
     <div className="w-full pb-6">
       <Section>
         <SectionHeading
           icon="fa-solid fa-bug"
           title="Found a bug?"
-          subtitle="Version 1.4.0 shipped 16 fixes that all started as reports like yours."
+          subtitle="A 2022 build meeting a 2026 server is exactly the kind of thing worth reporting."
           accent="rose"
         />
         <Body className="pt-5 text-justify">
-          If something is broken, the fastest way to get it fixed is to tell the
-          developer exactly what happened. A good report usually gets turned
-          around in a release or two.
+          The rough edges the developer already knows about are listed on the
+          roadmap on the main page, and most of them are being worked on. What
+          is genuinely useful is the thing nobody has hit yet, on your setup,
+          with your plugins.
         </Body>
       </Section>
 
@@ -38,7 +37,9 @@ function CE3_BugReport() {
         <Terminal title="What to include in your report" className="mt-2">
           <pre>
             <code className="text-[10px] md:text-sm" lang="md">
-              <TerminalLabel>[BUG REPORTING REQUIREMENT]</TerminalLabel>
+              <TerminalLabel accent="emerald">
+                [BUG REPORTING REQUIREMENT]
+              </TerminalLabel>
               {`
 > DESCRIPTION
   - A clear and concise description of what the bug is.
@@ -47,7 +48,9 @@ function CE3_BugReport() {
 > SCREENSHOT
   - Anything visual helps. Error messages help the most.
 > SERVER VERSION
-  - Lets the developer track down a version specific bug.
+  - Spigot or Paper, and which Minecraft version.
+> WHICH SYSTEM
+  - Balance, trading, delivery, jobs, quests, shops or storage.
 > ADDITIONAL CONTEXT
   - Other plugins, your config, anything unusual.
 `}
@@ -61,23 +64,31 @@ function CE3_BugReport() {
           <SubHeading accent="amber">BEFORE YOU POST</SubHeading>
           <Bullets className="pt-3">
             <Bullet accent="amber">
-              Check you are on the latest build. Quite a few reports turn out to
-              be something already fixed.
+              Check you are on 1.7, the latest build on the Spigot listing.
             </Bullet>
             <Bullet accent="amber">
-              Copy the full stack trace from your server console if there is
-              one. The first few lines are rarely enough.
+              Confirm you are inside the supported range,{" "}
+              {PluginInformation.supportedVersions}. A newer Minecraft version
+              is a known gap, not a bug, and the port is already on the list.
             </Bullet>
             <Bullet accent="amber">
-              Mention whether you are on Spigot or Paper, and which Minecraft
-              version.
+              Copy the full stack trace from your server console. The first few
+              lines are rarely enough.
+            </Bullet>
+            <Bullet accent="amber">
+              Say whether Vault is installed and which other economy plugin, if
+              any, is running alongside it.
+            </Bullet>
+            <Bullet accent="amber">
+              Say whether you are on flat file storage or MySQL. A surprising
+              number of reports turn out to be one or the other.
             </Bullet>
           </Bullets>
           <div className="pt-4">
             <Note accent="sky" icon="fa-solid fa-comments">
-              Not sure it is a bug? Open an issue anyway. A question that turns
-              out to be a config problem is still useful, since it usually means
-              the docs need work.
+              Not sure it is a bug? Send it anyway. A report that turns
+              out to be a config problem usually means the documentation needs
+              work.
             </Note>
           </div>
         </Panel>
@@ -94,25 +105,21 @@ function CE3_BugReport() {
             >
               {CONTACT_EMAIL}
             </a>{" "}
-            with the template below when you need to contact the developer
-            directly.
+            with the template below. It is the most direct way to reach the
+            developer.
           </Body>
-          <Note accent="rose" icon="fa-solid fa-plug-circle-xmark">
-            We do not provide support for third-party plugins. Custom
-            Enchantments 3 is a standalone plugin and is not responsible for
-            compatibility issues caused by another plugin.
-          </Note>
           <Terminal title="Email template" className="mt-4">
             <pre>
               <code className="text-[10px] leading-relaxed text-slate-300 md:text-sm">
                 {`To: ${CONTACT_EMAIL}
-Subject: [CE3 BUG] <short description>
+Subject: [KUMANDRA BUG] <short description>
 
 Hello,
 
 Plugin version: <version>
 Minecraft version: <version>
 Server software: <Spigot or Paper>
+Storage: <YAML or MySQL>
 
 Description:
 <What went wrong>
@@ -140,17 +147,17 @@ Thank you.`}
       <Section>
         <Panel accent="rose" className="p-6 text-center">
           <Body className="mx-auto max-w-lg">
-            Reports go through GitHub Issues, where you can follow along and see
-            when the fix lands.
+            You can also post on the plugin&apos;s Spigot discussion page, which
+            has the advantage that other server owners see the answer too.
           </Body>
           <div className="pt-5">
             <PixelButton
               as="a"
-              href={NEW_ISSUE}
+              href={PluginInformation.discussionLink}
               accent="rose"
-              icon="fa-brands fa-github"
+              icon="fa-solid fa-comments"
             >
-              OPEN A NEW ISSUE
+              POST ON SPIGOT
             </PixelButton>
           </div>
         </Panel>
@@ -159,4 +166,4 @@ Thank you.`}
   );
 }
 
-export default CE3_BugReport;
+export default KE_BugReport;

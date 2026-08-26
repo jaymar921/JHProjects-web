@@ -1,6 +1,7 @@
 
 /**
- * Shared "HUD" building blocks for the Custom Enchantments 3 page.
+ * Shared "HUD" building blocks for the plugin pages. Custom Enchantments 3
+ * runs on lime and purple, Kumandra's Economy on emerald and amber.
  * Every accent below is written out in full so Tailwind keeps the class.
  */
 const ACCENTS = {
@@ -43,6 +44,26 @@ const ACCENTS = {
     button:
       "border-sky-400/40 text-sky-200 hover:border-sky-300 hover:bg-sky-400/15",
     glow: "[text-shadow:0_0_14px_rgba(56,189,248,0.45)]",
+  },
+  emerald: {
+    text: "text-emerald-300",
+    chip: "border-emerald-400/40 bg-emerald-400/10 text-emerald-300",
+    corner: "border-emerald-400/70",
+    hover:
+      "hover:border-emerald-400/70 hover:shadow-[0_0_25px_rgba(52,211,153,0.22)]",
+    button:
+      "border-emerald-400/40 text-emerald-200 hover:border-emerald-300 hover:bg-emerald-400/15",
+    glow: "[text-shadow:0_0_14px_rgba(52,211,153,0.45)]",
+  },
+  teal: {
+    text: "text-teal-300",
+    chip: "border-teal-400/40 bg-teal-400/10 text-teal-300",
+    corner: "border-teal-400/70",
+    hover:
+      "hover:border-teal-400/70 hover:shadow-[0_0_25px_rgba(45,212,191,0.22)]",
+    button:
+      "border-teal-400/40 text-teal-200 hover:border-teal-300 hover:bg-teal-400/15",
+    glow: "[text-shadow:0_0_14px_rgba(45,212,191,0.45)]",
   },
   rose: {
     text: "text-rose-300",
@@ -224,9 +245,12 @@ export function Terminal({ title, children, className = "" }) {
   );
 }
 
-export function TerminalLabel({ children }) {
+export function TerminalLabel({ children, accent = "lime" }) {
+  const a = accentOf(accent);
   return (
-    <p className="mt-4 mb-0 w-fit border border-slate-600/60 bg-[rgba(255,255,255,0.05)] px-2 py-1 pixel-font text-[8px] md:text-[10px] text-lime-300">
+    <p
+      className={`mt-4 mb-0 w-fit border border-slate-600/60 bg-[rgba(255,255,255,0.05)] px-2 py-1 pixel-font text-[8px] md:text-[10px] ${a.text}`}
+    >
       {children}
     </p>
   );
@@ -408,5 +432,30 @@ export function Section({ children, className = "" }) {
     <section className={`w-full py-6 ${className}`}>
       <div className="mx-auto w-[94%] md:w-[88%]">{children}</div>
     </section>
+  );
+}
+
+/** A square icon badge in an accent colour. Used for job and feature rows. */
+export function IconBadge({ icon, accent = "lime", className = "" }) {
+  const a = accentOf(accent);
+  return (
+    <span
+      className={`inline-flex h-9 w-9 shrink-0 place-items-center justify-center border-2 text-sm ${a.chip} ${className}`}
+    >
+      <i className={icon}></i>
+    </span>
+  );
+}
+
+/** A key and its value on one line, the way a config file reads. */
+export function KeyValue({ label, value, accent = "lime" }) {
+  const a = accentOf(accent);
+  return (
+    <div className="flex justify-between gap-2 py-1">
+      <span className="text-[10px] text-slate-500 md:text-[11px]">{label}</span>
+      <span className={`pixel-font text-[9px] md:text-[10px] ${a.text}`}>
+        {value}
+      </span>
+    </div>
   );
 }

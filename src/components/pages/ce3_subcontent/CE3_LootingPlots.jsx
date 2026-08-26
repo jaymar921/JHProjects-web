@@ -13,7 +13,7 @@ import {
   Step,
   Steps,
   SubHeading,
-} from "../../page_components/CE3_UIKit";
+} from "../../page_components/PixelUIKit";
 
 const LOOT_PLOT_VIDEO =
   "https://media.githubusercontent.com/media/jaymar921/JHProjects-web/refs/heads/main/src/assets/custom_enchants_3/video/ce_lootingplot.mp4";

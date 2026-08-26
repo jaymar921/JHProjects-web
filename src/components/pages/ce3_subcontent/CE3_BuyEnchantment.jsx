@@ -19,7 +19,7 @@ import {
   SubHeading,
   Terminal,
   TerminalLabel,
-} from "../../page_components/CE3_UIKit";
+} from "../../page_components/PixelUIKit";
 
 const CONFIG_REPO =
   "https://github.com/JnH-Projects/Custom-Enchantments-3/tree/main/config";
