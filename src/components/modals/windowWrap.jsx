@@ -1,7 +1,8 @@
 /**
  * The framed window every sub content panel opens in. Shared by the plugin
  * pages, so the accent is a prop: Custom Enchantments 3 runs lime, Kumandra's
- * Economy runs emerald. Both are written out in full so Tailwind keeps them.
+ * Economy emerald, Custom Warps violet and Fishing Contest cyan. All are
+ * written out in full so Tailwind keeps them.
  */
 const ACCENTS = {
   lime: {
@@ -13,6 +14,16 @@ const ACCENTS = {
     border: "border-emerald-400/40",
     corner: "border-emerald-400/80",
     icon: "text-emerald-400",
+  },
+  violet: {
+    border: "border-violet-400/40",
+    corner: "border-violet-400/80",
+    icon: "text-violet-400",
+  },
+  cyan: {
+    border: "border-cyan-400/40",
+    corner: "border-cyan-400/80",
+    icon: "text-cyan-400",
   },
 };
 

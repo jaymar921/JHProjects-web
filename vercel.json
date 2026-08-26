@@ -9,6 +9,14 @@
       "destination": "/kumandras-economy.html"
     },
     {
+      "source": "/custom-warps",
+      "destination": "/custom-warps.html"
+    },
+    {
+      "source": "/fishing-contest",
+      "destination": "/fishing-contest.html"
+    },
+    {
       "source": "/(.*)",
       "destination": "/"
     }

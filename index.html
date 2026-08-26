@@ -8,11 +8,16 @@
     <!--
       Site level preview. Routes with their own card get their own entry file,
       see customenchantments3.html. Everything else falls back to this one.
+
+      Its og:image is the JHProjects card, not a plugin's. Pointing it at the
+      Custom Enchantments 3 card meant a link to the site itself previewed as
+      one of the projects on it. The card is drawn by
+      scripts/generate-og-cards.mjs.
     -->
     <title>JHProjects | Minecraft plugins by JayMar921</title>
     <meta
       name="description"
-      content="Minecraft server plugins by JayMar921. Custom Enchantments 3, an RPG plugin with 134 enchantments, 134 treasures, classes, quests and its own economy, and Kumandra's Economy, a free server economy with jobs, trading, delivery, shops and quests."
+      content="Minecraft server plugins by JayMar921. Custom Enchantments 3, an RPG plugin with 134 enchantments, 134 treasures, classes, quests and its own economy, and Kumandra's Economy, a free server economy with jobs, trading, delivery, shops and quests. Plus the archive: Custom Warps and Fishing Contest, both shipped in 2021."
     />
     <meta name="theme-color" content="#0e1014" />
 
@@ -25,14 +30,23 @@
     />
     <meta
       property="og:description"
-      content="Minecraft server plugins by JayMar921. Custom Enchantments 3, an RPG plugin with 134 enchantments, 134 treasures, classes, quests and its own economy, plus Kumandra's Economy."
+      content="Minecraft server plugins by JayMar921. Custom Enchantments 3, an RPG plugin with 134 enchantments, 134 treasures, classes, quests and its own economy, plus Kumandra's Economy, Custom Warps and Fishing Contest."
     />
     <meta
       property="og:image"
-      content="https://jhprojects.vercel.app/og/customenchantments3.png"
+      content="https://jhprojects.vercel.app/og/jhprojects.png"
     />
+    <meta
+      property="og:image:secure_url"
+      content="https://jhprojects.vercel.app/og/jhprojects.png"
+    />
+    <meta property="og:image:type" content="image/png" />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
+    <meta
+      property="og:image:alt"
+      content="JHProjects, Minecraft plugins by JayMar921"
+    />
 
     <meta name="twitter:card" content="summary_large_image" />
     <meta
@@ -41,11 +55,15 @@
     />
     <meta
       name="twitter:description"
-      content="Minecraft server plugins by JayMar921. Custom Enchantments 3, an RPG plugin with 134 enchantments, 134 treasures, classes, quests and its own economy, plus Kumandra's Economy."
+      content="Minecraft server plugins by JayMar921. Custom Enchantments 3, an RPG plugin with 134 enchantments, 134 treasures, classes, quests and its own economy, plus Kumandra's Economy, Custom Warps and Fishing Contest."
     />
     <meta
       name="twitter:image"
-      content="https://jhprojects.vercel.app/og/customenchantments3.png"
+      content="https://jhprojects.vercel.app/og/jhprojects.png"
+    />
+    <meta
+      name="twitter:image:alt"
+      content="JHProjects, Minecraft plugins by JayMar921"
     />
 
     <script

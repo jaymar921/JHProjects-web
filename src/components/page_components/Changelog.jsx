@@ -4,7 +4,8 @@ import { getYearsAndMonthsFromDate } from "../utils/PageUtility";
 /**
  * One release in a patch note list. Shared by every plugin page, so the accent
  * is passed in rather than baked in: CE3 runs lime, Kumandra's Economy runs
- * emerald. Written out in full below so Tailwind keeps the classes.
+ * emerald, and the two archived plugins run violet and cyan. Written out in
+ * full below so Tailwind keeps the classes.
  */
 const ACCENTS = {
   lime: {
@@ -19,9 +20,27 @@ const ACCENTS = {
     badge: "border-emerald-400/50 bg-emerald-500/15 text-emerald-300",
     marker: "text-emerald-500",
   },
+  violet: {
+    border: "border-violet-400/60",
+    text: "text-violet-300",
+    badge: "border-violet-400/50 bg-violet-500/15 text-violet-300",
+    marker: "text-violet-500",
+  },
+  cyan: {
+    border: "border-cyan-400/60",
+    text: "text-cyan-300",
+    badge: "border-cyan-400/50 bg-cyan-500/15 text-cyan-300",
+    marker: "text-cyan-500",
+  },
 };
 
-function Changelog({ log, className = "", isLatest = false, accent = "lime" }) {
+function Changelog({
+  log,
+  className = "",
+  isLatest = false,
+  accent = "lime",
+  latestLabel = "LATEST",
+}) {
   const [showContent, setShowContent] = useState(isLatest);
   const a = ACCENTS[accent] ?? ACCENTS.lime;
 
@@ -55,7 +74,7 @@ function Changelog({ log, className = "", isLatest = false, accent = "lime" }) {
           <span
             className={`pixel-font border px-2 py-1 text-[7px] tracking-widest md:text-[8px] ${a.badge}`}
           >
-            LATEST
+            {latestLabel}
           </span>
         )}
         {!log.release_date && (

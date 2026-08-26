@@ -1,4 +1,6 @@
 import { PluginInformation as CE3Info } from "../contants/custom_enchants_3/CE3Constants";
+import { PluginInformation as WarpsInfo } from "../contants/legacy/CustomWarpsConstants";
+import { PluginInformation as FishingInfo } from "../contants/legacy/FishingContestConstants";
 import {
   formatDownloads,
   KUMANDRA_FALLBACK,
@@ -44,6 +46,18 @@ const pageStyles = `
     50% { opacity: 0.25; }
   }
   .jh-blink { animation: jh-blink 1.4s steps(2, end) infinite; }
+  .jh-shelf {
+    background-image: radial-gradient(
+      ellipse at 50% 0%,
+      rgba(251, 191, 36, 0.09) 0%,
+      transparent 60%
+    );
+  }
+  @keyframes jh-shine {
+    0%, 100% { opacity: 0.35; }
+    50% { opacity: 0.85; }
+  }
+  .jh-shine { animation: jh-shine 3.6s ease-in-out infinite; }
 `;
 
 /** The two live projects. Downloads are filled in from the Spiget hooks below. */
@@ -67,6 +81,38 @@ const PROJECTS = [
       "A whole server economy in one free jar. Jobs, trading, delivery, shops and quests, no premium tier.",
     accent: "emerald",
     href: "/kumandras-economy",
+  },
+];
+
+/**
+ * Finished, and kept on the shelf rather than taken down. Both shipped in
+ * 2021, both are still on Spigot, and the source for neither one survived, so
+ * these pages are a record of what they did rather than a product listing.
+ */
+const ARCHIVE = [
+  {
+    key: "warps",
+    icon: "fa-solid fa-compass",
+    title: WarpsInfo.title,
+    tagline: WarpsInfo.subtitle,
+    years: "Jul - Aug 2021",
+    releases: `${WarpsInfo.releaseCount} releases`,
+    versions: WarpsInfo.supportedVersions,
+    accent: "violet",
+    href: "/custom-warps",
+    logo: WarpsInfo.icon,
+  },
+  {
+    key: "fishing",
+    icon: "fa-solid fa-fish",
+    title: FishingInfo.title,
+    tagline: FishingInfo.subtitle,
+    years: "Apr - Aug 2021",
+    releases: `${FishingInfo.releaseCount} releases`,
+    versions: FishingInfo.supportedVersions,
+    accent: "cyan",
+    href: "/fishing-contest",
+    logo: FishingInfo.icon,
   },
 ];
 
@@ -128,7 +174,7 @@ function HomePage() {
           <div className="mt-6 inline-flex place-items-center gap-2 border border-sky-400/50 bg-[rgba(0,0,0,0.6)] px-3 py-1">
             <span className="jh-blink h-2 w-2 bg-sky-400"></span>
             <span className="pixel-font text-[8px] md:text-[10px] tracking-widest text-sky-300">
-              {PROJECTS.length} PROJECTS LIVE, MORE IN THE OVEN
+              {PROJECTS.length} LIVE, {ARCHIVE.length} IN THE ARCHIVE
             </span>
           </div>
 
@@ -186,6 +232,12 @@ function HomePage() {
               accent="lime"
             />
             <StatChip
+              icon="fa-solid fa-trophy"
+              value={ARCHIVE.length}
+              label="Archived"
+              accent="amber"
+            />
+            <StatChip
               icon="fa-solid fa-code-branch"
               value={OPEN_SOURCE_REPOS.length}
               label="Open Source"
@@ -215,6 +267,8 @@ JayMar921 -- indie developer, one-person studio
                 {`
 customenchantments3/   [PREMIUM]  v${CE3Info.version}
 kumandras-economy/     [FREE]     live
+custom-warps/          [FREE]     archived 2021
+fishing-contest/       [FREE]     archived 2021
 `}
                 <TerminalLabel accent="amber">$ cat ./mission.txt</TerminalLabel>
                 {`
@@ -232,7 +286,7 @@ Ship small, ship real, ship solo.
           <SectionHeading
             icon="fa-solid fa-layer-group"
             title="Featured Projects"
-            subtitle="Two live projects. Pick one to see what it does."
+            subtitle="Two live projects, still being worked on. Pick one to see what it does."
             accent="sky"
           />
           <div className="mt-6 grid gap-4 md:grid-cols-2">
@@ -249,6 +303,88 @@ Ship small, ship real, ship solo.
                 hint={`${formatDownloads(downloadsByProject[project.key])} downloads`}
                 onClick={() => (window.location.href = project.href)}
               />
+            ))}
+          </div>
+        </div>
+      </section>
+
+
+      {/* ---------------------------------------------------------- ARCHIVE */}
+      <section id="archive" className="jh-shelf w-full py-12">
+        <div className="mx-auto w-[90%] md:w-[80%] lg:w-[70%]">
+          <SectionHeading
+            icon="fa-solid fa-trophy"
+            title="The Archive"
+            subtitle="Two plugins that shipped, did their job, and finished. Kept on the shelf, not taken down."
+            accent="amber"
+          />
+
+          <p className="pt-5 text-xs leading-relaxed text-slate-400 md:text-sm">
+            Both of these went out in 2021 and both are still downloadable on
+            Spigot. Neither is maintained, and the reason is simple: the source
+            code for them is gone. They could be rebuilt from scratch one day,
+            but not today, so instead of quietly deleting them they get a page
+            each, with what they did and every release they ever had.
+          </p>
+
+          <div className="mt-7 grid gap-4 md:grid-cols-2">
+            {ARCHIVE.map((entry) => (
+              <a
+                key={entry.key}
+                href={entry.href}
+                className="group block no-underline"
+              >
+                <Panel
+                  accent={entry.accent}
+                  className="h-full p-5 transition-all duration-200 group-hover:-translate-y-1 group-hover:border-slate-500"
+                >
+                  <div className="flex place-items-start gap-4">
+                    <img
+                      src={entry.logo}
+                      alt={`${entry.title} icon`}
+                      loading="lazy"
+                      className="h-14 w-14 shrink-0 rounded-md border border-slate-700/70 object-cover transition-transform duration-200 group-hover:scale-105"
+                    />
+                    <div className="grow">
+                      <div className="flex flex-wrap place-items-center gap-2">
+                        <span className="jh-shine pixel-font border border-amber-400/50 bg-amber-500/15 px-2 py-1 text-[7px] tracking-widest text-amber-300 md:text-[8px]">
+                          <i className="fa-solid fa-trophy pr-1"></i>
+                          ARCHIVED
+                        </span>
+                        <span className="text-[10px] tracking-widest text-slate-500 uppercase">
+                          {entry.years}
+                        </span>
+                      </div>
+                      <h4 className="pixel-font pt-3 text-[11px] tracking-wide text-slate-200 md:text-xs">
+                        {entry.title}
+                      </h4>
+                      <p className="pt-2 text-xs leading-relaxed text-slate-400 md:text-sm">
+                        {entry.tagline}
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="mt-4 flex flex-wrap gap-2">
+                    <Chip accent={entry.accent}>
+                      <i className="fa-solid fa-clipboard-list pr-2"></i>
+                      {entry.releases}
+                    </Chip>
+                    <Chip accent={entry.accent}>
+                      <i className="fa-solid fa-cube pr-2"></i>
+                      {entry.versions}
+                    </Chip>
+                    <Chip accent={entry.accent}>
+                      <i className="fa-solid fa-tag pr-2"></i>
+                      Free
+                    </Chip>
+                  </div>
+
+                  <p className="pixel-font pt-5 text-[9px] tracking-widest text-slate-500 transition-colors group-hover:text-slate-300 md:text-[10px]">
+                    OPEN THE CASE
+                    <i className="fa-solid fa-arrow-right pl-2"></i>
+                  </p>
+                </Panel>
+              </a>
             ))}
           </div>
         </div>

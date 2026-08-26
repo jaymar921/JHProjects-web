@@ -1,7 +1,8 @@
 
 /**
  * Shared "HUD" building blocks for the plugin pages. Custom Enchantments 3
- * runs on lime and purple, Kumandra's Economy on emerald and amber.
+ * runs on lime and purple, Kumandra's Economy on emerald and amber, the
+ * archived Custom Warps on violet and Fishing Contest on cyan.
  * Every accent below is written out in full so Tailwind keeps the class.
  */
 const ACCENTS = {
@@ -64,6 +65,36 @@ const ACCENTS = {
     button:
       "border-teal-400/40 text-teal-200 hover:border-teal-300 hover:bg-teal-400/15",
     glow: "[text-shadow:0_0_14px_rgba(45,212,191,0.45)]",
+  },
+  violet: {
+    text: "text-violet-300",
+    chip: "border-violet-400/40 bg-violet-400/10 text-violet-300",
+    corner: "border-violet-400/70",
+    hover:
+      "hover:border-violet-400/70 hover:shadow-[0_0_25px_rgba(167,139,250,0.22)]",
+    button:
+      "border-violet-400/40 text-violet-200 hover:border-violet-300 hover:bg-violet-400/15",
+    glow: "[text-shadow:0_0_14px_rgba(167,139,250,0.45)]",
+  },
+  cyan: {
+    text: "text-cyan-300",
+    chip: "border-cyan-400/40 bg-cyan-400/10 text-cyan-300",
+    corner: "border-cyan-400/70",
+    hover:
+      "hover:border-cyan-400/70 hover:shadow-[0_0_25px_rgba(34,211,238,0.22)]",
+    button:
+      "border-cyan-400/40 text-cyan-200 hover:border-cyan-300 hover:bg-cyan-400/15",
+    glow: "[text-shadow:0_0_14px_rgba(34,211,238,0.45)]",
+  },
+  slate: {
+    text: "text-slate-300",
+    chip: "border-slate-400/40 bg-slate-400/10 text-slate-300",
+    corner: "border-slate-400/70",
+    hover:
+      "hover:border-slate-400/70 hover:shadow-[0_0_25px_rgba(148,163,184,0.22)]",
+    button:
+      "border-slate-400/40 text-slate-200 hover:border-slate-300 hover:bg-slate-400/15",
+    glow: "[text-shadow:0_0_14px_rgba(148,163,184,0.45)]",
   },
   rose: {
     text: "text-rose-300",
