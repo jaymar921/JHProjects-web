@@ -8,7 +8,7 @@ export default defineConfig({
   build: {
     rollupOptions: {
       /**
-       * Five entry points, one app. Each plugin page carries the Open Graph
+       * Eight entry points, one app. Each plugin page carries the Open Graph
        * tags for its own link preview, because the crawlers that build those
        * previews do not run JavaScript and would otherwise only ever see
        * index.html. vercel.json serves each one for its route.
@@ -25,6 +25,12 @@ export default defineConfig({
         ),
         customWarps: resolve(import.meta.dirname, "custom-warps.html"),
         fishingContest: resolve(import.meta.dirname, "fishing-contest.html"),
+        graphicsUtils: resolve(import.meta.dirname, "2dgraphic-utils.html"),
+        customEnchants2: resolve(
+          import.meta.dirname,
+          "custom-enchantments-2.html",
+        ),
+        moreFoods: resolve(import.meta.dirname, "more-foods-and-crops.html"),
       },
     },
   },

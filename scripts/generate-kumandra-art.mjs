@@ -237,39 +237,34 @@ scenes["exchange"] = frame({
   title: "VAULT EXCHANGE",
   path: "Vault/VaultSupport",
   accent: C.teal,
-  footer: "RUN IT ALONGSIDE THE ECONOMY YOU ALREADY HAVE, OR INSTEAD OF IT",
+  footer: "BESIDE THE ECONOMY YOU HAVE, INSTEAD OF IT, OR WITH NO VAULT AT ALL",
   body: [
     panel(18, 52, 604, 128, "HOW THE MONEY MOVES", C.teal),
     bridgeBox(40, 84, 150, 62, "KUMANDRA", "Kd - this plugin", C.emerald),
     `<path d="M198 115h52" stroke="${C.teal}" stroke-width="1.5" stroke-opacity="0.7"/>`,
     `<path d="M250 115l-9-5v10z" fill="${C.teal}" fill-opacity="0.85"/>`,
     `<path d="M198 115h52" stroke="${C.teal}" stroke-width="1.5" stroke-opacity="0.7"/>`,
-    bridgeBox(258, 84, 124, 62, "VAULT", "rate 0.12", C.teal),
+    bridgeBox(258, 84, 124, 62, "VAULT", "optional - rate 0.12", C.teal),
     `<path d="M390 115h52" stroke="${C.teal}" stroke-width="1.5" stroke-opacity="0.7"/>`,
     `<path d="M442 115l-9-5v10z" fill="${C.teal}" fill-opacity="0.85"/>`,
     bridgeBox(450, 84, 152, 62, "YOUR ECONOMY", "Essentials, etc", C.amber),
 
-    panel(18, 194, 292, 72, "SEPARATE_ECONOMY: TRUE", C.emerald),
-    text(34, 232, "SECONDARY. Kd sits beside your main", {
-      size: 8.6,
-      fill: C.text,
-    }),
-    text(34, 248, "currency and exchanges into it.", {
-      size: 8.6,
-      fill: C.text,
-    }),
+    panel(18, 194, 194, 72, "SEPARATE_ECONOMY: TRUE", C.emerald),
+    text(32, 230, "SECONDARY. Kd sits beside", { size: 8.2, fill: C.text }),
+    text(32, 244, "your main currency and", { size: 8.2, fill: C.text }),
+    text(32, 258, "exchanges into it.", { size: 8.2, fill: C.text }),
 
-    panel(330, 194, 292, 72, "SEPARATE_ECONOMY: FALSE", C.amber),
-    text(346, 232, "PRIMARY. Kd becomes the server", {
-      size: 8.6,
-      fill: C.text,
-    }),
-    text(346, 248, "currency. One line in config.yml.", {
-      size: 8.6,
-      fill: C.text,
-    }),
+    panel(222, 194, 194, 72, "SEPARATE_ECONOMY: FALSE", C.amber),
+    text(236, 230, "PRIMARY. Kd becomes the", { size: 8.2, fill: C.text }),
+    text(236, 244, "server currency. Vault-aware", { size: 8.2, fill: C.text }),
+    text(236, 258, "plugins see it as the money.", { size: 8.2, fill: C.text }),
 
-    text(20, 288, "SOFT-DEPENDS: EssentialsX, CraftConomy3, GemsEconomy", {
+    panel(426, 194, 196, 72, "NO VAULT AT ALL  (2.0)", C.rose),
+    text(440, 230, "STANDALONE. Everything", { size: 8.2, fill: C.text }),
+    text(440, 244, "works except exchange,", { size: 8.2, fill: C.text }),
+    text(440, 258, "which needs a 2nd economy.", { size: 8.2, fill: C.text }),
+
+    text(20, 288, "VAULT IS OPTIONAL IN 2.0 - NOTHING ELSE IS REQUIRED", {
       size: 9,
       fill: C.muted,
     }),
@@ -424,7 +419,7 @@ scenes["jobs"] = frame({
         }),
       ];
     }),
-    text(330, 256, "Kd PER ACTION, EVERY VALUE IS A CONFIG KEY", {
+    text(330, 256, "Kd PER ACTION - ORE RATES AND VillagerRadius FIXED IN 2.0", {
       size: 8,
       fill: C.dim,
       anchor: "middle",
@@ -581,16 +576,17 @@ scenes["database"] = frame({
     row(346, 84, 260, "EnableDatabase", "false", C.rose),
     row(346, 110, 260, "URL", "jdbc:mysql://...", C.sky),
     row(346, 136, 260, "Database", "kumandra_database", C.sky),
-    text(346, 167, "MYSQL CONNECTOR/J 8.0.26", { size: 8, fill: C.dim }),
+    text(346, 167, "CONNECTOR/J 26.7.0 - BUNDLED & RELOCATED", { size: 7.6, fill: C.dim }),
 
-    panel(330, 186, 292, 80, "IF IT CANNOT CONNECT", C.amber),
-    text(346, 226, "IT LOGS THE ERROR AND KEEPS", {
-      size: 8.6,
+    panel(330, 186, 292, 80, "IF A SAVE FAILS", C.amber),
+    text(346, 222, "IT SAYS SO, AND FALLS BACK TO", {
+      size: 8.4,
       fill: C.text,
     }),
-    text(346, 242, "RUNNING ON playerData.yml.", { size: 8.6, fill: C.text }),
-    text(346, 260, "NOBODY LOSES THEIR MONEY.", {
-      size: 8.4,
+    text(346, 237, "playerData.yml. IN 1.x A FAILED", { size: 8.4, fill: C.text }),
+    text(346, 252, "SAVE COULD REPORT SUCCESS.", { size: 8.4, fill: C.text }),
+    text(346, 264, "NOBODY LOSES THEIR MONEY.", {
+      size: 8,
       fill: C.emerald,
     }),
 
@@ -614,14 +610,17 @@ const CODE = [
   ["double bal = api.getBalance(player);", C.amber],
   ["api.deposit(player, 100.0);", C.amber],
   ["api.withdraw(player, 25.0);", C.amber],
-  ["JobList[] jobs = api.getJobs(player);", C.sky],
+  ["", C.text],
+  ["// new in 2.0, works offline", C.dim],
+  ["api.transfer(from, to, 50.0);", C.sky],
+  ["api.hasJob(player, JobList.MINER);", C.sky],
 ];
 
 scenes["api"] = frame({
   title: "DEVELOPER API",
   path: "KumandrasAPI.java",
   accent: C.emerald,
-  footer: "HOOK YOUR OWN PLUGIN INTO THE BALANCE IN ABOUT FIVE LINES",
+  footer: "FIVE LINES TO HOOK IN - 1.x INTEGRATIONS LINK AGAINST 2.0 UNCHANGED",
   body: [
     panel(18, 52, 404, 214, "KumandrasAPI"),
     ...CODE.map((line, i) =>
@@ -630,28 +629,98 @@ scenes["api"] = frame({
 
     panel(434, 52, 188, 214, "METHODS", C.amber),
     ...[
-      "getBalance",
-      "deposit",
-      "withdraw",
-      "RegisterPlugin",
-      "primaryEconomy",
-      "getJobs",
-    ].flatMap((name, i) => {
-      const y = 84 + i * 30;
+      ["getBalance", false],
+      ["deposit / withdraw", false],
+      ["setBalance", true],
+      ["transfer", true],
+      ["hasAccount", true],
+      ["createAccount", true],
+      ["getJobs / hasJob", true],
+      ["primaryEconomy", false],
+      ["getServerVersion", true],
+    ].flatMap(([name, isNew], i) => {
+      const y = 82 + i * 21;
+      const accent = isNew ? C.sky : C.amber;
       return [
-        rect(450, y, 156, 22, "rgba(0,0,0,0.45)", 1, C.amber, 0.3, 1),
-        rect(450, y, 3, 22, C.amber, 0.75),
-        text(460, y + 15, `${name}()`, { size: 8.6, fill: C.text }),
+        rect(450, y, 156, 17, "rgba(0,0,0,0.45)", 1, accent, 0.3, 1),
+        rect(450, y, 3, 17, accent, 0.75),
+        text(458, y + 12, name, { size: 7.6, fill: C.text }),
+        isNew
+          ? text(600, y + 12, "2.0", {
+              size: 6.6,
+              fill: C.sky,
+              anchor: "end",
+            })
+          : "",
       ];
     }),
 
-    text(20, 288, "SOFT-DEPEND ON KumandrasEconomy", {
+    text(20, 288, "EVERY 1.x METHOD KEEPS ITS SIGNATURE", {
       size: 9.5,
       fill: C.text,
     }),
-    text(320, 288, "PURE SPIGOT API - NO NMS, NO REFLECTION", {
+    text(340, 288, "docs/developer-api-guide.md", {
       size: 9,
       fill: C.muted,
+    }),
+  ].join("\n"),
+});
+
+/* 10. What 2.0 changed, the before and after. */
+const FIXES = [
+  ["VERSION CHECK", "string match, 1.16/17/18", "parsed and compared"],
+  ["QUESTS ON 1.19+", "silently off", "on"],
+  ["VAULT", "hard dependency", "optional"],
+  ["format()", "returned null", "formatted string"],
+  ["ORE INCOME", "paid block rate", "pays ore rate"],
+  ["VillagerRadius", "never read", "read"],
+  ["JOB TIMERS", "running 7x over", "running once"],
+  ["FAILED DB SAVE", "reported success", "reports failure"],
+];
+
+scenes["whatsnew"] = frame({
+  title: "WHAT 2.0 CHANGED",
+  path: "release/2.0",
+  accent: C.rose,
+  footer: "REPLACE THE JAR AND RESTART - YOUR CONFIG IS UPGRADED IN PLACE",
+  body: [
+    panel(18, 52, 604, 46, "", C.emerald),
+    text(34, 72, "ONE JAR", { size: 9, fill: C.dim, spacing: 1.6 }),
+    text(34, 88, "1.16  ->  26.2", { size: 12, weight: 700, fill: C.emerald }),
+    text(200, 80, "NO NMS  -  NO PACKETS  -  JAVA 8 AND UP", {
+      size: 8.4,
+      fill: C.muted,
+    }),
+    rect(470, 62, 136, 26, "rgba(0,0,0,0.5)", 1, C.rose, 0.6, 1),
+    text(538, 79, "VAULT OPTIONAL", {
+      size: 8.6,
+      fill: C.rose,
+      anchor: "middle",
+      spacing: 1.2,
+    }),
+
+    panel(18, 110, 604, 156, "BEFORE  /  AFTER", C.rose),
+    text(196, 132, "1.7", { size: 8, fill: C.dim, spacing: 1.4 }),
+    text(430, 132, "2.0", { size: 8, fill: C.emerald, spacing: 1.4 }),
+    ...FIXES.flatMap(([label, was, now], i) => {
+      const y = 142 + i * 15;
+      return [
+        text(34, y + 10, label, { size: 7.8, fill: C.text }),
+        text(196, y + 10, was, { size: 7.6, fill: C.rose, opacity: 0.85 }),
+        `<path d="M400 ${y + 6}h18" stroke="${C.dim}" stroke-width="1"/>`,
+        `<path d="M418 ${y + 6}l-5-3v6z" fill="${C.dim}"/>`,
+        text(430, y + 10, now, { size: 7.6, fill: C.emerald }),
+      ];
+    }),
+
+    text(20, 288, "PLUS CE3 INTEGRATION, BUNDLED CONNECTOR/J 26.7.0", {
+      size: 9,
+      fill: C.text,
+    }),
+    text(620, 288, "AND A LONG FIX LIST", {
+      size: 9,
+      fill: C.muted,
+      anchor: "end",
     }),
   ].join("\n"),
 });
@@ -761,12 +830,14 @@ ${rect(0, 0, OW, OH, "#08130f", 0.55)}
 ${text(600, 214, "Kd", { size: 46, weight: 700, fill: C.amber, anchor: "middle" })}
 ${text(600, 320, "KUMANDRA'S ECONOMY", { size: 58, weight: 700, fill: C.emerald, anchor: "middle", spacing: 4 })}
 ${text(600, 368, "A whole server economy in one free jar", { size: 26, fill: C.text, anchor: "middle" })}
-${chip(150, 424, "7 JOBS", C.emerald)}
-${chip(340, 424, "TRADING", C.amber)}
-${chip(530, 424, "DELIVERY", C.sky)}
-${chip(720, 424, "QUESTS", C.amber)}
-${chip(910, 424, "SHOPS", C.teal)}
-${text(600, 540, "SPIGOT & PAPER 1.16 - 1.19  -  VAULT  -  MYSQL OR YAML", { size: 22, fill: C.muted, anchor: "middle", spacing: 2 })}
+${rect(520, 386, 160, 26, "rgba(0,0,0,0.55)", 1, C.rose, 0.7, 2)}
+${text(600, 404, "VERSION 2.0 OUT NOW", { size: 14, fill: C.rose, anchor: "middle", spacing: 1.5 })}
+${chip(150, 440, "7 JOBS", C.emerald)}
+${chip(340, 440, "TRADING", C.amber)}
+${chip(530, 440, "DELIVERY", C.sky)}
+${chip(720, 440, "QUESTS", C.amber)}
+${chip(910, 440, "SHOPS", C.teal)}
+${text(600, 540, "SPIGOT & PAPER 1.16 - 26.2  -  ONE JAR  -  VAULT OPTIONAL", { size: 22, fill: C.muted, anchor: "middle", spacing: 2 })}
 ${text(600, 580, "FREE, BY JAYMAR921", { size: 20, fill: C.amber, anchor: "middle", spacing: 3 })}
 ${rect(0, 0, OW, 6, C.emerald, 0.6)}
 ${rect(0, OH - 6, OW, 6, C.amber, 0.5)}

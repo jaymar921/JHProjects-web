@@ -73,6 +73,10 @@ function KE_Database() {
                 Deleting the plugin folder by accident stops being the end of
                 your economy.
               </Bullet>
+              <Bullet accent="sky">
+                Prepared statements, one batched write per save, and connections
+                closed on every path. 2.0 rewrote all three.
+              </Bullet>
             </Bullets>
           </Panel>
         </div>
@@ -120,15 +124,20 @@ Password: ""
         <Note accent="emerald" icon="fa-solid fa-life-ring">
           If the database cannot be reached, the plugin logs the error, falls
           back to the local YAML files and carries on running. A database outage
-          costs you a backup target, not your players&apos; balances.
+          costs you a backup target, not your players&apos; balances. As of 2.0
+          a save that fails reports the failure, so the fallback actually
+          happens. Before that, a failed save could be reported as successful
+          and the data went nowhere.
         </Note>
       </Section>
 
       <Section>
         <Note accent="amber" icon="fa-solid fa-screwdriver-wrench">
-          It uses MySQL Connector/J 8.0.26, shaded into the jar, so there is no
-          driver for you to install. A local XAMPP or WAMP database is plenty
-          for testing this before you point it at anything real.
+          It uses MySQL Connector/J 26.7.0, bundled in the jar and relocated
+          into the plugin&apos;s own package, so there is no driver for you to
+          install and it cannot collide with another plugin&apos;s copy of the
+          connector. A local XAMPP or WAMP database is plenty for testing this
+          before you point it at anything real.
         </Note>
       </Section>
     </div>

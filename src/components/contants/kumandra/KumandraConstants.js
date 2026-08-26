@@ -5,6 +5,9 @@
  * the links, then a named export per list the page renders. Numbers here come
  * out of the plugin's own config.yml and plugin.yml, so a server owner reading
  * this page sees the same defaults they will get in the jar.
+ *
+ * Updated for 2.0, the release that made one jar cover 1.16 through 26.2 and
+ * dropped Vault from the required dependencies.
  */
 
 import wiseImg from "../../../assets/custom_enchants_3/wise.png";
@@ -16,9 +19,11 @@ export const PluginInformation = {
   subtitle: "A whole server economy in one free jar.",
   tagline: "Give your players money worth earning, and something to spend it on.",
 
-  version: "1.7",
-  versionReleaseDate: "06/26/2022",
-  supportedVersions: "1.16 - 1.19",
+  version: "2.0",
+  versionReleaseDate: "08/26/2026",
+  previousVersion: "1.7",
+  supportedVersions: "1.16 - 26.2",
+  javaSupport: "Java 8+",
   spigotResourceId: 96466,
   jobCount: 7,
   deliveryTierCount: 4,
@@ -34,66 +39,85 @@ export const PluginInformation = {
   contactEmail: "jaymarplugins@gmail.com",
 
   /**
-   * The honest position on this build. 1.7 is the last release and it is a
-   * 2022 plugin, so the page says so up front rather than letting a server
-   * owner find out after the download.
+   * The banner panel at the top of the page. 2.0 is the current build, so this
+   * says what changed and why it matters, rather than apologising for the age
+   * of the jar the way the 1.7 copy had to.
    */
-  legacy: {
-    headline: "This is the legacy build, and it still works.",
-    body: "Version 1.7 shipped on 26 June 2022 and targets Spigot and Paper 1.16 through 1.19. It has been running on servers ever since, because it was built on the plain Spigot API with no NMS, no packet work and no reflection into server internals. That is also why the next build is a port and not a rewrite.",
-    supported: "1.16 - 1.19",
-    plannedSupport: "1.20 and newer",
+  release: {
+    headline: "2.0 is out, and one jar now covers 1.16 through 26.2.",
+    body: "The old build worked out your server version by checking whether the version text contained \"1.16\", \"1.17\" or \"1.18\". A 1.19 server matches none of those, so on anything newer the plugin decided it was older than 1.16 and quietly switched off the quest system, nether logs for the Lumberjack and the Fisherman's rare catches, with nothing in the console to say so. 2.0 parses the version as numbers and compares them, which is what makes the whole range work from one file. Vault is optional now, the Vault provider was rewritten, three job settings that were costing you money are fixed, and Custom Enchantments 3 is detected as an integration.",
+    supported: "1.16 - 26.2",
+    upgrade:
+      "Replace the jar and restart. Your config is upgraded in place and backed up as old_config.yml first, and playerData.yml and shop data are unchanged in format.",
   },
 
   description:
-    "Kumandra's Economy is a full economy for your server in a single free jar. Not just a balance and a /pay command: your players take jobs and earn money for the work they already do, trade face to face in a window that holds both sides until both confirm, post parcels to each other by courier, run public shops, and take quests from villagers and animals for money, XP or items.",
+    "Kumandra's Economy is a full economy for your server in a single free jar. Not just a balance and a /pay command: your players take jobs and earn money for the work they already do, trade face to face in a window that holds both sides until both confirm, post parcels to each other by courier across worlds, run public shops, and take quests from villagers and animals for money, XP or items.",
   descriptionMore: [
-    "It works two ways. Leave Separate_Economy on and Kumandra's Economy runs as a second currency beside whatever you already use, exchanging through Vault at a rate you set. Turn it off and it becomes the server's main economy on its own. Either way it is one config line, not a migration.",
+    "It runs three ways. As your server's main currency, where every Vault-aware plugin sees Kd as the money. Beside an existing economy as a second currency, with an in-game exchange screen that converts between the two at a rate you set. Or with no Vault installed at all, which is new in 2.0 and works exactly the same except for cross-economy exchange.",
     "Seven jobs come built in. Farmer, Lumberjack, Miner, Hunter, Guardian, Builder and Fisherman, each paying per action on values you control, from harvesting a crop to landing a rare catch. Players hold two at a time by default and join or leave from a GUI, so nobody needs a command list to get started.",
-    "Storage is your call too. Out of the box it keeps everything in flat YAML and asks nothing of you. Point it at a MySQL database instead and it creates the schema itself on first connect, and if that database ever goes down it logs the error, falls back to the local files and keeps the server running.",
-    "It is free, it always has been, and it needs nothing but Vault. There is a developer API if you want your own plugin to read balances, and there is a donation link at the bottom of this page if you would like the next version to arrive sooner.",
+    "Storage is your call too. Out of the box it keeps everything in flat YAML and asks nothing of you. Turn on MySQL instead and the driver is already bundled and relocated inside the jar, the schema is created on first connect, and a save that fails now reports the failure and falls back to the local files rather than reporting success and losing the write.",
+    "It is free, it always has been, and 2.0 needs nothing installed alongside it. There is a developer API with a full guide in the repository, every 1.x method keeps its signature, and there is a donation link at the bottom of this page if the plugin earns your server something.",
   ],
 
   /**
-   * Shown in the "What is coming" section. Deliberately undated: these are the
-   * things being worked on, not promises with a release attached.
+   * The "What is new in 2.0" grid. This replaced the old roadmap: the roadmap's
+   * headline item was modern version support, and that is what shipped.
    */
-  roadmap: [
+  whatsNew: [
     {
-      title: "Modern version support",
+      title: "It knows what server it is on",
       accent: "emerald",
       icon: "fa-solid fa-cube",
-      body: "The port to 1.20 and up. Because there is no NMS anywhere in the plugin, this is mostly material lists and API deprecations rather than a rewrite, which is exactly why it was built that way in the first place.",
+      body: "Version detection parses the numbers and compares them, instead of matching the version string against \"1.16\", \"1.17\" and \"1.18\". That is what makes one jar cover 1.16 to 26.2, and it is what switched quests, nether logs and rare catches back on for every server newer than 1.18.",
     },
     {
-      title: "Sturdier trade and delivery sessions",
-      accent: "amber",
-      icon: "fa-solid fa-handshake",
-      body: "Trade requests and in-flight parcels are tracked in memory today, so an ill-timed reload can leave a stale session or a courier behind. Both are moving to state that survives a restart.",
-    },
-    {
-      title: "Shops that do not rely on a name tag",
+      title: "Vault is optional",
       accent: "teal",
-      icon: "fa-solid fa-shop",
-      body: "A shop is currently found by looking for a nearby entity with a matching custom name. Two shops built close together, or a keeper that wanders, can confuse it. Shops are getting real identifiers.",
+      icon: "fa-solid fa-plug",
+      body: "It used to be a hard dependency, which meant installing a second plugin just to use Kumandra's own currency on a server with no other economy. With Vault it behaves exactly as before. Without it everything works except cross-economy exchange, which needs a second economy anyway.",
     },
     {
-      title: "Quest authoring in game",
-      accent: "sky",
-      icon: "fa-solid fa-scroll",
-      body: "Quests are written by hand in Data/Quest.yml right now, spacing and all. The plan is the chat-driven flow the shops already use, so a quest can be built without leaving the server.",
-    },
-    {
-      title: "Balance safety rails",
+      title: "The Vault provider was rewritten",
       accent: "rose",
-      icon: "fa-solid fa-shield-halved",
-      body: "One place that validates every balance change, instead of the arithmetic being repeated across commands. Negative amounts, missing accounts and duplicate payouts all get caught in one spot.",
+      icon: "fa-solid fa-screwdriver-wrench",
+      body: "format() returned null, so shop plugins printed prices as the word \"null\". createPlayerAccount() always returned false. Bank methods returned null instead of a not-supported response. Balance lookups by world returned zero from any other world, so money appeared to vanish through a nether portal. All fixed.",
     },
     {
-      title: "More languages",
+      title: "Three job settings that cost you money",
+      accent: "amber",
+      icon: "fa-solid fa-helmet-safety",
+      body: "Ore income never worked: the ore list was being appended to the mining-block list, so it started empty and every ore paid the plain-block rate. Builder income read the wrong config key and could silently be zero. VillagerRadius sat in config.yml and was never read, so Guardian always used a hard-coded 20 blocks.",
+    },
+    {
+      title: "Custom Enchantments 3 integration",
+      accent: "sky",
+      icon: "fa-solid fa-wand-sparkles",
+      body: "CE3 is detected at startup and listed as an integration on the balance screen, and the CE quest pack that has always shipped inside the jar finally loads, but only when CE is actually installed. Not one line of CE code is imported, so a CE update cannot break startup.",
+    },
+    {
+      title: "MySQL is easier and safer",
+      accent: "teal",
+      icon: "fa-solid fa-database",
+      body: "Connector/J 26.7.0 is bundled and relocated into the plugin's own package, so it cannot collide with another plugin's copy. Prepared statements instead of concatenated SQL, one batched write instead of a round trip per player, connections closed on every path, and a failed save now reports failure and falls back to local storage.",
+    },
+    {
+      title: "Leaks and stranded couriers",
+      accent: "rose",
+      icon: "fa-solid fa-broom",
+      body: "Every job timer was running seven times over, so the action bar was written seven times a tick and income expired seven times too fast. Trade sessions never released their inventory or either player. Shutdown cleanup stopped at the first courier in an unloaded chunk and left every courier after it standing in your world.",
+    },
+    {
+      title: "Data that survives being edited",
       accent: "emerald",
-      icon: "fa-solid fa-language",
-      body: "Every player-facing string already goes through lang.yml, and Turkish ships alongside English. Any language anyone contributes is a file drop, not a code change.",
+      icon: "fa-solid fa-shield-halved",
+      body: "Writing balance: 500 instead of 500.0 in playerData.yml used to throw a type error and take every player's record down with it. Both forms are read now. Config upgrades read from the plugin's real data folder, index your settings by key, carry list settings across as whole blocks, and keep the shipped comments intact.",
+    },
+    {
+      title: "A bigger, still-compatible API",
+      accent: "sky",
+      icon: "fa-solid fa-code",
+      body: "Every 1.x method keeps its signature and return values, and code compiled against 1.7 links against 2.0 unchanged. New: offline-capable UUID balance methods, an all-or-nothing transfer, setBalance, hasAccount, createAccount, hasJob, and accessors for the currency prefix, exchange rate, foreign economy name and detected server version.",
     },
   ],
 
@@ -127,13 +151,23 @@ export const PluginInformation = {
 /** The panels on the features grid. `key` is what the page opens on click. */
 export const Features = [
   {
+    key: "whats new",
+    title: "WHAT'S NEW IN 2.0",
+    icon: "fa-solid fa-rocket",
+    accent: "rose",
+    image: FeatureArt.whatsnew,
+    description:
+      "One jar from 1.16 to 26.2, Vault made optional, the Vault provider rewritten, and the job settings that were quietly paying nothing.",
+    button: "What's new",
+  },
+  {
     key: "balance",
     title: "BALANCE",
     icon: "fa-solid fa-wallet",
     accent: "emerald",
     image: FeatureArt.economy,
     description:
-      "Accounts create themselves on first join. Check it, pay it, and let admins top it up or wipe it, all from one screen.",
+      "Accounts create themselves on first join. Check it, pay it, and let admins top it up or wipe it, from a command that works on the console too.",
     button: "Balance",
   },
   {
@@ -143,7 +177,7 @@ export const Features = [
     accent: "teal",
     image: FeatureArt.exchange,
     description:
-      "Run it as your main currency, or as a second one that exchanges into the economy plugin you already have.",
+      "Main currency, second currency, or no Vault at all. Three ways to run it, one line of config between them.",
     button: "Exchange",
   },
   {
@@ -163,7 +197,7 @@ export const Features = [
     accent: "sky",
     image: FeatureArt.delivery,
     description:
-      "Post a parcel to anyone on the server. A courier flies it over, on one of four speeds you price yourself.",
+      "Post a parcel to anyone on the server, across worlds. A courier flies it over, on one of four speeds you price yourself.",
     button: "Delivery",
   },
   {
@@ -173,7 +207,7 @@ export const Features = [
     accent: "emerald",
     image: FeatureArt.jobs,
     description:
-      "Seven jobs that pay for the mining, farming, building and fishing your players were doing anyway.",
+      "Seven jobs that pay for the mining, farming, building and fishing your players were doing anyway. Ore rates actually work now.",
     button: "Jobs",
   },
   {
@@ -203,7 +237,7 @@ export const Features = [
     accent: "sky",
     image: FeatureArt.database,
     description:
-      "Flat files by default, MySQL when you want it, and an automatic fall back to the files if the database drops.",
+      "Flat files by default, MySQL when you want it with the driver bundled, and a failed save that says so instead of losing the write.",
     button: "Storage",
   },
   {
@@ -213,7 +247,7 @@ export const Features = [
     accent: "emerald",
     image: FeatureArt.api,
     description:
-      "Read and move a player's balance from your own plugin in about five lines. No NMS, no reflection.",
+      "Read and move a player's balance from your own plugin in about five lines. Offline-capable and all-or-nothing in 2.0.",
     button: "API",
   },
 ];
@@ -234,7 +268,7 @@ export const Jobs = [
     name: "Lumberjack",
     icon: "fa-solid fa-tree",
     accent: "emerald",
-    earns: "Breaking logs and planting trees",
+    earns: "Breaking logs, nether stems included, and planting trees",
     rates: [
       { key: "BreakingLogs", value: "0.22" },
       { key: "PlantingTrees", value: "0.34" },
@@ -244,7 +278,7 @@ export const Jobs = [
     name: "Miner",
     icon: "fa-solid fa-gem",
     accent: "sky",
-    earns: "Mining the block list, and ores at a better rate",
+    earns: "Mining the block list, and ores at their own rate",
     rates: [
       { key: "MiningBlocks", value: "0.21" },
       { key: "MiningOres", value: "0.32" },
@@ -261,7 +295,7 @@ export const Jobs = [
     name: "Guardian",
     icon: "fa-solid fa-shield-halved",
     accent: "teal",
-    earns: "Killing hostiles within 20 blocks of a villager",
+    earns: "Killing hostiles within VillagerRadius of a villager",
     rates: [
       { key: "Guardian", value: "0.35" },
       { key: "VillagerRadius", value: "20" },
@@ -283,6 +317,28 @@ export const Jobs = [
       { key: "Fisherman", value: "0.23" },
       { key: "LuckyFisherman", value: "0.35" },
     ],
+  },
+];
+
+/**
+ * The three job settings 2.0 fixed. Shown next to the job cards, because a
+ * server owner upgrading wants to know which of their numbers start working.
+ */
+export const JobFixes = [
+  {
+    key: "MiningOres",
+    was: "Every ore paid the plain-block rate",
+    now: "The default ore list was being appended to the mining-block list, so the ore list started empty. Ores pay the ore rate now.",
+  },
+  {
+    key: "Builder",
+    was: "Builder income could silently be zero",
+    now: "The check that reads the Builder value was looking at the wrong config key.",
+  },
+  {
+    key: "VillagerRadius",
+    was: "Ignored entirely",
+    now: "Guardian used a hard-coded 20 blocks whatever you had set. Your value is read now.",
   },
 ];
 
@@ -323,7 +379,7 @@ export const CommandList = [
   {
     command: "/kumandra balance",
     description:
-      "Open the player's account screen, with the currency exchange in it. Aliased to /kd.",
+      "Open the player's account screen, with the currency exchange and the detected integrations in it. Aliased to /kd.",
     requireOp: false,
   },
   {
@@ -340,7 +396,7 @@ export const CommandList = [
   {
     command: "/kumandra deliver [player]",
     description:
-      "Open the delivery screen for a recipient and pick a delivery speed.",
+      "Open the delivery screen for a recipient and pick a delivery speed. Works between worlds.",
     requireOp: false,
   },
   {
@@ -365,12 +421,14 @@ export const CommandList = [
   },
   {
     command: "/kumandra economy [player] deposit [amount]",
-    description: "Add money to a player's account.",
+    description:
+      "Add money to a player's account. Runs from the console in 2.0.",
     requireOp: true,
   },
   {
     command: "/kumandra economy [player] deduct [amount]",
-    description: "Take money out of a player's account.",
+    description:
+      "Take money out of a player's account. Runs from the console in 2.0.",
     requireOp: true,
   },
   {
@@ -464,7 +522,7 @@ export const ConfigGroups = [
       {
         key: "Separate_Economy",
         value: "true",
-        note: "True runs it beside your existing economy. False makes it the server's main one.",
+        note: "True runs it beside your existing economy. False makes it the server's main one. If it is true but nothing has registered a primary economy, 2.0 says so in the console and runs as primary for that session.",
       },
       {
         key: "Currency",
@@ -474,7 +532,7 @@ export const ConfigGroups = [
       {
         key: "Currency_Prefix",
         value: "Kd",
-        note: "What the money is called everywhere it is shown.",
+        note: "What the money is called everywhere it is shown, including through Vault's format().",
       },
     ],
   },
@@ -499,7 +557,7 @@ export const ConfigGroups = [
       {
         key: "RequestTradingSessionExpiry",
         value: "20",
-        note: "Seconds before an unanswered trade request lapses.",
+        note: "Seconds before an unanswered trade request lapses. The whole session is torn down on expiry in 2.0, instead of one map being cleared and the rest left behind.",
       },
       {
         key: "TradingIncreaseValue",
@@ -523,7 +581,12 @@ export const ConfigGroups = [
       {
         key: "ConsideredMiningBlocks",
         value: "list",
-        note: "Which blocks pay a Miner. 1.17 blocks were left out for 1.16 compatibility.",
+        note: "Which blocks pay a Miner at the plain block rate.",
+      },
+      {
+        key: "ConsideredMiningOres",
+        value: "list",
+        note: "Which blocks pay the ore rate. Before 2.0 this list was being filled into the block list, so it started empty and no ore ever paid the ore rate.",
       },
       {
         key: "ConsideredBlocksForBuilding",
@@ -533,7 +596,7 @@ export const ConfigGroups = [
       {
         key: "VillagerRadius",
         value: "20",
-        note: "How close to a villager a Guardian must kill to be paid.",
+        note: "How close to a villager a Guardian must kill to be paid. Read for the first time in 2.0.",
       },
     ],
   },
@@ -541,7 +604,8 @@ export const ConfigGroups = [
     title: "Quests",
     accent: "amber",
     icon: "fa-solid fa-scroll",
-    intro: "How often a quest is offered, and whether they run at all.",
+    intro:
+      "How often a quest is offered, and whether they run at all. Quests need Minecraft 1.17 or newer.",
     keys: [
       { key: "AllowQuest", value: "true", note: "Turns the quest system off." },
       {
@@ -570,7 +634,7 @@ export const ConfigGroups = [
       {
         key: "URL",
         value: "jdbc:mysql://localhost:3307/",
-        note: "Your MySQL host. The schema is created on first connect.",
+        note: "Your MySQL host. The schema is created on first connect, and Connector/J is bundled in the jar.",
       },
       {
         key: "Database",
@@ -581,7 +645,10 @@ export const ConfigGroups = [
   },
 ];
 
-/** The KumandrasAPI surface, for the developer panel. */
+/**
+ * The KumandrasAPI surface, for the developer panel. Anything with a `since`
+ * is new in 2.0; everything else keeps its exact 1.x signature and returns.
+ */
 export const ApiMethods = [
   {
     signature: "getBalance(Player)",
@@ -589,19 +656,55 @@ export const ApiMethods = [
     note: "The player's balance, or -1.0 if there is no account loaded for them.",
   },
   {
+    signature: "getBalance(UUID)",
+    returns: "double",
+    since: "2.0",
+    note: "The same, for a player who may be offline. Records stay loaded after logout.",
+  },
+  {
     signature: "deposit(Player, double)",
     returns: "boolean",
-    note: "Adds to the balance. False if the player has no account loaded.",
+    note: "Adds to the balance. False if the player has no account, or the amount is negative.",
   },
   {
     signature: "withdraw(Player, double)",
     returns: "boolean",
-    note: "Takes from the balance. False if they cannot cover it.",
+    note: "Takes from the balance. False if they cannot cover it, and the balance is untouched.",
   },
   {
-    signature: "RegisterPlugin(String)",
+    signature: "setBalance(UUID, double)",
     returns: "boolean",
-    note: "Registers your plugin with the economy so it can take part.",
+    since: "2.0",
+    note: "Overwrites the balance outright. False if there is no account or the amount is negative.",
+  },
+  {
+    signature: "transfer(UUID, UUID, double)",
+    returns: "boolean",
+    since: "2.0",
+    note: "An all-or-nothing move between two accounts. There is no partial state to unwind.",
+  },
+  {
+    signature: "hasAccount(UUID)",
+    returns: "boolean",
+    since: "2.0",
+    note: "Whether a record is loaded for that id. There is an OfflinePlayer overload too.",
+  },
+  {
+    signature: "createAccount(UUID)",
+    returns: "boolean",
+    since: "2.0",
+    note: "Creates a zero-balance account. False when one already existed.",
+  },
+  {
+    signature: "getJobs(Player)",
+    returns: "JobList[]",
+    note: "The jobs the player holds. Never null, and no longer throws for a player with no record.",
+  },
+  {
+    signature: "hasJob(Player, JobList)",
+    returns: "boolean",
+    since: "2.0",
+    note: "Whether they hold one specific job.",
   },
   {
     signature: "primaryEconomy()",
@@ -609,8 +712,44 @@ export const ApiMethods = [
     note: "True when the server has this set as its main economy.",
   },
   {
-    signature: "getJobs(Player)",
-    returns: "JobList[]",
-    note: "The jobs the player currently holds.",
+    signature: "getCurrencyPrefix()",
+    returns: "String",
+    since: "2.0",
+    note: "The suffix from config.yml, Kd by default. Never null.",
+  },
+  {
+    signature: "getExchangeRate()",
+    returns: "double",
+    since: "2.0",
+    note: "How much Kumandra currency one unit of the primary economy is worth.",
+  },
+  {
+    signature: "getForeignEconomyName()",
+    returns: "String",
+    since: "2.0",
+    note: "The primary economy's plugin name, or null when Kumandra is itself primary.",
+  },
+  {
+    signature: "isVaultHooked()",
+    returns: "boolean",
+    since: "2.0",
+    note: "Whether Vault is installed and hooked.",
+  },
+  {
+    signature: "isCustomEnchantmentsSupported()",
+    returns: "boolean",
+    since: "2.0",
+    note: "Whether Custom Enchantments is installed and integrated.",
+  },
+  {
+    signature: "getServerVersion()",
+    returns: "String",
+    since: "2.0",
+    note: "The detected Minecraft version, 1.16.5 or 26.2 for example.",
+  },
+  {
+    signature: "RegisterPlugin(String)",
+    returns: "boolean",
+    note: "Lists your plugin on the in-game balance screen so it can take part.",
   },
 ];

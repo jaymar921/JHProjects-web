@@ -31,7 +31,10 @@ function KE_Quests() {
           Every few minutes the plugin rolls for a quest. When it lands, a quest
           giver appears with a task and a countdown. Finish in time and the
           reward is paid out in items, money or experience. Miss it and it
-          expires, with a warning first.
+          expires, with a warning first. Quests need Minecraft 1.17 or newer,
+          and if you were running 1.x on a 1.19 or later server you will be
+          seeing them for the first time after upgrading to 2.0. A broken
+          version check had been switching the whole system off.
         </Body>
       </Section>
 
@@ -157,11 +160,20 @@ QuestInterval: 5
             <Note accent="rose" icon="fa-solid fa-ruler-horizontal">
               The indentation has to match the rest of the list exactly, which
               is the one awkward part of this file. Authoring quests from in
-              game, the way shops are built, is on the list for the next
-              version.
+              game, the way shops are built, is still on the list.
             </Note>
           </div>
         </Panel>
+      </Section>
+
+      <Section>
+        <Note accent="emerald" icon="fa-solid fa-wand-sparkles">
+          Running Custom Enchantments 3 as well? 2.0 detects it and loads the CE
+          quest pack that has always shipped inside the jar, so quests can hand
+          out CE gear. Without CE the pack stays unloaded on purpose, because
+          handing someone a sword whose abilities nothing on the server
+          understands is worse than not offering the quest.
+        </Note>
       </Section>
 
       <Section>

@@ -50,7 +50,7 @@
 <text x="74" y="227" font-family="ui-monospace,'Cascadia Mono',Consolas,'DejaVu Sans Mono',monospace" font-size="9.5" font-weight="400" fill="#cbd5e1" fill-opacity="1" text-anchor="start" letter-spacing="1">FISHERMAN</text>
 <text x="74" y="240" font-family="ui-monospace,'Cascadia Mono',Consolas,'DejaVu Sans Mono',monospace" font-size="8" font-weight="400" fill="#475569" fill-opacity="1" text-anchor="start">catch, treasure</text>
 <text x="296" y="234" font-family="ui-monospace,'Cascadia Mono',Consolas,'DejaVu Sans Mono',monospace" font-size="8.6" font-weight="400" fill="#fbbf24" fill-opacity="1" text-anchor="end">0.23 / 0.35</text>
-<text x="330" y="256" font-family="ui-monospace,'Cascadia Mono',Consolas,'DejaVu Sans Mono',monospace" font-size="8" font-weight="400" fill="#475569" fill-opacity="1" text-anchor="middle">Kd PER ACTION, EVERY VALUE IS A CONFIG KEY</text>
+<text x="330" y="256" font-family="ui-monospace,'Cascadia Mono',Consolas,'DejaVu Sans Mono',monospace" font-size="8" font-weight="400" fill="#475569" fill-opacity="1" text-anchor="middle">Kd PER ACTION - ORE RATES AND VillagerRadius FIXED IN 2.0</text>
 <text x="20" y="288" font-family="ui-monospace,'Cascadia Mono',Consolas,'DejaVu Sans Mono',monospace" font-size="9.5" font-weight="400" fill="#cbd5e1" fill-opacity="1" text-anchor="start">/kumandra jobs</text>
 <text x="150" y="288" font-family="ui-monospace,'Cascadia Mono',Consolas,'DejaVu Sans Mono',monospace" font-size="9" font-weight="400" fill="#64748b" fill-opacity="1" text-anchor="start">HOLD 2 AT A TIME BY DEFAULT - Jobs: 2</text>
 <rect x="0" y="326" width="640" height="1" fill="#334155" fill-opacity="0.8"/>

@@ -11,7 +11,7 @@
  *
  * The site card is the reason this file exists. index.html was pointing its
  * og:image at the Custom Enchantments 3 card, so a link to the site itself
- * previewed as one of its plugins.
+ * previewed as one of the projects on it.
  *
  * Everything is vector on purpose. The cards carry no bitmap, so there is no
  * base64 payload to keep in sync and the whole thing stays legible in the
@@ -116,18 +116,18 @@ const siteCard = frame({
   body: `
 ${jhMark}
 ${text(600, 320, "JHPROJECTS", { size: 62, fill: "#38bdf8", weight: 700, spacing: 6 })}
-${text(600, 366, "Minecraft plugins by JayMar921", { size: 26, fill: "#cbd5e1" })}
+${text(600, 366, "Things JayMar921 built after hours", { size: 26, fill: "#cbd5e1" })}
 ${chipRow(
   [
-    { label: "ENCHANTMENTS", color: "#a3e635" },
+    { label: "PLUGINS", color: "#a3e635" },
     { label: "ECONOMY", color: "#34d399" },
-    { label: "WARPS", color: "#a78bfa" },
-    { label: "CONTESTS", color: "#22d3ee" },
+    { label: "LIBRARIES", color: "#22d3ee" },
+    { label: "ADDONS", color: "#a78bfa" },
   ],
   424,
   { width: 230, gap: 18 },
 )}
-${text(600, 540, "TWO LIVE PROJECTS  -  TWO IN THE ARCHIVE", { size: 22, fill: "#64748b", spacing: 2 })}
+${text(600, 540, "THREE LIVE PROJECTS  -  FOUR IN THE ARCHIVE", { size: 22, fill: "#64748b", spacing: 2 })}
 ${text(600, 580, "ONE DEVELOPER. NO COMMITTEE. JUST SHIPPED.", { size: 20, fill: "#fbbf24", spacing: 3 })}
 `,
 });

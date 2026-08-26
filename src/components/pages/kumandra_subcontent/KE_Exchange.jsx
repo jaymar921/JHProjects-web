@@ -38,10 +38,11 @@ function KE_Exchange() {
         />
         <Body className="pt-5 text-justify">
           Most economy plugins want to be the only one on the server. This one
-          does not care. It talks to Vault, so it can sit beside whatever you
-          already have and exchange into it at a rate you pick, or it can drop
-          the middleman and become the server currency itself. The difference is
-          a single line in <Cmd accent="teal">config.yml</Cmd>.
+          does not care. It can sit beside whatever you already have and
+          exchange into it at a rate you pick, it can drop the middleman and
+          become the server currency itself, or it can run on a server with no
+          Vault installed at all. The first two are a single line in{" "}
+          <Cmd accent="teal">config.yml</Cmd>. The third is new in 2.0.
         </Body>
       </Section>
 
@@ -50,7 +51,7 @@ function KE_Exchange() {
           src={FeatureArt.exchange}
           alt="How Kumandra's Economy bridges through Vault into an existing economy plugin"
           accent="teal"
-          caption="Kd goes through Vault at your rate, or replaces the middle of that diagram entirely"
+          caption="Kd goes through Vault at your rate, replaces the middle of that diagram, or skips it"
         />
       </Section>
 
@@ -115,11 +116,12 @@ function KE_Exchange() {
           ))}
         </div>
         <div className="pt-5">
-          <Note accent="rose" icon="fa-solid fa-plug">
-            Vault is a hard dependency. It is listed in{" "}
-            <Cmd accent="rose">depend</Cmd>, so the server will refuse to load
-            Kumandra&apos;s Economy without it. It is free, and you very likely
-            already have it.
+          <Note accent="emerald" icon="fa-solid fa-plug">
+            Vault is optional as of 2.0. It moved out of{" "}
+            <Cmd accent="emerald">depend</Cmd>, so a server with no economy
+            plugin at all can run this on its own. With Vault installed nothing
+            changes; without it, everything works except the exchange screen,
+            which needs a second economy to exchange with anyway.
           </Note>
         </div>
       </Section>

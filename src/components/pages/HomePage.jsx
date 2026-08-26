@@ -1,6 +1,9 @@
 import { PluginInformation as CE3Info } from "../contants/custom_enchants_3/CE3Constants";
 import { PluginInformation as WarpsInfo } from "../contants/legacy/CustomWarpsConstants";
 import { PluginInformation as FishingInfo } from "../contants/legacy/FishingContestConstants";
+import { ProjectInformation as GraphicsInfo } from "../contants/projects/GraphicsUtilsConstants";
+import { ProjectInformation as CE2Info } from "../contants/projects/CustomEnchants2Constants";
+import { ProjectInformation as FoodsInfo } from "../contants/projects/MoreFoodsConstants";
 import {
   formatDownloads,
   KUMANDRA_FALLBACK,
@@ -60,7 +63,10 @@ const pageStyles = `
   .jh-shine { animation: jh-shine 3.6s ease-in-out infinite; }
 `;
 
-/** The two live projects. Downloads are filled in from the Spiget hooks below. */
+/**
+ * The live projects. The two plugins carry a download count from the Spiget
+ * hooks below; the library is on npm instead, so it carries its version.
+ */
 const PROJECTS = [
   {
     key: "ce3",
@@ -78,16 +84,27 @@ const PROJECTS = [
     title: "Kumandra's Economy",
     badge: "FREE",
     description:
-      "A whole server economy in one free jar. Jobs, trading, delivery, shops and quests, no premium tier.",
+      "A whole server economy in one free jar. Jobs, trading, delivery, shops and quests, no premium tier. Version 2.0 covers 1.16 through 26.2.",
     accent: "emerald",
     href: "/kumandras-economy",
+  },
+  {
+    key: "gfx",
+    icon: "fa-solid fa-display",
+    title: GraphicsInfo.title,
+    badge: "NPM",
+    description:
+      "A canvas, sprites and a render loop you do not have to write. Pan, zoom, animation and Y-sort depth, in one package.",
+    accent: "cyan",
+    href: "/2dgraphic-utils",
+    hint: `v${GraphicsInfo.version} on npm`,
   },
 ];
 
 /**
- * Finished, and kept on the shelf rather than taken down. Both shipped in
- * 2021, both are still on Spigot, and the source for neither one survived, so
- * these pages are a record of what they did rather than a product listing.
+ * Finished, or stopped, and kept on the shelf rather than taken down. Each one
+ * gets a page that records what it did, why it is not moving any more, and
+ * where the source is if there is any.
  */
 const ARCHIVE = [
   {
@@ -113,6 +130,32 @@ const ARCHIVE = [
     accent: "cyan",
     href: "/fishing-contest",
     logo: FishingInfo.icon,
+  },
+  {
+    key: "ce2",
+    icon: "fa-solid fa-wand-sparkles",
+    title: CE2Info.title,
+    tagline: CE2Info.subtitle,
+    years: "2020 - Jul 2022",
+    releases: `${CE2Info.enchantCount} enchantments`,
+    versions: CE2Info.supportedVersions,
+    accent: "purple",
+    href: "/custom-enchantments-2",
+    logo: CE2Info.icon,
+    label: "OPEN SOURCE",
+  },
+  {
+    key: "foods",
+    icon: "fa-solid fa-seedling",
+    title: FoodsInfo.title,
+    tagline: FoodsInfo.subtitle,
+    years: "Bedrock addon",
+    releases: "Never finished",
+    versions: FoodsInfo.supportedVersions,
+    accent: "lime",
+    href: "/more-foods-and-crops",
+    logo: FoodsInfo.icon,
+    label: "UNFINISHED",
   },
 ];
 
@@ -197,8 +240,9 @@ function HomePage() {
           </p>
           <p className="mx-auto max-w-xl pt-5 text-xs leading-relaxed text-slate-400 md:text-sm">
             JHProjects is the studio name behind JayMar921&apos;s side
-            projects. Minecraft plugins, tools and games built after hours,
-            some free, some paid, always finished.
+            projects. Minecraft plugins, a JavaScript graphics library, addons
+            and games, built after hours. Some free, some paid, some finished
+            and honest about the ones that are not.
           </p>
 
           <div className="mt-8 flex flex-col place-items-center justify-center gap-3 md:flex-row">
@@ -261,14 +305,17 @@ function HomePage() {
               <code className="text-[10px] md:text-sm">
                 <TerminalLabel accent="sky">$ whoami</TerminalLabel>
                 {`
-JayMar921 -- indie developer, one-person studio
+JayMar921, indie developer, one-person studio
 `}
                 <TerminalLabel accent="lime">$ ls ./projects</TerminalLabel>
                 {`
 customenchantments3/   [PREMIUM]  v${CE3Info.version}
-kumandras-economy/     [FREE]     live
+kumandras-economy/     [FREE]     v2.0, live
+2dgraphic-utils/       [NPM]      v${GraphicsInfo.version}, live
+custom-enchantments-2/ [FREE]     open source, ended 2022
 custom-warps/          [FREE]     archived 2021
 fishing-contest/       [FREE]     archived 2021
+more-foods-and-crops/  [FREE]     unfinished
 `}
                 <TerminalLabel accent="amber">$ cat ./mission.txt</TerminalLabel>
                 {`
@@ -286,10 +333,10 @@ Ship small, ship real, ship solo.
           <SectionHeading
             icon="fa-solid fa-layer-group"
             title="Featured Projects"
-            subtitle="Two live projects, still being worked on. Pick one to see what it does."
+            subtitle="Still being worked on. Pick one to see what it does."
             accent="sky"
           />
-          <div className="mt-6 grid gap-4 md:grid-cols-2">
+          <div className="mt-6 grid gap-4 md:grid-cols-2 xl:grid-cols-3">
             {PROJECTS.map((project) => (
               <ActionCard
                 key={project.key}
@@ -300,7 +347,10 @@ Ship small, ship real, ship solo.
                 description={project.description}
                 buttonIcon="fa-solid fa-arrow-right"
                 buttonLabel="Visit Project"
-                hint={`${formatDownloads(downloadsByProject[project.key])} downloads`}
+                hint={
+                  project.hint ??
+                  `${formatDownloads(downloadsByProject[project.key])} downloads`
+                }
                 onClick={() => (window.location.href = project.href)}
               />
             ))}
@@ -315,16 +365,18 @@ Ship small, ship real, ship solo.
           <SectionHeading
             icon="fa-solid fa-trophy"
             title="The Archive"
-            subtitle="Two plugins that shipped, did their job, and finished. Kept on the shelf, not taken down."
+            subtitle="Projects that shipped, or stopped. Kept on the shelf rather than taken down."
             accent="amber"
           />
 
           <p className="pt-5 text-xs leading-relaxed text-slate-400 md:text-sm">
-            Both of these went out in 2021 and both are still downloadable on
-            Spigot. Neither is maintained, and the reason is simple: the source
-            code for them is gone. They could be rebuilt from scratch one day,
-            but not today, so instead of quietly deleting them they get a page
-            each, with what they did and every release they ever had.
+            Custom Warps and Fishing Contest went out in 2021 and are still
+            downloadable on Spigot, though the source for both is gone. Custom
+            Enchantments 2 was discontinued while CE3 was being written, and its
+            source is public. More Foods &amp; Crops never got finished at all.
+            None of the four is maintained, and rather than quietly deleting
+            them they each get a page: what they did, where they stopped, and
+            where the code is if any of it survived.
           </p>
 
           <div className="mt-7 grid gap-4 md:grid-cols-2">
@@ -349,7 +401,7 @@ Ship small, ship real, ship solo.
                       <div className="flex flex-wrap place-items-center gap-2">
                         <span className="jh-shine pixel-font border border-amber-400/50 bg-amber-500/15 px-2 py-1 text-[7px] tracking-widest text-amber-300 md:text-[8px]">
                           <i className="fa-solid fa-trophy pr-1"></i>
-                          ARCHIVED
+                          {entry.label ?? "ARCHIVED"}
                         </span>
                         <span className="text-[10px] tracking-widest text-slate-500 uppercase">
                           {entry.years}

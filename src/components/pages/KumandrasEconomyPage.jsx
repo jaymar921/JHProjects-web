@@ -17,6 +17,7 @@ import WindowWrap from "../modals/windowWrap";
 import PageFooter from "../page_components/PageFooter";
 import KE_CommandTableComponent from "../page_components/KE_CommandTableComponent";
 import Changelog from "../page_components/Changelog";
+import KE_WhatsNew from "./kumandra_subcontent/KE_WhatsNew";
 import KE_Balance from "./kumandra_subcontent/KE_Balance";
 import KE_Exchange from "./kumandra_subcontent/KE_Exchange";
 import KE_Trading from "./kumandra_subcontent/KE_Trading";
@@ -74,7 +75,7 @@ const pageStyles = `
 function KumandrasEconomyPage() {
   const [subcontent, setSubcontent] = useState("none");
   const [showCommand, setShowCommand] = useState(false);
-  const [showRoadmap, setShowRoadmap] = useState(false);
+  const [showWhatsNew, setShowWhatsNew] = useState(false);
   const resource = useSpigetResource(
     PluginInformation.spigotResourceId,
     KUMANDRA_FALLBACK,
@@ -102,6 +103,8 @@ function KumandrasEconomyPage() {
 
   const subContent = () => {
     switch (subcontent) {
+      case "whats new":
+        return <KE_WhatsNew />;
       case "balance":
         return <KE_Balance />;
       case "exchange":
@@ -273,8 +276,8 @@ function KumandrasEconomyPage() {
             <div className="md:flex md:place-items-center md:gap-6">
               <div className="grow">
                 <div className="flex flex-wrap place-items-center gap-2">
-                  <span className="pixel-font border border-amber-400/50 bg-amber-500/15 px-2 py-1 text-[8px] tracking-widest text-amber-300">
-                    LEGACY BUILD
+                  <span className="pixel-font border border-rose-400/60 bg-rose-500/15 px-2 py-1 text-[8px] tracking-widest text-rose-300">
+                    JUST RELEASED
                   </span>
                   <span className="pixel-font text-xs text-slate-200 md:text-sm">
                     v{PluginInformation.version}
@@ -284,19 +287,23 @@ function KumandrasEconomyPage() {
                   </span>
                 </div>
                 <p className="pixel-font pt-3 text-[10px] text-amber-300 md:text-xs">
-                  {PluginInformation.legacy.headline}
+                  {PluginInformation.release.headline}
                 </p>
                 <p className="pt-3 text-xs leading-relaxed text-slate-300 md:text-sm">
-                  {PluginInformation.legacy.body}
+                  {PluginInformation.release.body}
+                </p>
+                <p className="pt-3 text-[11px] leading-relaxed text-emerald-300/90 md:text-xs">
+                  <i className="fa-solid fa-arrow-up-right-dots pr-2"></i>
+                  {PluginInformation.release.upgrade}
                 </p>
               </div>
               <div className="shrink-0 pt-5 md:pt-0">
                 <button
                   className="pixel-font w-full rounded-none border-2 border-amber-400/50 bg-[rgba(0,0,0,0.5)] px-4 py-3 text-[9px] tracking-widest text-amber-200 transition-all hover:-translate-y-0.5 hover:border-amber-300 hover:bg-amber-500/20 md:w-auto md:text-[10px]"
-                  onClick={() => setSubcontent("change logs")}
+                  onClick={() => setSubcontent("whats new")}
                 >
-                  <i className="fa-solid fa-clipboard-list pr-2"></i>
-                  READ THE HISTORY
+                  <i className="fa-solid fa-rocket pr-2"></i>
+                  WHAT CHANGED
                 </button>
               </div>
             </div>
@@ -308,9 +315,9 @@ function KumandrasEconomyPage() {
       <section className="w-full py-10">
         <div className="mx-auto w-[90%] md:w-[80%] lg:w-[70%]">
           <SectionHeading
-            icon="fa-solid fa-road"
-            title="What is coming"
-            subtitle="1.7 is not the end of it. Here is what is being worked on."
+            icon="fa-solid fa-rocket"
+            title="What is new in 2.0"
+            subtitle={`Released ${PluginInformation.versionReleaseDate}. The version check was the root of most of it.`}
             accent="emerald"
           />
 
@@ -318,23 +325,31 @@ function KumandrasEconomyPage() {
             <div className="md:flex md:place-items-center md:gap-6">
               <div className="grow">
                 <p className="text-xs leading-relaxed text-slate-300 md:text-sm">
-                  The headline is version support. Everything else on the list
-                  is written down here on purpose, because a plugin that tells
-                  you where it is thin is worth more than one that pretends it
-                  has no rough edges.
+                  The headline is version support, and the rest followed from
+                  going through the whole plugin while that was being fixed.
+                  Every item below is written out plainly, including the parts
+                  that were broken for years, because a plugin that tells you
+                  what it got wrong is worth more than one that quietly patches
+                  it and hopes you did not notice.
                 </p>
                 <div className="flex flex-wrap gap-2 pt-4">
                   <StatChip
                     icon="fa-solid fa-cube"
-                    value={PluginInformation.legacy.plannedSupport}
-                    label="Planned"
+                    value={PluginInformation.supportedVersions}
+                    label="One jar"
                     accent="emerald"
                   />
                   <StatChip
                     icon="fa-solid fa-list-check"
-                    value={PluginInformation.roadmap.length}
-                    label="On the list"
+                    value={PluginInformation.whatsNew.length}
+                    label="Areas changed"
                     accent="amber"
+                  />
+                  <StatChip
+                    icon="fa-solid fa-plug"
+                    value="Optional"
+                    label="Vault"
+                    accent="rose"
                   />
                   <StatChip
                     icon="fa-solid fa-tag"
@@ -347,25 +362,25 @@ function KumandrasEconomyPage() {
               <div className="shrink-0 pt-5 md:pt-0">
                 <button
                   className="pixel-font w-full rounded-none border-2 border-emerald-400/60 bg-[rgba(0,0,0,0.5)] px-4 py-3 text-[9px] tracking-widest text-emerald-200 transition-all hover:-translate-y-0.5 hover:border-emerald-300 hover:bg-emerald-500/20 md:w-auto md:text-[10px]"
-                  onClick={() => setShowRoadmap((shown) => !shown)}
-                  aria-expanded={showRoadmap}
-                  aria-controls="ke-roadmap"
+                  onClick={() => setShowWhatsNew((shown) => !shown)}
+                  aria-expanded={showWhatsNew}
+                  aria-controls="ke-whats-new"
                 >
                   <i
                     className={`fa-solid pr-2 ${
-                      showRoadmap ? "fa-chevron-up" : "fa-chevron-down"
+                      showWhatsNew ? "fa-chevron-up" : "fa-chevron-down"
                     }`}
                   ></i>
-                  {showRoadmap ? "HIDE THE LIST" : "SEE THE LIST"}
+                  {showWhatsNew ? "HIDE THE LIST" : "SEE THE LIST"}
                 </button>
               </div>
             </div>
           </Panel>
 
-          {showRoadmap && (
-            <div id="ke-roadmap">
+          {showWhatsNew && (
+            <div id="ke-whats-new">
               <div className="mt-6 grid gap-4 md:grid-cols-2 xl:grid-cols-3">
-                {PluginInformation.roadmap.map((item) => (
+                {PluginInformation.whatsNew.map((item) => (
                   <Panel key={item.title} accent={item.accent} className="p-5">
                     <div className="flex place-items-center gap-3">
                       <IconBadge icon={item.icon} accent={item.accent} />
@@ -381,10 +396,11 @@ function KumandrasEconomyPage() {
               </div>
 
               <div className="pt-6">
-                <Note accent="amber" icon="fa-solid fa-calendar-xmark">
-                  There are no dates on any of this, on purpose. It is a free
-                  plugin worked on between other projects, and a roadmap with
-                  invented deadlines on it would be worth less than one without.
+                <Note accent="amber" icon="fa-solid fa-circle-info">
+                  If you were running 1.7 on 1.19 or newer, the upgrade will
+                  look like new features arriving. Quests, nether logs and rare
+                  catches were all in that jar. They were switched off by a
+                  version check that could not read your version.
                 </Note>
               </div>
 
@@ -398,7 +414,7 @@ function KumandrasEconomyPage() {
                 </button>
                 <button
                   className="pixel-font w-full rounded-none border-2 border-slate-500/50 bg-[rgba(0,0,0,0.5)] px-5 py-3 text-[9px] tracking-widest text-slate-300 transition-all hover:-translate-y-0.5 hover:border-slate-300 md:w-auto md:text-[11px]"
-                  onClick={() => setShowRoadmap(false)}
+                  onClick={() => setShowWhatsNew(false)}
                 >
                   <i className="fa-solid fa-chevron-up pr-2"></i>
                   MINIMIZE
@@ -436,16 +452,17 @@ function KumandrasEconomyPage() {
                   </p>
                   <p className="pt-2 text-[10px] leading-relaxed text-slate-400 md:text-xs">
                     Plain Spigot API. No packet work, no reflection into server
-                    internals, nothing that breaks on a patch.
+                    internals, which is what makes one jar cover ten years of
+                    Minecraft.
                   </p>
                 </div>
                 <div className="border border-slate-700/70 bg-[rgba(0,0,0,0.45)] p-3">
                   <p className="pixel-font text-[9px] tracking-widest text-sky-300">
-                    ONE DEPENDENCY
+                    NO DEPENDENCIES
                   </p>
                   <p className="pt-2 text-[10px] leading-relaxed text-slate-400 md:text-xs">
-                    Vault, and that is it. Everything else is optional and
-                    detected if it happens to be there.
+                    Vault became optional in 2.0. Everything else is detected if
+                    it happens to be there, and shrugged off if it is not.
                   </p>
                 </div>
                 <div className="border border-slate-700/70 bg-[rgba(0,0,0,0.45)] p-3">
@@ -503,7 +520,7 @@ function KumandrasEconomyPage() {
           <SectionHeading
             icon="fa-solid fa-coins"
             title="Plugin features"
-            subtitle="Nine systems, all in the free download. Pick a panel to see what is inside."
+            subtitle={`${Features.length} panels, all in the free download. Pick one to see what is inside.`}
             accent="emerald"
           />
           <div className="mt-8 grid gap-4 md:grid-cols-2 xl:grid-cols-3">
@@ -539,7 +556,7 @@ function KumandrasEconomyPage() {
               accent="emerald"
               icon="fa-solid fa-download"
               title="DOWNLOAD"
-              description="The full plugin, from the Spigot listing. There is no other version to compare it against."
+              description="The full plugin, from the Spigot listing. One jar, and it works out which server it landed on by itself."
               buttonIcon="fa-solid fa-download"
               buttonLabel="Download"
               hint={`v${PluginInformation.version}, ${formatDownloads(resource.downloads)} downloads`}
@@ -575,7 +592,7 @@ function KumandrasEconomyPage() {
           <SectionHeading
             icon="fa-solid fa-server"
             title="Server requirements"
-            subtitle={`Spigot and Paper, ${PluginInformation.supportedVersions}, plus Vault.`}
+            subtitle={`Spigot and Paper, ${PluginInformation.supportedVersions}, and nothing else required.`}
             accent="sky"
           />
           <Terminal
@@ -588,35 +605,44 @@ function KumandrasEconomyPage() {
                   [SUPPORTED SERVER SOFTWARE]
                 </TerminalLabel>
                 {`
-- SPIGOT [1.16 - 1.19]
-- PAPER  [1.16 - 1.19]
+- SPIGOT [1.16 - 26.2]
+- PAPER  [1.16 - 26.2]
 
 api-version: 1.16
-Java 16+ compatible server runtime.
+Java 8 and up, so a 1.16 server on Java 8 and a
+26.2 server on Java 25 both load the same file.
 
-Newer Minecraft versions are not supported by this
-build. The port is on the roadmap above.
+Version detection parses the numbers, so a release
+that did not exist when this jar was built is still
+read correctly as newer than 1.16.
                 `}
                 <TerminalLabel accent="emerald">[DEPENDENCIES]</TerminalLabel>
                 {`
 REQUIRED
-- Vault
+- nothing
 
 OPTIONAL, detected if present
+- Vault, for cross-economy exchange and for
+  registering as the server's Vault economy
 - EssentialsX, CraftConomy3, GemsEconomy
-- CustomEnchantments
+- Custom Enchantments 3, which unlocks the
+  bundled CE quest pack
+- MySQL, off by default, driver already bundled
 
-That is the whole list. No database server is
-required unless you choose to turn MySQL on.
+Quests need Minecraft 1.17 or newer. Everything
+else runs on the whole supported range.
                 `}
               </code>
             </pre>
           </Terminal>
           <div className="pt-5">
-            <Note accent="amber" icon="fa-solid fa-triangle-exclamation">
-              Check your server version before you download. This build targets{" "}
-              {PluginInformation.supportedVersions}, and on anything newer it
-              will not load cleanly.
+            <Note accent="emerald" icon="fa-solid fa-circle-check">
+              Tested on Spigot 26.2 in four setups: standalone with no other
+              plugins, with Vault and no other economy, with Vault and Kumandra
+              registered as the primary economy, and with Custom Enchantments 3
+              installed. The same sources are compile-verified against the
+              1.16.5 API on every release build, so the bottom of the range
+              cannot quietly break either.
             </Note>
           </div>
         </div>
@@ -708,7 +734,7 @@ required unless you choose to turn MySQL on.
           <SectionHeading
             icon="fa-solid fa-clipboard-list"
             title="Release history"
-            subtitle="From the first commit in August 2021 to the build on the listing today."
+            subtitle="From the first commit in August 2021 to 2.0, on the listing today."
             accent="teal"
           />
           <div className="mt-6 space-y-3">

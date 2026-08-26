@@ -12,6 +12,7 @@
 #
 #   node scripts/generate-kumandra-art.mjs
 #   node scripts/generate-og-cards.mjs
+#   node scripts/generate-project-art.mjs
 #   bash scripts/generate-og.sh
 #
 set -euo pipefail
@@ -25,6 +26,9 @@ cards=(
   "og-jhprojects:jhprojects"
   "og-custom-warps:custom-warps"
   "og-fishing-contest:fishing-contest"
+  "og-graphics-utils:2dgraphic-utils"
+  "og-custom-enchants-2:custom-enchantments-2"
+  "og-more-foods:more-foods-and-crops"
 )
 
 mkdir -p "$out_dir"

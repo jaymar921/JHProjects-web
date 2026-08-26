@@ -12,5 +12,17 @@ import quests from "./quests.svg";
 import shops from "./shops.svg";
 import database from "./database.svg";
 import api from "./api.svg";
+import whatsnew from "./whatsnew.svg";
 
-export { economy, exchange, trading, delivery, jobs, quests, shops, database, api };
+export {
+  economy,
+  exchange,
+  trading,
+  delivery,
+  jobs,
+  quests,
+  shops,
+  database,
+  api,
+  whatsnew,
+};

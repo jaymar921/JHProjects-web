@@ -17,6 +17,18 @@
       "destination": "/fishing-contest.html"
     },
     {
+      "source": "/2dgraphic-utils",
+      "destination": "/2dgraphic-utils.html"
+    },
+    {
+      "source": "/custom-enchantments-2",
+      "destination": "/custom-enchantments-2.html"
+    },
+    {
+      "source": "/more-foods-and-crops",
+      "destination": "/more-foods-and-crops.html"
+    },
+    {
       "source": "/(.*)",
       "destination": "/"
     }

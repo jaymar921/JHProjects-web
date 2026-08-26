@@ -10,32 +10,96 @@
 
 export const Kumandra_Logs = [
   {
-    update_version: "Next",
-    release_date: null,
+    update_version: "2.0",
+    release_date: "08/26/2026",
     changes: [
       {
-        update: "What is being worked on",
+        update: "One jar, 1.16 through 26.2",
         sublist: [
-          "Support for Minecraft 1.20 and newer. The plugin was written on the plain Spigot API with no NMS, no packet work and no reflection into server internals, so bringing it forward is mostly material lists and deprecated API calls rather than a rewrite",
-          "Trade sessions and in-flight deliveries that survive a reload. Both are held in memory today, so a badly timed restart can leave a stale request or an abandoned courier behind",
-          "Shops identified by a real id instead of by looking for a nearby entity with a matching name. Two shops built close together, or a keeper that gets moved, can currently confuse the lookup",
-          "Quest authoring from in game, using the same chat driven flow the shops already use, instead of hand editing Data/Quest.yml with exact indentation",
-          "One place that validates every balance change, so negative amounts, missing accounts and duplicate payouts are caught in a single spot rather than in each command",
-          "More languages. Every player facing string already runs through lang.yml and Turkish ships alongside English, so a new language is a file, not a code change",
+          "Version detection now parses the version as numbers and compares them. The old check asked whether the version text contained \"1.16\", \"1.17\" or \"1.18\", which a 1.19 server matches none of, so on anything newer the plugin decided it was older than 1.16",
+          "That silent misdetection had switched off the entire quest system, nether logs for the Lumberjack and the Fisherman's rare catches, with nothing in the console to say so. If you were on 1.19 or newer, expect quests to start appearing after the upgrade",
+          "Java 8 and up, so a 1.16 server on Java 8 and a 26.2 server on Java 25 both load the same file",
+          "Tested on Spigot 26.2 standalone, with Vault and no other economy, with Vault and Kumandra registered as primary, and with Custom Enchantments 3 installed. The same sources are compile-verified against the 1.16.5 API on every release build",
+        ],
+      },
+      {
+        update: "Vault is optional",
+        sublist: [
+          "Vault moved from a hard dependency to an optional one. With it installed nothing changes; without it everything works except cross-economy exchange, which needs a second economy to exchange with anyway",
+          "If Separate_Economy is true but nothing has registered a primary economy, the plugin says so in the console and runs as primary for that session instead of half-working in silence",
+        ],
+      },
+      {
+        update: "The Vault provider was rewritten",
+        sublist: [
+          "format() returned null, so shop plugins printed prices as the word \"null\". It returns a formatted string with your currency suffix now",
+          "createPlayerAccount() always returned false, so plugins that create an account and then pay concluded the economy had refused the player",
+          "Bank methods returned null instead of a not-supported response, which is a crash in any plugin that reads the result",
+          "Balance lookups by world returned zero when the player stood in a different world. Balances here are server-wide, so money appeared to vanish through a nether portal",
+          "Player lookup by name used a Java assert for its null check. Assertions are off on a live server, so an offline or misspelled name threw into whichever plugin had called Vault",
+        ],
+      },
+      {
+        update: "Jobs",
+        sublist: [
+          "Ore income never worked. The default ore list was being appended to the mining-block list, so the ore list started empty and every ore paid the plain-block rate",
+          "Builder income read the wrong config key and could silently be zero",
+          "VillagerRadius had been in config.yml all along and was never read. Guardian always used a hard-coded 20 blocks",
+          "Every job timer was running seven times over, because the timers started from a constructor all seven job listeners call. The action bar was written seven times a tick and income expired seven times faster than intended",
+          "Job listeners no longer crash for a player whose record has not loaded yet, such as a first join on a database-backed server or a mid-session reload",
+        ],
+      },
+      {
+        update: "Custom Enchantments 3 integration",
+        sublist: [
+          "CE3 is detected at startup and listed as an integration on the balance screen",
+          "The Custom Enchantments quest pack that has always shipped inside the jar finally loads, but only when CE is actually installed, so quests can hand out CE gear again",
+          "Not one line of CE code is imported, so a CE update cannot break this plugin's startup",
+        ],
+      },
+      {
+        update: "Storage and data safety",
+        sublist: [
+          "MySQL Connector/J updated to 26.7.0, bundled in the jar and relocated into the plugin's own package so it cannot collide with another plugin's copy",
+          "Connections are closed on every path, values go through prepared statements instead of concatenated SQL, and saves are one batched write instead of a round trip per player",
+          "A failed database save now reports failure and falls back to local storage. Before, it could be reported as successful and the data went nowhere",
+          "A whole-number balance in playerData.yml used to throw a type error and take every player's record with it. Both 500 and 500.0 are read now",
+          "Config upgrades read from the plugin's real data folder instead of a hard-coded path, index your settings by key, carry list settings across as whole blocks, and keep the comments in the shipped config intact",
+        ],
+      },
+      {
+        update: "Trading, delivery and the rest",
+        sublist: [
+          "Trade sessions leaked. Expiry cleared one map and closing the window cleared a different one, so the trade inventory, the participant list and both sides' trade data stayed in memory for the server's whole uptime. It is all torn down together now",
+          "Delivery cleanup on shutdown stopped at the first courier whose chunk had unloaded, leaving every courier after it standing in the world as a named animal with no AI. Shutdown steps are independent now, so a problem saving shop data no longer skips entity cleanup and the Vault unhook",
+          "/kumandra economy runs from the console",
+          "Player lookup no longer walks every player who has ever joined the server, and no longer crashes on an unresolved entry",
+          "Missing translation keys show readable English instead of the word \"null\"",
+          "Deposits and withdrawals refuse negative and non-finite amounts, and the update checker has proper timeouts",
+          "Material names in the config are matched properly, and a name your server does not have is named in the log instead of being dropped silently",
+        ],
+      },
+      {
+        update: "Developer API",
+        sublist: [
+          "Every 1.x method keeps its signature and return values. Code compiled against 1.7 links against 2.0 unchanged",
+          "getJobs(Player) no longer throws for a player with no record, or for a job name it does not recognise",
+          "New: offline-capable UUID balance methods, an all-or-nothing transfer, setBalance, hasAccount, createAccount, hasJob, and accessors for the currency prefix, the exchange rate, the foreign economy name and the detected server version",
+          "A full guide now lives in the repository at docs/developer-api-guide.md",
         ],
       },
     ],
-    note: "No release date yet. This list is what is being worked on, not a promise of what lands together.",
+    note: "Upgrading is a jar swap and a restart. config.yml is upgraded in place and backed up as old_config.yml first; playerData.yml and shop data are unchanged in format.",
   },
   {
     update_version: "1.7",
     release_date: "06/26/2022",
     changes: [
       {
-        update: "The current build",
+        update: "The last of the 1.x line",
         sublist: [
-          "The last release of the 1.16 to 1.19 line, and the one on the Spigot listing today",
-          "Everything the plugin does now is in this build: balances, Vault exchange, trading, deliveries, jobs, quests, public shops and MySQL storage",
+          "The final release of the 1.16 to 1.19 line, and what every server ran until 2.0",
+          "Balances, Vault exchange, trading, deliveries, jobs, quests, public shops and MySQL storage were all in this build. What 2.0 changed is how much of it actually ran on a modern server",
         ],
       },
     ],

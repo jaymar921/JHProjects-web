@@ -25,17 +25,20 @@ function KE_API() {
         />
         <Body className="pt-5 text-justify">
           <Cmd accent="emerald">KumandrasAPI</Cmd> is a small deliberate
-          surface: six methods, no builders, no events to subscribe to. Grab the
-          plugin from the plugin manager, ask it for the API, and you are done.
+          surface. No builders, no events to subscribe to. Grab the plugin from
+          the plugin manager, ask it for the API, and you are done. 2.0 added
+          offline-capable balance methods and an all-or-nothing transfer, and
+          every 1.x method kept its exact signature, so an integration compiled
+          against 1.7 links against 2.0 unchanged.
         </Body>
       </Section>
 
       <Section>
         <Shot
           src={FeatureArt.api}
-          alt="The KumandrasAPI class and its six methods"
+          alt="The KumandrasAPI class and the methods it exposes"
           accent="emerald"
-          caption="Everything the API exposes, on one screen"
+          caption="The shape of it, with the 2.0 additions marked"
         />
       </Section>
 
@@ -61,6 +64,15 @@ if (api.primaryEconomy()) {
 }
 
 JobList[] jobs = api.getJobs(player);
+
+// new in 2.0, and these work for a player
+// who is not currently online
+api.transfer(fromUuid, toUuid, 50.0);
+api.setBalance(uuid, 250.0);
+
+if (api.hasJob(player, JobList.MINER)) {
+    // pay a mining bonus
+}
               `}
             </code>
           </pre>
@@ -91,17 +103,21 @@ JobList[] jobs = api.getJobs(player);
       <Section>
         <Note accent="sky" icon="fa-solid fa-plug">
           Add <Cmd accent="sky">softdepend: [KumandrasEconomy]</Cmd> to your own
-          plugin.yml so your plugin loads after this one. Check the balance
-          methods&apos; return values: they report false, or -1.0, when the
-          player has no account loaded rather than throwing.
+          plugin.yml so your plugin loads after this one. Call it from the main
+          server thread, and check the balance methods&apos; return values: they
+          report false, or -1.0, when the player has no account loaded rather
+          than throwing. A <Cmd accent="sky">-1.0</Cmd> means no account, not a
+          zero balance.
         </Note>
       </Section>
 
       <Section>
-        <Note accent="emerald" icon="fa-solid fa-envelope">
-          Building something against it, and the summary above does not answer
-          your question? Email the developer and ask. The API is small enough
-          that most questions have a one line answer.
+        <Note accent="emerald" icon="fa-solid fa-book">
+          There is a full guide in the plugin repository at{" "}
+          <Cmd accent="emerald">docs/developer-api-guide.md</Cmd>. It covers
+          getting the API, every method, what the return values mean, threading
+          and persistence, worked examples and troubleshooting. If that still
+          does not answer your question, email the developer and ask.
         </Note>
       </Section>
     </div>
