@@ -631,7 +631,7 @@ function CE3Page() {
               description="Not sure yet? Take the lite build for a spin on your server before you commit."
               buttonIcon="fa-solid fa-file-arrow-down"
               buttonLabel="Try Plugin"
-              hint={`${PluginInformation.trialTitle}, ${formatDownloads(downloads.lite)} downloads`}
+              hint={`v${downloads.liteVersion}, ${formatDownloads(downloads.lite)} downloads`}
               onClick={() => RedirectTo(PluginInformation.trialLink)}
             />
             <ActionCard

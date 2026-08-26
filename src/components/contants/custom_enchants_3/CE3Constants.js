@@ -32,7 +32,6 @@ export const PluginInformation = {
   ],
   trialLink:
     "https://www.spigotmc.org/resources/%E2%9C%AF-custom-enchantments-3-1-16-free-%E2%9C%AF.89793/",
-  trialTitle: "v1.2.1-lite",
   payment: {
     contactEmail: "jaymarplugins@gmail.com",
     paymentSubject: "Custom Enchantments 3 Plugin Payment",

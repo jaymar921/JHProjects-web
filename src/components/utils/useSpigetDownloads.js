@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 
 /**
- * Live download counts for the two Spigot listings, read from the Spiget API.
+ * Live download counts, plus the lite build's latest version name, read from
+ * the Spiget API.
  *
  * The premium resource and the lite resource are counted separately. Lite is a
  * combined figure: the listing carried Custom Enchantments 2 before it became
@@ -24,6 +25,9 @@ export const DOWNLOAD_FALLBACK = {
   premium: 220,
   lite: 320000,
 };
+
+/** Shown when the lite version lookup cannot be reached. */
+export const LITE_VERSION_FALLBACK = "1.5.0-lite";
 
 /**
  * 221 stays "220+", 1500 becomes "1k+", 322859 becomes "320k+". Always rounds
@@ -52,13 +56,33 @@ async function readDownloads(resourceId, signal) {
 }
 
 /**
- * Returns the two counts plus a "live" flag saying whether they came from the
- * API or from the fallback. Both counts are always numbers, so a caller can
- * render straight away without a loading branch.
+ * The name of the newest version posted on a listing, e.g. "1.5.0-lite". This
+ * is the Spiget mirror of api.spigotmc.org/legacy/update.php?resource=<id>,
+ * which the browser cannot call directly because it sends no CORS headers.
+ */
+async function readLatestVersion(resourceId, signal) {
+  const response = await fetch(`${SPIGET}/${resourceId}/versions/latest`, {
+    signal,
+  });
+  if (!response.ok) throw new Error(`spiget responded ${response.status}`);
+
+  const version = await response.json();
+  if (typeof version?.name !== "string" || version.name.length === 0) {
+    throw new Error("spiget response had no version name");
+  }
+
+  return version.name;
+}
+
+/**
+ * Returns the two counts and the lite version name, plus a "live" flag saying
+ * whether they came from the API or from the fallback. Every field is always
+ * filled in, so a caller can render straight away without a loading branch.
  */
 export function useSpigetDownloads() {
   const [downloads, setDownloads] = useState({
     ...DOWNLOAD_FALLBACK,
+    liteVersion: LITE_VERSION_FALLBACK,
     live: false,
   });
 
@@ -68,9 +92,10 @@ export function useSpigetDownloads() {
     Promise.all([
       readDownloads(SPIGOT_RESOURCES.premium, controller.signal),
       readDownloads(SPIGOT_RESOURCES.lite, controller.signal),
+      readLatestVersion(SPIGOT_RESOURCES.lite, controller.signal),
     ])
-      .then(([premium, lite]) => {
-        setDownloads({ premium, lite, live: true });
+      .then(([premium, lite, liteVersion]) => {
+        setDownloads({ premium, lite, liteVersion, live: true });
       })
       .catch(() => {
         // Offline, rate limited or blocked. The fallback is already in state.
