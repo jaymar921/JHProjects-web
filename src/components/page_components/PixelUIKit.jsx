@@ -15,6 +15,7 @@ const ACCENTS = {
     button:
       "border-lime-400/40 text-lime-200 hover:border-lime-300 hover:bg-lime-400/15",
     glow: "[text-shadow:0_0_14px_rgba(163,230,53,0.45)]",
+    field: "focus:border-lime-400/70",
   },
   purple: {
     text: "text-purple-300",
@@ -25,6 +26,7 @@ const ACCENTS = {
     button:
       "border-purple-400/40 text-purple-200 hover:border-purple-300 hover:bg-purple-400/15",
     glow: "[text-shadow:0_0_14px_rgba(192,132,252,0.45)]",
+    field: "focus:border-purple-400/70",
   },
   amber: {
     text: "text-amber-300",
@@ -35,6 +37,7 @@ const ACCENTS = {
     button:
       "border-amber-400/40 text-amber-200 hover:border-amber-300 hover:bg-amber-400/15",
     glow: "[text-shadow:0_0_14px_rgba(251,191,36,0.45)]",
+    field: "focus:border-amber-400/70",
   },
   sky: {
     text: "text-sky-300",
@@ -45,6 +48,7 @@ const ACCENTS = {
     button:
       "border-sky-400/40 text-sky-200 hover:border-sky-300 hover:bg-sky-400/15",
     glow: "[text-shadow:0_0_14px_rgba(56,189,248,0.45)]",
+    field: "focus:border-sky-400/70",
   },
   emerald: {
     text: "text-emerald-300",
@@ -55,6 +59,7 @@ const ACCENTS = {
     button:
       "border-emerald-400/40 text-emerald-200 hover:border-emerald-300 hover:bg-emerald-400/15",
     glow: "[text-shadow:0_0_14px_rgba(52,211,153,0.45)]",
+    field: "focus:border-emerald-400/70",
   },
   teal: {
     text: "text-teal-300",
@@ -65,6 +70,7 @@ const ACCENTS = {
     button:
       "border-teal-400/40 text-teal-200 hover:border-teal-300 hover:bg-teal-400/15",
     glow: "[text-shadow:0_0_14px_rgba(45,212,191,0.45)]",
+    field: "focus:border-teal-400/70",
   },
   violet: {
     text: "text-violet-300",
@@ -75,6 +81,7 @@ const ACCENTS = {
     button:
       "border-violet-400/40 text-violet-200 hover:border-violet-300 hover:bg-violet-400/15",
     glow: "[text-shadow:0_0_14px_rgba(167,139,250,0.45)]",
+    field: "focus:border-violet-400/70",
   },
   cyan: {
     text: "text-cyan-300",
@@ -85,6 +92,7 @@ const ACCENTS = {
     button:
       "border-cyan-400/40 text-cyan-200 hover:border-cyan-300 hover:bg-cyan-400/15",
     glow: "[text-shadow:0_0_14px_rgba(34,211,238,0.45)]",
+    field: "focus:border-cyan-400/70",
   },
   slate: {
     text: "text-slate-300",
@@ -95,6 +103,7 @@ const ACCENTS = {
     button:
       "border-slate-400/40 text-slate-200 hover:border-slate-300 hover:bg-slate-400/15",
     glow: "[text-shadow:0_0_14px_rgba(148,163,184,0.45)]",
+    field: "focus:border-slate-400/70",
   },
   rose: {
     text: "text-rose-300",
@@ -105,6 +114,7 @@ const ACCENTS = {
     button:
       "border-rose-400/40 text-rose-200 hover:border-rose-300 hover:bg-rose-400/15",
     glow: "[text-shadow:0_0_14px_rgba(251,113,133,0.45)]",
+    field: "focus:border-rose-400/70",
   },
 };
 
@@ -439,9 +449,13 @@ export function PixelButton({
   className = "",
   as = "button",
   href,
+  type,
+  disabled = false,
 }) {
   const a = accentOf(accent);
-  const cls = `pixel-font inline-flex place-items-center justify-center gap-2 rounded-none border-2 bg-[rgba(0,0,0,0.5)] px-4 py-3 text-[9px] tracking-widest transition-all hover:-translate-y-0.5 md:text-[11px] ${a.button} ${className}`;
+  const cls = `pixel-font inline-flex place-items-center justify-center gap-2 rounded-none border-2 bg-[rgba(0,0,0,0.5)] px-4 py-3 text-[9px] tracking-widest transition-all hover:-translate-y-0.5 md:text-[11px] ${a.button} ${
+    disabled ? "pointer-events-none opacity-50" : ""
+  } ${className}`;
   if (as === "a")
     return (
       <a className={cls} href={href} target="_blank" rel="noreferrer">
@@ -450,7 +464,15 @@ export function PixelButton({
       </a>
     );
   return (
-    <button className={cls} onClick={onClick}>
+    <button
+      className={cls}
+      onClick={onClick}
+      // A button inside a form submits it by default, which is what the bug
+      // report form wants. Everywhere else the button is a plain control and
+      // would otherwise submit a form it happens to sit in.
+      type={type ?? (onClick ? "button" : "submit")}
+      disabled={disabled}
+    >
       {icon && <i className={icon}></i>}
       {children}
     </button>
@@ -487,6 +509,178 @@ export function KeyValue({ label, value, accent = "lime" }) {
       <span className={`pixel-font text-[9px] md:text-[10px] ${a.text}`}>
         {value}
       </span>
+    </div>
+  );
+}
+
+/* ------------------------------------------------------------------ *
+ * Form controls. Squared off and dark like the rest of the HUD, with   *
+ * a visible focus ring, because a keyboard user on a dark form with no *
+ * focus state has no idea where they are.                              *
+ * ------------------------------------------------------------------ */
+
+const FIELD_BASE =
+  "w-full rounded-none border bg-[rgba(0,0,0,0.55)] px-3 py-2 text-xs text-slate-200 outline-none transition-colors placeholder:text-slate-600 md:text-sm";
+
+/** Label, control and, when something is wrong, the reason why. */
+export function Field({
+  label,
+  htmlFor,
+  required = false,
+  hint,
+  error,
+  children,
+  className = "",
+}) {
+  return (
+    <div className={`flex flex-col gap-1.5 ${className}`}>
+      <label
+        htmlFor={htmlFor}
+        className="pixel-font text-[9px] tracking-wider text-slate-400 md:text-[10px]"
+      >
+        {label}
+        {required && <span className="pl-1 text-rose-400">*</span>}
+      </label>
+      {children}
+      {error ? (
+        <p
+          id={`${htmlFor}-error`}
+          role="alert"
+          className="text-[10px] text-rose-300 md:text-[11px]"
+        >
+          <i className="fa-solid fa-circle-exclamation pr-1.5"></i>
+          {error}
+        </p>
+      ) : (
+        hint && (
+          <p
+            id={`${htmlFor}-hint`}
+            className="text-[10px] text-slate-500 md:text-[11px]"
+          >
+            {hint}
+          </p>
+        )
+      )}
+    </div>
+  );
+}
+
+export function TextInput({ accent = "lime", invalid = false, className = "", ...props }) {
+  const a = accentOf(accent);
+  const border = invalid
+    ? "border-rose-400/70 focus:border-rose-300"
+    : `border-slate-700/80 ${a.field}`;
+
+  return (
+    <input
+      {...props}
+      aria-invalid={invalid || undefined}
+      className={`${FIELD_BASE} ${border} focus:bg-[rgba(0,0,0,0.75)] ${className}`}
+    />
+  );
+}
+
+export function TextArea({ accent = "lime", invalid = false, className = "", ...props }) {
+  const a = accentOf(accent);
+  const border = invalid
+    ? "border-rose-400/70 focus:border-rose-300"
+    : `border-slate-700/80 ${a.field}`;
+
+  return (
+    <textarea
+      {...props}
+      aria-invalid={invalid || undefined}
+      className={`${FIELD_BASE} ${border} min-h-[110px] resize-y leading-relaxed focus:bg-[rgba(0,0,0,0.75)] ${className}`}
+    />
+  );
+}
+
+/**
+ * A set of radio buttons that look like the chips elsewhere on the page. Radios
+ * rather than a select because there are only four and the hint text for each
+ * is the part that actually helps someone pick.
+ */
+export function ChoiceGroup({ name, value, onChange, options, legend }) {
+  return (
+    <fieldset className="flex flex-col gap-1.5">
+      <legend className="pixel-font pb-1.5 text-[9px] tracking-wider text-slate-400 md:text-[10px]">
+        {legend}
+      </legend>
+      <div className="grid gap-2 sm:grid-cols-2">
+        {options.map((option) => {
+          const a = accentOf(option.accent ?? "lime");
+          const selected = value === option.value;
+
+          return (
+            <label
+              key={option.value}
+              className={`flex cursor-pointer gap-2.5 border p-2.5 transition-colors ${
+                selected
+                  ? `${a.chip} bg-[rgba(0,0,0,0.55)]`
+                  : "border-slate-700/70 bg-[rgba(0,0,0,0.35)] hover:border-slate-500/70"
+              }`}
+            >
+              <input
+                type="radio"
+                name={name}
+                value={option.value}
+                checked={selected}
+                onChange={() => onChange(option.value)}
+                className="mt-0.5 h-3 w-3 shrink-0 accent-slate-300"
+              />
+              <span className="flex flex-col gap-0.5">
+                <span
+                  className={`pixel-font text-[9px] tracking-wider md:text-[10px] ${
+                    selected ? a.text : "text-slate-300"
+                  }`}
+                >
+                  {option.label}
+                </span>
+                {option.hint && (
+                  <span className="text-[10px] leading-snug text-slate-500">
+                    {option.hint}
+                  </span>
+                )}
+              </span>
+            </label>
+          );
+        })}
+      </div>
+    </fieldset>
+  );
+}
+
+/**
+ * The result banner a form shows after submitting. Success, a warning that
+ * something partly worked, or a failure, in the same frame each time so the
+ * layout does not jump between them.
+ */
+export function FormStatus({ tone = "success", title, children }) {
+  const accent = { success: "lime", warning: "amber", error: "rose" }[tone] ?? "lime";
+  const icon = {
+    success: "fa-solid fa-circle-check",
+    warning: "fa-solid fa-triangle-exclamation",
+    error: "fa-solid fa-circle-xmark",
+  }[tone];
+  const a = accentOf(accent);
+
+  return (
+    <div
+      role="status"
+      aria-live="polite"
+      className={`flex gap-3 border p-4 ${a.chip} bg-[rgba(0,0,0,0.5)]`}
+    >
+      <i className={`${icon} pt-0.5 ${a.text}`}></i>
+      <div className="flex flex-col gap-1">
+        {title && (
+          <p className={`pixel-font text-[9px] tracking-wider md:text-[10px] ${a.text}`}>
+            {title}
+          </p>
+        )}
+        <p className="text-[11px] leading-relaxed text-slate-300 md:text-xs">
+          {children}
+        </p>
+      </div>
     </div>
   );
 }
