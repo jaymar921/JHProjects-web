@@ -372,9 +372,14 @@ scenes["delivery"] = frame({
     rect(588, 100, 16, 16, C.emerald, 0.75),
     text(596, 92, "RECIPIENT", { size: 8, fill: C.dim, anchor: "middle" }),
     rect(474, 128, 14, 14, C.sky, 0.8),
-    text(482, 122, "PARCEL", { size: 7.5, fill: C.sky, anchor: "middle" }),
-    text(386, 200, "GOES UP, THEN ACROSS,", { size: 8.4, fill: C.text }),
-    text(386, 214, "THEN DOWN TO THEM.", { size: 8.4, fill: C.text }),
+    // Beside the parcel rather than above it. The arc passes within a couple
+    // of pixels of the top edge of that box, so a label centred above it sits
+    // on the dashes.
+    text(494, 139, "PARCEL", { size: 7.5, fill: C.sky }),
+    // The arc leaves the sender almost vertically and is still around x=400 at
+    // this height, so the caption starts clear of it rather than underneath.
+    text(430, 200, "GOES UP, THEN ACROSS,", { size: 8.4, fill: C.text }),
+    text(430, 214, "THEN DOWN TO THEM.", { size: 8.4, fill: C.text }),
 
     text(20, 288, "/kumandra deliver <player>", { size: 9.5, fill: C.text }),
     text(260, 288, "TIMERS AND PRICES ARE ALL CONFIG KEYS", {
@@ -455,7 +460,9 @@ scenes["quests"] = frame({
     row(34, 160, 312, "TASK", "KILL_ZOMBIE", C.sky),
     row(34, 188, 312, "PROGRESS", "3 / 5", C.emerald),
     text(34, 237, "TIME LEFT", { size: 8.5, fill: C.dim, spacing: 1.4 }),
-    meter(96, 230, 190, 0.62, C.amber, 8),
+    // The label runs to about x=92 once the letter spacing is counted, so the
+    // bar starts at 100 and gives up the width instead of butting into it.
+    meter(100, 230, 186, 0.62, C.amber, 8),
     text(346, 238, "320s", { size: 9, fill: C.amber, anchor: "end" }),
 
     panel(374, 52, 248, 122, "REWARD TYPES", C.emerald),
@@ -464,9 +471,9 @@ scenes["quests"] = frame({
     row(390, 138, 216, "EXP", "levels", C.sky),
 
     panel(374, 188, 248, 78, "HOW OFTEN", C.teal),
-    text(390, 228, "QuestChance   0.15", { size: 9, fill: C.text }),
-    text(390, 244, "QuestInterval 5 min", { size: 9, fill: C.text }),
-    text(390, 260, "AllowQuest    true", { size: 9, fill: C.emerald }),
+    text(390, 226, "QuestChance   0.15", { size: 9, fill: C.text }),
+    text(390, 242, "QuestInterval 5 min", { size: 9, fill: C.text }),
+    text(390, 258, "AllowQuest    true", { size: 9, fill: C.emerald }),
 
     text(20, 288, "TASKS: KILL / FEED / MINE / CRAFT", {
       size: 9,
@@ -578,14 +585,17 @@ scenes["database"] = frame({
     row(346, 136, 260, "Database", "kumandra_database", C.sky),
     text(346, 167, "CONNECTOR/J 26.7.0 - BUNDLED & RELOCATED", { size: 7.6, fill: C.dim }),
 
-    panel(330, 186, 292, 80, "IF A SAVE FAILS", C.amber),
-    text(346, 222, "IT SAYS SO, AND FALLS BACK TO", {
+    // Four lines need 88 of height, not 80, or the last one lands on the
+    // bottom border. The panel above ends at 174, so there is room to start
+    // this one higher rather than shrink the copy.
+    panel(330, 178, 292, 88, "IF A SAVE FAILS", C.amber),
+    text(346, 220, "IT SAYS SO, AND FALLS BACK TO", {
       size: 8.4,
       fill: C.text,
     }),
-    text(346, 237, "playerData.yml. IN 1.x A FAILED", { size: 8.4, fill: C.text }),
-    text(346, 252, "SAVE COULD REPORT SUCCESS.", { size: 8.4, fill: C.text }),
-    text(346, 264, "NOBODY LOSES THEIR MONEY.", {
+    text(346, 233, "playerData.yml. IN 1.x A FAILED", { size: 8.4, fill: C.text }),
+    text(346, 246, "SAVE COULD REPORT SUCCESS.", { size: 8.4, fill: C.text }),
+    text(346, 259, "NOBODY LOSES THEIR MONEY.", {
       size: 8,
       fill: C.emerald,
     }),
@@ -598,7 +608,14 @@ scenes["database"] = frame({
   ].join("\n"),
 });
 
-/* 9. The developer API. */
+/*
+ * 9. The developer API.
+ *
+ * The panel is 214 tall and the first baseline sits at 84, so at 14px leading
+ * there is room for thirteen lines before the text would cross the bottom
+ * border. Adding a line here means taking one out.
+ */
+const CODE_LEADING = 14;
 const CODE = [
   ["KumandrasEconomy plugin = (KumandrasEconomy)", C.text],
   ["    Bukkit.getPluginManager()", C.text],
@@ -613,7 +630,6 @@ const CODE = [
   ["", C.text],
   ["// new in 2.0, works offline", C.dim],
   ["api.transfer(from, to, 50.0);", C.sky],
-  ["api.hasJob(player, JobList.MINER);", C.sky],
 ];
 
 scenes["api"] = frame({
@@ -624,7 +640,7 @@ scenes["api"] = frame({
   body: [
     panel(18, 52, 404, 214, "KumandrasAPI"),
     ...CODE.map((line, i) =>
-      text(34, 84 + i * 16, line[0], { size: 8.8, fill: line[1] }),
+      text(34, 84 + i * CODE_LEADING, line[0], { size: 8.8, fill: line[1] }),
     ),
 
     panel(434, 52, 188, 214, "METHODS", C.amber),
@@ -639,7 +655,9 @@ scenes["api"] = frame({
       ["primaryEconomy", false],
       ["getServerVersion", true],
     ].flatMap(([name, isNew], i) => {
-      const y = 82 + i * 21;
+      // Nine rows, 17 tall, inside a panel that ends at y=266. At 19 apart the
+      // last one closes at 251, which keeps it clear of the border.
+      const y = 82 + i * 19;
       const accent = isNew ? C.sky : C.amber;
       return [
         rect(450, y, 156, 17, "rgba(0,0,0,0.45)", 1, accent, 0.3, 1),
@@ -659,7 +677,9 @@ scenes["api"] = frame({
       size: 9.5,
       fill: C.text,
     }),
-    text(340, 288, "docs/developer-api-guide.md", {
+    // The plugin repository is closed, so there is no doc file to point at.
+    // The guide is the Developer API panel on the site.
+    text(340, 288, "THE FULL GUIDE IS ON THIS PAGE", {
       size: 9,
       fill: C.muted,
     }),

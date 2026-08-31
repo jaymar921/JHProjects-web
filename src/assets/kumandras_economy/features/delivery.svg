@@ -34,9 +34,9 @@
 <rect x="588" y="100" width="16" height="16" fill="#34d399" fill-opacity="0.75"/>
 <text x="596" y="92" font-family="ui-monospace,'Cascadia Mono',Consolas,'DejaVu Sans Mono',monospace" font-size="8" font-weight="400" fill="#475569" fill-opacity="1" text-anchor="middle">RECIPIENT</text>
 <rect x="474" y="128" width="14" height="14" fill="#38bdf8" fill-opacity="0.8"/>
-<text x="482" y="122" font-family="ui-monospace,'Cascadia Mono',Consolas,'DejaVu Sans Mono',monospace" font-size="7.5" font-weight="400" fill="#38bdf8" fill-opacity="1" text-anchor="middle">PARCEL</text>
-<text x="386" y="200" font-family="ui-monospace,'Cascadia Mono',Consolas,'DejaVu Sans Mono',monospace" font-size="8.4" font-weight="400" fill="#cbd5e1" fill-opacity="1" text-anchor="start">GOES UP, THEN ACROSS,</text>
-<text x="386" y="214" font-family="ui-monospace,'Cascadia Mono',Consolas,'DejaVu Sans Mono',monospace" font-size="8.4" font-weight="400" fill="#cbd5e1" fill-opacity="1" text-anchor="start">THEN DOWN TO THEM.</text>
+<text x="494" y="139" font-family="ui-monospace,'Cascadia Mono',Consolas,'DejaVu Sans Mono',monospace" font-size="7.5" font-weight="400" fill="#38bdf8" fill-opacity="1" text-anchor="start">PARCEL</text>
+<text x="430" y="200" font-family="ui-monospace,'Cascadia Mono',Consolas,'DejaVu Sans Mono',monospace" font-size="8.4" font-weight="400" fill="#cbd5e1" fill-opacity="1" text-anchor="start">GOES UP, THEN ACROSS,</text>
+<text x="430" y="214" font-family="ui-monospace,'Cascadia Mono',Consolas,'DejaVu Sans Mono',monospace" font-size="8.4" font-weight="400" fill="#cbd5e1" fill-opacity="1" text-anchor="start">THEN DOWN TO THEM.</text>
 <text x="20" y="288" font-family="ui-monospace,'Cascadia Mono',Consolas,'DejaVu Sans Mono',monospace" font-size="9.5" font-weight="400" fill="#cbd5e1" fill-opacity="1" text-anchor="start">/kumandra deliver &lt;player&gt;</text>
 <text x="260" y="288" font-family="ui-monospace,'Cascadia Mono',Consolas,'DejaVu Sans Mono',monospace" font-size="9" font-weight="400" fill="#64748b" fill-opacity="1" text-anchor="start">TIMERS AND PRICES ARE ALL CONFIG KEYS</text>
 <rect x="0" y="326" width="640" height="1" fill="#334155" fill-opacity="0.8"/>
