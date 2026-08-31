@@ -28,11 +28,18 @@ function getTransporter() {
         user: env.smtp.user,
         pass: env.smtp.password,
       },
-      // A serverless invocation has a hard ceiling, so give up well before it
-      // rather than being killed mid send with nothing logged.
-      connectionTimeout: 10_000,
-      greetingTimeout: 10_000,
-      socketTimeout: 15_000,
+      /**
+       * These have to lose the race against the serverless function's own
+       * ceiling, which is 10 seconds on a Vercel Hobby plan unless maxDuration
+       * says otherwise. If the platform kills the invocation first, the catch
+       * in fileBugReport never runs, so the report is left marked pending
+       * forever and the reporter sees a timeout instead of being told their
+       * report was saved. Roughly seven seconds of budget keeps nodemailer the
+       * first to give up, and leaves room for the status write and the reply.
+       */
+      connectionTimeout: 6_000,
+      greetingTimeout: 6_000,
+      socketTimeout: 7_000,
     });
   }
 
