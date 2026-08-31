@@ -7,7 +7,6 @@ import {
   PluginInformation,
 } from "../contants/kumandra/KumandraConstants";
 import { Kumandra_Logs } from "../contants/kumandra/KumandraConstants_Logs";
-import { RedirectTo } from "../utils/PageUtility";
 import {
   formatDownloads,
   KUMANDRA_FALLBACK,
@@ -43,6 +42,12 @@ import {
 } from "../page_components/PixelUIKit";
 import KE_LOGO from "../../assets/kumandras_economy/kumandra-icon.jpg";
 import KE_BANNER from "../../assets/kumandras_economy/banner.svg";
+import {
+  CLICK_ACTIONS,
+  PROJECTS,
+  trackedRedirect,
+  usePageView,
+} from "../../lib/analytics";
 
 const pageStyles = `
   .ke-scanlines {
@@ -73,6 +78,7 @@ const pageStyles = `
 `;
 
 function KumandrasEconomyPage() {
+  usePageView(PROJECTS.KUMANDRA);
   const [subcontent, setSubcontent] = useState("none");
   const [showCommand, setShowCommand] = useState(false);
   const [showWhatsNew, setShowWhatsNew] = useState(false);
@@ -214,7 +220,11 @@ function KumandrasEconomyPage() {
           <div className="mt-8 flex flex-col place-items-center justify-center gap-3 md:flex-row">
             <button
               className="pixel-font w-full max-w-[260px] rounded-none border-2 border-emerald-400/70 bg-emerald-500/15 py-3 text-[10px] tracking-widest text-emerald-200 transition-all hover:-translate-y-0.5 hover:bg-emerald-500/30 hover:border-emerald-300 md:w-auto md:px-6 md:text-xs"
-              onClick={() => RedirectTo(PluginInformation.downloadLink)}
+              onClick={trackedRedirect(PROJECTS.KUMANDRA, {
+                action: CLICK_ACTIONS.DOWNLOAD,
+                label: "DOWNLOAD FREE",
+                target: PluginInformation.downloadLink,
+              })}
             >
               <i className="fa-solid fa-download pr-2"></i>
               DOWNLOAD FREE
@@ -560,7 +570,11 @@ function KumandrasEconomyPage() {
               buttonIcon="fa-solid fa-download"
               buttonLabel="Download"
               hint={`v${PluginInformation.version}, ${formatDownloads(resource.downloads)} downloads`}
-              onClick={() => RedirectTo(PluginInformation.downloadLink)}
+              onClick={trackedRedirect(PROJECTS.KUMANDRA, {
+                action: CLICK_ACTIONS.DOWNLOAD,
+                label: "Download",
+                target: PluginInformation.downloadLink,
+              })}
             />
             <ActionCard
               accent="sky"
@@ -570,7 +584,11 @@ function KumandrasEconomyPage() {
               buttonIcon="fa-solid fa-comments"
               buttonLabel="Discussion"
               hint="Spigot"
-              onClick={() => RedirectTo(PluginInformation.discussionLink)}
+              onClick={trackedRedirect(PROJECTS.KUMANDRA, {
+                action: CLICK_ACTIONS.EXTERNAL,
+                label: "Spigot discussion",
+                target: PluginInformation.discussionLink,
+              })}
             />
             <ActionCard
               accent="rose"

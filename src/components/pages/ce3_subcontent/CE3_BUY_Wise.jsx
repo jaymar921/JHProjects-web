@@ -1,4 +1,3 @@
-import { RedirectTo } from "../../utils/PageUtility";
 import { PluginInformation } from "../../contants";
 import {
   Body,
@@ -11,6 +10,7 @@ import {
   Steps,
   SubHeading,
 } from "../../page_components/PixelUIKit";
+import { CLICK_ACTIONS, PROJECTS, trackedRedirect } from "../../../lib/analytics";
 
 const { payment } = PluginInformation;
 const wisePrice =
@@ -57,7 +57,11 @@ function CE3_BUY_Wise() {
                 <PixelButton
                   accent="lime"
                   icon="fa-solid fa-arrow-up-right-from-square"
-                  onClick={() => RedirectTo(payment.wise.link)}
+                  onClick={trackedRedirect(PROJECTS.CE3, {
+                    action: CLICK_ACTIONS.BUY,
+                    label: "OPEN WISE PAYMENT LINK",
+                    target: payment.wise.link,
+                  })}
                 >
                   OPEN WISE PAYMENT LINK
                 </PixelButton>

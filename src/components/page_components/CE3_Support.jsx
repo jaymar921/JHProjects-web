@@ -7,6 +7,7 @@ import {
   Section,
   SectionHeading,
 } from "./PixelUIKit";
+import { CLICK_ACTIONS, PROJECTS, trackClick } from "../../lib/analytics";
 
 const ACCENTS = ["amber", "sky", "lime"];
 
@@ -49,11 +50,17 @@ function CE3_Support({ setSubcontent }) {
                   accent={accent}
                   icon="fa-solid fa-arrow-up-right-from-square"
                   className="w-full"
-                  onClick={() =>
-                    support.link
+                  onClick={() => {
+                    trackClick(PROJECTS.CE3, {
+                      action: CLICK_ACTIONS.DONATE,
+                      label: support.title,
+                      target: support.link,
+                    });
+
+                    return support.link
                       ? RedirectTo(support.link)
-                      : support.onClick?.(setSubcontent)
-                  }
+                      : support.onClick?.(setSubcontent);
+                  }}
                 >
                   DONATE
                 </PixelButton>

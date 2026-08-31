@@ -3,7 +3,6 @@ import {
   Features,
   ProjectInformation,
 } from "../contants/projects/MoreFoodsConstants";
-import { RedirectTo } from "../utils/PageUtility";
 import PageFooter from "../page_components/PageFooter";
 import {
   ActionCard,
@@ -20,6 +19,12 @@ import {
   Terminal,
   TerminalLabel,
 } from "../page_components/PixelUIKit";
+import {
+  CLICK_ACTIONS,
+  PROJECTS,
+  trackedRedirect,
+  usePageView,
+} from "../../lib/analytics";
 
 /**
  * The More Foods & Crops page.
@@ -58,6 +63,7 @@ const pageStyles = `
 `;
 
 function MoreFoodsPage() {
+  usePageView(PROJECTS.MORE_FOODS);
   const isPageOnly =
     typeof window !== "undefined" &&
     new URLSearchParams(window.location.search).get("page_only") === "true";
@@ -133,7 +139,11 @@ function MoreFoodsPage() {
           <div className="mt-8 flex justify-center">
             <button
               className="pixel-font w-full max-w-[280px] rounded-none border-2 border-lime-400/70 bg-lime-500/15 py-3 text-[10px] tracking-widest text-lime-200 transition-all hover:-translate-y-0.5 hover:border-lime-300 hover:bg-lime-500/30 md:w-auto md:px-6 md:text-xs"
-              onClick={() => RedirectTo(ProjectInformation.repoLink)}
+              onClick={trackedRedirect(PROJECTS.MORE_FOODS, {
+                action: CLICK_ACTIONS.SOURCE,
+                label: "TAKE THE SOURCE",
+                target: ProjectInformation.repoLink,
+              })}
             >
               <i className="fa-brands fa-github pr-2"></i>
               TAKE THE SOURCE
@@ -262,7 +272,11 @@ licence  : take it and go
                 description={feature.description}
                 buttonIcon="fa-brands fa-github"
                 buttonLabel="Repository"
-                onClick={() => RedirectTo(ProjectInformation.repoLink)}
+                onClick={trackedRedirect(PROJECTS.MORE_FOODS, {
+                  action: CLICK_ACTIONS.SOURCE,
+                  label: "Repository",
+                  target: ProjectInformation.repoLink,
+                })}
               />
             ))}
           </div>
@@ -337,7 +351,11 @@ licence  : take it and go
             <div className="mt-6">
               <button
                 className="pixel-font w-full rounded-none border-2 border-lime-400/70 bg-lime-500/15 py-3 text-[10px] tracking-widest text-lime-200 transition-all hover:-translate-y-0.5 hover:border-lime-300 hover:bg-lime-500/30 md:w-auto md:px-6 md:text-xs"
-                onClick={() => RedirectTo(ProjectInformation.repoLink)}
+                onClick={trackedRedirect(PROJECTS.MORE_FOODS, {
+                  action: CLICK_ACTIONS.SOURCE,
+                  label: "OPEN THE REPOSITORY",
+                  target: ProjectInformation.repoLink,
+                })}
               >
                 <i className="fa-brands fa-github pr-2"></i>
                 OPEN THE REPOSITORY

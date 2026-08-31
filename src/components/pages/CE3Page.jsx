@@ -4,7 +4,6 @@ import {
   CommandList,
   Enchantments,
 } from "../contants/custom_enchants_3/CE3Constants";
-import { RedirectTo } from "../utils/PageUtility";
 import {
   formatDownloads,
   useSpigetDownloads,
@@ -42,6 +41,13 @@ import {
 } from "../page_components/PixelUIKit";
 import * as FeatureArt from "../../assets/custom_enchants_3/features";
 import * as ReleaseArt from "../../assets/custom_enchants_3/marketing_1_5_0";
+import {
+  CLICK_ACTIONS,
+  PROJECTS,
+  trackClick,
+  trackedRedirect,
+  usePageView,
+} from "../../lib/analytics";
 
 const pageStyles = `
   .ce3-pixelated { image-rendering: pixelated; }
@@ -73,6 +79,7 @@ const pageStyles = `
 `;
 
 function CE3Page() {
+  usePageView(PROJECTS.CE3);
   const [subcontent, setSubcontent] = useState("none");
   const [showCommand, setShowCommand] = useState(false);
   const [showWhatIsNew, setShowWhatIsNew] = useState(false);
@@ -98,6 +105,20 @@ function CE3Page() {
 
   const closeWindow = () => {
     setSubcontent("none");
+  };
+
+  /**
+   * Opens a panel and records the click that opened it.
+   *
+   * The buy and download buttons on this page do not leave the site, they open
+   * a panel with the payment options or the lite build in it. That click is
+   * still the one worth counting: it is where someone decides they want the
+   * plugin. The outbound link inside the panel is counted separately, under its
+   * own label, so the two can be compared and the drop off is visible.
+   */
+  const openTracked = (panel, action, label) => () => {
+    trackClick(PROJECTS.CE3, { action, label });
+    setSubcontent(panel);
   };
 
   const subContent = () => {
@@ -224,14 +245,22 @@ function CE3Page() {
           <div className="mt-8 flex flex-col place-items-center justify-center gap-3 md:flex-row">
             <button
               className="pixel-font w-full max-w-[260px] rounded-none border-2 border-lime-400/70 bg-lime-500/15 py-3 text-[10px] tracking-widest text-lime-200 transition-all hover:-translate-y-0.5 hover:bg-lime-500/30 hover:border-lime-300 md:w-auto md:px-6 md:text-xs"
-              onClick={() => setSubcontent("buy plugin")}
+              onClick={openTracked(
+                "buy plugin",
+                CLICK_ACTIONS.BUY,
+                "GET PREMIUM (hero)",
+              )}
             >
               <i className="fa-solid fa-cart-shopping pr-2"></i>
               GET PREMIUM
             </button>
             <button
               className="pixel-font w-full max-w-[260px] rounded-none border-2 border-slate-400/50 bg-[rgba(0,0,0,0.6)] py-3 text-[10px] tracking-widest text-slate-200 transition-all hover:-translate-y-0.5 hover:border-slate-200 hover:bg-[rgba(255,255,255,0.08)] md:w-auto md:px-6 md:text-xs"
-              onClick={() => setSubcontent("free trial")}
+              onClick={openTracked(
+                "free trial",
+                CLICK_ACTIONS.DOWNLOAD,
+                "PLAY FREE (hero)",
+              )}
             >
               <i className="fa-solid fa-file-arrow-down pr-2"></i>
               PLAY FREE
@@ -627,7 +656,11 @@ function CE3Page() {
               buttonIcon="fa-solid fa-cart-shopping"
               buttonLabel="Buy Plugin"
               hint={`One time payment, ${formatDownloads(downloads.premium)} downloads`}
-              onClick={() => setSubcontent("buy plugin")}
+              onClick={openTracked(
+                "buy plugin",
+                CLICK_ACTIONS.BUY,
+                "Buy Plugin (card)",
+              )}
             />
             <ActionCard
               accent="sky"
@@ -637,7 +670,11 @@ function CE3Page() {
               buttonIcon="fa-solid fa-file-arrow-down"
               buttonLabel="Try Plugin"
               hint={`v${downloads.liteVersion}, ${formatDownloads(downloads.lite)} downloads`}
-              onClick={() => setSubcontent("free trial")}
+              onClick={openTracked(
+                "free trial",
+                CLICK_ACTIONS.DOWNLOAD,
+                "Try Plugin (card)",
+              )}
             />
             <ActionCard
               accent="rose"
@@ -918,11 +955,11 @@ plugin_admin_access:
               description="The older documentation site, still handy for step by step setup guides."
               buttonIcon="fa-solid fa-up-right-from-square"
               buttonLabel="Open Wiki"
-              onClick={() =>
-                RedirectTo(
-                  "https://jaymar921.github.io/jaymar_plugin_wiki/CE3_WIKI/",
-                )
-              }
+              onClick={trackedRedirect(PROJECTS.CE3, {
+                action: CLICK_ACTIONS.EXTERNAL,
+                label: "Open Wiki",
+                target: "https://jaymar921.github.io/jaymar_plugin_wiki/CE3_WIKI/",
+              })}
             />
           </div>
         </div>

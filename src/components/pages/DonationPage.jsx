@@ -1,12 +1,18 @@
 import { useEffect } from "react";
 import { PluginInformation as CE3Info } from "../contants/custom_enchants_3/CE3Constants";
-import { RedirectTo } from "../utils/PageUtility";
 import PageFooter from "../page_components/PageFooter";
 import { Body, Panel, PixelButton, SectionHeading } from "../page_components/PixelUIKit";
+import {
+  CLICK_ACTIONS,
+  PROJECTS,
+  trackedRedirect,
+  usePageView,
+} from "../../lib/analytics";
 
 const ACCENTS = ["amber", "sky", "lime"];
 
 function DonationPage() {
+  usePageView(PROJECTS.DONATION);
   useEffect(() => {
     document.title = "Support JHProjects | Donate";
   }, []);
@@ -62,7 +68,11 @@ function DonationPage() {
                     accent={accent}
                     icon="fa-solid fa-arrow-up-right-from-square"
                     className="w-full"
-                    onClick={() => RedirectTo(support.link)}
+                    onClick={trackedRedirect(PROJECTS.DONATION, {
+                      action: CLICK_ACTIONS.DONATE,
+                      label: support.title,
+                      target: support.link,
+                    })}
                   >
                     DONATE
                   </PixelButton>

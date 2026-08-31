@@ -6,7 +6,6 @@ import {
   Features,
   ProjectInformation,
 } from "../contants/projects/CustomEnchants2Constants";
-import { RedirectTo } from "../utils/PageUtility";
 import PageFooter from "../page_components/PageFooter";
 import Changelog from "../page_components/Changelog";
 import {
@@ -23,6 +22,12 @@ import {
   Terminal,
   TerminalLabel,
 } from "../page_components/PixelUIKit";
+import {
+  CLICK_ACTIONS,
+  PROJECTS,
+  trackedRedirect,
+  usePageView,
+} from "../../lib/analytics";
 
 /**
  * The Custom Enchantments 2 page.
@@ -61,6 +66,7 @@ const pageStyles = `
 `;
 
 function CustomEnchants2Page() {
+  usePageView(PROJECTS.CE2);
   const isPageOnly =
     typeof window !== "undefined" &&
     new URLSearchParams(window.location.search).get("page_only") === "true";
@@ -137,7 +143,11 @@ function CustomEnchants2Page() {
           <div className="mt-8 flex flex-col place-items-center justify-center gap-3 md:flex-row">
             <button
               className="pixel-font w-full max-w-[260px] rounded-none border-2 border-purple-400/70 bg-purple-500/15 py-3 text-[10px] tracking-widest text-purple-200 transition-all hover:-translate-y-0.5 hover:border-purple-300 hover:bg-purple-500/30 md:w-auto md:px-6 md:text-xs"
-              onClick={() => RedirectTo(ProjectInformation.repoLink)}
+              onClick={trackedRedirect(PROJECTS.CE2, {
+                action: CLICK_ACTIONS.SOURCE,
+                label: "READ THE SOURCE",
+                target: ProjectInformation.repoLink,
+              })}
             >
               <i className="fa-brands fa-github pr-2"></i>
               READ THE SOURCE
@@ -210,7 +220,11 @@ function CustomEnchants2Page() {
               <div className="shrink-0 pt-5 md:pt-0">
                 <button
                   className="pixel-font w-full rounded-none border-2 border-amber-400/50 bg-[rgba(0,0,0,0.5)] px-4 py-3 text-[9px] tracking-widest text-amber-200 transition-all hover:-translate-y-0.5 hover:border-amber-300 hover:bg-amber-500/20 md:w-auto md:text-[10px]"
-                  onClick={() => RedirectTo(ProjectInformation.spigotLink)}
+                  onClick={trackedRedirect(PROJECTS.CE2, {
+                    action: CLICK_ACTIONS.DOWNLOAD,
+                    label: "THE OLD LISTING",
+                    target: ProjectInformation.spigotLink,
+                  })}
                 >
                   <i className="fa-solid fa-download pr-2"></i>
                   THE OLD LISTING
@@ -294,7 +308,11 @@ successor    : Custom Enchantments 3
                 description={feature.description}
                 buttonIcon="fa-brands fa-github"
                 buttonLabel="Source"
-                onClick={() => RedirectTo(ProjectInformation.repoLink)}
+                onClick={trackedRedirect(PROJECTS.CE2, {
+                  action: CLICK_ACTIONS.SOURCE,
+                  label: "Source",
+                  target: ProjectInformation.repoLink,
+                })}
               />
             ))}
           </div>
@@ -436,7 +454,11 @@ successor    : Custom Enchantments 3
               </button>
               <button
                 className="pixel-font w-full max-w-[260px] rounded-none border-2 border-slate-400/50 bg-[rgba(0,0,0,0.6)] py-3 text-[10px] tracking-widest text-slate-200 transition-all hover:-translate-y-0.5 hover:border-slate-200 md:w-auto md:px-6 md:text-xs"
-                onClick={() => RedirectTo(ProjectInformation.repoLink)}
+                onClick={trackedRedirect(PROJECTS.CE2, {
+                  action: CLICK_ACTIONS.SOURCE,
+                  label: "CE2 ON GITHUB",
+                  target: ProjectInformation.repoLink,
+                })}
               >
                 <i className="fa-brands fa-github pr-2"></i>
                 CE2 ON GITHUB

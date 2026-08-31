@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { PluginInformation } from "../contants/legacy/CustomWarpsConstants";
 import { CustomWarps_Logs } from "../contants/legacy/CustomWarpsConstants_Logs";
-import { RedirectTo } from "../utils/PageUtility";
 import WindowWrap from "../modals/windowWrap";
 import PageFooter from "../page_components/PageFooter";
 import Changelog from "../page_components/Changelog";
@@ -23,6 +22,12 @@ import {
   TerminalLabel,
 } from "../page_components/PixelUIKit";
 import CW_LOGO from "../../assets/legacy/custom_warps/icon.jpg";
+import {
+  CLICK_ACTIONS,
+  PROJECTS,
+  trackedRedirect,
+  usePageView,
+} from "../../lib/analytics";
 
 /**
  * Custom Warps, archived.
@@ -180,6 +185,7 @@ Nothing configured here. To claim it:
 }
 
 function CustomWarpsPage() {
+  usePageView(PROJECTS.CUSTOM_WARPS);
   const [subcontent, setSubcontent] = useState("none");
   const [showCommand, setShowCommand] = useState(false);
 
@@ -287,7 +293,11 @@ function CustomWarpsPage() {
           <div className="mt-8 flex flex-col place-items-center justify-center gap-3 md:flex-row">
             <button
               className="pixel-font w-full max-w-[280px] rounded-none border-2 border-violet-400/70 bg-violet-500/15 py-3 text-[10px] tracking-widest text-violet-200 transition-all hover:-translate-y-0.5 hover:border-violet-300 hover:bg-violet-500/30 md:w-auto md:px-6 md:text-xs"
-              onClick={() => RedirectTo(PluginInformation.downloadLink)}
+              onClick={trackedRedirect(PROJECTS.CUSTOM_WARPS, {
+                action: CLICK_ACTIONS.DOWNLOAD,
+                label: "VIEW ON SPIGOT",
+                target: PluginInformation.downloadLink,
+              })}
             >
               <i className="fa-solid fa-box-archive pr-2"></i>
               VIEW ON SPIGOT

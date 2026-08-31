@@ -1,4 +1,3 @@
-import { RedirectTo } from "../../utils/PageUtility";
 import { PluginInformation } from "../../contants";
 import {
   Body,
@@ -11,6 +10,7 @@ import {
   Steps,
   SubHeading,
 } from "../../page_components/PixelUIKit";
+import { CLICK_ACTIONS, PROJECTS, trackedRedirect } from "../../../lib/analytics";
 
 const { payment } = PluginInformation;
 const paypalPrice =
@@ -57,7 +57,11 @@ function CE3_BUY_PayPal() {
                 <PixelButton
                   accent="sky"
                   icon="fa-brands fa-paypal"
-                  onClick={() => RedirectTo(payment.paypal.link)}
+                  onClick={trackedRedirect(PROJECTS.CE3, {
+                    action: CLICK_ACTIONS.BUY,
+                    label: "OPEN PAYPAL PAYMENT LINK",
+                    target: payment.paypal.link,
+                  })}
                 >
                   OPEN PAYMENT LINK
                 </PixelButton>

@@ -9,6 +9,7 @@ import {
   SectionHeading,
   StatChip,
 } from "./PixelUIKit";
+import { CLICK_ACTIONS, PROJECTS, trackClick } from "../../lib/analytics";
 
 const ACCENTS = ["lime", "sky"];
 const { payment } = PluginInformation;
@@ -100,11 +101,19 @@ function CE3_BuyPlugin({ setSubcontent }) {
                   accent={accent}
                   icon="fa-solid fa-cart-shopping"
                   className="w-full"
-                  onClick={() =>
-                    buyData.link
+                  onClick={() => {
+                    trackClick(PROJECTS.CE3, {
+                      action: CLICK_ACTIONS.BUY,
+                      label: `BUY VIA ${buyData.title}`,
+                      target: buyData.link,
+                    });
+
+                    // Some options open another panel instead of a payment
+                    // page, and those are still worth counting as a buy click.
+                    return buyData.link
                       ? RedirectTo(buyData.link)
-                      : buyData.onClick?.(setSubcontent)
-                  }
+                      : buyData.onClick?.(setSubcontent);
+                  }}
                 >
                   BUY HERE
                 </PixelButton>

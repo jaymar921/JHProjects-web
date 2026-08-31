@@ -1,5 +1,4 @@
 import { PluginInformation } from "../../contants/kumandra/KumandraConstants";
-import { RedirectTo } from "../../utils/PageUtility";
 import {
   Body,
   Note,
@@ -8,6 +7,7 @@ import {
   Section,
   SectionHeading,
 } from "../../page_components/PixelUIKit";
+import { CLICK_ACTIONS, PROJECTS, trackedRedirect } from "../../../lib/analytics";
 
 const ACCENTS = ["amber", "sky", "emerald"];
 
@@ -56,7 +56,11 @@ function KE_Support() {
                   accent={accent}
                   icon="fa-solid fa-arrow-up-right-from-square"
                   className="w-full"
-                  onClick={() => RedirectTo(support.link)}
+                  onClick={trackedRedirect(PROJECTS.KUMANDRA, {
+                    action: CLICK_ACTIONS.DONATE,
+                    label: support.title,
+                    target: support.link,
+                  })}
                 >
                   DONATE
                 </PixelButton>

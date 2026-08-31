@@ -22,6 +22,7 @@ import {
   Terminal,
   TerminalLabel,
 } from "../page_components/PixelUIKit";
+import { PROJECTS, usePageView } from "../../lib/analytics";
 
 const pageStyles = `
   .jh-scanlines {
@@ -67,7 +68,7 @@ const pageStyles = `
  * The live projects. The two plugins carry a download count from the Spiget
  * hooks below; the library is on npm instead, so it carries its version.
  */
-const PROJECTS = [
+const LIVE_PROJECTS = [
   {
     key: "ce3",
     icon: "fa-solid fa-wand-magic-sparkles",
@@ -187,6 +188,7 @@ const OPEN_SOURCE_REPOS = [
 const GITHUB_ORG_URL = "https://github.com/orgs/JnH-Projects/repositories";
 
 function HomePage() {
+  usePageView(PROJECTS.HOME);
   const ce3Downloads = useSpigetDownloads();
   const keResource = useSpigetResource(KUMANDRA_RESOURCE, KUMANDRA_FALLBACK);
 
@@ -217,7 +219,7 @@ function HomePage() {
           <div className="mt-6 inline-flex place-items-center gap-2 border border-sky-400/50 bg-[rgba(0,0,0,0.6)] px-3 py-1">
             <span className="jh-blink h-2 w-2 bg-sky-400"></span>
             <span className="pixel-font text-[8px] md:text-[10px] tracking-widest text-sky-300">
-              {PROJECTS.length} LIVE, {ARCHIVE.length} IN THE ARCHIVE
+              {LIVE_PROJECTS.length} LIVE, {ARCHIVE.length} IN THE ARCHIVE
             </span>
           </div>
 
@@ -265,7 +267,7 @@ function HomePage() {
           <div className="mt-8 flex flex-wrap place-items-center justify-center gap-2">
             <StatChip
               icon="fa-solid fa-cubes"
-              value={PROJECTS.length}
+              value={LIVE_PROJECTS.length}
               label="Live Projects"
               accent="sky"
             />
@@ -337,7 +339,7 @@ Ship small, ship real, ship solo.
             accent="sky"
           />
           <div className="mt-6 grid gap-4 md:grid-cols-2 xl:grid-cols-3">
-            {PROJECTS.map((project) => (
+            {LIVE_PROJECTS.map((project) => (
               <ActionCard
                 key={project.key}
                 accent={project.accent}

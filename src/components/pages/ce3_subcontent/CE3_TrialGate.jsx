@@ -1,6 +1,5 @@
 import { PluginInformation } from "../../contants";
 import { Enchantments } from "../../contants/custom_enchants_3/CE3Constants";
-import { RedirectTo } from "../../utils/PageUtility";
 import { formatDownloads } from "../../utils/useSpigetDownloads";
 import {
   Body,
@@ -10,6 +9,7 @@ import {
   SectionHeading,
   SubHeading,
 } from "../../page_components/PixelUIKit";
+import { CLICK_ACTIONS, PROJECTS, trackedRedirect } from "../../../lib/analytics";
 
 /**
  * Shown when someone asks for the free lite build. It does not block the
@@ -226,7 +226,11 @@ function CE3_TrialGate({ setSubcontent, downloads }) {
               accent="sky"
               icon="fa-solid fa-file-arrow-down"
               className="w-full md:ml-auto md:w-auto"
-              onClick={() => RedirectTo(PluginInformation.trialLink)}
+              onClick={trackedRedirect(PROJECTS.CE3, {
+                action: CLICK_ACTIONS.DOWNLOAD,
+                label: "DOWNLOAD FREE LITE BUILD",
+                target: PluginInformation.trialLink,
+              })}
             >
               DOWNLOAD FREE ({liteVersion})
             </PixelButton>

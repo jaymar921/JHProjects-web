@@ -6,7 +6,6 @@ import {
   ProjectInformation,
   SpriteTypes,
 } from "../contants/projects/GraphicsUtilsConstants";
-import { RedirectTo } from "../utils/PageUtility";
 import PageFooter from "../page_components/PageFooter";
 import {
   ActionCard,
@@ -23,6 +22,12 @@ import {
   Terminal,
   TerminalLabel,
 } from "../page_components/PixelUIKit";
+import {
+  CLICK_ACTIONS,
+  PROJECTS,
+  trackedRedirect,
+  usePageView,
+} from "../../lib/analytics";
 
 /**
  * The 2D Graphics Utils page.
@@ -61,6 +66,7 @@ const pageStyles = `
 `;
 
 function GraphicsUtilsPage() {
+  usePageView(PROJECTS.GRAPHICS_UTILS);
   const isPageOnly =
     typeof window !== "undefined" &&
     new URLSearchParams(window.location.search).get("page_only") === "true";
@@ -141,21 +147,33 @@ function GraphicsUtilsPage() {
           <div className="mt-7 flex flex-col place-items-center justify-center gap-3 md:flex-row">
             <button
               className="pixel-font w-full max-w-[260px] rounded-none border-2 border-cyan-400/70 bg-cyan-500/15 py-3 text-[10px] tracking-widest text-cyan-200 transition-all hover:-translate-y-0.5 hover:border-cyan-300 hover:bg-cyan-500/30 md:w-auto md:px-6 md:text-xs"
-              onClick={() => RedirectTo(ProjectInformation.demoLink)}
+              onClick={trackedRedirect(PROJECTS.GRAPHICS_UTILS, {
+                action: CLICK_ACTIONS.EXTERNAL,
+                label: "LIVE DEMO",
+                target: ProjectInformation.demoLink,
+              })}
             >
               <i className="fa-solid fa-play pr-2"></i>
               LIVE DEMO
             </button>
             <button
               className="pixel-font w-full max-w-[260px] rounded-none border-2 border-violet-400/60 bg-[rgba(0,0,0,0.6)] py-3 text-[10px] tracking-widest text-violet-200 transition-all hover:-translate-y-0.5 hover:border-violet-300 hover:bg-violet-500/20 md:w-auto md:px-6 md:text-xs"
-              onClick={() => RedirectTo(ProjectInformation.repoLink)}
+              onClick={trackedRedirect(PROJECTS.GRAPHICS_UTILS, {
+                action: CLICK_ACTIONS.SOURCE,
+                label: "SOURCE",
+                target: ProjectInformation.repoLink,
+              })}
             >
               <i className="fa-brands fa-github pr-2"></i>
               SOURCE
             </button>
             <button
               className="pixel-font w-full max-w-[260px] rounded-none border-2 border-slate-400/50 bg-[rgba(0,0,0,0.6)] py-3 text-[10px] tracking-widest text-slate-200 transition-all hover:-translate-y-0.5 hover:border-slate-200 md:w-auto md:px-6 md:text-xs"
-              onClick={() => RedirectTo(ProjectInformation.npmLink)}
+              onClick={trackedRedirect(PROJECTS.GRAPHICS_UTILS, {
+                action: CLICK_ACTIONS.DOWNLOAD,
+                label: "NPM",
+                target: ProjectInformation.npmLink,
+              })}
             >
               <i className="fa-brands fa-npm pr-2"></i>
               NPM
@@ -204,7 +222,11 @@ function GraphicsUtilsPage() {
               <div className="shrink-0 pt-5 md:pt-0">
                 <button
                   className="pixel-font w-full rounded-none border-2 border-emerald-400/60 bg-[rgba(0,0,0,0.5)] px-4 py-3 text-[9px] tracking-widest text-emerald-200 transition-all hover:-translate-y-0.5 hover:border-emerald-300 hover:bg-emerald-500/20 md:w-auto md:text-[10px]"
-                  onClick={() => RedirectTo(ProjectInformation.repoLink)}
+                  onClick={trackedRedirect(PROJECTS.GRAPHICS_UTILS, {
+                    action: CLICK_ACTIONS.SOURCE,
+                    label: "OPEN AN ISSUE",
+                    target: ProjectInformation.repoLink,
+                  })}
                 >
                   <i className="fa-brands fa-github pr-2"></i>
                   OPEN AN ISSUE
@@ -304,7 +326,11 @@ function GraphicsUtilsPage() {
                 description={feature.description}
                 buttonIcon="fa-brands fa-github"
                 buttonLabel="Read the docs"
-                onClick={() => RedirectTo(ProjectInformation.repoLink)}
+                onClick={trackedRedirect(PROJECTS.GRAPHICS_UTILS, {
+                  action: CLICK_ACTIONS.SOURCE,
+                  label: "Read the docs",
+                  target: ProjectInformation.repoLink,
+                })}
               />
             ))}
           </div>
@@ -558,7 +584,11 @@ canvas.handleScreenClickedEvent((e) => {
           <div className="pt-6 text-center">
             <button
               className="pixel-font rounded-none border-2 border-cyan-400/50 bg-[rgba(0,0,0,0.5)] px-5 py-3 text-[9px] tracking-widest text-cyan-200 transition-all hover:-translate-y-0.5 hover:border-cyan-300 hover:bg-cyan-500/20 md:text-[11px]"
-              onClick={() => RedirectTo(ProjectInformation.repoLink)}
+              onClick={trackedRedirect(PROJECTS.GRAPHICS_UTILS, {
+                action: CLICK_ACTIONS.SOURCE,
+                label: "FULL HISTORY ON GITHUB",
+                target: ProjectInformation.repoLink,
+              })}
             >
               <i className="fa-brands fa-github pr-2"></i>
               FULL HISTORY ON GITHUB
