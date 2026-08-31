@@ -1,7 +1,12 @@
 import { EnchantType } from "../contants/CE3_Enums";
-export const RedirectTo = (url, target = "_blank") => {
-  window.open(url, target);
-};
+import { RedirectTo } from "../../lib/navigation";
+
+/**
+ * RedirectTo now lives in lib/navigation, alongside the tracking code that has
+ * to call it. It is re-exported here so the pages that already import it from
+ * this file keep working.
+ */
+export { RedirectTo };
 
 /**
  * @param {...EnchantType} type

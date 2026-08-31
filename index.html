@@ -4,8 +4,76 @@
     <meta charset="UTF-8" />
     <link rel="icon" type="image/png" href="/jh-logo.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>JHProjects</title>
-    <script src="https://kit.fontawesome.com/55a8472328.js" crossorigin="anonymous"></script>
+
+    <!--
+      Site level preview. Routes with their own card get their own entry file,
+      see customenchantments3.html. Everything else falls back to this one.
+
+      Its og:image is the JHProjects card, not a project's. Pointing it at the
+      Custom Enchantments 3 card meant a link to the site itself previewed as
+      one of the things on it. The card is drawn by
+      scripts/generate-og-cards.mjs.
+
+      The copy here covers the whole shelf rather than the plugins alone. There
+      is a JavaScript library and a Bedrock addon on the site now, so calling it
+      a Minecraft plugin page undersold half of it.
+    -->
+    <title>JHProjects | Things JayMar921 built after hours</title>
+    <meta
+      name="description"
+      content="One developer, seven projects. Custom Enchantments 3, an RPG plugin with 134 enchantments and its own economy. Kumandra's Economy, a whole server economy in one free jar. 2D Graphics Utils, a canvas and sprite library on npm. Plus the archive, kept online rather than deleted."
+    />
+    <meta name="theme-color" content="#0e1014" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="JHProjects" />
+    <meta property="og:url" content="https://jhprojects.vercel.app/" />
+    <meta
+      property="og:title"
+      content="JHProjects | Things JayMar921 built after hours"
+    />
+    <meta
+      property="og:description"
+      content="One developer, seven projects. Minecraft plugins, a canvas and sprite library on npm, a Bedrock farming addon, and an archive that is kept online rather than deleted."
+    />
+    <meta
+      property="og:image"
+      content="https://jhprojects.vercel.app/og/jhprojects.png"
+    />
+    <meta
+      property="og:image:secure_url"
+      content="https://jhprojects.vercel.app/og/jhprojects.png"
+    />
+    <meta property="og:image:type" content="image/png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta
+      property="og:image:alt"
+      content="JHProjects, the side projects of JayMar921"
+    />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta
+      name="twitter:title"
+      content="JHProjects | Things JayMar921 built after hours"
+    />
+    <meta
+      name="twitter:description"
+      content="One developer, seven projects. Minecraft plugins, a canvas and sprite library on npm, a Bedrock farming addon, and an archive that is kept online rather than deleted."
+    />
+    <meta
+      name="twitter:image"
+      content="https://jhprojects.vercel.app/og/jhprojects.png"
+    />
+    <meta
+      name="twitter:image:alt"
+      content="JHProjects, the side projects of JayMar921"
+    />
+
+    <script
+      src="https://kit.fontawesome.com/55a8472328.js"
+      crossorigin="anonymous"
+    ></script>
   </head>
   <body>
     <div id="root"></div>

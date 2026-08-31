@@ -1,100 +1,178 @@
-import React from "react";
 import IMG_CE3_BUY_LEVEL from "../../../assets/custom_enchants_3/other_photo_ce/ce3_buy_level.png";
 import IMG_CE3_BUY_RACO from "../../../assets/custom_enchants_3/other_photo_ce/ce3_buy_raco.png";
 import IMG_CE3_CONFIG from "../../../assets/custom_enchants_3/other_photo_ce/ce3_config_price.png";
+import { racoEconomy as RACO_ART } from "../../../assets/custom_enchants_3/features";
+import {
+  Body,
+  Bullet,
+  Bullets,
+  Chip,
+  Cmd,
+  Note,
+  Panel,
+  PixelButton,
+  Section,
+  SectionHeading,
+  Shot,
+  Step,
+  Steps,
+  SubHeading,
+  Terminal,
+  TerminalLabel,
+} from "../../page_components/PixelUIKit";
+
+const CONFIG_REPO =
+  "https://github.com/JnH-Projects/Custom-Enchantments-3/tree/main/config";
 
 function CE3_BuyEnchantment() {
   return (
-    <div className="w-full">
-      <h1 className="text-center text-sm md:text-md text-purple-500 mb-4">
-        Added in v1.3.0+
-      </h1>
-      {/* <div className="w-[90%] md:w-[60%] xl:w-[40%] m-auto">
-        <video
-          className="w-full"
-          src="https://media.githubusercontent.com/media/jaymar921/JHProjects-web/refs/heads/main/src/assets/custom_enchants_3/video/ce_lootingplot.mp4"
-          autoPlay
-          loop
-          muted
-          title="Looting Plot in action"
-        ></video>
-      </div> */}
+    <div className="w-full pb-6">
+      <Section>
+        <div className="flex justify-center pb-4">
+          <Chip accent="amber">ADDED IN v1.3.0</Chip>
+        </div>
+        <Shot
+          src={RACO_ART}
+          alt="The RACO currency exchange and its market chart"
+          accent="amber"
+          caption="RACO is the plugin's own currency, with a price players move themselves"
+        />
+      </Section>
 
-      <div className="p-8 text-center text-xs md:text-lg">
-        <p>
-          Custom Enchantments are now fully customizable in the config! Choose
-          whether to buy enchantments with Vanilla Minecraft levels or RACO (the
-          plugin's built-in currency). Setup is super easy your adventure, your
-          rules!
-        </p>
-      </div>
+      <Section>
+        <SectionHeading
+          icon="fa-solid fa-coins"
+          title="Two ways to pay"
+          accent="amber"
+        />
+        <Body className="pt-5 text-justify">
+          Every enchantment carries a price you set. Players can pay in vanilla
+          Minecraft levels, or in RACO, the currency the plugin runs itself. Set
+          a price to <Cmd accent="rose">0</Cmd> and that enchantment stops being
+          sold at all.
+        </Body>
 
-      <h1 className="text-center text-md md:text-xl text-purple-500">
-        VANILLA MINECRAFT LEVEL
-      </h1>
+        <div className="mt-6 grid gap-4 lg:grid-cols-2">
+          <Shot
+            src={IMG_CE3_BUY_LEVEL}
+            alt="Buying an enchantment with vanilla Minecraft levels"
+            accent="sky"
+            caption="Paying with vanilla Minecraft levels"
+          />
+          <Shot
+            src={IMG_CE3_BUY_RACO}
+            alt="Buying an enchantment with RACO currency"
+            accent="amber"
+            caption="Paying with RACO"
+          />
+        </div>
+      </Section>
 
-      <img
-        className="w-[90%] lg:w-[50%] m-auto h-auto my-8"
-        src={IMG_CE3_BUY_LEVEL}
-      />
+      <Section>
+        <SectionHeading
+          icon="fa-solid fa-arrow-right-arrow-left"
+          title="Where RACO comes from"
+          accent="lime"
+        />
+        <Panel accent="lime" className="mt-6 p-5">
+          <Bullets>
+            <Bullet accent="lime">
+              XP levels convert to CLVL one for one at a Raco Exchange shop.
+            </Bullet>
+            <Bullet accent="lime">
+              CLVL buys RACO at whatever the market price is right now. Buying
+              pushes the price up, selling pushes it back down.
+            </Bullet>
+            <Bullet accent="lime">
+              Supply is capped, 1,250,000 coins by default, so the currency
+              cannot be inflated away.
+            </Bullet>
+            <Bullet accent="lime">
+              Players can list the item in their hand on a Raco Shop. If a sale
+              lands while they are offline, the coins are waiting at their next
+              login.
+            </Bullet>
+          </Bullets>
+          <div className="pt-4">
+            <Note accent="sky" icon="fa-solid fa-chart-line">
+              Every trade is logged, and every 30 minutes those trades are
+              rolled up into hourly candles. The market has a real history you
+              can look back on. Since 1.5.0 the currency exchange has a chart
+              item in the middle of it: hover that and the tooltip draws up to
+              24 hourly candles in block characters, with the last close, the
+              high, the low and the coins in circulation underneath. Green
+              closed up, red closed down.
+            </Note>
+          </div>
+        </Panel>
+      </Section>
 
-      <h1 className="text-center text-md md:text-xl text-purple-500">
-        RACO (Plugin's built-in currency)
-      </h1>
+      <Section>
+        <SectionHeading
+          icon="fa-solid fa-sliders"
+          title="Set your prices"
+          accent="sky"
+        />
+        <Panel accent="sky" className="mt-6 p-5">
+          <Steps>
+            <Step n="1" accent="sky">
+              Stop the server first, so nothing overwrites your edit.
+            </Step>
+            <Step n="2" accent="sky">
+              Open <Cmd accent="sky">config.yml</Cmd> inside the
+              CustomEnchantments3 folder.
+            </Step>
+            <Step n="3" accent="sky">
+              Find the enchantment list. Life Steal is the first one, priced in
+              vanilla levels out of the box.
+            </Step>
+            <Step n="4" accent="sky">
+              Type any number you like to change the price.
+            </Step>
+            <Step n="5" accent="sky">
+              Add a <Cmd accent="amber">C</Cmd> after the number to charge RACO
+              instead of levels.
+            </Step>
+            <Step n="6" accent="sky">
+              Save the file and start the server. The new prices load on boot.
+            </Step>
+          </Steps>
+          <div className="pt-5">
+            <PixelButton
+              as="a"
+              href={CONFIG_REPO}
+              accent="sky"
+              icon="fa-brands fa-github"
+            >
+              GET A FRESH CONFIG FILE
+            </PixelButton>
+          </div>
+        </Panel>
 
-      <img
-        className="w-[90%] lg:w-[50%] m-auto h-auto my-8"
-        src={IMG_CE3_BUY_RACO}
-      />
+        <Terminal title="CustomEnchantments3 / config.yml" className="mt-6">
+          <pre>
+            <code className="text-[10px] md:text-sm" lang="yaml">
+              <TerminalLabel>[Reading a price]</TerminalLabel>
+              {`
+life_steal: 55    # costs 55 vanilla Minecraft levels
+critical: 25C     # the C suffix means 25 RACO instead
+poison: 0         # a price of 0 disables the enchantment
+`}
+            </code>
+          </pre>
+        </Terminal>
+      </Section>
 
-      <h1 className="text-center text-md md:text-xl text-purple-500">Setup</h1>
-
-      <div className="p-8 text-center text-xs md:text-lg">
-        <p>
-          Custom Enchantments can be bought with Minecraft levels or RACO, and
-          you can disable purchases by setting the price to 0.
-        </p>
-      </div>
-
-      <h1 className="text-center text-md md:text-xl text-purple-500 pt-4">
-        Modify config.yml
-      </h1>
-      <div className="text-left w-[80%] lg:w-[60%] m-auto py-2 text-xs md:text-lg font-mono">
-        <p>1. Turn of the server (To avoid Crashing)</p>
-        <p>
-          2. Locate config.yml, it can be found inside CustomEnchantments3
-          folder in the plugin's folder of your server
-        </p>
-        <p>
-          3. Proceed to line number 98, you can see the first Enchantment Listed
-          there called LifeSteal with a price of 55 Vanilla Minecraft Level
-        </p>
-        <p>4. To change the price, just simply enter a number of your choice</p>
-        <p>
-          5. If you want to set it to RACO, simply add the character ('C')
-          beside the price, see example screenshot below
-        </p>
-        <p>
-          6. Get a new copy of the config file{" "}
-          <a
-            href="https://github.com/JnH-Projects/Custom-Enchantments-3/tree/main/config"
-            target="_blank"
-          >
-            here
-          </a>
-        </p>
-        <p>7. Once done, simply save the file</p>
-        <p>8. Start the server (It will load the modified file)</p>
-      </div>
-
-      <h1 className="text-center text-md md:text-xl text-purple-500 pt-4">
-        Example Screenshot
-      </h1>
-
-      <img
-        className="w-[90%] lg:w-[50%] m-auto h-auto my-8"
-        src={IMG_CE3_CONFIG}
-      />
+      <Section>
+        <SubHeading accent="purple">WHAT IT LOOKS LIKE IN THE FILE</SubHeading>
+        <Shot
+          className="mt-4"
+          src={IMG_CE3_CONFIG}
+          alt="An enchantment price line inside config.yml"
+          accent="purple"
+          caption="A price line in config.yml"
+        />
+      </Section>
     </div>
   );
 }

@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { CE3_Logs } from "../../contants/custom_enchants_3/CE3Constants_Logs";
-import Changelog from "./component/Changelog";
+import Changelog from "../../page_components/Changelog";
 
 function CE3_ChangeLogs() {
   const [filteredLog, setFilter] = useState(CE3_Logs);

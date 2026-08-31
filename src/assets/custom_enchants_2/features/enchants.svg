@@ -1,0 +1,77 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 360" width="640" height="360" role="img" aria-label="78 ENCHANTMENTS">
+<defs>
+<pattern id="grid" width="32" height="32" patternUnits="userSpaceOnUse"><path d="M32 0H0V32" fill="none" stroke="#94a3b8" stroke-opacity="0.055"/></pattern>
+<pattern id="scan" width="3" height="3" patternUnits="userSpaceOnUse"><rect width="3" height="1" fill="#000" fill-opacity="0.18"/></pattern>
+<radialGradient id="vig" cx="50%" cy="45%" r="72%"><stop offset="55%" stop-color="#000" stop-opacity="0"/><stop offset="100%" stop-color="#000" stop-opacity="0.55"/></radialGradient>
+<linearGradient id="rule" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#c084fc" stop-opacity="0.7"/><stop offset="100%" stop-color="#c084fc" stop-opacity="0"/></linearGradient>
+</defs>
+<rect x="0" y="0" width="640" height="360" fill="#0b0d11" fill-opacity="1"/>
+<rect x="0" y="34" width="640" height="292" fill="url(#grid)" fill-opacity="1"/>
+<rect x="0" y="0" width="640" height="34" fill="rgba(255,255,255,0.03)" fill-opacity="1"/>
+<rect x="0" y="33" width="640" height="1" fill="#334155" fill-opacity="0.8"/>
+<rect x="14" y="14" width="7" height="7" fill="#fb7185" fill-opacity="0.8"/>
+<rect x="27" y="14" width="7" height="7" fill="#fbbf24" fill-opacity="0.8"/>
+<rect x="40" y="14" width="7" height="7" fill="#34d399" fill-opacity="0.8"/>
+<text x="60" y="22" font-family="ui-monospace,'Cascadia Mono',Consolas,'DejaVu Sans Mono',monospace" font-size="12" font-weight="700" fill="#c084fc" fill-opacity="1" text-anchor="start" letter-spacing="2.2">78 ENCHANTMENTS</text>
+<text x="624" y="22" font-family="ui-monospace,'Cascadia Mono',Consolas,'DejaVu Sans Mono',monospace" font-size="9.5" font-weight="400" fill="#64748b" fill-opacity="1" text-anchor="end">CustomEnchants.java</text>
+<rect x="18" y="52" width="604" height="214" fill="rgba(255,255,255,0.02)" fill-opacity="1" stroke="#334155" stroke-opacity="0.8" stroke-width="1"/><path d="M18 60V52H26" fill="none" stroke="#c084fc" stroke-width="1.5" stroke-opacity="0.75"/><path d="M614 52H622V60" fill="none" stroke="#c084fc" stroke-width="1.5" stroke-opacity="0.75"/><path d="M18 258V266H26" fill="none" stroke="#c084fc" stroke-width="1.5" stroke-opacity="0.75"/><path d="M614 266H622V258" fill="none" stroke="#c084fc" stroke-width="1.5" stroke-opacity="0.75"/><text x="34" y="74" font-family="ui-monospace,'Cascadia Mono',Consolas,'DejaVu Sans Mono',monospace" font-size="8.5" font-weight="400" fill="#475569" fill-opacity="1" text-anchor="start" letter-spacing="1.6">REGISTERED ON STARTUP</text>
+<rect x="34" y="82" width="180" height="34" fill="rgba(0,0,0,0.45)" fill-opacity="1" stroke="#34d399" stroke-opacity="0.32" stroke-width="1"/>
+<rect x="34" y="82" width="3" height="34" fill="#34d399" fill-opacity="0.8"/>
+<text x="46" y="97" font-family="ui-monospace,'Cascadia Mono',Consolas,'DejaVu Sans Mono',monospace" font-size="8.4" font-weight="400" fill="#cbd5e1" fill-opacity="1" text-anchor="start">TELEPATHY</text>
+<text x="46" y="109" font-family="ui-monospace,'Cascadia Mono',Consolas,'DejaVu Sans Mono',monospace" font-size="7" font-weight="400" fill="#475569" fill-opacity="1" text-anchor="start">tool</text>
+<rect x="230" y="82" width="180" height="34" fill="rgba(0,0,0,0.45)" fill-opacity="1" stroke="#fb7185" stroke-opacity="0.32" stroke-width="1"/>
+<rect x="230" y="82" width="3" height="34" fill="#fb7185" fill-opacity="0.8"/>
+<text x="242" y="97" font-family="ui-monospace,'Cascadia Mono',Consolas,'DejaVu Sans Mono',monospace" font-size="8.4" font-weight="400" fill="#cbd5e1" fill-opacity="1" text-anchor="start">LIFESTEAL</text>
+<text x="242" y="109" font-family="ui-monospace,'Cascadia Mono',Consolas,'DejaVu Sans Mono',monospace" font-size="7" font-weight="400" fill="#475569" fill-opacity="1" text-anchor="start">sword</text>
+<rect x="426" y="82" width="180" height="34" fill="rgba(0,0,0,0.45)" fill-opacity="1" stroke="#c084fc" stroke-opacity="0.32" stroke-width="1"/>
+<rect x="426" y="82" width="3" height="34" fill="#c084fc" fill-opacity="0.8"/>
+<text x="438" y="97" font-family="ui-monospace,'Cascadia Mono',Consolas,'DejaVu Sans Mono',monospace" font-size="8.4" font-weight="400" fill="#cbd5e1" fill-opacity="1" text-anchor="start">DEATH ANGEL</text>
+<text x="438" y="109" font-family="ui-monospace,'Cascadia Mono',Consolas,'DejaVu Sans Mono',monospace" font-size="7" font-weight="400" fill="#475569" fill-opacity="1" text-anchor="start">sword</text>
+<rect x="34" y="126" width="180" height="34" fill="rgba(0,0,0,0.45)" fill-opacity="1" stroke="#38bdf8" stroke-opacity="0.32" stroke-width="1"/>
+<rect x="34" y="126" width="3" height="34" fill="#38bdf8" fill-opacity="0.8"/>
+<text x="46" y="141" font-family="ui-monospace,'Cascadia Mono',Consolas,'DejaVu Sans Mono',monospace" font-size="8.4" font-weight="400" fill="#cbd5e1" fill-opacity="1" text-anchor="start">STORM</text>
+<text x="46" y="153" font-family="ui-monospace,'Cascadia Mono',Consolas,'DejaVu Sans Mono',monospace" font-size="7" font-weight="400" fill="#475569" fill-opacity="1" text-anchor="start">magic</text>
+<rect x="230" y="126" width="180" height="34" fill="rgba(0,0,0,0.45)" fill-opacity="1" stroke="#fbbf24" stroke-opacity="0.32" stroke-width="1"/>
+<rect x="230" y="126" width="3" height="34" fill="#fbbf24" fill-opacity="0.8"/>
+<text x="242" y="141" font-family="ui-monospace,'Cascadia Mono',Consolas,'DejaVu Sans Mono',monospace" font-size="8.4" font-weight="400" fill="#cbd5e1" fill-opacity="1" text-anchor="start">PHOENIX</text>
+<text x="242" y="153" font-family="ui-monospace,'Cascadia Mono',Consolas,'DejaVu Sans Mono',monospace" font-size="7" font-weight="400" fill="#475569" fill-opacity="1" text-anchor="start">armor</text>
+<rect x="426" y="126" width="180" height="34" fill="rgba(0,0,0,0.45)" fill-opacity="1" stroke="#34d399" stroke-opacity="0.32" stroke-width="1"/>
+<rect x="426" y="126" width="3" height="34" fill="#34d399" fill-opacity="0.8"/>
+<text x="438" y="141" font-family="ui-monospace,'Cascadia Mono',Consolas,'DejaVu Sans Mono',monospace" font-size="8.4" font-weight="400" fill="#cbd5e1" fill-opacity="1" text-anchor="start">SECOND LIFE</text>
+<text x="438" y="153" font-family="ui-monospace,'Cascadia Mono',Consolas,'DejaVu Sans Mono',monospace" font-size="7" font-weight="400" fill="#475569" fill-opacity="1" text-anchor="start">armor</text>
+<rect x="34" y="170" width="180" height="34" fill="rgba(0,0,0,0.45)" fill-opacity="1" stroke="#22d3ee" stroke-opacity="0.32" stroke-width="1"/>
+<rect x="34" y="170" width="3" height="34" fill="#22d3ee" fill-opacity="0.8"/>
+<text x="46" y="185" font-family="ui-monospace,'Cascadia Mono',Consolas,'DejaVu Sans Mono',monospace" font-size="8.4" font-weight="400" fill="#cbd5e1" fill-opacity="1" text-anchor="start">FROST ARROW</text>
+<text x="46" y="197" font-family="ui-monospace,'Cascadia Mono',Consolas,'DejaVu Sans Mono',monospace" font-size="7" font-weight="400" fill="#475569" fill-opacity="1" text-anchor="start">bow</text>
+<rect x="230" y="170" width="180" height="34" fill="rgba(0,0,0,0.45)" fill-opacity="1" stroke="#c084fc" stroke-opacity="0.32" stroke-width="1"/>
+<rect x="230" y="170" width="3" height="34" fill="#c084fc" fill-opacity="0.8"/>
+<text x="242" y="185" font-family="ui-monospace,'Cascadia Mono',Consolas,'DejaVu Sans Mono',monospace" font-size="8.4" font-weight="400" fill="#cbd5e1" fill-opacity="1" text-anchor="start">SOUL EATER</text>
+<text x="242" y="197" font-family="ui-monospace,'Cascadia Mono',Consolas,'DejaVu Sans Mono',monospace" font-size="7" font-weight="400" fill="#475569" fill-opacity="1" text-anchor="start">sword</text>
+<rect x="426" y="170" width="180" height="34" fill="rgba(0,0,0,0.45)" fill-opacity="1" stroke="#fbbf24" stroke-opacity="0.32" stroke-width="1"/>
+<rect x="426" y="170" width="3" height="34" fill="#fbbf24" fill-opacity="0.8"/>
+<text x="438" y="185" font-family="ui-monospace,'Cascadia Mono',Consolas,'DejaVu Sans Mono',monospace" font-size="8.4" font-weight="400" fill="#cbd5e1" fill-opacity="1" text-anchor="start">AUTO SMELT</text>
+<text x="438" y="197" font-family="ui-monospace,'Cascadia Mono',Consolas,'DejaVu Sans Mono',monospace" font-size="7" font-weight="400" fill="#475569" fill-opacity="1" text-anchor="start">tool</text>
+<rect x="34" y="214" width="180" height="34" fill="rgba(0,0,0,0.45)" fill-opacity="1" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1"/>
+<rect x="34" y="214" width="3" height="34" fill="#a78bfa" fill-opacity="0.8"/>
+<text x="46" y="229" font-family="ui-monospace,'Cascadia Mono',Consolas,'DejaVu Sans Mono',monospace" font-size="8.4" font-weight="400" fill="#cbd5e1" fill-opacity="1" text-anchor="start">STELLA</text>
+<text x="46" y="241" font-family="ui-monospace,'Cascadia Mono',Consolas,'DejaVu Sans Mono',monospace" font-size="7" font-weight="400" fill="#475569" fill-opacity="1" text-anchor="start">magic</text>
+<rect x="230" y="214" width="180" height="34" fill="rgba(0,0,0,0.45)" fill-opacity="1" stroke="#22d3ee" stroke-opacity="0.32" stroke-width="1"/>
+<rect x="230" y="214" width="3" height="34" fill="#22d3ee" fill-opacity="0.8"/>
+<text x="242" y="229" font-family="ui-monospace,'Cascadia Mono',Consolas,'DejaVu Sans Mono',monospace" font-size="8.4" font-weight="400" fill="#cbd5e1" fill-opacity="1" text-anchor="start">HAIL STORM</text>
+<text x="242" y="241" font-family="ui-monospace,'Cascadia Mono',Consolas,'DejaVu Sans Mono',monospace" font-size="7" font-weight="400" fill="#475569" fill-opacity="1" text-anchor="start">magic</text>
+<rect x="426" y="214" width="180" height="34" fill="rgba(0,0,0,0.45)" fill-opacity="1" stroke="#38bdf8" stroke-opacity="0.32" stroke-width="1"/>
+<rect x="426" y="214" width="3" height="34" fill="#38bdf8" fill-opacity="0.8"/>
+<text x="438" y="229" font-family="ui-monospace,'Cascadia Mono',Consolas,'DejaVu Sans Mono',monospace" font-size="8.4" font-weight="400" fill="#cbd5e1" fill-opacity="1" text-anchor="start">FORCE SHIELD</text>
+<text x="438" y="241" font-family="ui-monospace,'Cascadia Mono',Consolas,'DejaVu Sans Mono',monospace" font-size="7" font-weight="400" fill="#475569" fill-opacity="1" text-anchor="start">armor</text>
+<text x="330" y="258" font-family="ui-monospace,'Cascadia Mono',Consolas,'DejaVu Sans Mono',monospace" font-size="8" font-weight="400" fill="#475569" fill-opacity="1" text-anchor="middle">AND 66 MORE IN THE JAR</text>
+<text x="20" y="288" font-family="ui-monospace,'Cascadia Mono',Consolas,'DejaVu Sans Mono',monospace" font-size="9" font-weight="400" fill="#cbd5e1" fill-opacity="1" text-anchor="start">/ce give &lt;player&gt; &lt;enchant&gt;</text>
+<text x="620" y="288" font-family="ui-monospace,'Cascadia Mono',Consolas,'DejaVu Sans Mono',monospace" font-size="8.6" font-weight="400" fill="#64748b" fill-opacity="1" text-anchor="end">/es OPENS THE ENCHANT SHOP</text>
+<rect x="0" y="326" width="640" height="1" fill="#334155" fill-opacity="0.8"/>
+<rect x="0" y="327" width="640" height="33" fill="rgba(255,255,255,0.02)" fill-opacity="1"/>
+<rect x="0" y="327" width="220" height="2" fill="url(#rule)" fill-opacity="1"/>
+<text x="16" y="348" font-family="ui-monospace,'Cascadia Mono',Consolas,'DejaVu Sans Mono',monospace" font-size="9.5" font-weight="400" fill="#64748b" fill-opacity="1" text-anchor="start" letter-spacing="1.4">SWORD, BOW, ARMOUR, TOOL AND MAGIC, ALL ON VANILLA GEAR</text>
+<rect x="0" y="34" width="640" height="292" fill="url(#scan)" fill-opacity="1"/>
+<rect x="0" y="0" width="640" height="360" fill="url(#vig)" fill-opacity="1"/>
+<rect x="0.5" y="0.5" width="639" height="359" fill="none" fill-opacity="1" stroke="#334155" stroke-opacity="1" stroke-width="1"/>
+<path d="M4 18V4H18" fill="none" stroke="#c084fc" stroke-width="2" stroke-opacity="0.75"/><path d="M622 4H636V18" fill="none" stroke="#c084fc" stroke-width="2" stroke-opacity="0.75"/><path d="M4 342V356H18" fill="none" stroke="#c084fc" stroke-width="2" stroke-opacity="0.75"/><path d="M622 356H636V342" fill="none" stroke="#c084fc" stroke-width="2" stroke-opacity="0.75"/>
+</svg>

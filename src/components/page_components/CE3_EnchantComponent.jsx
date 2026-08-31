@@ -1,4 +1,57 @@
-import React from "react";
+import { Corners } from "./PixelUIKit";
+
+/** Colour an enchantment card by the first item class it applies to. */
+const ACCENT_BY_TYPE = {
+  SWORD: "rose",
+  SPEAR: "rose",
+  MACE: "rose",
+  BOW: "lime",
+  TRIDENT: "sky",
+  SHIELD: "sky",
+  MAGIC_WAND: "purple",
+  MAGIC: "purple",
+};
+
+const ACCENT_CLASS = {
+  lime: { corner: "lime", text: "text-lime-300", ring: "hover:border-lime-400/60" },
+  purple: { corner: "purple", text: "text-purple-300", ring: "hover:border-purple-400/60" },
+  amber: { corner: "amber", text: "text-amber-300", ring: "hover:border-amber-400/60" },
+  sky: { corner: "sky", text: "text-sky-300", ring: "hover:border-sky-400/60" },
+  rose: { corner: "rose", text: "text-rose-300", ring: "hover:border-rose-400/60" },
+};
+
+function Stat({ icon, label, value, className = "" }) {
+  return (
+    <div className="flex place-items-center justify-between gap-2 py-0.5">
+      <span className="flex place-items-center gap-2 text-[10px] text-slate-500 md:text-xs">
+        <i className={icon}></i>
+        {label}
+      </span>
+      <span className={`text-[10px] md:text-xs ${className}`}>{value}</span>
+    </div>
+  );
+}
+
+function TypeList({ title, values, accent }) {
+  if (!values || values.length === 0) return null;
+  return (
+    <div className="pt-3">
+      <p className="text-[9px] tracking-widest text-slate-600 uppercase">
+        {title}
+      </p>
+      <div className="flex flex-wrap gap-1 pt-1">
+        {values.map((value) => (
+          <span
+            key={value}
+            className={`border border-slate-700 bg-[rgba(0,0,0,0.4)] px-1.5 py-0.5 text-[9px] ${accent}`}
+          >
+            {value}
+          </span>
+        ))}
+      </div>
+    </div>
+  );
+}
 
 function CE3_EnchantComponent({ enchantment }) {
   const {
@@ -14,82 +67,69 @@ function CE3_EnchantComponent({ enchantment }) {
     cooldown,
     manaCost,
   } = enchantment;
+
+  const accent = ACCENT_BY_TYPE[String(type[0])] ?? "amber";
+  const a = ACCENT_CLASS[accent];
+
   return (
-    <div className="w-full p-2 font-mono rounded-xl shadow-xs shadow-blue-300 hover:bg-[rgba(255,255,255,0.05)]">
-      <h3 className="text-blue-400 text-center text-xs">
-        ({type.map(String).join(", ")} ENCHANTMENT)
-      </h3>
-      <h1 className="text-2xl font-extrabold text-center">{title}</h1>
-      <div className="text-amber-400 text-sm flex">
-        <div className="w-[50%] md:w-[60%]">
-          <p>
-            <i className="fa-solid fa-tag"></i> Price:
-          </p>
-        </div>
-        <div>
-          <span className="pr-1">{currency}</span>
-          {price}
-        </div>
+    <div
+      className={`relative flex h-full flex-col border border-slate-700/70 bg-[rgba(11,13,17,0.72)] p-4 transition-colors ${a.ring}`}
+    >
+      <Corners accent={a.corner} />
+
+      <p className={`text-[9px] tracking-widest uppercase ${a.text}`}>
+        {type.map(String).join(" / ")}
+      </p>
+      <h4 className="pixel-font pt-2 text-[11px] leading-relaxed text-slate-100 md:text-sm">
+        {title}
+      </h4>
+
+      <div className="mt-3 border-y border-slate-800 py-2">
+        <Stat
+          icon="fa-solid fa-tag"
+          label="Price"
+          value={`${currency ?? ""} ${price}`}
+          className="text-amber-300"
+        />
+        <Stat
+          icon="fa-solid fa-caret-up"
+          label="Max level"
+          value={maxLevel}
+          className="text-slate-200"
+        />
+        {manaCost !== 0 && (
+          <Stat
+            icon="fa-solid fa-droplet"
+            label="Mana cost"
+            value={manaCost}
+            className="text-sky-300"
+          />
+        )}
+        {cooldown !== 0 && (
+          <Stat
+            icon="fa-solid fa-clock-rotate-left"
+            label="Cooldown"
+            value={cooldown}
+            className="text-purple-300"
+          />
+        )}
       </div>
-      <div className="text-red-300 text-sm flex">
-        <div className="w-[50%] md:w-[60%]">
-          <i className="fa-solid fa-caret-up"></i> Max Level:
-        </div>
-        <div>{maxLevel}</div>
-      </div>
-      {manaCost !== 0 && (
-        <div className="text-blue-300 text-sm flex">
-          <div className="w-[50%] md:w-[60%]">
-            <i className="fa-solid fa-droplet"></i> Mana cost:
-          </div>
-          <div>{manaCost}</div>
-        </div>
-      )}
-      {cooldown !== 0 && (
-        <div className="text-yellow-300 text-sm flex">
-          <div className="w-[50%] md:w-[60%]">
-            <i className="fa-solid fa-clock-rotate-left"></i> Cooldown:
-          </div>
-          <div>{cooldown}</div>
-        </div>
-      )}
-      <p className="text-gray-200 font-mono py-2 font-bold">{description}</p>
-      {damageType && damageType.length > 0 && (
-        <>
-          <h3 className="pt-2">Damage Type:</h3>
-          {damageType.map((dT, A) => {
-            return (
-              <p key={`ENC-A-${A}`} className="font-mono">
-                - {dT}
-              </p>
-            );
-          })}
-        </>
-      )}
-      {resistanceType && resistanceType.length > 0 && (
-        <>
-          <h3 className="pt-2">Counter Resistance:</h3>
-          {resistanceType.map((dT, B) => {
-            return (
-              <p key={`ENC-B-${B}`} className="font-mono">
-                - {dT}
-              </p>
-            );
-          })}
-        </>
-      )}
-      {absorbType && absorbType.length > 0 && (
-        <>
-          <h3 className="pt-2">Absorb Damage:</h3>
-          {absorbType.map((dT, C) => {
-            return (
-              <p key={`ENC-C-${C}`} className="font-mono">
-                - {dT}
-              </p>
-            );
-          })}
-        </>
-      )}
+
+      <p className="grow pt-3 text-[11px] leading-relaxed text-slate-400 md:text-xs">
+        {description}
+      </p>
+
+      <TypeList title="Damage type" values={damageType} accent="text-rose-300" />
+      <TypeList
+        title="Counter resistance"
+        values={resistanceType}
+        accent="text-amber-300"
+      />
+      <TypeList
+        title="Absorbs damage"
+        values={absorbType}
+        accent="text-sky-300"
+      />
     </div>
   );
 }

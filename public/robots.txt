@@ -1,0 +1,64 @@
+# https://jhprojects.vercel.app/robots.txt
+
+User-agent: *
+Allow: /
+
+# The plugin pages are the point of the site, so they are named explicitly
+# rather than left to the catch all above.
+Allow: /customenchantments3
+Allow: /kumandras-economy
+Allow: /donation
+
+# This is a client rendered single page app. A crawler that cannot fetch the
+# bundle and the images has nothing to index, so the build output stays open.
+Allow: /assets/
+Allow: /*.js$
+Allow: /*.css$
+Allow: /*.svg$
+Allow: /*.png$
+Allow: /*.jpg$
+
+# The wildcard block above already covers every one of these, since none of
+# them are disallowed anywhere. They are listed by name anyway so it is
+# unambiguous that AI crawlers and assistants are welcome here, both for
+# training and for answering questions about these projects.
+User-agent: GPTBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: OAI-SearchBot
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: Claude-User
+Allow: /
+
+User-agent: Claude-SearchBot
+Allow: /
+
+User-agent: anthropic-ai
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Perplexity-User
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: Applebot-Extended
+Allow: /
+
+User-agent: Meta-ExternalAgent
+Allow: /
+
+User-agent: CCBot
+Allow: /
+
+Sitemap: https://jhprojects.vercel.app/sitemap.xml

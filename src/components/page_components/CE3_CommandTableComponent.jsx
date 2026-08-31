@@ -1,34 +1,43 @@
-import React from "react";
 import { CommandList } from "../contants/custom_enchants_3/CE3Constants";
 
 function CE3_CommandTableComponent() {
   return (
-    <table className="my-2">
+    <table className="w-full border-collapse text-left">
       <thead>
-        <tr>
-          <th className="text-xs md:text-lg">Command</th>
-          <th className="text-xs md:text-lg">Description</th>
-          <th className="text-xs md:text-lg">Admin</th>
+        <tr className="border-b border-slate-700">
+          <th className="pixel-font px-2 py-2 text-[8px] tracking-wider text-lime-300 md:text-[10px]">
+            Command
+          </th>
+          <th className="pixel-font px-2 py-2 text-[8px] tracking-wider text-lime-300 md:text-[10px]">
+            Description
+          </th>
+          <th className="pixel-font px-2 py-2 text-center text-[8px] tracking-wider text-lime-300 md:text-[10px]">
+            Admin
+          </th>
         </tr>
       </thead>
       <tbody>
-        {CommandList.map((command) => {
-          return (
-            <tr className="border-b-2 border-gray-700">
-              <td className="pixel-font text-[0.5em] md:text-xs px-2">
-                {command.command}
-              </td>
-              <td className="text-[0.8em] md:text-xs lg:text-lg">
-                {command.description}
-              </td>
-              <td className="text-center text-[0.7em] md:text-xs ">
-                {command.requireOp && (
-                  <i class="fa-solid fa-circle-check text-green-500"></i>
-                )}
-              </td>
-            </tr>
-          );
-        })}
+        {CommandList.map((command) => (
+          <tr
+            key={command.command}
+            className="border-b border-slate-800 transition-colors hover:bg-[rgba(255,255,255,0.03)]"
+          >
+            <td className="pixel-font px-2 py-3 align-top text-[8px] whitespace-nowrap text-slate-200 md:text-[10px]">
+              {command.command}
+            </td>
+            <td className="px-2 py-3 align-top text-[11px] text-slate-400 md:text-xs">
+              {command.description}
+            </td>
+            <td className="px-2 py-3 text-center align-top">
+              {command.requireOp && (
+                <i
+                  className="fa-solid fa-circle-check text-xs text-lime-400"
+                  title="Requires customenchants.admin"
+                ></i>
+              )}
+            </td>
+          </tr>
+        ))}
       </tbody>
     </table>
   );

@@ -1,0 +1,64 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 360" width="640" height="360" role="img" aria-label="SEVEN JOBS">
+<defs>
+<pattern id="grid" width="32" height="32" patternUnits="userSpaceOnUse"><path d="M32 0H0V32" fill="none" stroke="#94a3b8" stroke-opacity="0.055"/></pattern>
+<pattern id="scan" width="3" height="3" patternUnits="userSpaceOnUse"><rect width="3" height="1" fill="#000" fill-opacity="0.18"/></pattern>
+<radialGradient id="vig" cx="50%" cy="45%" r="72%"><stop offset="55%" stop-color="#000" stop-opacity="0"/><stop offset="100%" stop-color="#000" stop-opacity="0.55"/></radialGradient>
+<linearGradient id="rule" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#34d399" stop-opacity="0.7"/><stop offset="100%" stop-color="#34d399" stop-opacity="0"/></linearGradient>
+</defs>
+<rect x="0" y="0" width="640" height="360" fill="#0b0d11" fill-opacity="1"/>
+<rect x="0" y="34" width="640" height="292" fill="url(#grid)" fill-opacity="1"/>
+<rect x="0" y="0" width="640" height="34" fill="rgba(255,255,255,0.03)" fill-opacity="1"/>
+<rect x="0" y="33" width="640" height="1" fill="#334155" fill-opacity="0.8"/>
+<rect x="14" y="14" width="7" height="7" fill="#fb7185" fill-opacity="0.8"/>
+<rect x="27" y="14" width="7" height="7" fill="#fbbf24" fill-opacity="0.8"/>
+<rect x="40" y="14" width="7" height="7" fill="#34d399" fill-opacity="0.8"/>
+<text x="60" y="22" font-family="ui-monospace,'Cascadia Mono',Consolas,'DejaVu Sans Mono',monospace" font-size="12" font-weight="700" fill="#34d399" fill-opacity="1" text-anchor="start" letter-spacing="2.2">SEVEN JOBS</text>
+<text x="624" y="22" font-family="ui-monospace,'Cascadia Mono',Consolas,'DejaVu Sans Mono',monospace" font-size="9.5" font-weight="400" fill="#64748b" fill-opacity="1" text-anchor="end">InventoryGUI/JobsGUI</text>
+<rect x="18" y="52" width="604" height="214" fill="rgba(255,255,255,0.02)" fill-opacity="1" stroke="#334155" stroke-opacity="0.8" stroke-width="1"/><path d="M18 60V52H26" fill="none" stroke="#34d399" stroke-width="1.5" stroke-opacity="0.75"/><path d="M614 52H622V60" fill="none" stroke="#34d399" stroke-width="1.5" stroke-opacity="0.75"/><path d="M18 258V266H26" fill="none" stroke="#34d399" stroke-width="1.5" stroke-opacity="0.75"/><path d="M614 266H622V258" fill="none" stroke="#34d399" stroke-width="1.5" stroke-opacity="0.75"/><text x="34" y="74" font-family="ui-monospace,'Cascadia Mono',Consolas,'DejaVu Sans Mono',monospace" font-size="8.5" font-weight="400" fill="#475569" fill-opacity="1" text-anchor="start" letter-spacing="1.6">JOIN FROM THE JOBS SCREEN</text>
+<rect x="34" y="82" width="30" height="30" fill="rgba(0,0,0,0.45)" fill-opacity="1" stroke="#334155" stroke-opacity="0.7" stroke-width="1"/>
+<rect x="41" y="89" width="16" height="16" fill="#34d399" fill-opacity="0.45"/>
+<text x="74" y="95" font-family="ui-monospace,'Cascadia Mono',Consolas,'DejaVu Sans Mono',monospace" font-size="9.5" font-weight="400" fill="#cbd5e1" fill-opacity="1" text-anchor="start" letter-spacing="1">FARMER</text>
+<text x="74" y="108" font-family="ui-monospace,'Cascadia Mono',Consolas,'DejaVu Sans Mono',monospace" font-size="8" font-weight="400" fill="#475569" fill-opacity="1" text-anchor="start">harvest, breed</text>
+<text x="296" y="102" font-family="ui-monospace,'Cascadia Mono',Consolas,'DejaVu Sans Mono',monospace" font-size="8.6" font-weight="400" fill="#fbbf24" fill-opacity="1" text-anchor="end">0.25 / 0.53</text>
+<rect x="330" y="82" width="30" height="30" fill="rgba(0,0,0,0.45)" fill-opacity="1" stroke="#334155" stroke-opacity="0.7" stroke-width="1"/>
+<rect x="337" y="89" width="16" height="16" fill="#34d399" fill-opacity="0.45"/>
+<text x="370" y="95" font-family="ui-monospace,'Cascadia Mono',Consolas,'DejaVu Sans Mono',monospace" font-size="9.5" font-weight="400" fill="#cbd5e1" fill-opacity="1" text-anchor="start" letter-spacing="1">LUMBERJACK</text>
+<text x="370" y="108" font-family="ui-monospace,'Cascadia Mono',Consolas,'DejaVu Sans Mono',monospace" font-size="8" font-weight="400" fill="#475569" fill-opacity="1" text-anchor="start">chop, replant</text>
+<text x="592" y="102" font-family="ui-monospace,'Cascadia Mono',Consolas,'DejaVu Sans Mono',monospace" font-size="8.6" font-weight="400" fill="#fbbf24" fill-opacity="1" text-anchor="end">0.22 / 0.34</text>
+<rect x="34" y="126" width="30" height="30" fill="rgba(0,0,0,0.45)" fill-opacity="1" stroke="#334155" stroke-opacity="0.7" stroke-width="1"/>
+<rect x="41" y="133" width="16" height="16" fill="#34d399" fill-opacity="0.45"/>
+<text x="74" y="139" font-family="ui-monospace,'Cascadia Mono',Consolas,'DejaVu Sans Mono',monospace" font-size="9.5" font-weight="400" fill="#cbd5e1" fill-opacity="1" text-anchor="start" letter-spacing="1">MINER</text>
+<text x="74" y="152" font-family="ui-monospace,'Cascadia Mono',Consolas,'DejaVu Sans Mono',monospace" font-size="8" font-weight="400" fill="#475569" fill-opacity="1" text-anchor="start">blocks, ores</text>
+<text x="296" y="146" font-family="ui-monospace,'Cascadia Mono',Consolas,'DejaVu Sans Mono',monospace" font-size="8.6" font-weight="400" fill="#fbbf24" fill-opacity="1" text-anchor="end">0.21 / 0.32</text>
+<rect x="330" y="126" width="30" height="30" fill="rgba(0,0,0,0.45)" fill-opacity="1" stroke="#334155" stroke-opacity="0.7" stroke-width="1"/>
+<rect x="337" y="133" width="16" height="16" fill="#34d399" fill-opacity="0.45"/>
+<text x="370" y="139" font-family="ui-monospace,'Cascadia Mono',Consolas,'DejaVu Sans Mono',monospace" font-size="9.5" font-weight="400" fill="#cbd5e1" fill-opacity="1" text-anchor="start" letter-spacing="1">HUNTER</text>
+<text x="370" y="152" font-family="ui-monospace,'Cascadia Mono',Consolas,'DejaVu Sans Mono',monospace" font-size="8" font-weight="400" fill="#475569" fill-opacity="1" text-anchor="start">hostile mobs</text>
+<text x="592" y="146" font-family="ui-monospace,'Cascadia Mono',Consolas,'DejaVu Sans Mono',monospace" font-size="8.6" font-weight="400" fill="#fbbf24" fill-opacity="1" text-anchor="end">0.32</text>
+<rect x="34" y="170" width="30" height="30" fill="rgba(0,0,0,0.45)" fill-opacity="1" stroke="#334155" stroke-opacity="0.7" stroke-width="1"/>
+<rect x="41" y="177" width="16" height="16" fill="#34d399" fill-opacity="0.45"/>
+<text x="74" y="183" font-family="ui-monospace,'Cascadia Mono',Consolas,'DejaVu Sans Mono',monospace" font-size="9.5" font-weight="400" fill="#cbd5e1" fill-opacity="1" text-anchor="start" letter-spacing="1">GUARDIAN</text>
+<text x="74" y="196" font-family="ui-monospace,'Cascadia Mono',Consolas,'DejaVu Sans Mono',monospace" font-size="8" font-weight="400" fill="#475569" fill-opacity="1" text-anchor="start">defend villagers</text>
+<text x="296" y="190" font-family="ui-monospace,'Cascadia Mono',Consolas,'DejaVu Sans Mono',monospace" font-size="8.6" font-weight="400" fill="#fbbf24" fill-opacity="1" text-anchor="end">0.35</text>
+<rect x="330" y="170" width="30" height="30" fill="rgba(0,0,0,0.45)" fill-opacity="1" stroke="#334155" stroke-opacity="0.7" stroke-width="1"/>
+<rect x="337" y="177" width="16" height="16" fill="#34d399" fill-opacity="0.45"/>
+<text x="370" y="183" font-family="ui-monospace,'Cascadia Mono',Consolas,'DejaVu Sans Mono',monospace" font-size="9.5" font-weight="400" fill="#cbd5e1" fill-opacity="1" text-anchor="start" letter-spacing="1">BUILDER</text>
+<text x="370" y="196" font-family="ui-monospace,'Cascadia Mono',Consolas,'DejaVu Sans Mono',monospace" font-size="8" font-weight="400" fill="#475569" fill-opacity="1" text-anchor="start">place blocks</text>
+<text x="592" y="190" font-family="ui-monospace,'Cascadia Mono',Consolas,'DejaVu Sans Mono',monospace" font-size="8.6" font-weight="400" fill="#fbbf24" fill-opacity="1" text-anchor="end">0.15</text>
+<rect x="34" y="214" width="30" height="30" fill="rgba(0,0,0,0.45)" fill-opacity="1" stroke="#334155" stroke-opacity="0.7" stroke-width="1"/>
+<rect x="41" y="221" width="16" height="16" fill="#34d399" fill-opacity="0.45"/>
+<text x="74" y="227" font-family="ui-monospace,'Cascadia Mono',Consolas,'DejaVu Sans Mono',monospace" font-size="9.5" font-weight="400" fill="#cbd5e1" fill-opacity="1" text-anchor="start" letter-spacing="1">FISHERMAN</text>
+<text x="74" y="240" font-family="ui-monospace,'Cascadia Mono',Consolas,'DejaVu Sans Mono',monospace" font-size="8" font-weight="400" fill="#475569" fill-opacity="1" text-anchor="start">catch, treasure</text>
+<text x="296" y="234" font-family="ui-monospace,'Cascadia Mono',Consolas,'DejaVu Sans Mono',monospace" font-size="8.6" font-weight="400" fill="#fbbf24" fill-opacity="1" text-anchor="end">0.23 / 0.35</text>
+<text x="330" y="256" font-family="ui-monospace,'Cascadia Mono',Consolas,'DejaVu Sans Mono',monospace" font-size="8" font-weight="400" fill="#475569" fill-opacity="1" text-anchor="middle">Kd PER ACTION - ORE RATES AND VillagerRadius FIXED IN 2.0</text>
+<text x="20" y="288" font-family="ui-monospace,'Cascadia Mono',Consolas,'DejaVu Sans Mono',monospace" font-size="9.5" font-weight="400" fill="#cbd5e1" fill-opacity="1" text-anchor="start">/kumandra jobs</text>
+<text x="150" y="288" font-family="ui-monospace,'Cascadia Mono',Consolas,'DejaVu Sans Mono',monospace" font-size="9" font-weight="400" fill="#64748b" fill-opacity="1" text-anchor="start">HOLD 2 AT A TIME BY DEFAULT - Jobs: 2</text>
+<rect x="0" y="326" width="640" height="1" fill="#334155" fill-opacity="0.8"/>
+<rect x="0" y="327" width="640" height="33" fill="rgba(255,255,255,0.02)" fill-opacity="1"/>
+<rect x="0" y="327" width="220" height="2" fill="url(#rule)" fill-opacity="1"/>
+<text x="16" y="348" font-family="ui-monospace,'Cascadia Mono',Consolas,'DejaVu Sans Mono',monospace" font-size="9.5" font-weight="400" fill="#64748b" fill-opacity="1" text-anchor="start" letter-spacing="1.4">PLAYERS EARN BY PLAYING - NO GRIND COMMAND, NO AFK FARM</text>
+<rect x="0" y="34" width="640" height="292" fill="url(#scan)" fill-opacity="1"/>
+<rect x="0" y="0" width="640" height="360" fill="url(#vig)" fill-opacity="1"/>
+<rect x="0.5" y="0.5" width="639" height="359" fill="none" fill-opacity="1" stroke="#334155" stroke-opacity="1" stroke-width="1"/>
+<path d="M4 18V4H18" fill="none" stroke="#34d399" stroke-width="2" stroke-opacity="0.75"/><path d="M622 4H636V18" fill="none" stroke="#34d399" stroke-width="2" stroke-opacity="0.75"/><path d="M4 342V356H18" fill="none" stroke="#34d399" stroke-width="2" stroke-opacity="0.75"/><path d="M622 356H636V342" fill="none" stroke="#34d399" stroke-width="2" stroke-opacity="0.75"/>
+</svg>
