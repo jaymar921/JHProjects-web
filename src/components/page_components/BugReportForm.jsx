@@ -37,11 +37,23 @@ const RULES = {
 
 const EMAIL_SHAPE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 
-const STEPS_PLACEHOLDER = [
-  "1. Put a Sharpness book in slot one",
-  "2. Put the same book in slot two",
-  "3. Take the result",
-].join("\n");
+/**
+ * The placeholder text, per project. A plugin's own vocabulary in the example
+ * boxes is what tells a reporter the level of detail wanted, so each page
+ * passes its own; these are only the fallbacks for a page that does not.
+ */
+const DEFAULT_EXAMPLES = Object.freeze({
+  summary: "A short line that tells this report apart from every other one",
+  expectedBehavior: "What should have happened instead.",
+  steps: `1. The first thing you did
+2. Then this
+3. And this is what happened`,
+  pluginVersion: "1.0.0",
+  minecraftVersion: "1.21.4",
+});
+
+const DEFAULT_CONTEXT_HINT =
+  "Other plugins, unusual config, when it started happening.";
 
 function validate(values) {
   const errors = {};
@@ -79,7 +91,14 @@ const EMPTY = {
   website: "",
 };
 
-function BugReportForm({ project, accent = "lime", defaultPluginVersion = "" }) {
+function BugReportForm({
+  project,
+  accent = "lime",
+  defaultPluginVersion = "",
+  examples,
+  contextHint = DEFAULT_CONTEXT_HINT,
+}) {
+  const placeholders = { ...DEFAULT_EXAMPLES, ...examples };
   const [values, setValues] = useState({
     ...EMPTY,
     pluginVersion: defaultPluginVersion,
@@ -194,7 +213,7 @@ function BugReportForm({ project, accent = "lime", defaultPluginVersion = "" }) 
             onChange={set("summary")}
             invalid={Boolean(errors.summary)}
             maxLength={RULES.summary.max}
-            placeholder="Anvil eats the book when combining two of the same enchant"
+            placeholder={placeholders.summary}
             autoComplete="off"
           />
         </Field>
@@ -239,7 +258,7 @@ function BugReportForm({ project, accent = "lime", defaultPluginVersion = "" }) 
             onChange={set("expectedBehavior")}
             maxLength={2000}
             className="min-h-[80px]"
-            placeholder="The book should have survived the combine."
+            placeholder={placeholders.expectedBehavior}
           />
         </Field>
 
@@ -256,7 +275,7 @@ function BugReportForm({ project, accent = "lime", defaultPluginVersion = "" }) 
             onChange={set("stepsToReproduce")}
             maxLength={2000}
             className="min-h-[80px]"
-            placeholder={STEPS_PLACEHOLDER}
+            placeholder={placeholders.steps}
           />
         </Field>
 
@@ -269,7 +288,7 @@ function BugReportForm({ project, accent = "lime", defaultPluginVersion = "" }) 
               value={values.pluginVersion}
               onChange={set("pluginVersion")}
               maxLength={40}
-              placeholder="1.5.0"
+              placeholder={placeholders.pluginVersion}
               autoComplete="off"
             />
           </Field>
@@ -282,7 +301,7 @@ function BugReportForm({ project, accent = "lime", defaultPluginVersion = "" }) 
               value={values.minecraftVersion}
               onChange={set("minecraftVersion")}
               maxLength={40}
-              placeholder="1.21.4"
+              placeholder={placeholders.minecraftVersion}
               autoComplete="off"
             />
           </Field>
@@ -328,7 +347,7 @@ function BugReportForm({ project, accent = "lime", defaultPluginVersion = "" }) 
         <Field
           label="Anything else"
           htmlFor="bug-additionalContext"
-          hint="Other plugins, unusual config, when it started happening."
+          hint={contextHint}
         >
           <TextArea
             id="bug-additionalContext"

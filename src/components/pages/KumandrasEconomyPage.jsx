@@ -798,7 +798,7 @@ else runs on the whole supported range.
               accent="rose"
               icon="fa-solid fa-bug"
               title="REPORT BUGS"
-              description="The known rough edges are already public. Tell us about the one that is not."
+              description="Fill in the form and it goes straight to the developer's inbox."
               buttonIcon="fa-solid fa-bug"
               buttonLabel="Report"
               onClick={() => setSubcontent("bug report")}
