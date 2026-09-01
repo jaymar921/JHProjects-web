@@ -25,6 +25,12 @@ const readList = (name) =>
     .map((entry) => entry.trim())
     .filter(Boolean);
 
+/** A setting that only has a few legal values, with anything else ignored. */
+const oneOfEnv = (name, allowed, fallback) => {
+  const value = read(name, fallback).toLowerCase();
+  return allowed.includes(value) ? value : fallback;
+};
+
 const mongoUri = read("MONGODB_URI");
 const smtpUser = read("SMTP_USER");
 const smtpPassword = read("SMTP_PASSWORD");
@@ -80,7 +86,42 @@ export const env = {
     bugReportPerHour: readInt("RATE_LIMIT_BUG_REPORT_PER_HOUR", 5),
   },
 
-  /** Guards GET /api/stats. Unset leaves the stats endpoint public. */
+  /**
+   * The admin gateway at /admin.
+   *
+   * A login there is worth more than a stats number, so the defaults are on
+   * the strict side: a session goes stale after half an hour of silence, is
+   * thrown away after twelve hours however busy it was, and five wrong
+   * passwords stand the account down for fifteen minutes.
+   */
+  admin: {
+    cookieName: read("ADMIN_COOKIE_NAME", "jhp_admin"),
+    /** Minutes of inactivity before a session stops being accepted. */
+    sessionIdleMinutes: readInt("ADMIN_SESSION_IDLE_MINUTES", 30),
+    /** Hard ceiling on a session's life, however active it is. */
+    sessionMaxHours: readInt("ADMIN_SESSION_MAX_HOURS", 12),
+    /** How long a temporary password stays usable before it has to be reissued. */
+    tempPasswordHours: readInt("ADMIN_TEMP_PASSWORD_HOURS", 24),
+    maxFailedAttempts: readInt("ADMIN_MAX_FAILED_ATTEMPTS", 5),
+    lockMinutes: readInt("ADMIN_LOCK_MINUTES", 15),
+    /** Login attempts per hashed address per quarter hour, before the account lock. */
+    loginPerQuarterHour: readInt("RATE_LIMIT_ADMIN_LOGIN_PER_15_MIN", 10),
+    /**
+     * Whether the session cookie is marked Secure. "auto", the default, reads
+     * it off the protocol the request actually arrived on, which is https on
+     * Vercel and http on the dev server. Deciding this from NODE_ENV instead
+     * would mark the cookie Secure while developing against a production style
+     * .env, and a browser drops a Secure cookie on plain http without a word,
+     * which looks exactly like a broken login. "true" and "false" force it.
+     */
+    cookieSecure: oneOfEnv("ADMIN_COOKIE_SECURE", ["auto", "true", "false"], "auto"),
+  },
+
+  /**
+   * An optional second way into GET /api/stats, for a script or a dashboard
+   * that cannot hold a session cookie. Unset, the stats endpoints are reachable
+   * only with an admin session; they are never public.
+   */
   statsToken: read("STATS_TOKEN"),
 };
 

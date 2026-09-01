@@ -8,6 +8,7 @@
     "dev:api": "node --watch server/src/index.js",
     "dev:all": "concurrently -n web,api -c cyan,magenta \"npm:dev\" \"npm:dev:api\"",
     "start": "node server/src/index.js",
+    "admin": "node scripts/admin-account.mjs",
     "build": "vite build",
     "lint": "eslint .",
     "preview": "vite preview"

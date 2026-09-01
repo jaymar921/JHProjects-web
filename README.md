@@ -24,7 +24,7 @@ project page is doing and takes bug reports.
 │   │   ├── api/             the fetch wrapper and the bug report calls
 │   │   └── navigation.js    RedirectTo, moved out of components
 │   ├── components/
-│   │   ├── pages/           one component per route
+│   │   ├── pages/           one component per route, plus the admin dashboard
 │   │   ├── page_components/ the shared UI kit and the bug report form
 │   │   └── contants/        page copy and data, kept out of the markup
 │   └── assets/
@@ -35,15 +35,16 @@ project page is doing and takes bug reports.
 │       ├── index.js         runs it as a normal Node process
 │       ├── config/env.js    every environment value, read in one place
 │       ├── db/              the cached Mongo connection and the indexes
-│       ├── lib/             UA parsing, rate limiting, input validation
-│       ├── routes/          track, stats, bug-report, health
-│       └── services/        analytics, mailer, bug reports
+│       ├── lib/             UA parsing, rate limiting, validation, the admin guard
+│       ├── routes/          track, stats, bug-report, health, admin
+│       └── services/        analytics, mailer, bug reports, admin auth
 │
 ├── api/
 │   └── index.js             the Vercel entry point, which hands Vercel the very
 │                            same Express app
 │
-└── scripts/                 the SVG art generators
+└── scripts/                 the SVG art generators, and admin-account.mjs,
+                             which is the only way an admin account is made
 ```
 
 The API is deliberately not a second deployment. `server/src/app.js` exports an
@@ -102,10 +103,59 @@ in `project_stats`, so reading the numbers back never scans the events. Bots are
 recorded but left out of the counters, so a link preview fetch does not read as a
 visit, and `navigator.doNotTrack` is respected.
 
-`GET /api/stats` returns every project plus a rolled up total. Set `STATS_TOKEN`
-to put it behind a bearer token.
+`GET /api/stats` returns every project plus a rolled up total. It is not public:
+it wants the admin session cookie, or a bearer token if `STATS_TOKEN` is set for
+something that cannot hold a cookie.
 
 See `server/README.md` for the endpoints and the document shapes.
+
+## The admin dashboard
+
+The numbers are read at **`/admin`**. It is not linked from anywhere on the
+site, it is disallowed for every crawler in `robots.txt`, and it is served with
+a `noindex` header and meta tag. None of that is the security; the security is
+that `GET /api/stats` refuses every request without a session.
+
+There is no sign up form and no password reset by email. An account is created
+from a terminal that already holds the database credentials:
+
+```bash
+npm run admin -- create            # username defaults to "admin"
+npm run admin -- create jaymar     # or pick one
+```
+
+That prints a temporary password once. It expires after
+`ADMIN_TEMP_PASSWORD_HOURS`, and it only opens the change password screen: the
+dashboard stays shut until a real password has been set. The other commands:
+
+```bash
+npm run admin -- reset  <username>   # issue a fresh temporary password
+npm run admin -- list                # accounts and their state
+npm run admin -- revoke <username>   # sign every browser out of that account
+npm run admin -- delete <username>
+```
+
+What is holding the door:
+
+- Passwords are stored as salted **scrypt** hashes and nothing else. A wrong
+  username costs the same time as a wrong password, so a fast `401` cannot be
+  used to find out which accounts exist.
+- The session is a random token in an **HttpOnly, SameSite=Strict** cookie; the
+  database only ever holds a hash of it. No script on the page can read it, and
+  a leaked dump of the collection is not a set of usable sessions.
+- Sessions go stale after `ADMIN_SESSION_IDLE_MINUTES` of silence and end after
+  `ADMIN_SESSION_MAX_HOURS` however busy they were. Changing the password ends
+  every other one immediately.
+- Five wrong passwords stand the account down for fifteen minutes, and a single
+  address only gets ten login attempts a quarter of an hour whatever username
+  it tries.
+- The dashboard is a lazily loaded route, so a visitor who never opens `/admin`
+  never downloads any of it.
+
+The page itself is one call to `GET /api/stats` on load and a quiet refresh a
+minute while the tab is visible: headline totals, views by project, breakdowns
+by device, OS and browser, a sortable table of every project, and the raw
+events behind whichever row you open.
 
 ## Deploying
 

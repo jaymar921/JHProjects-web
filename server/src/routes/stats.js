@@ -1,5 +1,6 @@
 import { Router } from "express";
 import env from "../config/env.js";
+import { noStore, requireAdmin } from "../lib/requireAdmin.js";
 import { ValidationError, oneOf } from "../lib/validate.js";
 import {
   readProjectStats,
@@ -11,25 +12,27 @@ import { PROJECT_SLUGS } from "../../../shared/projects.js";
 /**
  * Reading the numbers back.
  *
- *   GET /api/stats              every project, plus a rolled up total
- *   GET /api/stats/:project     one project
+ *   GET /api/stats                   every project, plus a rolled up total
+ *   GET /api/stats/:project          one project
  *   GET /api/stats/:project/events   the raw rows behind one project
  *
- * These are read only, but they are still the site's own traffic figures, so
- * setting STATS_TOKEN puts them behind a bearer token. Leaving it unset keeps
- * them open, which is fine while the numbers are not worth hiding.
+ * These are read only, and they are the site's own traffic figures, so they
+ * are not public. There are two ways in: the admin session cookie the
+ * dashboard at /admin holds, or, when STATS_TOKEN is set, a bearer token for a
+ * script that cannot hold a cookie. With no token configured, the session is
+ * the only way.
  */
 
 const router = Router();
 
 /**
- * Compares the token in constant time where it matters. A plain !== leaks
- * length through timing, which is not a real threat for a stats page but costs
- * nothing to avoid.
+ * Compares the token in constant time. A plain !== leaks length through
+ * timing, which is not much of a threat for a stats page but costs nothing to
+ * avoid.
  */
 function tokenMatches(provided) {
   const expected = env.statsToken;
-  if (expected === "") return true;
+  if (expected === "") return false;
   if (typeof provided !== "string" || provided.length !== expected.length) {
     return false;
   }
@@ -42,17 +45,26 @@ function tokenMatches(provided) {
   return difference === 0;
 }
 
+const sessionGuard = requireAdmin();
+
+/**
+ * The bearer token is checked first, because a script sending one is not
+ * carrying a cookie and should not pay for a session lookup. Anything without
+ * a matching token falls through to the session guard, which answers 401 on
+ * its own if there is nothing to check.
+ */
 router.use((req, res, next) => {
-  if (env.statsToken === "") return next();
+  noStore(res);
 
   const header = req.headers.authorization ?? "";
   const provided = header.startsWith("Bearer ") ? header.slice(7) : "";
 
-  if (!tokenMatches(provided)) {
-    return res.status(401).json({ ok: false, error: "unauthorized" });
+  if (provided !== "" && tokenMatches(provided)) {
+    req.admin = { username: null, viaToken: true };
+    return next();
   }
 
-  return next();
+  return sessionGuard(req, res, next);
 });
 
 router.get("/", async (_req, res, next) => {

@@ -2,6 +2,7 @@ import cors from "cors";
 import express from "express";
 import env from "./config/env.js";
 import { ValidationError } from "./lib/validate.js";
+import adminRouter from "./routes/admin.js";
 import bugReportRouter from "./routes/bugReport.js";
 import healthRouter from "./routes/health.js";
 import statsRouter from "./routes/stats.js";
@@ -45,6 +46,7 @@ export function createApp() {
   app.use("/api/track", trackRouter);
   app.use("/api/stats", statsRouter);
   app.use("/api/bug-report", bugReportRouter);
+  app.use("/api/admin", adminRouter);
 
   app.get("/api", (_req, res) => {
     res.json({
@@ -55,11 +57,15 @@ export function createApp() {
         "POST /api/track/view",
         "POST /api/track/click",
         "POST /api/track/batch",
-        "GET  /api/stats",
-        "GET  /api/stats/:project",
-        "GET  /api/stats/:project/events",
+        "GET  /api/stats             (admin session or STATS_TOKEN)",
+        "GET  /api/stats/:project    (admin session or STATS_TOKEN)",
+        "GET  /api/stats/:project/events (admin session or STATS_TOKEN)",
         "GET  /api/bug-report/status",
         "POST /api/bug-report",
+        "GET  /api/admin/session",
+        "POST /api/admin/login",
+        "POST /api/admin/logout",
+        "POST /api/admin/password",
       ],
     });
   });

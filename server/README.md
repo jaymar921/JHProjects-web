@@ -15,18 +15,51 @@ duplicated between the two.
 | `POST` | `/api/track/view` | A project page was opened |
 | `POST` | `/api/track/click` | A download, buy, donate or source button was hit |
 | `POST` | `/api/track/batch` | Several events in one request |
-| `GET` | `/api/stats` | Every project, plus a rolled up total |
-| `GET` | `/api/stats/:project` | One project's counters |
-| `GET` | `/api/stats/:project/events` | The raw rows behind one project |
+| `GET` | `/api/stats` | Every project, plus a rolled up total. Signed in only |
+| `GET` | `/api/stats/:project` | One project's counters. Signed in only |
+| `GET` | `/api/stats/:project/events` | The raw rows behind one project. Signed in only |
 | `GET` | `/api/bug-report/status` | Whether email delivery is switched on |
 | `POST` | `/api/bug-report` | File a bug report |
+| `GET` | `/api/admin/session` | Who, if anyone, this browser is signed in as |
+| `POST` | `/api/admin/login` | Username and password in, session cookie out |
+| `POST` | `/api/admin/logout` | Drops the session on both ends |
+| `POST` | `/api/admin/password` | Replaces the password and rotates the session. Signed in only |
 
 The tracking endpoints answer `202`, not `200`. The browser sends them with
 `sendBeacon`, which cannot read a response and does not wait for one, so
 "accepted, will be recorded" is the honest status.
 
-`GET /api/stats` is open unless `STATS_TOKEN` is set, in which case it wants an
-`Authorization: Bearer <token>` header.
+The stats endpoints are not public. They take either the admin session cookie
+that `/admin` holds, or, when `STATS_TOKEN` is set, an
+`Authorization: Bearer <token>` header for something that cannot hold a cookie.
+With no token configured the session is the only way in.
+
+## The admin gateway
+
+`/api/admin/*` is what `/admin` in the site talks to. Accounts are made from a
+terminal with `npm run admin -- create`, which prints a temporary password once;
+until it has been replaced, `requireAdmin` refuses every route except
+`/api/admin/password`.
+
+Passwords are salted scrypt hashes (`src/lib/password.js`). A session is 32
+random bytes in an HttpOnly, SameSite=Strict cookie, stored as a SHA-256 hash so
+a dump of `admin_sessions` cannot be replayed. `expiresAt` slides forward while
+the session is used and is capped by `absoluteExpiresAt`, which never moves.
+Changing a password bumps `passwordChangedAt`, which invalidates every session
+opened before it.
+
+The state changing routes also check the `Origin` header against the host, which
+is a second lock behind the SameSite cookie rather than a replacement for it.
+
+```bash
+# Sign in and keep the cookie, then read the numbers with it
+curl -c jar.txt -X POST http://localhost:4000/api/admin/login \
+  -H 'Content-Type: application/json' \
+  -d '{"username":"admin","password":"..."}'
+
+curl -b jar.txt http://localhost:4000/api/stats
+```
+
 
 ### Posting an event
 
@@ -64,6 +97,15 @@ expired, so the totals outlive the events they came from.
 `failed` or `skipped`. The report is written before the email is attempted, so a
 report is never lost to an SMTP outage, and the failed ones can be found with
 `db.bug_reports.find({ emailStatus: "failed" })`.
+
+**`admin_users`** — one document per admin account: the username, a salted
+scrypt hash, whether the password is a temporary one and when it expires, the
+failed attempt counter and any lock. Never a password.
+
+**`admin_sessions`** — one document per signed in session, keyed by a SHA-256
+hash of the cookie value. Carries both clocks, `expiresAt` and
+`absoluteExpiresAt`, and expires itself through a TTL index on the first of
+them.
 
 Indexes are built once per process, on first use.
 

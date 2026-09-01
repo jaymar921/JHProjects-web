@@ -1,6 +1,14 @@
 # https://jhprojects.vercel.app/robots.txt
 
+# /admin is disallowed in every group below, not only the wildcard one: a
+# named agent reads its own group instead of the wildcard, so a rule that
+# lives only up here would not apply to it. The page is also served with a
+# noindex header and carries a noindex meta tag, and it shows nothing at all
+# without a session, so this is about keeping it out of search results rather
+# than about keeping anyone out.
+
 User-agent: *
+Disallow: /admin
 Allow: /
 
 # The plugin pages are the point of the site, so they are named explicitly
@@ -23,42 +31,55 @@ Allow: /*.jpg$
 # unambiguous that AI crawlers and assistants are welcome here, both for
 # training and for answering questions about these projects.
 User-agent: GPTBot
+Disallow: /admin
 Allow: /
 
 User-agent: ChatGPT-User
+Disallow: /admin
 Allow: /
 
 User-agent: OAI-SearchBot
+Disallow: /admin
 Allow: /
 
 User-agent: ClaudeBot
+Disallow: /admin
 Allow: /
 
 User-agent: Claude-User
+Disallow: /admin
 Allow: /
 
 User-agent: Claude-SearchBot
+Disallow: /admin
 Allow: /
 
 User-agent: anthropic-ai
+Disallow: /admin
 Allow: /
 
 User-agent: PerplexityBot
+Disallow: /admin
 Allow: /
 
 User-agent: Perplexity-User
+Disallow: /admin
 Allow: /
 
 User-agent: Google-Extended
+Disallow: /admin
 Allow: /
 
 User-agent: Applebot-Extended
+Disallow: /admin
 Allow: /
 
 User-agent: Meta-ExternalAgent
+Disallow: /admin
 Allow: /
 
 User-agent: CCBot
+Disallow: /admin
 Allow: /
 
 Sitemap: https://jhprojects.vercel.app/sitemap.xml
