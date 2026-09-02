@@ -10,6 +10,7 @@ import {
   GraphicsUtilsPage,
   CustomEnchants2Page,
   MoreFoodsPage,
+  EpicMobsPage,
 } from "./components/pages";
 
 /**
@@ -43,6 +44,7 @@ function App() {
         <Route path="fishing-contest" element={<FishingContestPage />} />
         <Route path="custom-enchantments-2" element={<CustomEnchants2Page />} />
         <Route path="more-foods-and-crops" element={<MoreFoodsPage />} />
+        <Route path="epic-mobs" element={<EpicMobsPage />} />
         {/* Unlinked, noindexed, and useless without a session. */}
         <Route
           path="admin"

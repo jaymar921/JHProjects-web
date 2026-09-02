@@ -10,6 +10,7 @@
  *   2D Graphics Utils   cyan and violet, an editor and a canvas
  *   Custom Enchantments 2  purple and amber, enchanting table glow
  *   More Foods & Crops  green and amber, a garden bed
+ *   Epic Mobs           sky and amber, taken off the plugin's own logo
  *
  *   node scripts/generate-project-art.mjs
  *
@@ -716,6 +717,187 @@ foods["unfinished"] = frame({
   ].join("\n"),
 });
 
+/* ============================================================ EPIC MOBS */
+
+const epicmobs = {};
+
+epicmobs["mobs"] = frame({
+  title: "EPIC MOB BUILDER",
+  path: "/ep create mob",
+  accent: C.sky,
+  footer: "EVERY MOB IS YOURS: NAME, TIER, HEALTH, GEAR, DROPS, BIOME",
+  body: [
+    panel(18, 52, 292, 214, "MOB ATTRIBUTES", C.sky),
+    row(34, 84, 260, "Entity", "ZOMBIE", C.sky),
+    row(34, 109, 260, "Name", "Farmer Zombie", C.amber),
+    row(34, 134, 260, "Tier", "TIER_1 .. TIER_6", C.amber),
+    row(34, 159, 260, "Health", "20.0", C.emerald),
+    row(34, 184, 260, "Resistance", "2.0", C.emerald),
+    row(34, 209, 260, "Biome", "PLAINS, FOREST", C.lime),
+    row(34, 234, 260, "State", "NORMAL / NOAI", C.rose),
+
+    panel(330, 52, 292, 126, "FOUR ENVIRONMENTS", C.amber),
+    row(346, 88, 260, "SUMMON", "command or raid", C.amber, 20),
+    row(346, 110, 260, "BOSS", "with a boss bar", C.rose, 20),
+    row(346, 132, 260, "NORMAL_DAY", "spawns by day", C.sky, 20),
+    row(346, 154, 260, "NORMAL_NIGHT", "spawns at night", C.violet, 20),
+
+    panel(330, 190, 292, 76, "16 AREA OF EFFECT ABILITIES", C.rose),
+    text(346, 234, "DAMAGE, POISON, BURN, FROSTBITE,", {
+      size: 8.2,
+      fill: C.text,
+    }),
+    text(346, 252, "CONFUSE, ROOT, LEVITATE, LIGHTNING", {
+      size: 8.2,
+      fill: C.text,
+    }),
+
+    text(20, 288, "/ep create  ->  GUIDED THROUGH CHAT AND A GUI", {
+      size: 9,
+      fill: C.text,
+    }),
+    text(620, 288, "NO CONFIG EDITING", {
+      size: 9,
+      fill: C.muted,
+      anchor: "end",
+    }),
+  ].join("\n"),
+});
+
+epicmobs["raids"] = frame({
+  title: "RAIDS & BOSSES",
+  path: "/ep raid",
+  accent: C.rose,
+  footer: "BUILD A RAID OUT OF YOUR OWN MOBS, THEN START IT WHEN YOU WANT",
+  body: [
+    panel(18, 52, 604, 96, "BOSS BAR", C.rose),
+    text(34, 96, "Ancient Warden", { size: 11, fill: C.rose, weight: 700 }),
+    meter(34, 106, 572, 0.62, C.rose, 10),
+    text(34, 134, "TIER_6  -  BOSS  -  VISIBLE TO EVERY PLAYER ONLINE", {
+      size: 8.2,
+      fill: C.muted,
+    }),
+
+    panel(18, 162, 292, 104, "A RAID IS A LIST OF MOBS", C.amber),
+    row(34, 192, 260, "Wave mob", "Farmer Zombie x6", C.amber, 20),
+    row(34, 213, 260, "Wave mob", "Bone Archer x4", C.sky, 20),
+    row(34, 234, 260, "Boss", "Ancient Warden", C.rose, 20),
+
+    panel(330, 162, 292, 104, "START AND STOP IT", C.sky),
+    text(346, 206, "/ep raid start <name>", { size: 9, fill: C.sky }),
+    text(346, 226, "/ep raid stop  <name>", { size: 9, fill: C.sky }),
+    text(346, 250, "A TRIGGER CAN FIRE ONE FOR YOU", {
+      size: 8,
+      fill: C.muted,
+    }),
+
+    text(20, 288, "SUMMON MOBS EXIST ONLY FOR RAIDS AND /ep summon", {
+      size: 9,
+      fill: C.text,
+    }),
+    text(620, 288, "EVERY WAVE IS YOURS", {
+      size: 9,
+      fill: C.muted,
+      anchor: "end",
+    }),
+  ].join("\n"),
+});
+
+epicmobs["spawners"] = frame({
+  title: "SPAWNERS & LOOT",
+  path: "Data/Spawner.yml",
+  accent: C.emerald,
+  footer: "PLACE A SPAWNER, HAND OUT AN EGG, OR LET THE WORLD DO IT",
+  body: [
+    panel(18, 52, 292, 130, "SPAWN EGGS AND SPAWNERS", C.emerald),
+    ...[0, 1, 2, 3, 4, 5].map((i) => slot(36 + i * 42, 92, 30)),
+    rect(41, 97, 20, 20, C.emerald, 0.5),
+    rect(83, 97, 20, 20, C.amber, 0.45),
+    rect(125, 97, 20, 20, C.rose, 0.45),
+    rect(167, 97, 20, 20, C.sky, 0.45),
+    rect(209, 97, 20, 20, C.violet, 0.45),
+    rect(251, 97, 20, 20, C.lime, 0.45),
+    text(34, 148, "/ep SpawnEggs   and   /ep Spawners", {
+      size: 8.4,
+      fill: C.text,
+    }),
+    text(34, 168, "PLACE ONE AND IT KEEPS SPAWNING", {
+      size: 8,
+      fill: C.muted,
+    }),
+
+    panel(330, 52, 292, 130, "DROPS AND EQUIPMENT", C.amber),
+    row(346, 88, 260, "Equipment", "worn, and dropped", C.amber, 20),
+    row(346, 110, 260, "Drops", "your own item list", C.lime, 20),
+    row(346, 132, 260, "ExtendedLoot", "shared loot tables", C.sky, 20),
+    row(346, 154, 260, "Eco", "a cash reward on kill", C.emerald, 20),
+
+    panel(18, 196, 604, 70, "SOFT DEPENDENCIES, ALL OPTIONAL", C.violet),
+    text(34, 242, "CustomEnchantments3  -  KumandrasEconomy  -  Vault  -  WorldGuard  -  EssentialsX", {
+      size: 8.2,
+      fill: C.text,
+    }),
+    text(34, 260, "WORLDGUARD REGIONS GATE WHERE A MOB MAY SPAWN. NONE OF THESE ARE REQUIRED.", {
+      size: 7.8,
+      fill: C.muted,
+    }),
+
+    text(20, 288, "6 TIERS  -  5 BUFFS  -  14 PARTICLE TRAILS", {
+      size: 9,
+      fill: C.text,
+    }),
+    text(620, 288, "Data/*.yml", {
+      size: 9,
+      fill: C.muted,
+      anchor: "end",
+    }),
+  ].join("\n"),
+});
+
+epicmobs["status"] = frame({
+  title: "WHY IT STOPPED",
+  path: "status",
+  accent: C.amber,
+  footer: "A PREMIUM PLUGIN THAT STOPPED - KEPT ON THE SHELF, NOT DELETED",
+  body: [
+    panel(18, 52, 604, 124, "WHERE IT GOT TO", C.amber),
+    text(34, 96, "Version 1.4.13, April 2023, and that was the last one. It", {
+      size: 8.8,
+      fill: C.text,
+    }),
+    text(34, 116, "was a premium plugin and it worked, but a full time job", {
+      size: 8.8,
+      fill: C.text,
+    }),
+    text(34, 136, "left no evenings for it, so it stopped rather than rotted", {
+      size: 8.8,
+      fill: C.text,
+    }),
+    text(34, 156, "quietly in public. It is not sold and not supported now.", {
+      size: 8.8,
+      fill: C.text,
+    }),
+
+    panel(18, 190, 292, 76, "THE RUN", C.sky),
+    row(34, 216, 260, "Oct 2021 - Apr 2023", "18 months", C.sky),
+    row(34, 240, 260, "Last version", "1.4.13", C.amber, 20),
+
+    panel(330, 190, 292, 76, "EPIC MOBS 2", C.emerald),
+    text(346, 234, "PLANNED, NOT STARTED. NO DATE,", {
+      size: 8.2,
+      fill: C.emerald,
+    }),
+    text(346, 254, "NO ROADMAP, NO PROMISES.", { size: 8.2, fill: C.text }),
+
+    text(20, 288, "STATUS: ABANDONED", { size: 9, fill: C.amber }),
+    text(620, 288, "SOURCE IS PRIVATE", {
+      size: 9,
+      fill: C.muted,
+      anchor: "end",
+    }),
+  ].join("\n"),
+});
+
 /* ------------------------------------------------ the link preview cards */
 
 const OW = 1200;
@@ -751,7 +933,19 @@ ${rect(0, 0, OW, OH, "url(#ovig)")}
 ${corners(48, 48, OW - 96, OH - 96, accent, 40, 3, 0.5)}
 ${
   badge
-    ? rect(OW / 2 - 130, 120, 260, 44, "rgba(0,0,0,0.6)", 1, second, 0.7, 2) +
+    ? // Sized to the label rather than fixed at 260, which every badge longer
+      // than 20 characters used to spill out of on both sides.
+      rect(
+        OW / 2 - (badge.length * 14 + 48) / 2,
+        120,
+        badge.length * 14 + 48,
+        44,
+        "rgba(0,0,0,0.6)",
+        1,
+        second,
+        0.7,
+        2,
+      ) +
       text(OW / 2, 150, badge, {
         size: 20,
         fill: second,
@@ -777,6 +971,7 @@ const groups = [
   ["src/assets/graphics_utils/features", gfx],
   ["src/assets/custom_enchants_2/features", ce2],
   ["src/assets/more_foods_crops/features", foods],
+  ["src/assets/epic_mobs/features", epicmobs],
 ];
 
 for (const [dir, scenes] of groups) {
@@ -835,6 +1030,22 @@ const cards = [
         ["BEDROCK", C.emerald],
       ],
       footer: "MINECRAFT BEDROCK 1.20.80  -  ADDON",
+    },
+  ],
+  [
+    "og-epic-mobs",
+    {
+      title: "EPIC MOBS",
+      strapline: "Build your own mobs, tier them, and raid with them",
+      accent: C.sky,
+      second: C.amber,
+      badge: "ABANDONED  -  PREMIUM",
+      chips: [
+        ["CUSTOM MOBS", C.sky],
+        ["RAIDS", C.rose],
+        ["BOSSES", C.amber],
+      ],
+      footer: "SPIGOT 1.16 - 1.19  -  LAST BUILD APRIL 2023",
     },
   ],
 ];

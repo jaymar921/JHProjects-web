@@ -29,6 +29,7 @@ cards=(
   "og-graphics-utils:2dgraphic-utils"
   "og-custom-enchants-2:custom-enchantments-2"
   "og-more-foods:more-foods-and-crops"
+  "og-epic-mobs:epic-mobs"
 )
 
 mkdir -p "$out_dir"

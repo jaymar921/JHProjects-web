@@ -7,6 +7,7 @@ import FishingContestPage from "./FishingContestPage";
 import GraphicsUtilsPage from "./GraphicsUtilsPage";
 import CustomEnchants2Page from "./CustomEnchants2Page";
 import MoreFoodsPage from "./MoreFoodsPage";
+import EpicMobsPage from "./EpicMobsPage";
 
 export {
   CE3Page,
@@ -18,4 +19,5 @@ export {
   GraphicsUtilsPage,
   CustomEnchants2Page,
   MoreFoodsPage,
+  EpicMobsPage,
 };
