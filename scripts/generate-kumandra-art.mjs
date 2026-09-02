@@ -10,6 +10,10 @@
  * actually does, with the real numbers out of config.yml, so the art stays
  * honest when someone reads the settings page next to it.
  *
+ * Updated for 2.1: the whatsnew panel is a list of what was added rather than
+ * a before and after, because nothing in this release is a repair, and there
+ * is a movements panel for the transaction list and the CE3 bridge.
+ *
  *   node scripts/generate-kumandra-art.mjs
  *
  * Writes to src/assets/kumandras_economy/features/.
@@ -686,60 +690,136 @@ scenes["api"] = frame({
   ].join("\n"),
 });
 
-/* 10. What 2.0 changed, the before and after. */
-const FIXES = [
-  ["VERSION CHECK", "string match, 1.16/17/18", "parsed and compared"],
-  ["QUESTS ON 1.19+", "silently off", "on"],
-  ["VAULT", "hard dependency", "optional"],
-  ["format()", "returned null", "formatted string"],
-  ["ORE INCOME", "paid block rate", "pays ore rate"],
-  ["VillagerRadius", "never read", "read"],
-  ["JOB TIMERS", "running 7x over", "running once"],
-  ["FAILED DB SAVE", "reported success", "reports failure"],
+/* 10. What 2.1 added. Additive only, so this is a list rather than a diff. */
+const ADDED = [
+  ["Your CE3 balance on the balance screen", C.amber],
+  ["/kumandra convert <amount>", C.teal],
+  ["Recent Movements, the last six shown", C.emerald],
+  ["deposit / withdraw with a reason", C.sky],
+  ["getApiVersion(), returning 2", C.sky],
+  ["getRecentTransactions(UUID)", C.sky],
 ];
 
+const UNCHANGED = [
+  ["Every 1.x and 2.0 signature", C.emerald],
+  ["The 2.0 API contract shape", C.emerald],
+  ["Your config.yml. No new keys", C.emerald],
+  ["Your lang.yml. New keys fall back", C.emerald],
+  ["Startup, with or without CE3", C.emerald],
+  ["Both plugins still stand alone", C.emerald],
+];
+
+const listRow = (x, y, label, accent) =>
+  rect(x, y, 7, 7, accent, 0.85) +
+  text(x + 16, y + 7, label, { size: 8.2, fill: C.text });
+
 scenes["whatsnew"] = frame({
-  title: "WHAT 2.0 CHANGED",
-  path: "release/2.0",
+  title: "WHAT 2.1 ADDED",
+  path: "release/2.1",
   accent: C.rose,
-  footer: "REPLACE THE JAR AND RESTART - YOUR CONFIG IS UPGRADED IN PLACE",
+  footer: "DROP THE NEW JAR IN - NO CONFIG CHANGE, NO DATA MIGRATION",
   body: [
     panel(18, 52, 604, 46, "", C.emerald),
-    text(34, 72, "ONE JAR", { size: 9, fill: C.dim, spacing: 1.6 }),
-    text(34, 88, "1.16  ->  26.2", { size: 12, weight: 700, fill: C.emerald }),
-    text(200, 80, "NO NMS  -  NO PACKETS  -  JAVA 8 AND UP", {
+    text(34, 72, "API VERSION", { size: 9, fill: C.dim, spacing: 1.6 }),
+    text(34, 88, "getApiVersion()  ->  2", {
+      size: 12,
+      weight: 700,
+      fill: C.emerald,
+    }),
+    text(250, 80, "ADDITIVE ONLY - 2.0 CODE LINKS UNCHANGED", {
       size: 8.4,
       fill: C.muted,
     }),
     rect(470, 62, 136, 26, "rgba(0,0,0,0.5)", 1, C.rose, 0.6, 1),
-    text(538, 79, "VAULT OPTIONAL", {
+    text(538, 79, "THE CE3 RELEASE", {
       size: 8.6,
       fill: C.rose,
       anchor: "middle",
       spacing: 1.2,
     }),
 
-    panel(18, 110, 604, 156, "BEFORE  /  AFTER", C.rose),
-    text(196, 132, "1.7", { size: 8, fill: C.dim, spacing: 1.4 }),
-    text(430, 132, "2.0", { size: 8, fill: C.emerald, spacing: 1.4 }),
-    ...FIXES.flatMap(([label, was, now], i) => {
-      const y = 142 + i * 15;
-      return [
-        text(34, y + 10, label, { size: 7.8, fill: C.text }),
-        text(196, y + 10, was, { size: 7.6, fill: C.rose, opacity: 0.85 }),
-        `<path d="M400 ${y + 6}h18" stroke="${C.dim}" stroke-width="1"/>`,
-        `<path d="M418 ${y + 6}l-5-3v6z" fill="${C.dim}"/>`,
-        text(430, y + 10, now, { size: 7.6, fill: C.emerald }),
-      ];
-    }),
+    panel(18, 110, 292, 156, "ADDED", C.amber),
+    ...ADDED.map(([label, accent], i) =>
+      listRow(34, 142 + i * 20, label, accent),
+    ),
 
-    text(20, 288, "PLUS CE3 INTEGRATION, BUNDLED CONNECTOR/J 26.7.0", {
+    panel(330, 110, 292, 156, "UNTOUCHED", C.emerald),
+    ...UNCHANGED.map(([label, accent], i) =>
+      listRow(346, 142 + i * 20, label, accent),
+    ),
+
+    text(20, 288, "WITHOUT CE3 INSTALLED, ONLY THE MOVEMENT LIST APPLIES", {
       size: 9,
       fill: C.text,
     }),
-    text(620, 288, "AND A LONG FIX LIST", {
+    text(620, 288, "2 SEP 2026", {
       size: 9,
       fill: C.muted,
+      anchor: "end",
+    }),
+  ].join("\n"),
+});
+
+/* 11. Movements and the Custom Enchantments 3 bridge, both new in 2.1. */
+const MOVEMENTS = [
+  ["Bought a Sharpness V book", "- Kd 240.00", C.rose],
+  ["Custom Enchantments 3", "- Kd 500.00", C.rose],
+  ["Quest reward", "+ Kd 85.00", C.emerald],
+  ["Pay  ->  Sekai47", "- Kd 120.00", C.sky],
+  ["Deposit (admin)", "+ Kd 250.00", C.emerald],
+];
+
+scenes["movements"] = frame({
+  title: "MOVEMENTS & CE3",
+  path: "InventoryGUI/BalanceGUI",
+  accent: C.amber,
+  footer: "MONEY THAT LEAVES YOUR ACCOUNT NOW SAYS WHAT TOOK IT",
+  body: [
+    panel(18, 52, 300, 214, "ONE SCREEN, BOTH WALLETS", C.amber),
+    row(34, 86, 268, "KUMANDRA", "Kd 4,820.75", C.emerald),
+    row(34, 112, 268, "CUSTOM ENCHANTMENTS", "RACO 312", C.amber),
+    text(34, 150, "RECENT MOVEMENTS", { size: 8.5, fill: C.dim, spacing: 1.6 }),
+    ...MOVEMENTS.map(([reason, amount, accent], i) =>
+      row(34, 158 + i * 20, 268, reason, amount, accent, 18),
+    ),
+
+    panel(330, 52, 292, 116, "/KUMANDRA CONVERT", C.teal),
+    text(346, 98, "/kumandra convert 40", { size: 11, fill: C.teal }),
+    text(346, 122, "BUYS 40 RACO WITH YOUR Kd", {
+      size: 8.2,
+      fill: C.text,
+      spacing: 1.2,
+    }),
+    text(346, 140, "PRICED IN CE3 UNITS, SO YOU ALWAYS", {
+      size: 8.2,
+      fill: C.muted,
+    }),
+    text(346, 158, "GET A WHOLE NUMBER OF COINS", {
+      size: 8.2,
+      fill: C.muted,
+    }),
+
+    panel(330, 180, 292, 86, "IT CALLS CE3, IT IS NOT A COPY", C.rose),
+    text(346, 222, "THE RATE, THE FEE, THE SUPPLY CAP AND", {
+      size: 8.2,
+      fill: C.text,
+    }),
+    text(346, 240, "THE REFUND ALL LIVE IN CE3'S CONFIG.", {
+      size: 8.2,
+      fill: C.text,
+    }),
+    text(346, 258, "ONE CODE PATH, SO THEY CANNOT DRIFT.", {
+      size: 8.2,
+      fill: C.text,
+    }),
+
+    text(20, 288, "JOB WAGES ARE DELIBERATELY LEFT OUT", {
+      size: 9,
+      fill: C.muted,
+    }),
+    text(620, 288, "LAST 20 PER ACCOUNT", {
+      size: 9,
+      fill: C.amber,
       anchor: "end",
     }),
   ].join("\n"),
@@ -850,8 +930,8 @@ ${rect(0, 0, OW, OH, "#08130f", 0.55)}
 ${text(600, 214, "Kd", { size: 46, weight: 700, fill: C.amber, anchor: "middle" })}
 ${text(600, 320, "KUMANDRA'S ECONOMY", { size: 58, weight: 700, fill: C.emerald, anchor: "middle", spacing: 4 })}
 ${text(600, 368, "A whole server economy in one free jar", { size: 26, fill: C.text, anchor: "middle" })}
-${rect(520, 386, 160, 26, "rgba(0,0,0,0.55)", 1, C.rose, 0.7, 2)}
-${text(600, 404, "VERSION 2.0 OUT NOW", { size: 14, fill: C.rose, anchor: "middle", spacing: 1.5 })}
+${rect(490, 386, 220, 26, "rgba(0,0,0,0.55)", 1, C.rose, 0.7, 2)}
+${text(600, 404, "VERSION 2.1 OUT NOW", { size: 14, fill: C.rose, anchor: "middle", spacing: 1.5 })}
 ${chip(150, 440, "7 JOBS", C.emerald)}
 ${chip(340, 440, "TRADING", C.amber)}
 ${chip(530, 440, "DELIVERY", C.sky)}

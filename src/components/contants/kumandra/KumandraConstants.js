@@ -6,8 +6,10 @@
  * out of the plugin's own config.yml and plugin.yml, so a server owner reading
  * this page sees the same defaults they will get in the jar.
  *
- * Updated for 2.0, the release that made one jar cover 1.16 through 26.2 and
- * dropped Vault from the required dependencies.
+ * Updated for 2.1, the Custom Enchantments 3 release: two currencies on one
+ * balance screen, a convert command, and a transaction list that says what
+ * took your money. 2.0 is still the release that made one jar cover 1.16
+ * through 26.2 and dropped Vault from the required dependencies.
  */
 
 import wiseImg from "../../../assets/custom_enchants_3/wise.png";
@@ -19,9 +21,9 @@ export const PluginInformation = {
   subtitle: "A whole server economy in one free jar.",
   tagline: "Give your players money worth earning, and something to spend it on.",
 
-  version: "2.0",
-  versionReleaseDate: "08/26/2026",
-  previousVersion: "1.7",
+  version: "2.1",
+  versionReleaseDate: "09/02/2026",
+  previousVersion: "2.0",
   supportedVersions: "1.16 - 26.2",
   javaSupport: "Java 8+",
   spigotResourceId: 96466,
@@ -39,85 +41,69 @@ export const PluginInformation = {
   contactEmail: "jaymarplugins@gmail.com",
 
   /**
-   * The banner panel at the top of the page. 2.0 is the current build, so this
-   * says what changed and why it matters, rather than apologising for the age
-   * of the jar the way the 1.7 copy had to.
+   * The banner panel at the top of the page. 2.1 is a smaller release than 2.0
+   * and this says so, because overselling a point release is how you teach
+   * people to stop reading the update notes.
    */
   release: {
-    headline: "2.0 is out, and one jar now covers 1.16 through 26.2.",
-    body: "The old build worked out your server version by checking whether the version text contained \"1.16\", \"1.17\" or \"1.18\". A 1.19 server matches none of those, so on anything newer the plugin decided it was older than 1.16 and quietly switched off the quest system, nether logs for the Lumberjack and the Fisherman's rare catches, with nothing in the console to say so. 2.0 parses the version as numbers and compares them, which is what makes the whole range work from one file. Vault is optional now, the Vault provider was rewritten, three job settings that were costing you money are fixed, and Custom Enchantments 3 is detected as an integration.",
+    headline: "2.1 is out. This is the Custom Enchantments 3 release.",
+    body: "A smaller one than 2.0. If you run Custom Enchantments 3 as well, your players have two wallets and have had one balance screen that named CE3 and left out the number. The CE3 balance sits under the Kumandra one now, /kumandra convert buys CE3 currency with Kd, and the conversion is CE3's own code rather than a copy of it, so the two cannot drift apart when you change a number. If you do not run CE3, the one thing here that still affects you is the transaction list: money another plugin takes now says which plugin took it.",
     supported: "1.16 - 26.2",
     upgrade:
-      "Replace the jar and restart. Your config is upgraded in place and backed up as old_config.yml first, and playerData.yml and shop data are unchanged in format.",
+      "Drop the new jar in. There is no config change and no data migration, and every method from 1.x and 2.0 keeps its signature.",
   },
 
   description:
     "Kumandra's Economy is a full economy for your server in a single free jar. Not just a balance and a /pay command: your players take jobs and earn money for the work they already do, trade face to face in a window that holds both sides until both confirm, post parcels to each other by courier across worlds, run public shops, and take quests from villagers and animals for money, XP or items.",
   descriptionMore: [
+    "Since 2.1 it also talks to Custom Enchantments 3, if you run that too. Both currencies show on one balance screen, /kumandra convert buys CE3 coins with Kd, and the balance screen keeps a list of your recent movements so money leaving your account says what took it. Neither plugin depends on the other, and neither has a type from the other in its jar.",
     "It runs three ways. As your server's main currency, where every Vault-aware plugin sees Kd as the money. Beside an existing economy as a second currency, with an in-game exchange screen that converts between the two at a rate you set. Or with no Vault installed at all, which is new in 2.0 and works exactly the same except for cross-economy exchange.",
     "Seven jobs come built in. Farmer, Lumberjack, Miner, Hunter, Guardian, Builder and Fisherman, each paying per action on values you control, from harvesting a crop to landing a rare catch. Players hold two at a time by default and join or leave from a GUI, so nobody needs a command list to get started.",
     "Storage is your call too. Out of the box it keeps everything in flat YAML and asks nothing of you. Turn on MySQL instead and the driver is already bundled and relocated inside the jar, the schema is created on first connect, and a save that fails now reports the failure and falls back to the local files rather than reporting success and losing the write.",
-    "It is free, it always has been, and 2.0 needs nothing installed alongside it. There is a developer API with a full guide in the repository, every 1.x method keeps its signature, and there is a donation link at the bottom of this page if the plugin earns your server something.",
+    "It is free, it always has been, and it needs nothing installed alongside it. There is a developer API documented on this page, every 1.x method keeps its signature, and there is a donation link at the bottom if the plugin earns your server something.",
   ],
 
   /**
-   * The "What is new in 2.0" grid. This replaced the old roadmap: the roadmap's
-   * headline item was modern version support, and that is what shipped.
+   * The "What is new in 2.1" grid. Six panels rather than the nine 2.0 had,
+   * because it is a smaller release and padding it out to match would be
+   * dishonest as well as tiring to read.
    */
   whatsNew: [
     {
-      title: "It knows what server it is on",
-      accent: "emerald",
-      icon: "fa-solid fa-cube",
-      body: "Version detection parses the numbers and compares them, instead of matching the version string against \"1.16\", \"1.17\" and \"1.18\". That is what makes one jar cover 1.16 to 26.2, and it is what switched quests, nether logs and rare catches back on for every server newer than 1.18.",
-    },
-    {
-      title: "Vault is optional",
-      accent: "teal",
-      icon: "fa-solid fa-plug",
-      body: "It used to be a hard dependency, which meant installing a second plugin just to use Kumandra's own currency on a server with no other economy. With Vault it behaves exactly as before. Without it everything works except cross-economy exchange, which needs a second economy anyway.",
-    },
-    {
-      title: "The Vault provider was rewritten",
-      accent: "rose",
-      icon: "fa-solid fa-screwdriver-wrench",
-      body: "format() returned null, so shop plugins printed prices as the word \"null\". createPlayerAccount() always returned false. Bank methods returned null instead of a not-supported response. Balance lookups by world returned zero from any other world, so money appeared to vanish through a nether portal. All fixed.",
-    },
-    {
-      title: "Three job settings that cost you money",
+      title: "Two currencies, one balance screen",
       accent: "amber",
-      icon: "fa-solid fa-helmet-safety",
-      body: "Ore income never worked: the ore list was being appended to the mining-block list, so it started empty and every ore paid the plain-block rate. Builder income read the wrong config key and could silently be zero. VillagerRadius sat in config.yml and was never read, so Guardian always used a hard-coded 20 blocks.",
+      icon: "fa-solid fa-wallet",
+      body: "A player on a server running both plugins has two wallets and one balance screen. It listed Custom Enchantments as an integration by name and left out the number, which is the less useful half. The CE3 balance now sits under the Kumandra one, with CE3's own configured currency sign, so a renamed currency shows up renamed. Without CE3 the line is simply not there.",
     },
     {
-      title: "Custom Enchantments 3 integration",
-      accent: "sky",
-      icon: "fa-solid fa-wand-sparkles",
-      body: "CE3 is detected at startup and listed as an integration on the balance screen, and the CE quest pack that has always shipped inside the jar finally loads, but only when CE is actually installed. Not one line of CE code is imported, so a CE update cannot break startup.",
-    },
-    {
-      title: "MySQL is easier and safer",
+      title: "/kumandra convert <amount>",
       accent: "teal",
-      icon: "fa-solid fa-database",
-      body: "Connector/J 26.7.0 is bundled and relocated into the plugin's own package, so it cannot collide with another plugin's copy. Prepared statements instead of concatenated SQL, one batched write instead of a round trip per player, connections closed on every path, and a failed save now reports failure and falls back to local storage.",
+      icon: "fa-solid fa-right-left",
+      body: "Buys Custom Enchantments currency with Kumandra currency. The amount is named in CE3's units, the same way CE3's own exchange screen asks for it, so a player always ends up with a whole number of coins rather than whatever their Kd happened to divide into.",
     },
     {
-      title: "Leaks and stranded couriers",
+      title: "The conversion is CE3's, not a copy",
       accent: "rose",
-      icon: "fa-solid fa-broom",
-      body: "Every job timer was running seven times over, so the action bar was written seven times a tick and income expired seven times too fast. Trade sessions never released their inventory or either player. Shutdown cleanup stopped at the first courier in an unloaded chunk and left every courier after it standing in your world.",
+      icon: "fa-solid fa-code-branch",
+      body: "The command calls the conversion inside Custom Enchantments 3. The rate, the fee, the supply cap and the refund on a failed purchase all live in CE3's config. A second implementation here would agree with CE3 exactly until the first time you changed a number, and then disagree quietly forever.",
     },
     {
-      title: "Data that survives being edited",
+      title: "Where did my money go",
       accent: "emerald",
-      icon: "fa-solid fa-shield-halved",
-      body: "Writing balance: 500 instead of 500.0 in playerData.yml used to throw a type error and take every player's record down with it. Both forms are read now. Config upgrades read from the plugin's real data folder, index your settings by key, carry list settings across as whole blocks, and keep the shipped comments intact.",
+      icon: "fa-solid fa-list-ul",
+      body: "Money charged by another plugin used to leave the balance smaller with nothing anywhere to say what took it. The balance screen shows the last six movements, what each was for and how long ago it happened. This one works whether or not you have CE3 installed.",
     },
     {
-      title: "A bigger, still-compatible API",
+      title: "Callers that say nothing are named anyway",
       accent: "sky",
-      icon: "fa-solid fa-code",
-      body: "Every 1.x method keeps its signature and return values, and code compiled against 1.7 links against 2.0 unchanged. New: offline-capable UUID balance methods, an all-or-nothing transfer, setBalance, hasAccount, createAccount, hasJob, and accessors for the currency prefix, exchange rate, foreign economy name and detected server version.",
+      icon: "fa-solid fa-tag",
+      body: "Anything written against the 2.0 API calls a two-argument withdraw and cannot pass a reason. Rather than wait for every integration to ship an update, the plugin works out which plugin is on the other end of the call and files the movement under its name. Plugins that want to do better can pass a reason string, and it is shown instead.",
+    },
+    {
+      title: "Additive, and allowed to fail",
+      accent: "teal",
+      icon: "fa-solid fa-shield-halved",
+      body: "getApiVersion() returns 2, so an integrator reads one integer instead of probing eight methods. Every CE3 lookup resolves by name, once, through CE3's own class loader, and is allowed to fail: a CE3 release that renames something costs a line on the balance screen, not an exception on a screen a player just opened.",
     },
   ],
 
@@ -152,13 +138,23 @@ export const PluginInformation = {
 export const Features = [
   {
     key: "whats new",
-    title: "WHAT'S NEW IN 2.0",
+    title: "WHAT'S NEW IN 2.1",
     icon: "fa-solid fa-rocket",
     accent: "rose",
     image: FeatureArt.whatsnew,
     description:
-      "One jar from 1.16 to 26.2, Vault made optional, the Vault provider rewritten, and the job settings that were quietly paying nothing.",
+      "The Custom Enchantments 3 release. Both currencies on one balance screen, a convert command, and a list of where your money went.",
     button: "What's new",
+  },
+  {
+    key: "movements",
+    title: "MOVEMENTS & CE3",
+    icon: "fa-solid fa-list-ul",
+    accent: "amber",
+    image: FeatureArt.movements,
+    description:
+      "The last six movements on your account, what each was for, and the two-way bridge to Custom Enchantments 3.",
+    button: "Movements",
   },
   {
     key: "balance",
@@ -167,7 +163,7 @@ export const Features = [
     accent: "emerald",
     image: FeatureArt.economy,
     description:
-      "Accounts create themselves on first join. Check it, pay it, and let admins top it up or wipe it, from a command that works on the console too.",
+      "Accounts create themselves on first join. Check it, pay it, see where it went, and let admins top it up or wipe it from the console.",
     button: "Balance",
   },
   {
@@ -247,7 +243,7 @@ export const Features = [
     accent: "emerald",
     image: FeatureArt.api,
     description:
-      "Read and move a player's balance from your own plugin in about five lines. Offline-capable and all-or-nothing in 2.0.",
+      "Read and move a player's balance from your own plugin in about five lines. Offline-capable, all-or-nothing, and attributed in 2.1.",
     button: "API",
   },
 ];
@@ -388,6 +384,12 @@ export const CommandList = [
     requireOp: false,
   },
   {
+    command: "/kumandra convert [amount]",
+    description:
+      "Buy Custom Enchantments 3 currency with your Kumandra currency. The amount is in CE3's units. Added in 2.1, and it says so when CE3 is absent or conversion is switched off.",
+    requireOp: false,
+  },
+  {
     command: "/kumandra trade [player]",
     description:
       "Send a trade request. The other player has the request expiry to answer it.",
@@ -476,6 +478,12 @@ export const Permissions = [
   {
     node: "kumandraseconomy.kumandra.pay",
     grants: "Send money to another player.",
+    fallback: "everyone",
+  },
+  {
+    node: "kumandraseconomy.kumandra.convert",
+    grants:
+      "Convert Kumandra currency into Custom Enchantments 3 currency. Added in 2.1.",
     fallback: "everyone",
   },
   {
@@ -647,5 +655,6 @@ export const ConfigGroups = [
 
 /**
  * The KumandrasAPI surface, for the developer panel. Anything with a `since`
- * is new in 2.0; everything else keeps its exact 1.x signature and returns.
+ * arrived in that release; everything else keeps its exact 1.x signature and
+ * returns.
  */
