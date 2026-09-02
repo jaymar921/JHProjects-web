@@ -40,7 +40,10 @@ import {
   TerminalLabel,
 } from "../page_components/PixelUIKit";
 import * as FeatureArt from "../../assets/custom_enchants_3/features";
-import * as ReleaseArt from "../../assets/custom_enchants_3/marketing_1_5_0";
+import * as ReleaseArt from "../../assets/custom_enchants_3/marketing_1_6_0";
+// The 1.6.0 set has no "systems" draw. The 1.5.0 one is still accurate, so the
+// features section keeps using it rather than a re-cut that would say the same.
+import { systems as SystemsShot } from "../../assets/custom_enchants_3/marketing_1_5_0";
 import {
   CLICK_ACTIONS,
   PROJECTS,
@@ -92,7 +95,7 @@ function CE3Page() {
   useEffect(() => {
     // Kept in step with the <title> in customenchantments3.html, so a crawler
     // that renders the page does not see a different title to the served one.
-    document.title = "Custom Enchantments 3 | 134 Enchantments, 134 Treasures";
+    document.title = "Custom Enchantments 3 | 159 Enchantments, 149 Treasures";
 
     let link = document.querySelector("link[rel~='icon']");
     if (!link) {
@@ -308,11 +311,17 @@ function CE3Page() {
         </div>
       </header>
 
-      {/* --------------------------------------------------- LATEST BUILD */}
+      {/* ------------------------------------------------ WHAT IS NEW 1.6.0 */}
+      {/*
+        1.5.0 had a release banner and a separate "what is new" section, and the
+        two said much the same thing one after the other. They are one section
+        now: the banner is the summary, and everything else sits behind the
+        toggle for the people who want it.
+      */}
       <section className="ce3-grid relative w-full py-10">
-        <div className="mx-auto w-[90%] md:w-[70%] lg:w-[60%]">
+        <div className="mx-auto w-[90%] md:w-[80%] lg:w-[70%]">
           <Panel accent="rose" className="p-5 md:p-6">
-            <div className="md:flex md:place-items-center md:gap-6">
+            <div className="lg:flex lg:place-items-center lg:gap-6">
               <div className="grow">
                 <div className="flex flex-wrap place-items-center gap-2">
                   <span className="pixel-font border border-rose-400/50 bg-rose-500/15 px-2 py-1 text-[8px] tracking-widest text-rose-300">
@@ -325,90 +334,42 @@ function CE3Page() {
                     released {PluginInformation.versionReleaseDate}
                   </span>
                 </div>
-                <p className="pt-3 text-xs text-slate-300 md:text-sm">
+                <p className="pixel-font pt-3 text-[10px] text-rose-300 md:text-xs">
+                  The economy release.
+                </p>
+                <p className="pt-3 text-xs leading-relaxed text-slate-300 md:text-sm">
                   {PluginInformation.versionHighlight}
-                </p>
-                <p className="pt-2 text-[10px] text-amber-400/90 md:text-xs">
-                  <i className="fa-solid fa-triangle-exclamation pr-1"></i>
-                  Heads up: your config carries over. On the first start after
-                  updating the plugin rewrites{" "}
-                  <span className="pixel-font">config.yml</span> with the new
-                  keys and keeps every value you had set, saving the old file as{" "}
-                  <span className="pixel-font">config.yml.old</span>. Back up{" "}
-                  <span className="pixel-font">
-                    plugins/CustomEnchantments3
-                  </span>{" "}
-                  first, as always.
-                </p>
-              </div>
-              <div className="shrink-0 pt-5 md:pt-0">
-                <button
-                  className="pixel-font w-full rounded-none border-2 border-rose-400/50 bg-[rgba(0,0,0,0.5)] px-4 py-3 text-[9px] tracking-widest text-rose-200 transition-all hover:-translate-y-0.5 hover:border-rose-300 hover:bg-rose-500/20 md:w-auto md:text-[10px]"
-                  onClick={() => setSubcontent("change logs")}
-                >
-                  <i className="fa-solid fa-clipboard-list pr-2"></i>
-                  READ THE PATCH NOTES
-                </button>
-              </div>
-            </div>
-          </Panel>
-        </div>
-      </section>
-
-      {/* -------------------------------------------------- WHAT IS NEW 1.5.0 */}
-      <section className="w-full py-10">
-        <div className="mx-auto w-[90%] md:w-[80%] lg:w-[70%]">
-          <SectionHeading
-            icon="fa-solid fa-star"
-            title={`What is new in ${PluginInformation.version}`}
-            subtitle="1.4.0 made the plugin fast and added nothing. This one is the opposite."
-            accent="lime"
-          />
-
-          <Panel accent="lime" className="mt-6 p-5">
-            <div className="md:flex md:place-items-center md:gap-6">
-              <div className="grow">
-                <p className="text-xs leading-relaxed text-slate-300 md:text-sm">
-                  76 new enchantments, 100 new treasure items, bandit camps
-                  guarding the loot plots, 25 quests already written, and a
-                  candlestick price chart in the currency screen.
                 </p>
                 <div className="flex flex-wrap gap-2 pt-4">
                   <StatChip
                     icon="fa-solid fa-wand-magic-sparkles"
-                    value="+76"
+                    value="+25"
                     label="Enchants"
                     accent="purple"
                   />
                   <StatChip
                     icon="fa-solid fa-gem"
-                    value="+100"
+                    value="+15"
                     label="Treasures"
                     accent="amber"
                   />
                   <StatChip
-                    icon="fa-solid fa-skull"
-                    value="2-5"
-                    label="Bandits"
-                    accent="rose"
-                  />
-                  <StatChip
-                    icon="fa-solid fa-scroll"
-                    value="25"
-                    label="Quests"
+                    icon="fa-solid fa-right-left"
+                    value="Kd"
+                    label="Now spends"
                     accent="lime"
                   />
                   <StatChip
-                    icon="fa-solid fa-chart-line"
-                    value="24h"
-                    label="Candles"
+                    icon="fa-solid fa-lock"
+                    value="1.25M"
+                    label="Still capped"
                     accent="sky"
                   />
                 </div>
               </div>
-              <div className="shrink-0 pt-5 md:pt-0">
+              <div className="flex shrink-0 flex-col gap-3 pt-5 lg:pt-0">
                 <button
-                  className="pixel-font w-full rounded-none border-2 border-lime-400/60 bg-[rgba(0,0,0,0.5)] px-4 py-3 text-[9px] tracking-widest text-lime-200 transition-all hover:-translate-y-0.5 hover:border-lime-300 hover:bg-lime-500/20 md:w-auto md:text-[10px]"
+                  className="pixel-font w-full rounded-none border-2 border-lime-400/60 bg-[rgba(0,0,0,0.5)] px-4 py-3 text-[9px] tracking-widest text-lime-200 transition-all hover:-translate-y-0.5 hover:border-lime-300 hover:bg-lime-500/20 lg:w-auto lg:text-[10px]"
                   onClick={() => setShowWhatIsNew((shown) => !shown)}
                   aria-expanded={showWhatIsNew}
                   aria-controls="ce3-what-is-new"
@@ -420,6 +381,13 @@ function CE3Page() {
                   ></i>
                   {showWhatIsNew ? "HIDE THE DETAILS" : "SEE WHAT LANDED"}
                 </button>
+                <button
+                  className="pixel-font w-full rounded-none border-2 border-rose-400/50 bg-[rgba(0,0,0,0.5)] px-4 py-3 text-[9px] tracking-widest text-rose-200 transition-all hover:-translate-y-0.5 hover:border-rose-300 hover:bg-rose-500/20 lg:w-auto lg:text-[10px]"
+                  onClick={() => setSubcontent("change logs")}
+                >
+                  <i className="fa-solid fa-clipboard-list pr-2"></i>
+                  PATCH NOTES
+                </button>
               </div>
             </div>
           </Panel>
@@ -429,76 +397,71 @@ function CE3Page() {
               <Shot
                 className="mt-6"
                 src={ReleaseArt.hero}
-                alt="Custom Enchantments 3 version 1.5.0, 134 enchantments and 134 treasures"
+                alt="Custom Enchantments 3 version 1.6.0, 159 enchantments and 149 treasures"
                 accent="lime"
-                caption="Enchantments go from 58 to 134. Treasure items go from 34 to 134."
+                caption="Enchantments go from 134 to 159. Treasure items go from 134 to 149."
               />
 
-              <div className="mt-8 grid gap-4 md:grid-cols-2 xl:grid-cols-3">
-                <Panel accent="purple" className="p-5">
-                  <p className="pixel-font text-[10px] tracking-widest text-purple-300 md:text-xs">
-                    76 NEW ENCHANTS
-                  </p>
-                  <p className="pt-3 text-xs leading-relaxed text-slate-400 md:text-sm">
-                    23 for tools, 30 for weapons, 23 for armor, including eight
-                    new wand spells. Shovels and fishing rods can carry
-                    enchantments now. Every one of them is a config line, so set
-                    a price to 0 and it disappears from your server.
-                  </p>
-                </Panel>
+              <Shot
+                className="mt-6"
+                src={ReleaseArt.economy}
+                alt="How Custom Enchantments 3 spends Kumandra currency without minting RACO"
+                accent="amber"
+                caption="Pay in Kd, the plugin buys the RACO out of circulating supply, the seller is paid in RACO"
+              />
+
+              <div className="mt-8 grid gap-4 md:grid-cols-2">
                 <Panel accent="amber" className="p-5">
                   <p className="pixel-font text-[10px] tracking-widest text-amber-300 md:text-xs">
-                    100 NEW TREASURES
+                    TWO ECONOMIES, ONE RULE
                   </p>
                   <p className="pt-3 text-xs leading-relaxed text-slate-400 md:text-sm">
-                    Each one a 16x16 sprite drawn for this release, with its own
-                    name, flavour line and stat block. No two share an effect.
-                    Drops are weighted across five tiers you control from
-                    config.
-                  </p>
-                </Panel>
-                <Panel accent="rose" className="p-5">
-                  <p className="pixel-font text-[10px] tracking-widest text-rose-300 md:text-xs">
-                    BANDIT CAMPS
-                  </p>
-                  <p className="pt-3 text-xs leading-relaxed text-slate-400 md:text-sm">
-                    Loot plots used to be a chest and a walk home. A crew of 2
-                    to 5 now sits dormant on the plot until you get within 15
-                    blocks, and one of them leads. They drop RACO and,
-                    occasionally, a treasure.
+                    Run Kumandra&apos;s Economy alongside this and your players
+                    can settle a RACO price in Kd, or swap between the two in
+                    the exchange screen. Kd never becomes RACO out of thin air:
+                    the plugin buys the RACO out of circulating supply first, so
+                    the 1.25 million cap still means what it always meant. Run
+                    out of supply and the payment is refused and the Kd handed
+                    back.
                   </p>
                 </Panel>
                 <Panel accent="lime" className="p-5">
                   <p className="pixel-font text-[10px] tracking-widest text-lime-300 md:text-xs">
-                    25 QUESTS, ALREADY WRITTEN
+                    STILL COMPLETELY STANDALONE
                   </p>
                   <p className="pt-3 text-xs leading-relaxed text-slate-400 md:text-sm">
-                    A fresh server used to start with an empty quest list, so
-                    the quest entity had nothing to hand out. 25 are seeded on
-                    first start now. Spawning the entity is enough.
-                  </p>
-                </Panel>
-                <Panel accent="sky" className="p-5">
-                  <p className="pixel-font text-[10px] tracking-widest text-sky-300 md:text-xs">
-                    THE RACO PRICE CHART
-                  </p>
-                  <p className="pt-3 text-xs leading-relaxed text-slate-400 md:text-sm">
-                    The plugin has been logging hourly candles since 1.3.0 and
-                    never showed them to anyone. The currency screen has a chart
-                    item now, drawn in block characters right there in the
-                    tooltip.
+                    You do not need Kumandra&apos;s Economy. Without it the
+                    plugin runs exactly as 1.5.0 did, and the six new config
+                    keys do nothing at all. With it installed and{" "}
+                    <span className="pixel-font">
+                      KumandraEconomySupport: false
+                    </span>{" "}
+                    you get 1.5.0 behaviour back on one line. A player holding
+                    enough RACO always spends the RACO.
                   </p>
                 </Panel>
                 <Panel accent="purple" className="p-5">
                   <p className="pixel-font text-[10px] tracking-widest text-purple-300 md:text-xs">
-                    FIXED AND CHANGED
+                    25 NEW ENCHANTS
                   </p>
                   <p className="pt-3 text-xs leading-relaxed text-slate-400 md:text-sm">
-                    Treasure damage and defence stats finally do something. Shop
-                    screens draw a frame instead of a wall of glass panes.{" "}
-                    <span className="pixel-font">/ce reload</span> stops
-                    stacking duplicate tutorial screens and rebuilds the
-                    treasure pool.
+                    7 weapon, 2 trident, 3 bow, 4 wand, 6 armor, 3 tool.
+                    Cofferguard spends a coin to soak a heavy hit, the first
+                    defensive enchantment with a running cost. Coinvein,
+                    Titherow and Dredgeline pay you as you mine, harvest and
+                    fish, out of the same supply rather than out of nothing.
+                  </p>
+                </Panel>
+                <Panel accent="rose" className="p-5">
+                  <p className="pixel-font text-[10px] tracking-widest text-rose-300 md:text-xs">
+                    15 NEW TREASURES, AND FOUR FIXES
+                  </p>
+                  <p className="pt-3 text-xs leading-relaxed text-slate-400 md:text-sm">
+                    Pirate named, each with its own sprite, flavour line and
+                    stat block, on the same weighted table. Fixed: you can take
+                    your own RACO shop listing back down again, and the trident,
+                    spear, bow and animal armor shop screens all draw their books
+                    inside the frame now instead of over it.
                   </p>
                 </Panel>
               </div>
@@ -507,35 +470,31 @@ function CE3Page() {
                 <Shot
                   className="w-full lg:w-1/2"
                   src={ReleaseArt.enchants}
-                  alt="A sample of the 76 new enchantments across tools, weapons and armor"
+                  alt="A sample of the 25 new enchantments across weapons, bows, wands, armor and tools"
                   accent="purple"
-                  caption="A few of the 76, out of 23 tools, 30 weapons and 23 armor"
+                  caption="A dozen of the 25, across weapons, bows, wands, armor and tools"
                 />
                 <Shot
                   className="w-full pt-6 lg:w-1/2 lg:pt-0"
-                  src={ReleaseArt.treasures}
-                  alt="The 100 new treasure item sprites and their five drop tiers"
-                  accent="amber"
-                  caption="All 100 new treasures, and the odds of pulling one out of a chest"
+                  src={ReleaseArt.update}
+                  alt="What was added and fixed in Custom Enchantments 3 version 1.6.0"
+                  accent="lime"
+                  caption="Everything the release touched, and what it left alone"
                 />
               </div>
 
-              <Shot
-                className="mt-8"
-                src={ReleaseArt.update}
-                alt="What was added, fixed and changed in Custom Enchantments 3 version 1.5.0"
-                accent="purple"
-                caption="Everything the release touched, and what 1.4.0 left in place"
-              />
-
               <div className="pt-6">
-                <Note accent="amber" icon="fa-solid fa-scale-balanced">
-                  Two treasure stats start doing something in this release.
-                  physical_dmg and physical_def have been shown in treasure lore
-                  since the feature shipped and nothing ever read them back, so
-                  they reach the damage code now. Set TreasurePhysicalDamageCap
-                  and TreasurePhysicalDefenseScale to 0 if you would rather they
-                  stayed decorative.
+                <Note accent="amber" icon="fa-solid fa-triangle-exclamation">
+                  Your config carries over. On the first start after updating,
+                  the plugin rewrites{" "}
+                  <span className="pixel-font">config.yml</span> with the new
+                  keys and keeps every value you had set, saving the old file as{" "}
+                  <span className="pixel-font">config.yml.old</span>. Back up{" "}
+                  <span className="pixel-font">
+                    plugins/CustomEnchantments3
+                  </span>{" "}
+                  first, as always. And re-download the resource pack, or the 15
+                  new treasures show as plain gold nuggets and coal.
                 </Note>
               </div>
 
@@ -559,6 +518,7 @@ function CE3Page() {
           )}
         </div>
       </section>
+
 
       {/* ------------------------------------------------------ ABOUT + TRAILER */}
       <section className="w-full py-6">
@@ -721,9 +681,14 @@ Note: [PREMIUM VERSION] is not available in Aternos.
 - SPIGOT [1.16.4 - 26.2] (Recommended)
 - PAPER  [1.16.4 - 26.2]
 
-Latest build 1.5.0 was tested on Minecraft 26.2.
+Latest build 1.6.0 was tested on Minecraft 26.2.
 Version 1.3.3 added support for the new numbered
 release scheme (26, 27, 28, 29).
+
+No other plugins are required. Kumandra's Economy
+2.0 or newer is optional: install it and the two
+currencies can be spent on each other, leave it
+out and nothing changes.
                 `}
               </code>
             </pre>
@@ -828,7 +793,7 @@ plugin_admin_access:
           />
           <Shot
             className="mt-6"
-            src={ReleaseArt.systems}
+            src={SystemsShot}
             alt="The systems that ship with Custom Enchantments 3 beyond the enchantments"
             accent="sky"
             caption="A skill tree, an economy with a live price, quests and loot plots"
@@ -882,7 +847,6 @@ plugin_admin_access:
               description="Camps of 2 to 5 that wake up when you walk onto a loot plot. One of them leads, and they hit back."
               buttonIcon="fa-solid fa-skull"
               buttonLabel="Bandits"
-              badge="NEW"
               onClick={() => setSubcontent("bandits")}
             />
             <ActionCard
@@ -900,9 +864,10 @@ plugin_admin_access:
               icon="fa-solid fa-coins"
               title="BUYING"
               image={FeatureArt.racoEconomy}
-              description="How players buy enchantments with levels or with RACO, the built-in currency."
+              description="How players buy enchantments with levels, with RACO, or in 1.6.0 with Kumandra currency."
               buttonIcon="fa-solid fa-dollar-sign"
               buttonLabel="Buying"
+              badge="NEW"
               onClick={() => setSubcontent("buy enchantments")}
             />
             <ActionCard
@@ -933,7 +898,7 @@ plugin_admin_access:
               accent="rose"
               icon="fa-solid fa-bug"
               title="REPORT BUGS"
-              description="1.4.0 shipped 16 bug fixes that came from reports like yours. Keep them coming."
+              description="Four fixes in 1.6.0 came from reports like yours. Keep them coming."
               buttonIcon="fa-solid fa-bug"
               buttonLabel="Report"
               onClick={() => setSubcontent("bug report")}
