@@ -5,6 +5,8 @@ import {
   Jobs,
   Permissions,
   PluginInformation,
+  SetupSteps,
+  SetupTests,
 } from "../contants/kumandra/KumandraConstants";
 import { Kumandra_Logs } from "../contants/kumandra/KumandraConstants_Logs";
 import {
@@ -33,11 +35,15 @@ import KE_BugReport from "./kumandra_subcontent/KE_BugReport";
 import KE_ChangeLogs from "./kumandra_subcontent/KE_ChangeLogs";
 import {
   ActionCard,
+  Cmd,
   IconBadge,
   Note,
   Panel,
   SectionHeading,
   StatChip,
+  Step,
+  Steps,
+  SubHeading,
   Terminal,
   TerminalLabel,
 } from "../page_components/PixelUIKit";
@@ -628,6 +634,139 @@ else runs on the whole supported range.
               1.6.0 installed. The same sources are compile-verified against the
               1.16.5 API on every release build, so the bottom of the range
               cannot quietly break either.
+            </Note>
+          </div>
+        </div>
+      </section>
+
+      {/* ------------------------------------------------------ SETUP GUIDE */}
+      {/*
+        Written for someone on their first evening with the plugin: install it,
+        prove it loaded, prove money moves, then poke each system once. The
+        settings panel covers what every key does, so this section deliberately
+        does not.
+      */}
+      <section className="w-full py-10">
+        <div className="mx-auto w-[90%] md:w-[80%] lg:w-[70%]">
+          <SectionHeading
+            icon="fa-solid fa-screwdriver-wrench"
+            title="Setup guide"
+            subtitle="Still testing it? This is the whole of a first run, in order."
+            accent="emerald"
+          />
+
+          <div className="mt-6 gap-6 lg:flex">
+            <div className="w-full lg:w-1/2">
+              <Panel accent="emerald" className="p-5">
+                <SubHeading accent="emerald">FIRST RUN</SubHeading>
+                <Steps className="pt-2">
+                  {SetupSteps.map((step) => (
+                    <Step key={step.n} n={step.n} accent="emerald">
+                      <span className="pixel-font block text-[9px] tracking-wider text-slate-200 md:text-[10px]">
+                        {step.title}
+                      </span>
+                      {step.cmd && (
+                        <span className="mt-2 block">
+                          <Cmd accent="teal">{step.cmd}</Cmd>
+                        </span>
+                      )}
+                      <span className="mt-2 block">{step.body}</span>
+                    </Step>
+                  ))}
+                </Steps>
+              </Panel>
+            </div>
+
+            <div className="w-full pt-6 lg:w-1/2 lg:pt-0">
+              <Terminal title="KumandrasEconomy / first-boot.log">
+                <pre>
+                  <code className="text-[10px] md:text-sm" lang="md">
+                    <TerminalLabel accent="emerald">
+                      [FRESH SERVER, NOTHING ELSE INSTALLED]
+                    </TerminalLabel>
+                    {`
+Detected Minecraft 26.2 (supported range: 1.16 and newer)
+Vault was not found. Running standalone;
+balances, jobs, shops, trading and delivery all work as
+normal.
+Separate_Economy is true but there is no Vault to read a
+primary economy from, so Kumandra's Economy is acting as
+the primary economy for this session.
+                    `}
+                    <TerminalLabel accent="emerald">
+                      [WITH VAULT, AS YOUR MAIN CURRENCY]
+                    </TerminalLabel>
+                    {`
+Vault API hooked
+Kumandra's Economy was set to primary Economy
+
+That is Separate_Economy: false. Set it to true instead
+and the pair of lines becomes:
+
+Kumandra's Economy was set to secondary Economy
+Primary Economy: EssentialsX
+
+If it says NO primary economy detected, nothing else has
+registered one, and the console tells you to set
+Separate_Economy to false and restart.
+                    `}
+                    <TerminalLabel accent="emerald">
+                      [WITH CUSTOM ENCHANTMENTS 3]
+                    </TerminalLabel>
+                    {`
+Custom Enchantments detected (CustomEnchantments3); its
+quest pack and item data are supported.
+                    `}
+                  </code>
+                </pre>
+              </Terminal>
+
+              <div className="pt-5">
+                <Note accent="amber" icon="fa-solid fa-flask">
+                  Nothing here needs a second player except trading. If you are
+                  testing alone, an offline account still has a balance you can
+                  deposit into, and delivery to a player who is not online is
+                  refused rather than lost.
+                </Note>
+              </div>
+            </div>
+          </div>
+
+          <div className="pt-8">
+            <SubHeading accent="teal">TRY EACH SYSTEM ONCE</SubHeading>
+            <div className="mt-4 grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+              {SetupTests.map((test) => (
+                <Panel key={test.name} accent={test.accent} className="p-5">
+                  <div className="flex place-items-center gap-3">
+                    <IconBadge icon={test.icon} accent={test.accent} />
+                    <p className="pixel-font text-[10px] tracking-wide text-slate-200 md:text-xs">
+                      {test.name}
+                    </p>
+                  </div>
+                  <p className="pt-3">
+                    <Cmd accent={test.accent}>{test.cmd}</Cmd>
+                  </p>
+                  <p className="pt-3 text-xs leading-relaxed text-slate-400 md:text-sm">
+                    {test.body}
+                  </p>
+                </Panel>
+              ))}
+            </div>
+          </div>
+
+          <div className="pt-6">
+            <Note accent="emerald" icon="fa-solid fa-broom">
+              Before the server opens, clear what you did while testing.{" "}
+              <span className="text-emerald-300">
+                /kumandra economy [player] reset
+              </span>{" "}
+              empties an account, and shops go with{" "}
+              <span className="text-emerald-300">
+                /kumandra shops Delete [name]
+              </span>
+              . For a clean sweep, stop the server and delete playerData.yml and
+              Data/Shop.yml. Leaving EnableDatabase on false while you test is
+              what keeps that a matter of deleting two files.
             </Note>
           </div>
         </div>

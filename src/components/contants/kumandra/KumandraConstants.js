@@ -658,3 +658,90 @@ export const ConfigGroups = [
  * arrived in that release; everything else keeps its exact 1.x signature and
  * returns.
  */
+/**
+ * The setup guide section. Written for someone who has just downloaded the jar
+ * and wants to see the plugin work before deciding whether to keep it, so the
+ * steps stop at "money is moving" rather than covering every setting.
+ *
+ * `cmd` is rendered as a command chip above the body when it is there.
+ */
+export const SetupSteps = [
+  {
+    n: "1",
+    title: "DROP THE JAR IN",
+    body: "Stop the server, put KumandrasEconomy.jar in the plugins folder, start it again. There is nothing to install alongside it. Vault, MySQL and Custom Enchantments 3 are all optional, and each one is detected only if it happens to be there. The plugins/KumandrasEconomy folder, its config, its language file and its data files are written on that first start.",
+  },
+  {
+    n: "2",
+    title: "READ THE CONSOLE",
+    body: "The first line names the Minecraft version it detected. The lines after it say how it is running: hooked into Vault as the server's economy, reading another economy through Vault, or standalone. That is the whole diagnosis, and it is printed every boot. No version line at all means the jar did not load, which is worth checking before anything else.",
+  },
+  {
+    n: "3",
+    title: "PICK A MODE",
+    cmd: "Separate_Economy",
+    body: "One line in config.yml decides the rest. False makes Kumandra your server's money, registered through Vault so every Vault aware plugin spends it. True runs it beside an economy you already have, with an exchange screen between the two. With no Vault installed the setting has nothing to point at, so the plugin says so in the console and runs as the primary economy for that session. Restart after changing it.",
+  },
+  {
+    n: "4",
+    title: "PAY YOURSELF",
+    cmd: "/kumandra economy [player] deposit 5000",
+    body: "Runs from the console as well as in game, so a test account can be topped up without anyone joining. Deduct takes money back out and reset empties the account, which is how you clean up afterwards.",
+  },
+  {
+    n: "5",
+    title: "OPEN THE SCREEN",
+    cmd: "/kumandra balance",
+    body: "The account screen is the quickest proof that everything is wired up. The balance, the exchange, the last six movements and a line for each plugin that registered against the economy are all on it. With Custom Enchantments 3 installed the CE3 wallet sits under the Kumandra one.",
+  },
+];
+
+/**
+ * One card per system, with the command that exercises it and what should
+ * happen. Ordered by how little setup each one needs, so the list can be worked
+ * through top to bottom on a fresh server.
+ */
+export const SetupTests = [
+  {
+    name: "JOBS",
+    icon: "fa-solid fa-helmet-safety",
+    accent: "emerald",
+    cmd: "/kumandra jobs",
+    body: "Join a job from the GUI, then do the work its name implies. Income lands on the action bar as it is earned. Players hold two jobs at a time by default, on the Jobs key in config.yml.",
+  },
+  {
+    name: "SHOPS",
+    icon: "fa-solid fa-shop",
+    accent: "teal",
+    cmd: "/kumandra shops Create test",
+    body: "Fill an ordinary chest with what you want on sale, stand within two blocks of the shop, run shops Modify ShopUI clone and open the chest. Then shops Modify ShopUI Price to price it. The cloning session lasts 20 seconds.",
+  },
+  {
+    name: "DELIVERY",
+    icon: "fa-solid fa-truck-fast",
+    accent: "sky",
+    cmd: "/kumandra deliver [player]",
+    body: "Pick a speed and watch the courier spawn and fly, across worlds if it has to. Use Priority while testing: 30 seconds, against three minutes for Cheap.",
+  },
+  {
+    name: "TRADING",
+    icon: "fa-solid fa-handshake",
+    accent: "amber",
+    cmd: "/kumandra trade [player]",
+    body: "Needs a second account online. They answer with /ktrade accept, and an unanswered request lapses after RequestTradingSessionExpiry, 20 seconds out of the box.",
+  },
+  {
+    name: "QUESTS",
+    icon: "fa-solid fa-scroll",
+    accent: "amber",
+    cmd: "QuestChance / QuestInterval",
+    body: "A quest giver appears on a 15% roll every 5 minutes, which is a long wait when you are watching for one. Set QuestChance to 1.0 and QuestInterval to 1 while you look at them, then put your numbers back. Quests need Minecraft 1.17 or newer.",
+  },
+  {
+    name: "CE3 BRIDGE",
+    icon: "fa-solid fa-right-left",
+    accent: "rose",
+    cmd: "/kumandra convert [amount]",
+    body: "Only does anything with Custom Enchantments 3 installed, and the console says which version it hooked. It buys CE3 currency with Kd at CE3's own rate, and tells you plainly when CE3 is absent or conversion is switched off.",
+  },
+];

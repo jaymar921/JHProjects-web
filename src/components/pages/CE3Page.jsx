@@ -3,6 +3,8 @@ import { PluginInformation } from "../contants";
 import {
   CommandList,
   Enchantments,
+  SetupSteps,
+  TestCommands,
 } from "../contants/custom_enchants_3/CE3Constants";
 import {
   formatDownloads,
@@ -31,11 +33,16 @@ import CE3_ChangeLogs from "./ce3_subcontent/CE3_ChangeLogs";
 import CE3_BuyEnchantment from "./ce3_subcontent/CE3_BuyEnchantment";
 import {
   ActionCard,
+  Cmd,
+  IconBadge,
   Note,
   Panel,
   SectionHeading,
   Shot,
   StatChip,
+  Step,
+  Steps,
+  SubHeading,
   Terminal,
   TerminalLabel,
 } from "../page_components/PixelUIKit";
@@ -696,6 +703,191 @@ out and nothing changes.
         </div>
       </section>
 
+      {/* ------------------------------------------------------ SETUP GUIDE */}
+      {/*
+        The wiki has the long form guides. This section is the short one: get
+        the jar loaded, prove which edition is running, then use the op only
+        test commands to see the whole plugin in an evening rather than a
+        playthrough. The permissions section below is step 3 in full.
+      */}
+      <section className="w-full py-10">
+        <div className="mx-auto w-[90%] md:w-[80%] lg:w-[70%]">
+          <SectionHeading
+            icon="fa-solid fa-screwdriver-wrench"
+            title="Setup guide"
+            subtitle="Just downloaded it? Six steps from the jar to a level 200 test character."
+            accent="lime"
+          />
+
+          <div className="mt-6 gap-6 lg:flex">
+            <div className="w-full lg:w-1/2">
+              <Panel accent="lime" className="p-5">
+                <SubHeading accent="lime">FIRST RUN</SubHeading>
+                <Steps className="pt-2">
+                  {SetupSteps.map((step) => (
+                    <Step key={step.n} n={step.n} accent="lime">
+                      <span className="pixel-font block text-[9px] tracking-wider text-slate-200 md:text-[10px]">
+                        {step.title}
+                      </span>
+                      {step.cmd && (
+                        <span className="mt-2 block">
+                          <Cmd accent="purple">{step.cmd}</Cmd>
+                        </span>
+                      )}
+                      <span className="mt-2 block">{step.body}</span>
+                    </Step>
+                  ))}
+                </Steps>
+              </Panel>
+            </div>
+
+            <div className="w-full pt-6 lg:w-1/2 lg:pt-0">
+              <Terminal title="CustomEnchantments3 / first-boot.log">
+                <pre>
+                  <code className="text-[10px] md:text-sm" lang="md">
+                    <TerminalLabel>[ON ENABLE]</TerminalLabel>
+                    {`
+Registered [159] custom enchantments
+DataHolder Loaded
+Loaded [0] Player Data.
+Loaded Authorization.yml
+
+World Guard Loaded
+
+That last line only appears if you run WorldGuard.
+It is optional, and its regions are respected when
+it is there.
+                    `}
+                    <TerminalLabel accent="purple">
+                      [THE BANNER, A FEW SECONDS LATER]
+                    </TerminalLabel>
+                    {`
+      Current Version: 1.6.0
+      Update Version:  1.6.0
+      License: PREMIUM
+
+The banner rides along with the update check, so it
+prints shortly after boot rather than in the middle
+of startup. License says LITE on the free build.
+                    `}
+                    <TerminalLabel accent="sky">
+                      [WITH KUMANDRA&apos;S ECONOMY INSTALLED]
+                    </TerminalLabel>
+                    {`
+Kumandra's Economy 2.1 hooked
+
+Without it, the line reads "This plugin supports
+Kumandra's Economy" instead, which is an advert and
+not a warning. Nothing here is required.
+                    `}
+                  </code>
+                </pre>
+              </Terminal>
+
+              <div className="pt-5">
+                <Note accent="amber" icon="fa-solid fa-triangle-exclamation">
+                  The test commands are gated on OP, not on the admin
+                  permission, and they are named with underscores so nobody
+                  types one by accident. They are meant for a test server. Take
+                  OP back off the accounts that have it before you open to
+                  players.
+                </Note>
+              </div>
+            </div>
+          </div>
+
+          <div className="pt-8">
+            <SubHeading accent="purple">THE TEST COMMANDS</SubHeading>
+            <p className="pt-3 text-xs leading-relaxed text-slate-400 md:text-sm">
+              Six op only commands that exist for exactly this: seeing what the
+              plugin does without playing to level 200 to get there. They are in
+              the command table further down too, marked as test commands.
+            </p>
+            <div className="mt-5 grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+              {TestCommands.map((test) => (
+                <Panel key={test.cmd} accent={test.accent} className="p-5">
+                  <div className="flex place-items-center gap-3">
+                    <IconBadge icon={test.icon} accent={test.accent} />
+                    <span className="pixel-font text-[8px] leading-normal break-all text-slate-200 md:text-[10px]">
+                      {test.cmd}
+                    </span>
+                  </div>
+                  <p className="pt-3 text-xs leading-relaxed text-slate-400 md:text-sm">
+                    {test.body}
+                  </p>
+                </Panel>
+              ))}
+            </div>
+          </div>
+
+          <div className="pt-6">
+            <Note accent="lime" icon="fa-solid fa-broom">
+              Before the server opens, put the test accounts back:{" "}
+              <span className="text-lime-300">/ce ___reset___</span> clears the
+              account it is run on, or stop the server and delete
+              PluginData/PlayerData.yml to clear everyone at once. Shops, quests
+              and loot plots each live in their own file in the same folder and
+              can go the same way.
+            </Note>
+          </div>
+        </div>
+      </section>
+
+      {/* ----------------------------------------------------- PERMISSIONS */}
+      <section className="w-full py-10">
+        <div className="mx-auto w-[90%] md:w-[80%] lg:w-[70%]">
+          <SectionHeading
+            icon="fa-solid fa-key"
+            title="Setup permissions"
+            subtitle="Step 3 of the guide above, in full."
+            accent="amber"
+          />
+          <p className="pt-5 text-justify text-xs leading-relaxed text-slate-300 md:text-sm">
+            Custom Enchantments 3 - RPG plugin is an independent plugin and does
+            not rely on a 3rd-party permissions plugin. It has its own built-in
+            permissions file.
+            <br />
+            <br />
+            While you are testing, the shipped{" "}
+            <span className="font-bold text-amber-300">
+              EnableAuthorizationYML: false
+            </span>{" "}
+            means being OP is enough for everything. Set it to true before you
+            open the server and OP stops being enough on its own: creating shops
+            and quests, handing out levels or currency, and the test commands
+            all become limited to the names listed in{" "}
+            <span className="font-bold text-amber-300">
+              Authorization.yml
+            </span>
+            , which is the file below. Bedrock players through Geyser or
+            Floodgate keep the leading dot their names arrive with.
+          </p>
+          <Terminal
+            title="CustomEnchantments3 / PluginData / Authorization.yml"
+            className="mt-6"
+          >
+            <pre>
+              <code className="text-[10px] md:text-sm" lang="md">
+                {`
+# Aside from OPed players that has access to
+# the plugin's admin commands, you can also list
+# players by their 'names' to allow them using the
+# command.
+plugin_admin_access:
+  - JayMar921
+  - MikaPiaChu921
+  - Sekai47
+# For bedrock players [using geyser/floodgate]
+  - .JhonoBrine
+  - .JezTerBahYout
+  - .EliteLeonidas
+                `}
+              </code>
+            </pre>
+          </Terminal>
+        </div>
+      </section>
+
       {/* -------------------------------------------------------- COMMANDS */}
       <section className="w-full py-10">
         <div className="mx-auto w-[90%] md:w-[80%] lg:w-[70%]">
@@ -731,54 +923,6 @@ out and nothing changes.
               </div>
             </div>
           )}
-        </div>
-      </section>
-
-      {/* ----------------------------------------------------- PERMISSIONS */}
-      <section className="w-full py-10">
-        <div className="mx-auto w-[90%] md:w-[80%] lg:w-[70%]">
-          <SectionHeading
-            icon="fa-solid fa-key"
-            title="Setup permissions"
-            accent="amber"
-          />
-          <p className="pt-5 text-justify text-xs leading-relaxed text-slate-300 md:text-sm">
-            Custom Enchantments 3 - RPG plugin is an independent plugin and does
-            not rely on a 3rd-party permissions plugin. It has its own built-in
-            permissions file.
-            <br />
-            <br />
-            In order for you to have full access to the plugin commands such as
-            create shops or quests, give player levels or currency, and do the
-            test plugin commands. You are required to modify the{" "}
-            <span className="font-bold text-amber-300">
-              Authorization.yml
-            </span>{" "}
-            file, see example below.
-          </p>
-          <Terminal
-            title="CustomEnchantments3 / PluginData / Authorization.yml"
-            className="mt-6"
-          >
-            <pre>
-              <code className="text-[10px] md:text-sm" lang="md">
-                {`
-# Aside from OPed players that has access to
-# the plugin's admin commands, you can also list
-# players by their 'names' to allow them using the
-# command.
-plugin_admin_access:
-  - JayMar921
-  - MikaPiaChu921
-  - Sekai47
-# For bedrock players [using geyser/floodgate]
-  - .JhonoBrine
-  - .JezTerBahYout
-  - .EliteLeonidas
-                `}
-              </code>
-            </pre>
-          </Terminal>
         </div>
       </section>
 

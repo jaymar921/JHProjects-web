@@ -275,7 +275,7 @@ export const CommandList = [
     requireOp: false,
   },
   {
-    command: "/ce setting",
+    command: "/ce settings",
     description: "Modify plugin settings | may require admin access",
     requireOp: false,
   },
@@ -2510,5 +2510,93 @@ export const Enchantments = [
     maxLevel: 5,
     price: 38,
     currency: Currency.LEVEL,
+  },
+];
+
+/**
+ * The setup guide section. Aimed at a server owner who has the jar and wants to
+ * see what the plugin does before committing to it, which is a different job to
+ * the wiki: it stops at "I have seen it work", not "my server is configured".
+ *
+ * `cmd` renders as a command chip above the body when it is present.
+ */
+export const SetupSteps = [
+  {
+    n: "1",
+    title: "DROP THE JAR IN",
+    body: "Stop the server, put CustomEnchantments3.jar in the plugins folder, start it again. The lite build is CustomEnchantments3-lite.jar and installs the same way. Nothing else is required: no Vault, no permissions plugin, no database. The plugins/CustomEnchantments3 folder and everything under PluginData is written on that first start.",
+  },
+  {
+    n: "2",
+    title: "CHECK THE BANNER",
+    body: "A few seconds after boot the plugin prints its banner, and the License line on it says PREMIUM or LITE. The two jars look identical in a plugins folder apart from the file name, so that line is how you know which one is actually running. The count of registered enchantment books is logged just above it.",
+  },
+  {
+    n: "3",
+    title: "GIVE YOURSELF ADMIN",
+    cmd: "EnableAuthorizationYML",
+    body: "It ships as false, which means being OP is enough and you can start testing straight away. That is the setting that makes the plugin workable on a host where OP is all you have. Set it to true before you open the server and OP stops being enough: only the names listed in PluginData/Authorization.yml can run the admin commands. Bedrock names through Geyser or Floodgate keep their leading dot.",
+  },
+  {
+    n: "4",
+    title: "MAKE A TEST CHARACTER",
+    cmd: "/ce ___test___",
+    body: "Grants the max skill level of 200 and opens the skill tree on the spot, so the classes, the passives and the enchantments can all be looked at without playing to 200 first. The test commands below are the rest of that toolkit.",
+  },
+  {
+    n: "5",
+    title: "BUILD THE REAL THINGS",
+    cmd: "/ce shop add [mobType] [shopType] [shopName]",
+    body: "Shops, quests and loot plots are made from in game commands, and they are the same commands on a live server: /ce quest add walks through a quest, /ce settings LootingPlot generate places a plot, and /ce settings LootingPlot list shows the ones that exist.",
+  },
+  {
+    n: "6",
+    title: "EDIT, RELOAD, REPEAT",
+    cmd: "/ce reload",
+    body: "Every price, limit and rate lives in config.yml. Change it, run the reload, and the file is read again without a restart. /ce info shows what is loaded right now. On the lite build shop prices come from the copy inside the jar rather than yours, and the reload says so instead of leaving you guessing.",
+  },
+];
+
+/**
+ * The op only test commands. They are in the command table too, but nobody
+ * evaluating the plugin reads a 24 row table looking for them, and they are the
+ * fastest way to see what the plugin actually does.
+ */
+export const TestCommands = [
+  {
+    cmd: "/ce ___test___",
+    accent: "lime",
+    icon: "fa-solid fa-bolt",
+    body: "Max skill level, 200, and the skill tree opens straight away. Classes unlock at level 10, so this is also how you see the class paths without grinding to them.",
+  },
+  {
+    cmd: "/ce ___treasure___",
+    accent: "amber",
+    icon: "fa-solid fa-gem",
+    body: "Puts one of every treasure in the pool into your inventory. On the lite build the pool is common and uncommon only, so a short list here is the edition, not a fault.",
+  },
+  {
+    cmd: "/ce ___ceItem___",
+    accent: "purple",
+    icon: "fa-solid fa-cube",
+    body: "Hands you a single random loot item, the same roll a loot chest makes. Run it a few times to see the spread.",
+  },
+  {
+    cmd: "/ce ___lootplot___",
+    accent: "rose",
+    icon: "fa-solid fa-city",
+    body: "Builds a looting plot where you stand instead of waiting for one to generate. It warns you before it runs: the structure is built on the main thread and can stall a small server for a moment. Test box only.",
+  },
+  {
+    cmd: "/ce ___itemData___",
+    accent: "sky",
+    icon: "fa-solid fa-magnifying-glass",
+    body: "Prints the enchantment data stored on the item in your main hand. This is the one to reach for when an item is not behaving the way you expect it to.",
+  },
+  {
+    cmd: "/ce ___reset___",
+    accent: "slate",
+    icon: "fa-solid fa-rotate-left",
+    body: "Puts your own account back to skill level 0 and empties its RACO. Run it on every account you tested with before the server opens.",
   },
 ];
