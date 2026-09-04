@@ -37,8 +37,8 @@ import { PROJECTS, usePageView } from "../../lib/analytics";
  * An archive page with no outbound links, which is unusual here and
  * deliberate: the repository is private and the plugin was never on the public
  * Spigot listing, so there is nothing to send anyone to. Every other archive
- * page ends in a button; this one ends in a sentence about Epic Mobs 2, which
- * is the honest version of the same thing.
+ * page ends in a button; this one points at Epic Mobs Rework, which is being
+ * built now and is the only live thing this page has to offer.
  *
  * Sky and amber, taken off the plugin's own logo, so it does not read as
  * another Custom Enchantments page.
@@ -122,11 +122,23 @@ function EpicMobsPage() {
             className="em-pixelated em-float mx-auto h-16 w-16 rounded-lg object-cover drop-shadow-[0_0_25px_rgba(56,189,248,0.5)] md:h-24 md:w-24"
           />
 
-          <div className="mt-6 inline-flex place-items-center gap-2 border border-amber-400/50 bg-[rgba(0,0,0,0.6)] px-3 py-1">
-            <span className="em-blink h-2 w-2 bg-amber-400"></span>
-            <span className="pixel-font text-[8px] tracking-widest text-amber-300 md:text-[10px]">
-              {ProjectInformation.statusLabel}
-            </span>
+          <div className="mt-6 flex flex-wrap place-items-center justify-center gap-2">
+            <div className="inline-flex place-items-center gap-2 border border-amber-400/50 bg-[rgba(0,0,0,0.6)] px-3 py-1">
+              <span className="em-blink h-2 w-2 bg-amber-400"></span>
+              <span className="pixel-font text-[8px] tracking-widest text-amber-300 md:text-[10px]">
+                {ProjectInformation.statusLabel}
+              </span>
+            </div>
+            <a
+              href={ProjectInformation.successor.href}
+              className="inline-flex place-items-center gap-2 border border-emerald-400/50 bg-[rgba(0,0,0,0.6)] px-3 py-1 transition-colors hover:bg-emerald-500/10"
+            >
+              <span className="em-blink h-2 w-2 bg-emerald-400"></span>
+              <span className="pixel-font text-[8px] tracking-widest text-emerald-300 md:text-[10px]">
+                {ProjectInformation.reworkLabel}
+              </span>
+              <i className="fa-solid fa-arrow-right text-[8px] text-emerald-300 md:text-[10px]"></i>
+            </a>
           </div>
 
           <h1 className="pixel-font mt-5 text-[1.15em] leading-relaxed font-bold text-sky-400 [text-shadow:0_0_24px_rgba(56,189,248,0.5),4px_4px_0_rgba(0,0,0,0.85)] md:text-[2.4em]">
@@ -204,6 +216,32 @@ function EpicMobsPage() {
             <p className="pt-3 text-xs leading-relaxed text-slate-300 md:text-sm">
               {ProjectInformation.status_note.body}
             </p>
+
+            <div className="mt-5 border-t border-slate-800 pt-5">
+              <div className="flex flex-wrap place-items-center gap-2">
+                <span className="pixel-font border border-emerald-400/50 bg-emerald-500/15 px-2 py-1 text-[8px] tracking-widest text-emerald-300">
+                  <i className="fa-solid fa-hammer pr-1"></i>
+                  REWORK IN PROGRESS
+                </span>
+                <span className="text-[10px] text-slate-500 md:text-xs">
+                  no release date
+                </span>
+              </div>
+              <p className="pt-3 text-xs leading-relaxed text-slate-300 md:text-sm">
+                {ProjectInformation.status_note.rework}
+              </p>
+              <div className="pt-4">
+                <PixelButton
+                  accent="emerald"
+                  icon="fa-solid fa-arrow-right"
+                  onClick={() =>
+                    (window.location.href = ProjectInformation.successor.href)
+                  }
+                >
+                  {ProjectInformation.successor.linkLabel}
+                </PixelButton>
+              </div>
+            </div>
           </Panel>
         </div>
       </section>
@@ -487,7 +525,7 @@ ran on its own without any of them.
         </div>
       </section>
 
-      {/* ------------------------------------------------------ EPIC MOBS 2 */}
+      {/* ------------------------------------------------------- THE REWORK */}
       <section className="em-grid w-full py-12">
         <div className="mx-auto w-[90%] md:w-[70%] lg:w-[60%]">
           <Panel accent="emerald" className="p-6 md:p-8">
@@ -532,7 +570,7 @@ ran on its own without any of them.
           <div className="pt-5">
             <Shot
               src={Features[3].image}
-              alt="Where Epic Mobs stopped, and where Epic Mobs 2 stands"
+              alt="Where Epic Mobs stopped, and where the rework stands"
               accent="amber"
               caption="Eighteen months, thirteen releases, and a sentence about what comes next"
             />

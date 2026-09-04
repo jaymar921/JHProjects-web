@@ -30,6 +30,8 @@ export const ProjectInformation = {
   apiVersion: "1.16",
   status: "archived",
   statusLabel: "ABANDONED, WAS PREMIUM",
+  /** Sits beside the status label in the hero, so the rebuild is on the first screen. */
+  reworkLabel: "REWORK IN DEVELOPMENT",
   wasPremium: true,
   icon,
 
@@ -45,6 +47,7 @@ export const ProjectInformation = {
   status_note: {
     headline: "Stopped in April 2023, and not coming back in this form.",
     body: "Epic Mobs was a premium plugin and it worked. Version 1.4.13 went out in April 2023 and that was the last one: a full time job left no evenings for it, so it stopped rather than rotting slowly in public. It is not sold, not supported, and there is no download here. This page is on the site because the work happened, not because you should be looking for the jar.",
+    rework: "The idea did not stop, though. Epic Mobs Rework is being built right now, as a rewrite rather than a patch, and it has its own page. There is still no release date for it.",
   },
 
   successor: {
@@ -99,7 +102,7 @@ export const Features = [
     accent: "amber",
     image: FeatureArt.status,
     description:
-      "Eighteen months, thirteen releases, and then a full time job. What it got to, and where Epic Mobs 2 actually stands.",
+      "Eighteen months, thirteen releases, and then a full time job. What it got to, and where the rework stands now that it is being built.",
   },
 ];
 

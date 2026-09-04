@@ -882,12 +882,12 @@ epicmobs["status"] = frame({
     row(34, 216, 260, "Oct 2021 - Apr 2023", "18 months", C.sky),
     row(34, 240, 260, "Last version", "1.4.13", C.amber, 20),
 
-    panel(330, 190, 292, 76, "EPIC MOBS 2", C.emerald),
-    text(346, 234, "PLANNED, NOT STARTED. NO DATE,", {
+    panel(330, 190, 292, 76, "EPIC MOBS REWORK", C.emerald),
+    text(346, 234, "IN DEVELOPMENT. A REWRITE,", {
       size: 8.2,
       fill: C.emerald,
     }),
-    text(346, 254, "NO ROADMAP, NO PROMISES.", { size: 8.2, fill: C.text }),
+    text(346, 254, "NOT A PATCH. STILL NO DATE.", { size: 8.2, fill: C.text }),
 
     text(20, 288, "STATUS: ABANDONED", { size: 9, fill: C.amber }),
     text(620, 288, "SOURCE IS PRIVATE", {
