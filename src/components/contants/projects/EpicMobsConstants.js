@@ -48,8 +48,10 @@ export const ProjectInformation = {
   },
 
   successor: {
-    headline: "Epic Mobs 2 is planned. That is the whole announcement.",
-    body: "There is no date, no roadmap and no feature list, because none of those exist yet. When there is something to show it will get a page of its own. Until then the honest status is a sentence, and padding it out into a teaser would just be a way of making a plan sound like a promise.",
+    headline: "It is being rebuilt, and the rebuild has its own page.",
+    body: "This used to say a successor was planned and that there was nothing to show. There is now. Epic Mobs Rework is a rewrite rather than a patch: the same idea, built again for the things that killed this one. It still has no release date, but it has a design, a build, and a page that says what is finished and what is not.",
+    href: "/epic-mobs-rework",
+    linkLabel: "EPIC MOBS REWORK",
   },
 
   description:

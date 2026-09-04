@@ -6,6 +6,7 @@ import { ProjectInformation as GraphicsInfo } from "../contants/projects/Graphic
 import { ProjectInformation as CE2Info } from "../contants/projects/CustomEnchants2Constants";
 import { ProjectInformation as FoodsInfo } from "../contants/projects/MoreFoodsConstants";
 import { ProjectInformation as EpicMobsInfo } from "../contants/projects/EpicMobsConstants";
+import { PluginInformation as EMRInfo } from "../contants/epic_mobs_rework/EMRConstants";
 import {
   formatDownloads,
   KUMANDRA_FALLBACK,
@@ -67,8 +68,10 @@ const pageStyles = `
 `;
 
 /**
- * The live projects. The two plugins carry a download count from the Spiget
- * hooks below; the library is on npm instead, so it carries its version.
+ * The projects still being worked on. The two shipped plugins carry a download
+ * count from the Spiget hooks below; the library is on npm instead, so it
+ * carries its version, and the one that has not shipped carries `dev: true`
+ * so it is not counted as live anywhere on this page.
  */
 const LIVE_PROJECTS = [
   {
@@ -102,7 +105,23 @@ const LIVE_PROJECTS = [
     href: "/2dgraphic-utils",
     hint: `v${GraphicsInfo.version} on npm`,
   },
+  {
+    key: "emr",
+    icon: "fa-solid fa-skull",
+    title: EMRInfo.title,
+    badge: "IN DEV",
+    description:
+      "The rebuild of Epic Mobs. Custom mobs from any vanilla entity, abilities with telegraphs, boss phases, companions, raids and weighted loot. Not released yet, and there is no date.",
+    accent: "ember",
+    href: "/epic-mobs-rework",
+    hint: "No release date",
+    dev: true,
+  },
 ];
+
+/** How many of the above have actually shipped. */
+const LIVE_COUNT = LIVE_PROJECTS.filter((project) => !project.dev).length;
+const DEV_COUNT = LIVE_PROJECTS.length - LIVE_COUNT;
 
 /**
  * Finished, or stopped, and kept on the shelf rather than taken down. Each one
@@ -237,7 +256,7 @@ function HomePage() {
           <div className="mt-6 inline-flex place-items-center gap-2 border border-sky-400/50 bg-[rgba(0,0,0,0.6)] px-3 py-1">
             <span className="jh-blink h-2 w-2 bg-sky-400"></span>
             <span className="pixel-font text-[8px] md:text-[10px] tracking-widest text-sky-300">
-              {LIVE_PROJECTS.length} LIVE, {ARCHIVE.length} IN THE ARCHIVE
+              {LIVE_COUNT} LIVE, {DEV_COUNT} IN DEVELOPMENT, {ARCHIVE.length} ARCHIVED
             </span>
           </div>
 
@@ -285,7 +304,7 @@ function HomePage() {
           <div className="mt-8 flex flex-wrap place-items-center justify-center gap-2">
             <StatChip
               icon="fa-solid fa-cubes"
-              value={LIVE_PROJECTS.length}
+              value={LIVE_COUNT}
               label="Live Projects"
               accent="sky"
             />
@@ -333,6 +352,7 @@ customenchantments3/   [PREMIUM]  v${CE3Info.version}
 kumandras-economy/     [FREE]     v${KEInfo.version}, live
 2dgraphic-utils/       [NPM]      v${GraphicsInfo.version}, live
 custom-enchantments-2/ [FREE]     open source, ended 2022
+epic-mobs-rework/      [SOON]     in development
 epic-mobs/             [PREMIUM]  abandoned 2023
 custom-warps/          [FREE]     archived 2021
 fishing-contest/       [FREE]     archived 2021
@@ -367,7 +387,7 @@ Ship small, ship real, ship solo.
                 badge={project.badge}
                 description={project.description}
                 buttonIcon="fa-solid fa-arrow-right"
-                buttonLabel="Visit Project"
+                buttonLabel={project.dev ? "See the design" : "Visit Project"}
                 hint={
                   project.hint ??
                   `${formatDownloads(downloadsByProject[project.key])} downloads`
@@ -395,7 +415,8 @@ Ship small, ship real, ship solo.
             downloadable on Spigot, though the source for both is gone. Custom
             Enchantments 2 was discontinued while CE3 was being written, and its
             source is public. Epic Mobs was a premium plugin that stopped when a
-            full time job left no evenings for it. More Foods &amp; Crops never
+            full time job left no evenings for it, and is the one of the five
+            being rebuilt rather than left alone. More Foods &amp; Crops never
             got finished at all. None of the five is maintained, and rather than
             quietly deleting them they each get a page: what they did, where
             they stopped, and where the code is if any of it survived.

@@ -1,11 +1,28 @@
 
 /**
  * Shared "HUD" building blocks for the plugin pages. Custom Enchantments 3
- * runs on lime and purple, Kumandra's Economy on emerald and amber, the
- * archived Custom Warps on violet and Fishing Contest on cyan.
+ * runs on lime and purple, Kumandra's Economy on emerald and amber, Epic Mobs
+ * Rework on ember and amber, the archived Custom Warps on violet and Fishing
+ * Contest on cyan.
  * Every accent below is written out in full so Tailwind keeps the class.
  */
 const ACCENTS = {
+  /**
+   * Epic Mobs Rework's primary. Orange rather than amber, so the two are
+   * distinguishable when they sit next to each other, which on that page they
+   * constantly do.
+   */
+  ember: {
+    text: "text-orange-300",
+    chip: "border-orange-400/40 bg-orange-400/10 text-orange-300",
+    corner: "border-orange-400/70",
+    hover:
+      "hover:border-orange-400/70 hover:shadow-[0_0_25px_rgba(249,115,22,0.24)]",
+    button:
+      "border-orange-400/40 text-orange-200 hover:border-orange-300 hover:bg-orange-400/15",
+    glow: "[text-shadow:0_0_14px_rgba(249,115,22,0.5)]",
+    field: "focus:border-orange-400/70",
+  },
   lime: {
     text: "text-lime-300",
     chip: "border-lime-400/40 bg-lime-400/10 text-lime-300",

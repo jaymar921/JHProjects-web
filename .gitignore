@@ -23,3 +23,7 @@ dist-ssr
 *.sln
 *.sw?
 .env
+
+# Fetched by scripts/generate-emr-video.mjs, and its contact sheet.
+scripts/emr-video/vendor
+scripts/emr-video/preview.png

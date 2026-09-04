@@ -1,0 +1,47 @@
+Epic Mobs Rework trailer, third party assets
+============================================
+
+The models below are used under Creative Commons Attribution. Their authors are
+not affiliated with Epic Mobs Rework and have not endorsed it.
+
+This list has to agree with two other places, or one of them is lying:
+
+  - the last card of the video, in scripts/emr-video/scene.html
+  - ModelCredits in src/components/contants/epic_mobs_rework/EMRConstants.js,
+    which the plugin page renders underneath the player
+
+MODELS
+------
+
+models/minecraft_park.glb            rhoce
+                                     https://sketchfab.com/rhoce
+
+models/minecraft_zombie.glb          JohnElkes
+                                     https://sketchfab.com/JohnElkes
+
+models/minecraft_calico_cat.glb      JohnElkes
+                                     https://sketchfab.com/JohnElkes
+
+models/minecraft_better_spider.glb   JohnElkes
+                                     https://sketchfab.com/JohnElkes
+
+models/minecraft_warden.glb          BeckBroEYTube
+                                     https://sketchfab.com/BeckBroEYTube
+
+models/player-model-cheer-pose-jaymar921.glb
+                                     JayMar921
+                                     Not third party. No attribution needed.
+
+AUDIO
+-----
+
+ad_music.mp3                         The bed music, laid under the picture by
+                                     scripts/generate-emr-video.mjs and faded
+                                     at both ends.
+
+NOTES
+-----
+
+The zombie file ships several copies of one attack clip. The storyboard plays
+the first animation on any model that has one, which is that clip for the
+zombie and a walk cycle for the cat. The rest are static poses.

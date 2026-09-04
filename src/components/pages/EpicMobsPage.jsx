@@ -21,6 +21,7 @@ import {
   IconBadge,
   Note,
   Panel,
+  PixelButton,
   SectionHeading,
   Shot,
   StatChip,
@@ -492,8 +493,8 @@ ran on its own without any of them.
           <Panel accent="emerald" className="p-6 md:p-8">
             <SectionHeading
               icon="fa-solid fa-seedling"
-              title="Epic Mobs 2"
-              subtitle="One paragraph, because that is genuinely all there is."
+              title="What replaced it"
+              subtitle="This section used to be one paragraph saying there was nothing to show."
               accent="emerald"
             />
             <p className="pixel-font pt-4 text-[10px] text-emerald-300 md:text-xs">
@@ -502,16 +503,31 @@ ran on its own without any of them.
             <Body className="pt-4">{ProjectInformation.successor.body}</Body>
             <Bullets className="pt-4">
               <Bullet accent="emerald">
-                No release date, and no estimate of one.
+                Still no release date, and still no estimate of one.
               </Bullet>
               <Bullet accent="emerald">
-                No feature list. Nothing has been designed yet.
+                It is a rewrite, not an update. Nothing here gets patched.
               </Bullet>
               <Bullet accent="emerald">
-                Not a reason to wait for anything. If you need a mob plugin
-                today, go and find one that is being maintained today.
+                Your old mob definitions, raids, spawners and loot are converted
+                on its first start, so the work you did here is not wasted.
+              </Bullet>
+              <Bullet accent="emerald">
+                Still not a reason to wait. If you need a mob plugin today, go
+                and find one that is being maintained today.
               </Bullet>
             </Bullets>
+            <div className="pt-6">
+              <PixelButton
+                accent="emerald"
+                icon="fa-solid fa-arrow-right"
+                onClick={() =>
+                  (window.location.href = ProjectInformation.successor.href)
+                }
+              >
+                {ProjectInformation.successor.linkLabel}
+              </PixelButton>
+            </div>
           </Panel>
           <div className="pt-5">
             <Shot

@@ -22,6 +22,7 @@ export const PROJECTS = Object.freeze({
   CE2: "custom-enchantments-2",
   MORE_FOODS: "more-foods-and-crops",
   EPIC_MOBS: "epic-mobs",
+  EPIC_MOBS_REWORK: "epic-mobs-rework",
 });
 
 /** Every valid slug, for validation on both sides. */
@@ -39,6 +40,7 @@ export const PROJECT_LABELS = Object.freeze({
   [PROJECTS.CE2]: "Custom Enchantments 2",
   [PROJECTS.MORE_FOODS]: "More Foods and Crops",
   [PROJECTS.EPIC_MOBS]: "Epic Mobs",
+  [PROJECTS.EPIC_MOBS_REWORK]: "Epic Mobs Rework",
 });
 
 /**

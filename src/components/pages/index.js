@@ -8,6 +8,7 @@ import GraphicsUtilsPage from "./GraphicsUtilsPage";
 import CustomEnchants2Page from "./CustomEnchants2Page";
 import MoreFoodsPage from "./MoreFoodsPage";
 import EpicMobsPage from "./EpicMobsPage";
+import EpicMobsReworkPage from "./EpicMobsReworkPage";
 
 export {
   CE3Page,
@@ -20,4 +21,5 @@ export {
   CustomEnchants2Page,
   MoreFoodsPage,
   EpicMobsPage,
+  EpicMobsReworkPage,
 };

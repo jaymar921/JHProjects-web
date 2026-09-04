@@ -1,0 +1,497 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Epic Mobs Rework trailer</title>
+
+    <!--
+      One frame of the Epic Mobs Rework trailer.
+
+      Nothing here animates on its own. The capture script calls
+      window.__renderFrame(n) and every position, colour and opacity on the
+      page is a pure function of that number, so the same frame index always
+      draws the same picture and a re-run produces an identical video.
+
+      The set is a Minecraft park, dressed with real mob models, all of them
+      Creative Commons Attribution work credited on the last card of the
+      video and in assets/CREDITS.txt. The plugin's own effects on top of it
+      are drawn: telegraph rings, spawn columns and loot are boxes, because
+      they are the thing being explained rather than the thing being shown.
+
+      The copy is lifted from marketing/spigot-description.md in the plugin
+      repo, which is written to be evergreen, so nothing on screen carries a
+      version number, a release date or a count that moves.
+    -->
+
+    <style>
+      @font-face {
+        font-family: "joystix";
+        src: url("./vendor/joystixmonospace.otf") format("opentype");
+        font-display: block;
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      html,
+      body {
+        width: 1280px;
+        height: 720px;
+        overflow: hidden;
+        background: #0b0d11;
+      }
+
+      #stage {
+        position: relative;
+        width: 1280px;
+        height: 720px;
+      }
+
+      canvas {
+        position: absolute;
+        inset: 0;
+      }
+
+      /* ------------------------------------------------------- overlay */
+
+      #hud {
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+        font-family: "Cascadia Mono", Consolas, "DejaVu Sans Mono", monospace;
+        color: #cbd5e1;
+      }
+
+      .pixel {
+        font-family: "joystix", "Cascadia Mono", Consolas, monospace;
+      }
+
+      /* The window chrome, so a frame of the video looks like the page it
+         is embedded on rather than like a stock render. */
+      #chrome-top,
+      #chrome-bottom {
+        position: absolute;
+        left: 0;
+        right: 0;
+        height: 46px;
+        background: rgba(255, 255, 255, 0.03);
+        border-color: #334155;
+        border-style: solid;
+        display: flex;
+        align-items: center;
+        padding: 0 26px;
+        gap: 10px;
+      }
+      #chrome-top {
+        top: 0;
+        border-width: 0 0 1px 0;
+      }
+      #chrome-bottom {
+        bottom: 0;
+        border-width: 1px 0 0 0;
+      }
+
+      .dot {
+        width: 8px;
+        height: 8px;
+      }
+
+      #chrome-title {
+        font-size: 13px;
+        letter-spacing: 2.4px;
+        color: #f97316;
+        margin-left: 12px;
+      }
+
+      #chrome-right {
+        margin-left: auto;
+        font-size: 11px;
+        letter-spacing: 1.6px;
+        color: #64748b;
+      }
+
+      #chrome-foot {
+        font-size: 11px;
+        letter-spacing: 1.4px;
+        color: #64748b;
+      }
+
+      #chrome-foot-right {
+        margin-left: auto;
+        font-size: 11px;
+        letter-spacing: 1.8px;
+        color: #f59e0b;
+      }
+
+      /* Corner brackets, the one motif every JHProjects surface carries. */
+      .corner {
+        position: absolute;
+        width: 34px;
+        height: 34px;
+        border-color: rgba(249, 115, 22, 0.55);
+        border-style: solid;
+        border-width: 0;
+      }
+      .c-tl {
+        top: 58px;
+        left: 20px;
+        border-top-width: 3px;
+        border-left-width: 3px;
+      }
+      .c-tr {
+        top: 58px;
+        right: 20px;
+        border-top-width: 3px;
+        border-right-width: 3px;
+      }
+      .c-bl {
+        bottom: 58px;
+        left: 20px;
+        border-bottom-width: 3px;
+        border-left-width: 3px;
+      }
+      .c-br {
+        bottom: 58px;
+        right: 20px;
+        border-bottom-width: 3px;
+        border-right-width: 3px;
+      }
+
+      /* ------------------------------------------------------ the copy */
+
+      #copy {
+        position: absolute;
+        left: 74px;
+        bottom: 108px;
+        width: 640px;
+      }
+
+      #kicker {
+        display: inline-block;
+        border: 2px solid;
+        padding: 6px 14px;
+        font-size: 12px;
+        letter-spacing: 2.6px;
+        background: rgba(0, 0, 0, 0.55);
+      }
+
+      #headline {
+        margin-top: 20px;
+        font-size: 34px;
+        line-height: 1.35;
+        letter-spacing: 1.5px;
+        text-shadow: 0 0 26px rgba(0, 0, 0, 0.95), 3px 3px 0 rgba(0, 0, 0, 0.9);
+      }
+
+      #sub {
+        margin-top: 18px;
+        font-size: 16px;
+        line-height: 1.7;
+        color: #cbd5e1;
+        text-shadow: 0 2px 8px rgba(0, 0, 0, 0.95);
+      }
+
+      /* --------------------------------------------------- the stat rail */
+
+      #rail {
+        position: absolute;
+        right: 74px;
+        top: 128px;
+        width: 400px;
+      }
+
+      .rail-row {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        background: rgba(0, 0, 0, 0.55);
+        border: 1px solid;
+        border-left-width: 4px;
+        padding: 11px 14px;
+        margin-bottom: 10px;
+        font-size: 14px;
+      }
+
+      .rail-row .k {
+        color: #e2e8f0;
+      }
+
+      .rail-row .v {
+        margin-left: auto;
+        font-size: 12.5px;
+        letter-spacing: 0.6px;
+      }
+
+      /* --------------------------------------------------- the boss bar */
+
+      #bossbar {
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+        top: 92px;
+        width: 720px;
+        text-align: center;
+      }
+
+      #boss-name {
+        font-size: 17px;
+        letter-spacing: 3px;
+        margin-bottom: 12px;
+        text-shadow: 0 0 18px rgba(0, 0, 0, 0.9);
+      }
+
+      #boss-track {
+        position: relative;
+        height: 16px;
+        background: #111827;
+        border: 1px solid #334155;
+      }
+
+      #boss-fill {
+        position: absolute;
+        inset: 1px auto 1px 1px;
+        width: 0;
+      }
+
+      .seg {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        width: 1px;
+        background: #0b0d11;
+        opacity: 0.9;
+      }
+
+      /* -------------------------------------------------- the last card */
+
+      #outro {
+        position: absolute;
+        inset: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 6px;
+        opacity: 0;
+      }
+
+      #outro-mark {
+        width: 132px;
+        height: 132px;
+        image-rendering: pixelated;
+      }
+
+      #outro-title {
+        margin-top: 22px;
+        font-size: 46px;
+        letter-spacing: 5px;
+        color: #f97316;
+        text-shadow: 0 0 34px rgba(249, 115, 22, 0.55);
+      }
+
+      #outro-line {
+        margin-top: 18px;
+        font-size: 17px;
+        color: #cbd5e1;
+      }
+
+      #outro-url {
+        margin-top: 30px;
+        font-size: 18px;
+        letter-spacing: 2px;
+        color: #fbbf24;
+        border: 2px solid rgba(251, 191, 36, 0.55);
+        background: rgba(0, 0, 0, 0.5);
+        padding: 12px 26px;
+      }
+
+      #outro-note {
+        margin-top: 22px;
+        font-size: 13px;
+        letter-spacing: 1.4px;
+        color: #64748b;
+      }
+
+      /* ---------------------------------------------------- the credits */
+
+      #credits {
+        position: absolute;
+        inset: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        opacity: 0;
+        background: rgba(6, 8, 11, 0.86);
+      }
+
+      #credits-title {
+        font-size: 20px;
+        letter-spacing: 4px;
+        color: #f97316;
+        margin-bottom: 8px;
+      }
+
+      #credits-sub {
+        font-size: 13px;
+        letter-spacing: 1.4px;
+        color: #64748b;
+        margin-bottom: 26px;
+      }
+
+      .credit {
+        display: flex;
+        gap: 18px;
+        align-items: baseline;
+        width: 760px;
+        padding: 7px 0;
+        font-size: 14.5px;
+        border-bottom: 1px solid rgba(51, 65, 85, 0.7);
+      }
+
+      .credit .what {
+        color: #e2e8f0;
+        width: 250px;
+        flex: none;
+      }
+
+      .credit .who {
+        color: #94a3b8;
+      }
+
+      #credits-licence {
+        margin-top: 26px;
+        font-size: 12.5px;
+        letter-spacing: 1.2px;
+        color: #64748b;
+      }
+
+      /* A CRT scanline wash over the whole thing, matching the pages. */
+      #scan {
+        position: absolute;
+        inset: 0;
+        background-image: repeating-linear-gradient(
+          to bottom,
+          rgba(0, 0, 0, 0.22) 0px,
+          rgba(0, 0, 0, 0.22) 1px,
+          transparent 1px,
+          transparent 3px
+        );
+      }
+
+      #vignette {
+        position: absolute;
+        inset: 0;
+        background: radial-gradient(
+          ellipse at 50% 46%,
+          rgba(0, 0, 0, 0) 38%,
+          rgba(0, 0, 0, 0.72) 100%
+        );
+      }
+    </style>
+  </head>
+
+  <body>
+    <div id="stage">
+      <div id="hud">
+        <div id="scan"></div>
+        <div id="vignette"></div>
+
+        <div id="chrome-top">
+          <span class="dot" style="background: #fb7185"></span>
+          <span class="dot" style="background: #fbbf24"></span>
+          <span class="dot" style="background: #34d399"></span>
+          <span id="chrome-title" class="pixel">EPIC MOBS REWORK</span>
+          <span id="chrome-right">SPIGOT / PAPER 1.16.5 AND UP</span>
+        </div>
+
+        <span class="corner c-tl"></span>
+        <span class="corner c-tr"></span>
+        <span class="corner c-bl"></span>
+        <span class="corner c-br"></span>
+
+        <div id="bossbar" style="opacity: 0">
+          <div id="boss-name" class="pixel">CRYPT WARDEN</div>
+          <div id="boss-track"><div id="boss-fill"></div></div>
+        </div>
+
+        <div id="rail"></div>
+
+        <div id="copy">
+          <div id="kicker" class="pixel"></div>
+          <div id="headline" class="pixel"></div>
+          <div id="sub"></div>
+        </div>
+
+        <div id="outro">
+          <img id="outro-mark" alt="" />
+          <div id="outro-title" class="pixel">EPIC MOBS REWORK</div>
+          <div id="outro-line">
+            One plugin. Nothing else required. No NMS anywhere in it.
+          </div>
+          <div id="outro-url" class="pixel">
+            jhprojects.vercel.app/epic-mobs-rework
+          </div>
+          <div id="outro-note">
+            THE LITE BUILD IS FREE. TRY IT BEFORE YOU BUY ANYTHING.
+          </div>
+        </div>
+
+        <div id="credits">
+          <div id="credits-title" class="pixel">3D MODELS USED</div>
+          <div id="credits-sub">CREATIVE COMMONS ATTRIBUTION</div>
+
+          <div class="credit">
+            <span class="what">minecraft_park</span>
+            <span class="who">sketchfab.com/rhoce</span>
+          </div>
+          <div class="credit">
+            <span class="what">minecraft_zombie</span>
+            <span class="who">sketchfab.com/JohnElkes</span>
+          </div>
+          <div class="credit">
+            <span class="what">minecraft_calico_cat</span>
+            <span class="who">sketchfab.com/JohnElkes</span>
+          </div>
+          <div class="credit">
+            <span class="what">minecraft_better_spider</span>
+            <span class="who">sketchfab.com/JohnElkes</span>
+          </div>
+          <div class="credit">
+            <span class="what">minecraft_warden</span>
+            <span class="who">sketchfab.com/BeckBroEYTube</span>
+          </div>
+          <div class="credit">
+            <span class="what">player model</span>
+            <span class="who">JayMar921</span>
+          </div>
+
+          <div id="credits-licence">
+            USED UNDER CC ATTRIBUTION. THE PLUGIN IS NOT AFFILIATED WITH THE
+            AUTHORS ABOVE.
+          </div>
+        </div>
+
+        <div id="chrome-bottom">
+          <span id="chrome-foot"
+            >jhprojects.vercel.app/epic-mobs-rework | by JayMar921</span
+          >
+          <span id="chrome-foot-right" class="pixel">NO DEPENDENCIES</span>
+        </div>
+      </div>
+    </div>
+
+    <script src="./vendor/three.min.js"></script>
+    <script src="./vendor/GLTFLoader.js"></script>
+    <script src="./vendor/CopyShader.js"></script>
+    <script src="./vendor/LuminosityHighPassShader.js"></script>
+    <script src="./vendor/EffectComposer.js"></script>
+    <script src="./vendor/RenderPass.js"></script>
+    <script src="./vendor/ShaderPass.js"></script>
+    <script src="./vendor/UnrealBloomPass.js"></script>
+    <script src="./storyboard.js"></script>
+  </body>
+</html>
