@@ -29,8 +29,10 @@ models/minecraft_warden.glb          BeckBroEYTube
                                      https://sketchfab.com/BeckBroEYTube
 
 models/player-model-cheer-pose-jaymar921.glb
-                                     JayMar921
-                                     Not third party. No attribution needed.
+                                     nogard.dev skin renderer
+                                     https://nogard.dev/tools/minecraft-skin-renderer
+                                     JayMar921's own skin, turned into a 3D
+                                     model by that tool.
 
 AUDIO
 -----

@@ -27,3 +27,7 @@ dist-ssr
 # Fetched by scripts/generate-emr-video.mjs, and its contact sheet.
 scripts/emr-video/vendor
 scripts/emr-video/preview.png
+scripts/emr-video/at.png
+# The upload master. Rebuilt by a run, six times the size of the page's copy,
+# and never loaded by a visitor, so it does not belong in LFS.
+scripts/emr-video/upload/

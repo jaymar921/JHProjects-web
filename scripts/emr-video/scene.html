@@ -369,16 +369,24 @@
         color: #64748b;
       }
 
-      /* A CRT scanline wash over the whole thing, matching the pages. */
+      /*
+       * A CRT scanline wash over the whole thing, matching the pages.
+       *
+       * The period is even numbers of CSS pixels on purpose. The capture runs
+       * at a device pixel ratio of 1.5, and a one pixel line at 1.5 lands on
+       * half a device pixel, which the compositor resolves as grey and h264
+       * then smears across the frame. Two on, two off survives the ratio as
+       * three on, three off, and stays a line rather than becoming a haze.
+       */
       #scan {
         position: absolute;
         inset: 0;
         background-image: repeating-linear-gradient(
           to bottom,
-          rgba(0, 0, 0, 0.22) 0px,
-          rgba(0, 0, 0, 0.22) 1px,
-          transparent 1px,
-          transparent 3px
+          rgba(0, 0, 0, 0.2) 0px,
+          rgba(0, 0, 0, 0.2) 2px,
+          transparent 2px,
+          transparent 4px
         );
       }
 
@@ -387,8 +395,8 @@
         inset: 0;
         background: radial-gradient(
           ellipse at 50% 46%,
-          rgba(0, 0, 0, 0) 38%,
-          rgba(0, 0, 0, 0.72) 100%
+          rgba(0, 0, 0, 0) 30%,
+          rgba(0, 0, 0, 0.86) 100%
         );
       }
     </style>
@@ -466,7 +474,7 @@
           </div>
           <div class="credit">
             <span class="what">player model</span>
-            <span class="who">JayMar921</span>
+            <span class="who">nogard.dev/tools/minecraft-skin-renderer</span>
           </div>
 
           <div id="credits-licence">

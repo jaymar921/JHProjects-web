@@ -146,7 +146,11 @@ export const ModelCredits = {
       author: "BeckBroEYTube",
       url: "https://sketchfab.com/BeckBroEYTube",
     },
-    { name: "player model", author: "JayMar921" },
+    {
+      name: "player model",
+      author: "nogard.dev skin renderer",
+      url: "https://nogard.dev/tools/minecraft-skin-renderer",
+    },
   ],
 };
 

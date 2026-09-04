@@ -3,6 +3,8 @@
  *
  *   node scripts/generate-emr-video.mjs
  *   node scripts/generate-emr-video.mjs --preview    a still from each shot
+ *   node scripts/generate-emr-video.mjs --at=23,25   stills at those seconds
+ *   node scripts/generate-emr-video.mjs --scale=1    720p, for a quick look
  *   node scripts/generate-emr-video.mjs --probe      model sizes, no capture
  *
  * How it works, and why it works this way:
@@ -30,9 +32,17 @@
  *   Chrome     found automatically in the usual Windows and POSIX locations,
  *              or set CHROME_PATH
  *
+ * The picture is laid out at 720p and captured at 1080p: the browser is driven
+ * at a device pixel ratio of 1.5, so the same layout renders into a bigger
+ * buffer rather than being stretched into one. See SCALE below.
+ *
+ * Writes two encodes of the same frames, because they are for two different
+ * places and one file cannot be right for both. See UPLOAD and EMBED below.
+ *
  * Writes:
- *   src/assets/epic_mobs_rework/video/epic-mobs-rework.mp4
+ *   src/assets/epic_mobs_rework/video/epic-mobs-rework.mp4          the page
  *   src/assets/epic_mobs_rework/video/epic-mobs-rework-poster.jpg
+ *   scripts/emr-video/upload/epic-mobs-rework-1080p.mp4             YouTube
  */
 
 import { spawn, spawnSync } from "node:child_process";
@@ -42,6 +52,7 @@ import {
   mkdirSync,
   mkdtempSync,
   rmSync,
+  statSync,
   writeFileSync,
 } from "node:fs";
 import { tmpdir } from "node:os";
@@ -53,11 +64,68 @@ const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 const SCENE_DIR = join(ROOT, "scripts", "emr-video");
 const VENDOR = join(SCENE_DIR, "vendor");
 const OUT_DIR = join(ROOT, "src", "assets", "epic_mobs_rework", "video");
+/*
+ * Where the upload master goes, and why it is not next to the page's copy.
+ *
+ * It is regenerated from scratch every time a shot changes and it is six times
+ * the size of the file the page needs, so committing it would spend the LFS
+ * quota on a file no visitor ever loads. It is git ignored and rebuilt by a
+ * run, which takes fifteen minutes and needs nothing but this script.
+ */
+const UPLOAD_DIR = join(SCENE_DIR, "upload");
 
-const THREE_URL = "https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js";
+/**
+ * The two encodes.
+ *
+ * UPLOAD goes to YouTube and Facebook, which re-encode whatever they are
+ * given, so the only thing that matters is handing them the cleanest source
+ * this scene can produce. EMBED is downloaded by every visitor to the plugin
+ * page, where the player is a few hundred pixels wide and sixty megabytes is
+ * an insult.
+ *
+ * Both are 1080p. The embed is not downscaled, because the crispness of the
+ * texels is the whole point of rendering at this resolution and a viewer who
+ * fullscreens the player should still get it. The quantiser does the work
+ * instead: at 27 the texel edges survive intact and the file is a third of the
+ * master. Checked frame by frame against the master, not assumed.
+ */
+const UPLOAD_CRF = "21";
+const EMBED_CRF = "27";
+
+const THREE_URL =
+  "https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js";
 const DEBUG_PORT = Number(process.env.EMR_CDP_PORT ?? 9333);
 const PREVIEW = process.argv.includes("--preview");
 const PROBE = process.argv.includes("--probe");
+
+/** --at=23,24.5   stills at those points in the video, for checking one beat. */
+const AT = (process.argv.find((a) => a.startsWith("--at=")) ?? "")
+  .slice(5)
+  .split(",")
+  .filter(Boolean)
+  .map(Number);
+
+/** The picture, in CSS pixels. The layout in scene.html is written to this. */
+const WIDTH = 1280;
+const HEIGHT = 720;
+
+/**
+ * How many device pixels go into one of those, and why it is not 1.
+ *
+ * The page is laid out at 720p and always was, but capturing it at 720p meant
+ * every texel of a Minecraft texture was resolved once and thrown at h264,
+ * which spent its budget smearing them. Driving the browser at a higher device
+ * pixel ratio renders the same layout into a larger buffer, so the video is
+ * 1080p of genuinely rendered detail rather than 720p stretched.
+ *
+ * It costs render time roughly in proportion to the pixels, so --scale=1 is
+ * still there for a quick look at the framing.
+ */
+const SCALE = Number(
+  (process.argv.find((a) => a.startsWith("--scale=")) ?? "").slice(8) || 1.5,
+);
+const OUT_W = Math.round(WIDTH * SCALE);
+const OUT_H = Math.round(HEIGHT * SCALE);
 
 /** The bed music, and how long it takes to come up and go away again. */
 const MUSIC = join(SCENE_DIR, "assets", "ad_music.mp3");
@@ -124,7 +192,8 @@ async function ensureVendor() {
   // over file:// without reaching outside its own folder.
   const font = join(ROOT, "src/assets/fonts/joystixmonospace.otf");
   const mark = join(ROOT, "src/assets/epic_mobs_rework/branding/mark.png");
-  if (existsSync(font)) copyFileSync(font, join(VENDOR, "joystixmonospace.otf"));
+  if (existsSync(font))
+    copyFileSync(font, join(VENDOR, "joystixmonospace.otf"));
   if (existsSync(mark)) copyFileSync(mark, join(VENDOR, "mark.png"));
 }
 
@@ -240,7 +309,7 @@ async function main() {
       "--headless=new",
       `--remote-debugging-port=${DEBUG_PORT}`,
       `--user-data-dir=${profile}`,
-      "--window-size=1280,720",
+      `--window-size=${WIDTH},${HEIGHT}`,
       "--hide-scrollbars",
       "--no-first-run",
       "--no-default-browser-check",
@@ -252,7 +321,7 @@ async function main() {
       "--use-gl=angle",
       "--use-angle=swiftshader",
       "--enable-unsafe-swiftshader",
-      "--force-device-scale-factor=1",
+      `--force-device-scale-factor=${SCALE}`,
       "about:blank",
     ],
     { stdio: "ignore" },
@@ -264,10 +333,12 @@ async function main() {
 
     await cdp.send("Page.enable");
     await cdp.send("Runtime.enable");
+    // The override has to be in place before the page loads: storyboard.js
+    // reads devicePixelRatio once, at start-up, to size its buffers.
     await cdp.send("Emulation.setDeviceMetricsOverride", {
-      width: 1280,
-      height: 720,
-      deviceScaleFactor: 1,
+      width: WIDTH,
+      height: HEIGHT,
+      deviceScaleFactor: SCALE,
       mobile: false,
     });
 
@@ -283,12 +354,14 @@ async function main() {
     const readyBy = Date.now() + 30000;
     for (;;) {
       if (await evaluate(cdp, "window.__ready === true")) break;
-      if (Date.now() > readyBy) throw new Error("scene.html never became ready");
+      if (Date.now() > readyBy)
+        throw new Error("scene.html never became ready");
       await new Promise((r) => setTimeout(r, 150));
     }
 
     const sceneError = await evaluate(cdp, "window.__error || null");
-    if (sceneError) throw new Error(`scene.html failed:
+    if (sceneError)
+      throw new Error(`scene.html failed:
 ${sceneError}`);
 
     if (PROBE) {
@@ -300,14 +373,19 @@ ${sceneError}`);
 
     const total = await evaluate(cdp, "window.__totalFrames");
     const fps = await evaluate(cdp, "window.__fps");
-    console.log(`scene   ${total} frames at ${fps} fps (${(total / fps).toFixed(1)}s)`);
+    console.log(
+      `scene   ${total} frames at ${fps} fps (${(total / fps).toFixed(1)}s)`,
+    );
+    console.log(`capture ${OUT_W}x${OUT_H} (scale ${SCALE})`);
 
     // One still from the middle of each shot, for checking the framing
     // without sitting through a full capture.
     const midFrames = await evaluate(cdp, "window.__shotMidFrames");
-    const wanted = PREVIEW
-      ? midFrames
-      : Array.from({ length: total }, (_, i) => i);
+    const wanted = AT.length
+      ? AT.map((seconds) => Math.min(total - 1, Math.round(seconds * fps)))
+      : PREVIEW
+        ? midFrames
+        : Array.from({ length: total }, (_, i) => i);
 
     const started = Date.now();
     for (let i = 0; i < wanted.length; i++) {
@@ -336,9 +414,9 @@ ${sceneError}`);
 
     mkdirSync(OUT_DIR, { recursive: true });
 
-    if (PREVIEW) {
-      const contact = join(SCENE_DIR, "preview.png");
-      const columns = wanted.length > 9 ? 5 : 3;
+    if (PREVIEW || AT.length) {
+      const contact = join(SCENE_DIR, AT.length ? "at.png" : "preview.png");
+      const columns = Math.min(wanted.length, wanted.length > 9 ? 5 : 3);
       const rows = Math.ceil(wanted.length / columns);
       run("ffmpeg", [
         "-y",
@@ -354,7 +432,6 @@ ${sceneError}`);
       return;
     }
 
-    const mp4 = join(OUT_DIR, "epic-mobs-rework.mp4");
     const seconds = total / fps;
     const hasMusic = existsSync(MUSIC);
 
@@ -362,48 +439,55 @@ ${sceneError}`);
       console.warn(`no music at ${MUSIC}, encoding silent`);
     }
 
-    run("ffmpeg", [
-      "-y",
-      "-framerate",
-      String(fps),
-      "-i",
-      join(frames, "f%05d.png"),
-      ...(hasMusic ? ["-i", MUSIC] : []),
-      ...(hasMusic
-        ? [
-            // Trimmed to the picture, brought up over the first shot and taken
-            // away under the credits card, so it never just stops.
-            "-filter:a",
-            [
-              `volume=${MUSIC_GAIN}`,
-              `afade=t=in:st=0:d=${MUSIC_FADE_IN}`,
-              `afade=t=out:st=${(seconds - MUSIC_FADE_OUT).toFixed(2)}:d=${MUSIC_FADE_OUT}`,
-            ].join(","),
-            "-c:a",
-            "aac",
-            "-b:a",
-            "160k",
-            "-shortest",
-          ]
-        : []),
-      "-c:v",
-      "libx264",
-      "-preset",
-      "slow",
-      // 22 looks lovely and lands a 24MB file for under a minute of video,
-      // because a Minecraft park is a wall of fine texture detail and h264
-      // spends its whole budget on it. This is a page embed that lives in the
-      // repository, so 28 is the right trade: the difference is invisible at
-      // 720p behind a scanline overlay, and the file is a third of the size.
-      "-crf",
-      "28",
-      "-pix_fmt",
-      "yuv420p",
-      // Browsers start playing sooner when the index is at the front.
-      "-movflags",
-      "+faststart",
-      mp4,
-    ]);
+    const encode = (mp4, crf) =>
+      run("ffmpeg", [
+        "-y",
+        "-framerate",
+        String(fps),
+        "-i",
+        join(frames, "f%05d.png"),
+        ...(hasMusic ? ["-i", MUSIC] : []),
+        ...(hasMusic
+          ? [
+              // Trimmed to the picture, brought up over the first shot and taken
+              // away under the credits card, so it never just stops.
+              "-filter:a",
+              [
+                `volume=${MUSIC_GAIN}`,
+                `afade=t=in:st=0:d=${MUSIC_FADE_IN}`,
+                `afade=t=out:st=${(seconds - MUSIC_FADE_OUT).toFixed(2)}:d=${MUSIC_FADE_OUT}`,
+              ].join(","),
+              "-c:a",
+              "aac",
+              "-b:a",
+              "160k",
+              "-shortest",
+            ]
+          : []),
+        "-c:v",
+        "libx264",
+        "-preset",
+        "slow",
+        // The frames arrive at 1080p of real rendered detail, so the quantiser
+        // is what decides whether they stay that way. 28 was chosen when the
+        // source was a soft 720p and there was nothing left to protect; at this
+        // resolution it visibly eats the texture on the set.
+        "-crf",
+        crf,
+        "-pix_fmt",
+        "yuv420p",
+        // Browsers start playing sooner when the index is at the front.
+        "-movflags",
+        "+faststart",
+        mp4,
+      ]);
+
+    mkdirSync(UPLOAD_DIR, { recursive: true });
+    const upload = join(UPLOAD_DIR, "epic-mobs-rework-1080p.mp4");
+    const mp4 = join(OUT_DIR, "epic-mobs-rework.mp4");
+
+    encode(upload, UPLOAD_CRF);
+    encode(mp4, EMBED_CRF);
 
     // A poster, so the player is not a black rectangle before it plays.
     const poster = join(OUT_DIR, "epic-mobs-rework-poster.jpg");
@@ -416,8 +500,10 @@ ${sceneError}`);
       poster,
     ]);
 
-    console.log(`wrote ${mp4}`);
-    console.log(`wrote ${poster}`);
+    const mb = (path) => (statSync(path).size / 1048576).toFixed(1) + " MB";
+    console.log(`wrote ${mp4}  ${mb(mp4)}  (the page)`);
+    console.log(`wrote ${poster}  ${mb(poster)}`);
+    console.log(`wrote ${upload}  ${mb(upload)}  (upload this one)`);
   } finally {
     try {
       cdp?.close();
@@ -431,7 +517,12 @@ ${sceneError}`);
     // Windows a locked file makes rmSync throw. The directory is under the
     // system temp folder, so leaving it is harmless.
     try {
-      rmSync(profile, { recursive: true, force: true, maxRetries: 5, retryDelay: 200 });
+      rmSync(profile, {
+        recursive: true,
+        force: true,
+        maxRetries: 5,
+        retryDelay: 200,
+      });
     } catch {
       // Chrome still has it. It will be cleaned up with the rest of temp.
     }
@@ -439,7 +530,9 @@ ${sceneError}`);
 }
 
 function run(command, args) {
-  const result = spawnSync(command, args, { stdio: ["ignore", "ignore", "pipe"] });
+  const result = spawnSync(command, args, {
+    stdio: ["ignore", "ignore", "pipe"],
+  });
   if (result.status !== 0) {
     throw new Error(
       `${command} failed (${result.status}):\n${result.stderr?.toString().slice(-2000)}`,

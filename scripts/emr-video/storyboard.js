@@ -36,6 +36,9 @@ const COLOR = {
   lime: 0xa3e635,
   emerald: 0x34d399,
   bone: 0xe2e8f0,
+  // The clear colour and the fog are the same value, so the far edge of the
+  // set dissolves into the background rather than ending at a visible line.
+  night: 0x070809,
 };
 
 const CSS = {
@@ -157,9 +160,16 @@ const SHOTS = [
       ["Death", "a cooldown, not a loss", CSS.rose],
       ["Guardians and escorts", "same machinery", CSS.sky],
     ],
-    from: [4.8, 2.3, 4.8],
-    to: [2.0, 1.7, 3.4],
-    look: [1.1, 0.85, 0.2],
+    // Both of them stand well forward of the set, on open plaza. Further
+    // back the cat's walk cycle carried it into a block of the park, and a
+    // companion clipping through scenery is the one thing this shot cannot
+    // show. Moving the pair toward the camera puts nothing behind them for
+    // several units, and the camera and its aim move with them.
+    // Aimed just left of the player, so the pair sits in the clear right
+    // half of the frame rather than behind the copy in the bottom left.
+    from: [4.6, 2.8, 8.6],
+    to: [2.6, 2.2, 7.6],
+    look: [0.4, 0.95, 2.9],
   },
   {
     id: "world",
@@ -242,13 +252,40 @@ const TOTAL_FRAMES = Math.round(clock * FPS);
 
 /* ------------------------------------------------------------ the scene */
 
+/*
+ * Resolution, and why the page does not decide it.
+ *
+ * The layout is written in 1280x720 CSS pixels and stays that way, but the
+ * capture script drives the browser at a device pixel ratio above 1, so the
+ * same layout is drawn into a larger buffer. Everything on screen, the three.js
+ * frame and the HTML overlay alike, is rendered at the capture resolution
+ * rather than drawn at 720p and stretched, which is what was making the fine
+ * Minecraft texture on the set read as mush.
+ *
+ * PIXELS is the drawing buffer size. The bloom pass has to be built at that
+ * size too, or the glow is resampled up from a 720p buffer and brings the
+ * blur straight back in.
+ */
+const DPR = window.devicePixelRatio || 1;
+const PIXELS = new THREE.Vector2(
+  Math.round(WIDTH * DPR),
+  Math.round(HEIGHT * DPR),
+);
+
 const renderer = new THREE.WebGLRenderer({ antialias: true });
-renderer.setPixelRatio(1);
+renderer.setPixelRatio(DPR);
 renderer.setSize(WIDTH, HEIGHT);
-renderer.setClearColor(0x0c0805, 1);
+renderer.setClearColor(COLOR.night, 1);
 renderer.outputEncoding = THREE.sRGBEncoding;
 renderer.toneMapping = THREE.ACESFilmicToneMapping;
-renderer.toneMappingExposure = 0.9;
+/*
+ * Exposure, dimmed.
+ *
+ * The set used to be lit like a product shot. It is a night scene in a park
+ * with something in it that wants to kill you, so the whole frame is pulled
+ * down and left to the firelight and the one lamp on the subject.
+ */
+renderer.toneMappingExposure = 0.72;
 document.getElementById("stage").prepend(renderer.domElement);
 
 const scene = new THREE.Scene();
@@ -262,9 +299,28 @@ const scene = new THREE.Scene();
  * what makes the mob the thing the eye lands on, and it is also just what a
  * park at night looks like.
  */
-scene.fog = new THREE.Fog(0x0c0805, 4.5, 17);
+scene.fog = new THREE.Fog(COLOR.night, 3.2, 12.5);
 
-const camera = new THREE.PerspectiveCamera(46, WIDTH / HEIGHT, 0.1, 400);
+/*
+ * A wide lens, and what it costs.
+ *
+ * 46 degrees is a portrait lens: it holds the subject and quietly crops the
+ * dark out of the frame. Opening up to 66 puts the fog back in shot on every
+ * side of whatever is standing in the middle, which is the whole point of
+ * having fog, and it stretches the near edges the way a horror lens does.
+ *
+ * The catch is that a wider lens makes everything smaller. The shot list was
+ * framed at 46 degrees, so rather than rewriting twenty camera positions,
+ * every one of them is pulled in toward what it is looking at by the ratio of
+ * the two half angle tangents. The framing survives; the lens changes.
+ */
+const FOV = 66;
+const FRAMED_AT = 46;
+const PULL_IN =
+  Math.tan((FRAMED_AT / 2) * (Math.PI / 180)) /
+  Math.tan((FOV / 2) * (Math.PI / 180));
+
+const camera = new THREE.PerspectiveCamera(FOV, WIDTH / HEIGHT, 0.1, 400);
 
 /*
  * Warm key from high and behind, cool fill from the other side, and a
@@ -272,13 +328,13 @@ const camera = new THREE.PerspectiveCamera(46, WIDTH / HEIGHT, 0.1, 400);
  * what makes the whole thing read as firelit rather than as a daylit render of
  * some blocks.
  */
-scene.add(new THREE.HemisphereLight(0x8fbcff, 0x3a2416, 0.26));
+scene.add(new THREE.HemisphereLight(0x6f8dbe, 0x241a12, 0.13));
 
-const key = new THREE.DirectionalLight(0xffd7a8, 0.55);
+const key = new THREE.DirectionalLight(0xffd7a8, 0.3);
 key.position.set(9, 16, 7);
 scene.add(key);
 
-const fill = new THREE.DirectionalLight(0x6ea8ff, 0.3);
+const fill = new THREE.DirectionalLight(0x6ea8ff, 0.16);
 fill.position.set(-11, 6, -9);
 scene.add(fill);
 
@@ -315,7 +371,8 @@ let GROUND = 0.7;
 const STAGE_X = 0;
 const STAGE_Z = -9;
 
-const fire = new THREE.PointLight(COLOR.ember, 2.6, 15, 1.8);
+const FIRE = 2.1;
+const fire = new THREE.PointLight(COLOR.ember, FIRE, 13, 1.8);
 fire.position.set(0, 2.4, 3.0);
 stage.add(fire);
 
@@ -326,7 +383,7 @@ stage.add(fire);
  * and reads as a silhouette, which is a fine look for a horror trailer and a
  * bad one for a video whose whole job is showing you what the mobs look like.
  */
-const subjectLight = new THREE.PointLight(0xffe6c4, 3.0, 9.5, 1.5);
+const subjectLight = new THREE.PointLight(0xffe6c4, 2.1, 8.5, 1.5);
 subjectLight.position.set(0, 3.2, 6.0);
 stage.add(subjectLight);
 
@@ -341,7 +398,7 @@ stage.add(subjectLight);
 const composer = new THREE.EffectComposer(renderer);
 composer.addPass(new THREE.RenderPass(scene, camera));
 const bloom = new THREE.UnrealBloomPass(
-  new THREE.Vector2(WIDTH, HEIGHT),
+  PIXELS,
   0.55, // strength
   0.45, // radius
   1.05, // threshold
@@ -397,9 +454,21 @@ function normalise(object, fit) {
       for (const slot of ["map", "emissiveMap"]) {
         const texture = material[slot];
         if (texture) {
+          // Nearest on the way up and on the way down, so a texel stays a
+          // square instead of being averaged into its neighbours. Mipmaps are
+          // kept, because a Minecraft texture minified without them crawls,
+          // but the level is picked rather than blended: NearestMipmapNearest
+          // samples one mip flat.
+          //
+          // The anisotropy is the line that matters and it has to be 1. These
+          // were nearest filtered all along and the mobs still came out
+          // smeared, because anisotropic filtering takes several samples along
+          // the compressed axis and averages them, and SwiftShader does that
+          // whether the filter asked for nearest or not. Any value above 1 is
+          // a blur pass applied to every texture in the video.
           texture.magFilter = THREE.NearestFilter;
-          texture.minFilter = THREE.NearestMipmapLinearFilter;
-          texture.anisotropy = 4;
+          texture.minFilter = THREE.NearestMipmapNearestFilter;
+          texture.anisotropy = 1;
           texture.needsUpdate = true;
         }
       }
@@ -673,27 +742,25 @@ function renderFrame(frameIndex) {
   // The shot list is written in stage coordinates. Both ends of it go through
   // the same transform, so the camera and what it is aimed at can never end up
   // in different spaces.
+  const lookFrom = shot.lookFrom || shot.look;
+  const lookTo = shot.lookTo || shot.look;
+  const aimX = mix(lookFrom[0], lookTo[0], e);
+  const aimY = mix(lookFrom[1], lookTo[1], e);
+  const aimZ = mix(lookFrom[2], lookTo[2], e);
+
+  // PULL_IN is the wide lens being paid for: the camera slides toward what it
+  // is aimed at until the subject is the size the shot list framed it at.
   camera.position.copy(
     stage.localToWorld(
       scratch.set(
-        mix(shot.from[0], shot.to[0], e),
-        mix(shot.from[1], shot.to[1], e),
-        mix(shot.from[2], shot.to[2], e),
+        aimX + (mix(shot.from[0], shot.to[0], e) - aimX) * PULL_IN,
+        aimY + (mix(shot.from[1], shot.to[1], e) - aimY) * PULL_IN,
+        aimZ + (mix(shot.from[2], shot.to[2], e) - aimZ) * PULL_IN,
       ),
     ),
   );
 
-  const lookFrom = shot.lookFrom || shot.look;
-  const lookTo = shot.lookTo || shot.look;
-  camera.lookAt(
-    stage.localToWorld(
-      scratch.set(
-        mix(lookFrom[0], lookTo[0], e),
-        mix(lookFrom[1], lookTo[1], e),
-        mix(lookFrom[2], lookTo[2], e),
-      ),
-    ),
-  );
+  camera.lookAt(stage.localToWorld(scratch.set(aimX, aimY, aimZ)));
 
   /* ---------------------------------------------------------- animation */
 
@@ -706,11 +773,11 @@ function renderFrame(frameIndex) {
   // The wide shot is the one that is about the set rather than about a mob, so
   // the fog opens up for it and closes again afterwards.
   const wide = shot.id === "world" || shot.id === "outro";
-  scene.fog.near = wide ? 12 : 4.5;
-  scene.fog.far = wide ? 46 : 17;
+  scene.fog.near = wide ? 9 : 3.2;
+  scene.fog.far = wide ? 34 : 12.5;
 
   const flicker = 0.86 + Math.sin(t * 11.3) * 0.08 + Math.sin(t * 27.7) * 0.05;
-  fire.intensity = 2.6 * flicker;
+  fire.intensity = FIRE * flicker;
   fire.color.set(shot.id === "boss" ? COLOR.rose : COLOR.ember);
   bloom.strength = shot.id === "boss" ? 0.75 : 0.55;
 
@@ -839,11 +906,20 @@ function renderFrame(frameIndex) {
     // It keeps station off its owner's shoulder and lags a beat behind the
     // turn, which is what following looks like from the outside.
     const swing = Math.sin(t * 0.55);
-    player.rotation.y = FRONT - 0.4 + swing * 0.4;
+    // The one model on the set exported facing its own +z rather than -z, so
+    // FRONT turns it away from the camera instead of toward it and this shot
+    // was playing on the back of the player's head. Half a turn on top of
+    // FRONT puts the face back in the lens.
+    //
+    // The offset on top of that turns the player toward the cat rather than
+    // square to camera, because a player watching the thing that follows them
+    // says "companion" and a player staring down the lens says "render". The
+    // cat is on the player's right, which is +x on the stage.
+    player.rotation.y = FRONT + Math.PI + 0.28 + swing * 0.16;
     catCompanion.position.set(
-      player.position.x + 1.35 + swing * 0.35,
+      player.position.x + 1.3 + swing * 0.3,
       companionGroundY,
-      player.position.z - 0.75 + Math.cos(t * 0.7) * 0.3,
+      player.position.z + 0.1 + Math.cos(t * 0.7) * 0.25,
     );
     catCompanion.rotation.y = FRONT - 0.3 + Math.sin(t * 0.55 + 0.6) * 0.4;
   }
@@ -929,10 +1005,10 @@ async function build() {
   }
 
   player = await instance("player", { height: 1.85 });
-  standAt(player, 0.4, 0.6);
+  standAt(player, 0.3, 2.9);
 
   catCompanion = await instance("cat", { height: 0.62 });
-  companionGroundY = groundAt(1.75, -0.15);
+  companionGroundY = groundAt(1.6, 3.0);
 
   zombieLoot = await instance("zombie", { height: 1.9 });
   standAt(zombieLoot, 0, 0);
