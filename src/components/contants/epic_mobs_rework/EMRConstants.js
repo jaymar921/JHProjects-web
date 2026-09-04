@@ -62,7 +62,7 @@ export const PluginInformation = {
   price: {
     currency: "GBP",
     symbol: "£",
-    amount: "17.49",
+    amount: "15.49",
     note: "The intended price. One payment, and every update after it.",
   },
 
