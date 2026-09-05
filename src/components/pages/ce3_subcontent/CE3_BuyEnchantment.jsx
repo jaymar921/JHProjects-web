@@ -2,6 +2,7 @@ import IMG_CE3_BUY_LEVEL from "../../../assets/custom_enchants_3/other_photo_ce/
 import IMG_CE3_BUY_RACO from "../../../assets/custom_enchants_3/other_photo_ce/ce3_buy_raco.png";
 import IMG_CE3_CONFIG from "../../../assets/custom_enchants_3/other_photo_ce/ce3_config_price.png";
 import { racoEconomy as RACO_ART } from "../../../assets/custom_enchants_3/features";
+import { economy as KUMANDRA_ART } from "../../../assets/custom_enchants_3/marketing_1_6_0";
 import {
   Body,
   Bullet,
@@ -42,14 +43,15 @@ function CE3_BuyEnchantment() {
       <Section>
         <SectionHeading
           icon="fa-solid fa-coins"
-          title="Two ways to pay"
+          title="Three ways to pay"
           accent="amber"
         />
         <Body className="pt-5 text-justify">
           Every enchantment carries a price you set. Players can pay in vanilla
           Minecraft levels, or in RACO, the currency the plugin runs itself. Set
           a price to <Cmd accent="rose">0</Cmd> and that enchantment stops being
-          sold at all.
+          sold at all. Since 1.6.0 there is a third option on servers that also
+          run Kumandra&apos;s Economy: a RACO price can be settled in Kd.
         </Body>
 
         <div className="mt-6 grid gap-4 lg:grid-cols-2">
@@ -107,6 +109,110 @@ function CE3_BuyEnchantment() {
         </Panel>
       </Section>
 
+
+      <Section>
+        <div className="flex justify-center pb-4">
+          <Chip accent="amber">ADDED IN v1.6.0</Chip>
+        </div>
+        <SectionHeading
+          icon="fa-solid fa-right-left"
+          title="Paying with Kumandra currency"
+          subtitle="Optional. Without Kumandra's Economy installed, none of this exists."
+          accent="amber"
+        />
+        <Shot
+          className="mt-6"
+          src={KUMANDRA_ART}
+          alt="How Custom Enchantments 3 settles a RACO price with Kumandra currency"
+          accent="amber"
+          caption="Pay in Kd, the plugin buys RACO out of circulating supply, the seller is paid in RACO"
+        />
+        <Body className="pt-5 text-justify">
+          RACO is supply capped and Kumandra money is not, so the plugin will
+          not mint one out of the other. When a player settles a RACO price with
+          Kd, the plugin buys that RACO out of the same circulating supply the
+          level exchange draws on, then spends it the way a RACO payment has
+          always worked. By the time the shop code runs, the player is holding
+          real RACO.
+        </Body>
+        <div className="mt-6 grid gap-4 md:grid-cols-2">
+          <Panel accent="amber" className="p-5">
+            <SubHeading accent="amber">WHAT THAT BUYS YOU</SubHeading>
+            <Bullets className="pt-3">
+              <Bullet accent="amber">
+                Supply run dry? The payment is refused and the Kd handed back.
+                Your currency cannot inflate.
+              </Bullet>
+              <Bullet accent="amber">
+                A seller is always paid in the RACO they listed for, whatever
+                the buyer paid with.
+              </Bullet>
+              <Bullet accent="amber">
+                A player holding enough RACO always spends the RACO. Kd is the
+                fallback, never the default.
+              </Bullet>
+              <Bullet accent="amber">
+                The fee is what keeps holding RACO slightly better than paying
+                in the foreign currency. Set it to 0 for a straight rate.
+              </Bullet>
+            </Bullets>
+          </Panel>
+          <Panel accent="lime" className="p-5">
+            <SubHeading accent="lime">WHERE Kd WORKS</SubHeading>
+            <Bullets className="pt-3">
+              <Bullet accent="lime">
+                The RACO shop, where players sell to each other.
+              </Bullet>
+              <Bullet accent="lime">
+                Enchantment books you priced in RACO with the{" "}
+                <Cmd accent="lime">C</Cmd> suffix.
+              </Bullet>
+              <Bullet accent="lime">
+                Cofferguard, the chestplate enchantment that spends a coin to
+                soak a hit, when the RACO wallet is empty.
+              </Bullet>
+              <Bullet accent="lime">
+                The currency exchange screen, which gains a conversion row: buy
+                1, 5 or 10 RACO with Kd, or sell the same amounts back.
+              </Bullet>
+            </Bullets>
+          </Panel>
+        </div>
+        <Terminal title="CustomEnchantments3 / config.yml" className="mt-6">
+          <pre>
+            <code className="text-[10px] md:text-sm" lang="yaml">
+              <TerminalLabel accent="amber">
+                [Kumandra&apos;s Economy, all six keys]
+              </TerminalLabel>
+              {`
+# The master switch. False means the plugin behaves
+# exactly as 1.5.0 did, even with Kumandra installed.
+KumandraEconomySupport: true
+
+KumandraExchangeRate: 25.0   # Kd per 1 RACO
+KumandraConversionFee: 0.05  # 5%, both directions
+
+KumandraShopPayment: true      # the RACO shop
+KumandraEnchantPayment: true   # enchantment books
+KumandraConversionEnabled: true  # the swap buttons
+`}
+            </code>
+          </pre>
+        </Terminal>
+        <div className="pt-5">
+          <Note accent="sky" icon="fa-solid fa-plug">
+            Needs Kumandra&apos;s Economy 2.0 or newer. Anything older is
+            detected and the integration simply stays off, rather than half
+            wiring an economy that takes money without paying it out. With
+            Kumandra 2.1 the bridge goes both ways: its balance screen shows
+            your RACO, and{" "}
+            <Cmd accent="sky">/kumandra convert [amount]</Cmd> buys RACO from
+            the Kumandra side. Both plugins stay standalone, and{" "}
+            <Cmd accent="sky">/ce reload</Cmd> picks all six keys up without a
+            restart.
+          </Note>
+        </div>
+      </Section>
       <Section>
         <SectionHeading
           icon="fa-solid fa-sliders"

@@ -33,6 +33,14 @@
       "destination": "/more-foods-and-crops.html"
     },
     {
+      "source": "/epic-mobs-rework",
+      "destination": "/epic-mobs-rework.html"
+    },
+    {
+      "source": "/epic-mobs",
+      "destination": "/epic-mobs.html"
+    },
+    {
       "source": "/(.*)",
       "destination": "/"
     }

@@ -1,9 +1,12 @@
 import { PluginInformation as CE3Info } from "../contants/custom_enchants_3/CE3Constants";
+import { PluginInformation as KEInfo } from "../contants/kumandra/KumandraConstants";
 import { PluginInformation as WarpsInfo } from "../contants/legacy/CustomWarpsConstants";
 import { PluginInformation as FishingInfo } from "../contants/legacy/FishingContestConstants";
 import { ProjectInformation as GraphicsInfo } from "../contants/projects/GraphicsUtilsConstants";
 import { ProjectInformation as CE2Info } from "../contants/projects/CustomEnchants2Constants";
 import { ProjectInformation as FoodsInfo } from "../contants/projects/MoreFoodsConstants";
+import { ProjectInformation as EpicMobsInfo } from "../contants/projects/EpicMobsConstants";
+import { PluginInformation as EMRInfo } from "../contants/epic_mobs_rework/EMRConstants";
 import {
   formatDownloads,
   KUMANDRA_FALLBACK,
@@ -65,8 +68,10 @@ const pageStyles = `
 `;
 
 /**
- * The live projects. The two plugins carry a download count from the Spiget
- * hooks below; the library is on npm instead, so it carries its version.
+ * The projects still being worked on. The two shipped plugins carry a download
+ * count from the Spiget hooks below; the library is on npm instead, so it
+ * carries its version, and the one that has not shipped carries `dev: true`
+ * so it is not counted as live anywhere on this page.
  */
 const LIVE_PROJECTS = [
   {
@@ -75,7 +80,7 @@ const LIVE_PROJECTS = [
     title: "Custom Enchantments 3",
     badge: `${CE3Info.currency_symbol}${CE3Info.price}`,
     description:
-      "134 enchantments, 134 treasures, three classes and a real player-driven economy. One-time payment, updates for life.",
+      "159 enchantments, 149 treasures, three classes and a real player-driven economy. One-time payment, updates for life.",
     accent: "lime",
     href: "/customenchantments3",
   },
@@ -85,7 +90,7 @@ const LIVE_PROJECTS = [
     title: "Kumandra's Economy",
     badge: "FREE",
     description:
-      "A whole server economy in one free jar. Jobs, trading, delivery, shops and quests, no premium tier. Version 2.0 covers 1.16 through 26.2.",
+      "A whole server economy in one free jar. Jobs, trading, delivery, shops and quests, no premium tier. One jar covers 1.16 through 26.2.",
     accent: "emerald",
     href: "/kumandras-economy",
   },
@@ -100,7 +105,27 @@ const LIVE_PROJECTS = [
     href: "/2dgraphic-utils",
     hint: `v${GraphicsInfo.version} on npm`,
   },
+  {
+    key: "emr",
+    icon: "fa-solid fa-skull",
+    title: EMRInfo.title,
+    badge: "RC",
+    description:
+      "The rebuild of Epic Mobs. Custom mobs from any vanilla entity, abilities with telegraphs, boss phases, companions, raids and weighted loot. 1.0-RC1 is out on Spigot, with a free Lite build alongside it.",
+    accent: "ember",
+    href: "/epic-mobs-rework",
+    hint: `v${EMRInfo.version}, release candidate`,
+  },
 ];
+
+/**
+ * How many of the above have actually shipped, and how many of those are
+ * still on a release candidate rather than a settled version. The second
+ * number is drawn only when it is not zero, so the banner does not advertise
+ * "0 IN DEVELOPMENT" the moment everything ships.
+ */
+const LIVE_COUNT = LIVE_PROJECTS.filter((project) => !project.dev).length;
+const DEV_COUNT = LIVE_PROJECTS.length - LIVE_COUNT;
 
 /**
  * Finished, or stopped, and kept on the shelf rather than taken down. Each one
@@ -144,6 +169,22 @@ const ARCHIVE = [
     href: "/custom-enchantments-2",
     logo: CE2Info.icon,
     label: "OPEN SOURCE",
+  },
+  {
+    key: "epicmobs",
+    icon: "fa-solid fa-skull",
+    title: EpicMobsInfo.title,
+    tagline: EpicMobsInfo.subtitle,
+    years: EpicMobsInfo.years,
+    releases: `${EpicMobsInfo.releaseCount} releases`,
+    versions: EpicMobsInfo.supportedVersions,
+    accent: "sky",
+    href: "/epic-mobs",
+    logo: EpicMobsInfo.icon,
+    label: "WAS PREMIUM",
+    // The only paid one on the shelf, so it is the only one that overrides the
+    // Free chip every other archive card carries.
+    price: "Was paid",
   },
   {
     key: "foods",
@@ -219,7 +260,9 @@ function HomePage() {
           <div className="mt-6 inline-flex place-items-center gap-2 border border-sky-400/50 bg-[rgba(0,0,0,0.6)] px-3 py-1">
             <span className="jh-blink h-2 w-2 bg-sky-400"></span>
             <span className="pixel-font text-[8px] md:text-[10px] tracking-widest text-sky-300">
-              {LIVE_PROJECTS.length} LIVE, {ARCHIVE.length} IN THE ARCHIVE
+              {LIVE_COUNT} LIVE
+              {DEV_COUNT > 0 ? `, ${DEV_COUNT} IN DEVELOPMENT` : ""},{" "}
+              {ARCHIVE.length} ARCHIVED
             </span>
           </div>
 
@@ -267,7 +310,7 @@ function HomePage() {
           <div className="mt-8 flex flex-wrap place-items-center justify-center gap-2">
             <StatChip
               icon="fa-solid fa-cubes"
-              value={LIVE_PROJECTS.length}
+              value={LIVE_COUNT}
               label="Live Projects"
               accent="sky"
             />
@@ -312,9 +355,11 @@ JayMar921, indie developer, one-person studio
                 <TerminalLabel accent="lime">$ ls ./projects</TerminalLabel>
                 {`
 customenchantments3/   [PREMIUM]  v${CE3Info.version}
-kumandras-economy/     [FREE]     v2.0, live
+kumandras-economy/     [FREE]     v${KEInfo.version}, live
 2dgraphic-utils/       [NPM]      v${GraphicsInfo.version}, live
 custom-enchantments-2/ [FREE]     open source, ended 2022
+epic-mobs-rework/      [PREMIUM]  v${EMRInfo.version}, and a free Lite
+epic-mobs/             [PREMIUM]  abandoned 2023
 custom-warps/          [FREE]     archived 2021
 fishing-contest/       [FREE]     archived 2021
 more-foods-and-crops/  [FREE]     unfinished
@@ -348,7 +393,7 @@ Ship small, ship real, ship solo.
                 badge={project.badge}
                 description={project.description}
                 buttonIcon="fa-solid fa-arrow-right"
-                buttonLabel="Visit Project"
+                buttonLabel={project.dev ? "See the design" : "Visit Project"}
                 hint={
                   project.hint ??
                   `${formatDownloads(downloadsByProject[project.key])} downloads`
@@ -375,10 +420,12 @@ Ship small, ship real, ship solo.
             Custom Warps and Fishing Contest went out in 2021 and are still
             downloadable on Spigot, though the source for both is gone. Custom
             Enchantments 2 was discontinued while CE3 was being written, and its
-            source is public. More Foods &amp; Crops never got finished at all.
-            None of the four is maintained, and rather than quietly deleting
-            them they each get a page: what they did, where they stopped, and
-            where the code is if any of it survived.
+            source is public. Epic Mobs was a premium plugin that stopped when a
+            full time job left no evenings for it, and is the one of the five
+            being rebuilt rather than left alone. More Foods &amp; Crops never
+            got finished at all. None of the five is maintained, and rather than
+            quietly deleting them they each get a page: what they did, where
+            they stopped, and where the code is if any of it survived.
           </p>
 
           <div className="mt-7 grid gap-4 md:grid-cols-2">
@@ -429,7 +476,7 @@ Ship small, ship real, ship solo.
                     </Chip>
                     <Chip accent={entry.accent}>
                       <i className="fa-solid fa-tag pr-2"></i>
-                      Free
+                      {entry.price ?? "Free"}
                     </Chip>
                   </div>
 

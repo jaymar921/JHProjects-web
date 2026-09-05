@@ -1,5 +1,65 @@
 export const CE3_Logs = [
   {
+    update_version: "1.6.0",
+    release_date: "09/02/2026",
+    changes: [
+      {
+        update: "Read this first",
+        sublist: [
+          "This is the economy release. 1.5.0 filled the plugin up, this one gives the currency somewhere to go. Enchantments go from 134 to 159 and treasure items from 134 to 149",
+          "Kumandra's Economy is supported as a soft dependency. If you run both plugins, a player can settle a RACO price with Kumandra currency and swap between the two in the exchange screen. If you do not run it, nothing on your server changes",
+          "The rule the whole feature is built on: Kumandra money is never turned into RACO out of nothing. RACO is capped at 1,250,000 with a price that moves on circulation, so paying with Kd buys RACO out of the circulating supply first and then spends it the way a RACO payment always worked",
+          "Your config carries over. On the first start after updating, the plugin rewrites config.yml with the new keys and keeps every value you had set, saving the old file as config.yml.old",
+          "If you use the resource pack, re-download it. Without the update the 15 new treasures show as plain gold nuggets and coal",
+          "Supported range is unchanged at 1.16.4 to 26.2, and there is still no NMS anywhere in the plugin",
+        ],
+      },
+      {
+        update: "Kumandra's Economy support [optional]",
+        sublist: [
+          "Kd works in the RACO shop, on enchantment books you priced in RACO, on Cofferguard's running cost, and through new conversion buttons in the currency exchange screen",
+          "A player holding enough RACO always spends the RACO. Kd is the fallback, never the default, so nobody's Kumandra balance gets quietly drained while they were sitting on the plugin's own coins",
+          "If the RACO supply has run dry the payment is refused and the Kd is handed back, rather than inflating the currency. A seller is always paid in the RACO they listed for, whatever the buyer paid with",
+          "Six config keys, all of them inert without Kumandra installed: KumandraEconomySupport, KumandraExchangeRate (25.0 Kd per 1 RACO), KumandraConversionFee (5%), KumandraShopPayment, KumandraEnchantPayment and KumandraConversionEnabled. Set KumandraEconomySupport to false and the plugin behaves exactly as 1.5.0",
+          "The hook reaches Kumandra entirely through reflection. No Kumandra type appears anywhere in this plugin, so nothing can throw on a server that has never heard of it, and all eight API methods are resolved at enable or the hook reports itself unavailable rather than half working",
+          "Needs Kumandra's Economy 2.0 or newer. Anything older is detected and the integration simply stays off. Kumandra 2.1 adds the other half of it: your CE3 balance on its own balance screen, and a convert command",
+          "The exchange screen's conversion row is repainted every second, so a /ce reload that switches the integration on or off is visible without relogging",
+        ],
+      },
+      {
+        update: "25 New Enchantments [7 weapon, 2 trident, 3 bow, 4 wand, 6 armor, 3 tool]",
+        sublist: [
+          "Weapons: Tallyscar marks the victim rather than tracking your streak, so the marks survive you looking away and the fifth bursts the whole tally at once. Ledgerburn hits harder the more health you are missing. Knucklebone is a gamble every swing, ahead on average at every level. Gallowswing is far heavier on an enemy off the ground. Rimefang slows and chills. Saltspine stops them healing. Coinbite leaves coin behind on a kill",
+          "Tridents: Harpoonwake drags a wake back along the flight path and hits everything in the line. Brinelash reads the victim's wetness, so a hit on a soaked target lashes onward to other soaked enemies",
+          "Bows: Tollshot collects extra on the first arrow into a target nobody has touched, and the window sits on the victim so a group focusing one mob does not each collect a toll off it. Ravenquill steers arrows toward what you meant to hit. Splintervolley breaks an arrow into shards where it lands",
+          "Wands: Voidtithe takes a slice of the target's current health and gives a third of it back as mana, capped at 12 magic damage so a boss cannot be deleted by one cast. Embertoll clears the space around you with an expanding ring of fire. Starvein is a lance that goes through everything in a line. Glyphwrack sets a sigil that goes off a second and a half later, and the target gets a warning ring they can walk out of",
+          "Armor: Cofferguard spends one RACO to soak up to 60% of a heavy hit, the first defensive enchantment with a running cost, with a damage threshold so it never pays a coin to shrug off chip damage. Vaultskin takes a flat amount off every hit instead of a percentage. Tombstride makes you faster the closer you are to dying. Ironvow cancels knockback. Paleward blunts magic and cuts negative statuses short. Wardenknot winds up as you block and shoves everything off you when it is full",
+          "Tools: Coinvein, Titherow and Dredgeline pay you in coin as you mine, harvest and fish. All three go through the same supply cap the exchange does, so they move existing currency into player hands rather than creating it, and they stop paying if the supply runs dry. Titherow only counts fully grown crops",
+          "Every one of them is a config line, same as always. Set a price to 0 and it disappears from your server completely",
+        ],
+      },
+      {
+        update: "15 New Treasure Items",
+        sublist: [
+          "Pirate named, model data 301101 to 301115, continuing the run 1.5.0 started. Doubloon of the Drowned Mate, Krakenbone Fishhook, Marooner's Split Compass, Gibbet Cage Key, Salt Rimed Spyglass, Quartermaster's Short Straw, Letter of Marque (Unsigned), Cutthroat's Wedding Ring, Dead Man's Chest Hasp, and the Black Spot Token, which is Legendary and about as rare as anything in the plugin gets",
+          "Each one has its own 16x16 sprite, its own name, its own flavour line and its own stat block. They drop through the same weighted table 1.5.0 introduced, in the five tiers you tune from config.yml",
+          "Ids are never renumbered, because a treasure already in a player's inventory carries its model data with it. Every material is resolved by name, so an item whose base block does not exist on your server version is skipped at load rather than throwing",
+          "The catalogue needed a sixth page: 149 treasures against 28 per page",
+          "Known limitation carried over from 1.5.0: the legacy resource packs (1.16 to 1.19) only carry the original 14 treasure models, so treasures added in 1.5.0 and 1.6.0 render as their vanilla base item on those clients",
+        ],
+      },
+      {
+        update: "Fixed",
+        sublist: [
+          "A seller could not take their own RACO shop listing back down. The balance check sat above the ownership branch, so a seller whose RACO had since been spent was told they could not afford an item they already owned. Taking a listing down was never supposed to cost anything, and the check moved into the branch that actually spends",
+          "Six books were being drawn on a shop frame instead of inside it. paintBorder leaves the interior of a shop screen for books and paints the outer ring with glass panes, but trident, spear and bow all sold more books than their interior held, so the overflow was written over the bottom pane row. Brinelash on trident, Rimefang and Saltspine on spear, and Tollshot, Ravenquill and Splintervolley on bow. Trident went 27 to 36 and spear and bow 36 to 45, and no slot numbers moved",
+          "The animal armor screen drew an empty row. It sells four books, all of which fit in one interior row, in a size that has two. It is a single chest now",
+          "The tool screen left two slots empty while its second page was nearly bare. Coinvein and Titherow moved onto the two free interior slots of page one, so Dredgeline is the only book on page two",
+        ],
+      },
+    ],
+  },
+  {
     update_version: "1.5.0",
     release_date: "08/26/2026",
     changes: [

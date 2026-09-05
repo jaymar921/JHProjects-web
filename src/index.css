@@ -20,13 +20,33 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-a {
-  font-weight: 500;
-  color: #646cff;
-  text-decoration: inherit;
-}
-a:hover {
-  color: #535bf2;
+/*
+ * These two live in @layer base rather than unlayered, and the layer is the
+ * whole point of them being here.
+ *
+ * Tailwind emits its utilities inside @layer utilities. An unlayered rule beats
+ * any layered one whatever the specificity, so a bare `a { color }` at the top
+ * level silently wins against every `text-orange-200` on an anchor on the site.
+ * Every link styled as a button read #646cff no matter what class it carried,
+ * and the only reason it was not obvious for years is that most of the buttons
+ * on these pages are <button> rather than <a>.
+ *
+ * Inside @layer base the default still applies to an anchor with no colour
+ * class, which is every prose link, and a utility class now overrides it.
+ *
+ * The `button` block below is deliberately NOT moved. Its background and
+ * padding are currently winning against Tailwind the same way, and half the
+ * site's buttons are drawn on the assumption that they do.
+ */
+@layer base {
+  a {
+    font-weight: 500;
+    color: #646cff;
+    text-decoration: inherit;
+  }
+  a:hover {
+    color: #535bf2;
+  }
 }
 
 button {

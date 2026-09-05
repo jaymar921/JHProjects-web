@@ -13,6 +13,7 @@ import shops from "./shops.svg";
 import database from "./database.svg";
 import api from "./api.svg";
 import whatsnew from "./whatsnew.svg";
+import movements from "./movements.svg";
 
 export {
   economy,
@@ -25,4 +26,5 @@ export {
   database,
   api,
   whatsnew,
+  movements,
 };

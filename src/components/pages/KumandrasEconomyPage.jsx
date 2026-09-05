@@ -5,6 +5,8 @@ import {
   Jobs,
   Permissions,
   PluginInformation,
+  SetupSteps,
+  SetupTests,
 } from "../contants/kumandra/KumandraConstants";
 import { Kumandra_Logs } from "../contants/kumandra/KumandraConstants_Logs";
 import {
@@ -17,6 +19,7 @@ import PageFooter from "../page_components/PageFooter";
 import KE_CommandTableComponent from "../page_components/KE_CommandTableComponent";
 import Changelog from "../page_components/Changelog";
 import KE_WhatsNew from "./kumandra_subcontent/KE_WhatsNew";
+import KE_Movements from "./kumandra_subcontent/KE_Movements";
 import KE_Balance from "./kumandra_subcontent/KE_Balance";
 import KE_Exchange from "./kumandra_subcontent/KE_Exchange";
 import KE_Trading from "./kumandra_subcontent/KE_Trading";
@@ -32,11 +35,15 @@ import KE_BugReport from "./kumandra_subcontent/KE_BugReport";
 import KE_ChangeLogs from "./kumandra_subcontent/KE_ChangeLogs";
 import {
   ActionCard,
+  Cmd,
   IconBadge,
   Note,
   Panel,
   SectionHeading,
   StatChip,
+  Step,
+  Steps,
+  SubHeading,
   Terminal,
   TerminalLabel,
 } from "../page_components/PixelUIKit";
@@ -111,6 +118,8 @@ function KumandrasEconomyPage() {
     switch (subcontent) {
       case "whats new":
         return <KE_WhatsNew />;
+      case "movements":
+        return <KE_Movements />;
       case "balance":
         return <KE_Balance />;
       case "exchange":
@@ -279,11 +288,17 @@ function KumandrasEconomyPage() {
         </div>
       </header>
 
-      {/* --------------------------------------------- WHERE THIS BUILD STANDS */}
+      {/* ------------------------------------------------ WHAT IS NEW IN 2.1 */}
+      {/*
+        2.0 had a release banner and a separate "what is new" section, one after
+        the other, saying much the same thing twice. They are one section now:
+        the banner is the summary, and the list sits behind the toggle for the
+        people who want it.
+      */}
       <section className="ke-grid relative w-full py-10">
-        <div className="mx-auto w-[90%] md:w-[70%] lg:w-[60%]">
+        <div className="mx-auto w-[90%] md:w-[80%] lg:w-[70%]">
           <Panel accent="amber" className="p-5 md:p-6">
-            <div className="md:flex md:place-items-center md:gap-6">
+            <div className="lg:flex lg:place-items-center lg:gap-6">
               <div className="grow">
                 <div className="flex flex-wrap place-items-center gap-2">
                   <span className="pixel-font border border-rose-400/60 bg-rose-500/15 px-2 py-1 text-[8px] tracking-widest text-rose-300">
@@ -306,72 +321,36 @@ function KumandrasEconomyPage() {
                   <i className="fa-solid fa-arrow-up-right-dots pr-2"></i>
                   {PluginInformation.release.upgrade}
                 </p>
-              </div>
-              <div className="shrink-0 pt-5 md:pt-0">
-                <button
-                  className="pixel-font w-full rounded-none border-2 border-amber-400/50 bg-[rgba(0,0,0,0.5)] px-4 py-3 text-[9px] tracking-widest text-amber-200 transition-all hover:-translate-y-0.5 hover:border-amber-300 hover:bg-amber-500/20 md:w-auto md:text-[10px]"
-                  onClick={() => setSubcontent("whats new")}
-                >
-                  <i className="fa-solid fa-rocket pr-2"></i>
-                  WHAT CHANGED
-                </button>
-              </div>
-            </div>
-          </Panel>
-        </div>
-      </section>
-
-      {/* ---------------------------------------------------- WHAT IS COMING */}
-      <section className="w-full py-10">
-        <div className="mx-auto w-[90%] md:w-[80%] lg:w-[70%]">
-          <SectionHeading
-            icon="fa-solid fa-rocket"
-            title="What is new in 2.0"
-            subtitle={`Released ${PluginInformation.versionReleaseDate}. The version check was the root of most of it.`}
-            accent="emerald"
-          />
-
-          <Panel accent="emerald" className="mt-6 p-5">
-            <div className="md:flex md:place-items-center md:gap-6">
-              <div className="grow">
-                <p className="text-xs leading-relaxed text-slate-300 md:text-sm">
-                  The headline is version support, and the rest followed from
-                  going through the whole plugin while that was being fixed.
-                  Every item below is written out plainly, including the parts
-                  that were broken for years, because a plugin that tells you
-                  what it got wrong is worth more than one that quietly patches
-                  it and hopes you did not notice.
-                </p>
                 <div className="flex flex-wrap gap-2 pt-4">
                   <StatChip
-                    icon="fa-solid fa-cube"
-                    value={PluginInformation.supportedVersions}
-                    label="One jar"
-                    accent="emerald"
-                  />
-                  <StatChip
-                    icon="fa-solid fa-list-check"
-                    value={PluginInformation.whatsNew.length}
-                    label="Areas changed"
+                    icon="fa-solid fa-wallet"
+                    value="2"
+                    label="Wallets"
                     accent="amber"
                   />
                   <StatChip
-                    icon="fa-solid fa-plug"
-                    value="Optional"
-                    label="Vault"
-                    accent="rose"
+                    icon="fa-solid fa-list-ul"
+                    value="6"
+                    label="Movements"
+                    accent="emerald"
                   />
                   <StatChip
-                    icon="fa-solid fa-tag"
-                    value="Free"
-                    label="Still"
+                    icon="fa-solid fa-code"
+                    value="v2"
+                    label="API"
+                    accent="sky"
+                  />
+                  <StatChip
+                    icon="fa-solid fa-gears"
+                    value="None"
+                    label="Config change"
                     accent="teal"
                   />
                 </div>
               </div>
-              <div className="shrink-0 pt-5 md:pt-0">
+              <div className="flex shrink-0 flex-col gap-3 pt-5 lg:pt-0">
                 <button
-                  className="pixel-font w-full rounded-none border-2 border-emerald-400/60 bg-[rgba(0,0,0,0.5)] px-4 py-3 text-[9px] tracking-widest text-emerald-200 transition-all hover:-translate-y-0.5 hover:border-emerald-300 hover:bg-emerald-500/20 md:w-auto md:text-[10px]"
+                  className="pixel-font w-full rounded-none border-2 border-emerald-400/60 bg-[rgba(0,0,0,0.5)] px-4 py-3 text-[9px] tracking-widest text-emerald-200 transition-all hover:-translate-y-0.5 hover:border-emerald-300 hover:bg-emerald-500/20 lg:w-auto lg:text-[10px]"
                   onClick={() => setShowWhatsNew((shown) => !shown)}
                   aria-expanded={showWhatsNew}
                   aria-controls="ke-whats-new"
@@ -382,6 +361,13 @@ function KumandrasEconomyPage() {
                     }`}
                   ></i>
                   {showWhatsNew ? "HIDE THE LIST" : "SEE THE LIST"}
+                </button>
+                <button
+                  className="pixel-font w-full rounded-none border-2 border-amber-400/50 bg-[rgba(0,0,0,0.5)] px-4 py-3 text-[9px] tracking-widest text-amber-200 transition-all hover:-translate-y-0.5 hover:border-amber-300 hover:bg-amber-500/20 lg:w-auto lg:text-[10px]"
+                  onClick={() => setSubcontent("whats new")}
+                >
+                  <i className="fa-solid fa-rocket pr-2"></i>
+                  WHAT CHANGED
                 </button>
               </div>
             </div>
@@ -407,20 +393,21 @@ function KumandrasEconomyPage() {
 
               <div className="pt-6">
                 <Note accent="amber" icon="fa-solid fa-circle-info">
-                  If you were running 1.7 on 1.19 or newer, the upgrade will
-                  look like new features arriving. Quests, nether logs and rare
-                  catches were all in that jar. They were switched off by a
-                  version check that could not read your version.
+                  Coming from 1.7 rather than 2.0? 2.0 is the release that
+                  matters to you. It fixed a version check that had quietly
+                  switched off quests, nether logs and rare catches on every
+                  server newer than 1.18, and made Vault optional. The release
+                  history has all of it.
                 </Note>
               </div>
 
               <div className="flex flex-col place-items-center justify-center gap-3 pt-6 md:flex-row">
                 <button
                   className="pixel-font w-full rounded-none border-2 border-emerald-400/50 bg-[rgba(0,0,0,0.5)] px-5 py-3 text-[9px] tracking-widest text-emerald-200 transition-all hover:-translate-y-0.5 hover:border-emerald-300 hover:bg-emerald-500/20 md:w-auto md:text-[11px]"
-                  onClick={() => setSubcontent("support")}
+                  onClick={() => setSubcontent("movements")}
                 >
-                  <i className="fa-solid fa-heart pr-2"></i>
-                  HELP IT ALONG
+                  <i className="fa-solid fa-list-ul pr-2"></i>
+                  SEE THE MOVEMENT LIST
                 </button>
                 <button
                   className="pixel-font w-full rounded-none border-2 border-slate-500/50 bg-[rgba(0,0,0,0.5)] px-5 py-3 text-[9px] tracking-widest text-slate-300 transition-all hover:-translate-y-0.5 hover:border-slate-300 md:w-auto md:text-[11px]"
@@ -444,70 +431,54 @@ function KumandrasEconomyPage() {
             subtitle={PluginInformation.tagline}
             accent="teal"
           />
-          <div className="mt-6 gap-6 lg:flex">
-            <div className="w-full lg:w-1/2">
-              <div className="grid grid-cols-2 gap-3">
-                <div className="border border-slate-700/70 bg-[rgba(0,0,0,0.45)] p-3">
-                  <p className="pixel-font text-[9px] tracking-widest text-emerald-300">
-                    FREE, FULLY
-                  </p>
-                  <p className="pt-2 text-[10px] leading-relaxed text-slate-400 md:text-xs">
-                    No premium build, no locked features, no player cap. What
-                    you download is all of it.
-                  </p>
-                </div>
-                <div className="border border-slate-700/70 bg-[rgba(0,0,0,0.45)] p-3">
-                  <p className="pixel-font text-[9px] tracking-widest text-amber-300">
-                    NO NMS
-                  </p>
-                  <p className="pt-2 text-[10px] leading-relaxed text-slate-400 md:text-xs">
-                    Plain Spigot API. No packet work, no reflection into server
-                    internals, which is what makes one jar cover ten years of
-                    Minecraft.
-                  </p>
-                </div>
-                <div className="border border-slate-700/70 bg-[rgba(0,0,0,0.45)] p-3">
-                  <p className="pixel-font text-[9px] tracking-widest text-sky-300">
-                    NO DEPENDENCIES
-                  </p>
-                  <p className="pt-2 text-[10px] leading-relaxed text-slate-400 md:text-xs">
-                    Vault became optional in 2.0. Everything else is detected if
-                    it happens to be there, and shrugged off if it is not.
-                  </p>
-                </div>
-                <div className="border border-slate-700/70 bg-[rgba(0,0,0,0.45)] p-3">
-                  <p className="pixel-font text-[9px] tracking-widest text-teal-300">
-                    YOUR CALL
-                  </p>
-                  <p className="pt-2 text-[10px] leading-relaxed text-slate-400 md:text-xs">
-                    Main currency or second currency, flat files or MySQL. Both
-                    are one line each.
-                  </p>
-                </div>
+          {/*
+            The four traits used to sit in a column beside the prose, with a
+            duplicate of the feature grid under them. The duplicate is gone, so
+            the column is gone with it: traits across the top, prose underneath.
+          */}
+          <div className="mt-6">
+            <div className="grid grid-cols-2 gap-3 lg:grid-cols-4">
+              <div className="border border-slate-700/70 bg-[rgba(0,0,0,0.45)] p-3">
+                <p className="pixel-font text-[9px] tracking-widest text-emerald-300">
+                  FREE, FULLY
+                </p>
+                <p className="pt-2 text-[10px] leading-relaxed text-slate-400 md:text-xs">
+                  No premium build, no locked features, no player cap. What you
+                  download is all of it.
+                </p>
               </div>
-
-              <div className="mt-4">
-                <Panel accent="emerald" className="p-5">
-                  <p className="pixel-font text-[9px] tracking-widest text-emerald-300">
-                    EVERYTHING IN THE JAR
-                  </p>
-                  <div className="mt-3 grid grid-cols-2 gap-2">
-                    {Features.map((feature) => (
-                      <button
-                        key={feature.key}
-                        className="border border-slate-700/70 bg-[rgba(0,0,0,0.35)] px-2 py-2 text-left text-[10px] text-slate-300 transition-colors hover:border-emerald-400/60 hover:text-emerald-200 md:text-xs"
-                        onClick={() => setSubcontent(feature.key)}
-                      >
-                        <i className={`${feature.icon} pr-2 text-[9px]`}></i>
-                        {feature.title}
-                      </button>
-                    ))}
-                  </div>
-                </Panel>
+              <div className="border border-slate-700/70 bg-[rgba(0,0,0,0.45)] p-3">
+                <p className="pixel-font text-[9px] tracking-widest text-amber-300">
+                  NO NMS
+                </p>
+                <p className="pt-2 text-[10px] leading-relaxed text-slate-400 md:text-xs">
+                  Plain Spigot API. No packet work, no reflection into server
+                  internals, which is what makes one jar cover ten years of
+                  Minecraft.
+                </p>
+              </div>
+              <div className="border border-slate-700/70 bg-[rgba(0,0,0,0.45)] p-3">
+                <p className="pixel-font text-[9px] tracking-widest text-sky-300">
+                  NO DEPENDENCIES
+                </p>
+                <p className="pt-2 text-[10px] leading-relaxed text-slate-400 md:text-xs">
+                  Vault became optional in 2.0. Everything else, Custom
+                  Enchantments 3 included, is detected if it happens to be there
+                  and shrugged off if it is not.
+                </p>
+              </div>
+              <div className="border border-slate-700/70 bg-[rgba(0,0,0,0.45)] p-3">
+                <p className="pixel-font text-[9px] tracking-widest text-teal-300">
+                  YOUR CALL
+                </p>
+                <p className="pt-2 text-[10px] leading-relaxed text-slate-400 md:text-xs">
+                  Main currency or second currency, flat files or MySQL. Both
+                  are one line each.
+                </p>
               </div>
             </div>
 
-            <div className="w-full pt-6 lg:w-1/2 lg:pt-0">
+            <div className="pt-6 lg:columns-2 lg:gap-8">
               <p className="text-justify text-xs leading-relaxed text-slate-300 md:text-sm">
                 {PluginInformation.description}
               </p>
@@ -644,7 +615,9 @@ OPTIONAL, detected if present
   registering as the server's Vault economy
 - EssentialsX, CraftConomy3, GemsEconomy
 - Custom Enchantments 3, which unlocks the
-  bundled CE quest pack
+  bundled CE quest pack, puts its balance on
+  the balance screen and enables /kumandra
+  convert
 - MySQL, off by default, driver already bundled
 
 Quests need Minecraft 1.17 or newer. Everything
@@ -658,9 +631,142 @@ else runs on the whole supported range.
               Tested on Spigot 26.2 in four setups: standalone with no other
               plugins, with Vault and no other economy, with Vault and Kumandra
               registered as the primary economy, and with Custom Enchantments 3
-              installed. The same sources are compile-verified against the
+              1.6.0 installed. The same sources are compile-verified against the
               1.16.5 API on every release build, so the bottom of the range
               cannot quietly break either.
+            </Note>
+          </div>
+        </div>
+      </section>
+
+      {/* ------------------------------------------------------ SETUP GUIDE */}
+      {/*
+        Written for someone on their first evening with the plugin: install it,
+        prove it loaded, prove money moves, then poke each system once. The
+        settings panel covers what every key does, so this section deliberately
+        does not.
+      */}
+      <section className="w-full py-10">
+        <div className="mx-auto w-[90%] md:w-[80%] lg:w-[70%]">
+          <SectionHeading
+            icon="fa-solid fa-screwdriver-wrench"
+            title="Setup guide"
+            subtitle="Still testing it? This is the whole of a first run, in order."
+            accent="emerald"
+          />
+
+          <div className="mt-6 gap-6 lg:flex">
+            <div className="w-full lg:w-1/2">
+              <Panel accent="emerald" className="p-5">
+                <SubHeading accent="emerald">FIRST RUN</SubHeading>
+                <Steps className="pt-2">
+                  {SetupSteps.map((step) => (
+                    <Step key={step.n} n={step.n} accent="emerald">
+                      <span className="pixel-font block text-[9px] tracking-wider text-slate-200 md:text-[10px]">
+                        {step.title}
+                      </span>
+                      {step.cmd && (
+                        <span className="mt-2 block">
+                          <Cmd accent="teal">{step.cmd}</Cmd>
+                        </span>
+                      )}
+                      <span className="mt-2 block">{step.body}</span>
+                    </Step>
+                  ))}
+                </Steps>
+              </Panel>
+            </div>
+
+            <div className="w-full pt-6 lg:w-1/2 lg:pt-0">
+              <Terminal title="KumandrasEconomy / first-boot.log">
+                <pre>
+                  <code className="text-[10px] md:text-sm" lang="md">
+                    <TerminalLabel accent="emerald">
+                      [FRESH SERVER, NOTHING ELSE INSTALLED]
+                    </TerminalLabel>
+                    {`
+Detected Minecraft 26.2 (supported range: 1.16 and newer)
+Vault was not found. Running standalone;
+balances, jobs, shops, trading and delivery all work as
+normal.
+Separate_Economy is true but there is no Vault to read a
+primary economy from, so Kumandra's Economy is acting as
+the primary economy for this session.
+                    `}
+                    <TerminalLabel accent="emerald">
+                      [WITH VAULT, AS YOUR MAIN CURRENCY]
+                    </TerminalLabel>
+                    {`
+Vault API hooked
+Kumandra's Economy was set to primary Economy
+
+That is Separate_Economy: false. Set it to true instead
+and the pair of lines becomes:
+
+Kumandra's Economy was set to secondary Economy
+Primary Economy: EssentialsX
+
+If it says NO primary economy detected, nothing else has
+registered one, and the console tells you to set
+Separate_Economy to false and restart.
+                    `}
+                    <TerminalLabel accent="emerald">
+                      [WITH CUSTOM ENCHANTMENTS 3]
+                    </TerminalLabel>
+                    {`
+Custom Enchantments detected (CustomEnchantments3); its
+quest pack and item data are supported.
+                    `}
+                  </code>
+                </pre>
+              </Terminal>
+
+              <div className="pt-5">
+                <Note accent="amber" icon="fa-solid fa-flask">
+                  Nothing here needs a second player except trading. If you are
+                  testing alone, an offline account still has a balance you can
+                  deposit into, and delivery to a player who is not online is
+                  refused rather than lost.
+                </Note>
+              </div>
+            </div>
+          </div>
+
+          <div className="pt-8">
+            <SubHeading accent="teal">TRY EACH SYSTEM ONCE</SubHeading>
+            <div className="mt-4 grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+              {SetupTests.map((test) => (
+                <Panel key={test.name} accent={test.accent} className="p-5">
+                  <div className="flex place-items-center gap-3">
+                    <IconBadge icon={test.icon} accent={test.accent} />
+                    <p className="pixel-font text-[10px] tracking-wide text-slate-200 md:text-xs">
+                      {test.name}
+                    </p>
+                  </div>
+                  <p className="pt-3">
+                    <Cmd accent={test.accent}>{test.cmd}</Cmd>
+                  </p>
+                  <p className="pt-3 text-xs leading-relaxed text-slate-400 md:text-sm">
+                    {test.body}
+                  </p>
+                </Panel>
+              ))}
+            </div>
+          </div>
+
+          <div className="pt-6">
+            <Note accent="emerald" icon="fa-solid fa-broom">
+              Before the server opens, clear what you did while testing.{" "}
+              <span className="text-emerald-300">
+                /kumandra economy [player] reset
+              </span>{" "}
+              empties an account, and shops go with{" "}
+              <span className="text-emerald-300">
+                /kumandra shops Delete [name]
+              </span>
+              . For a clean sweep, stop the server and delete playerData.yml and
+              Data/Shop.yml. Leaving EnableDatabase on false while you test is
+              what keeps that a matter of deleting two files.
             </Note>
           </div>
         </div>
@@ -752,7 +858,7 @@ else runs on the whole supported range.
           <SectionHeading
             icon="fa-solid fa-clipboard-list"
             title="Release history"
-            subtitle="From the first commit in August 2021 to 2.0, on the listing today."
+            subtitle={`From the first commit in August 2021 to ${PluginInformation.version}, on the listing today.`}
             accent="teal"
           />
           <div className="mt-6 space-y-3">
@@ -798,7 +904,7 @@ else runs on the whole supported range.
               accent="rose"
               icon="fa-solid fa-bug"
               title="REPORT BUGS"
-              description="The known rough edges are already public. Tell us about the one that is not."
+              description="Fill in the form and it goes straight to the developer's inbox."
               buttonIcon="fa-solid fa-bug"
               buttonLabel="Report"
               onClick={() => setSubcontent("bug report")}
@@ -825,7 +931,7 @@ else runs on the whole supported range.
               accent="sky"
               icon="fa-solid fa-code"
               title="DEVELOPER API"
-              description="Read and move balances from your own plugin, in about five lines."
+              description="Read and move balances from your own plugin, in about five lines. Attributed since 2.1."
               buttonIcon="fa-solid fa-code"
               buttonLabel="API"
               onClick={() => setSubcontent("api")}

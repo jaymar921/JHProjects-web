@@ -2,12 +2,25 @@
  * The command reference for the two archived plugins.
  *
  * CE3 and Kumandra's Economy have a table each, hard wired to their own
- * constants and colour. These two only ever differ by the list and the accent,
- * so they share this one instead of carrying a copy apiece.
+ * constants and colour. The archived ones only ever differ by the list and the
+ * accent, so they share this instead of carrying a copy apiece. Written out in
+ * full rather than interpolated, so Tailwind keeps the classes.
  */
+const HEADS = {
+  violet: "text-violet-300",
+  cyan: "text-cyan-300",
+  sky: "text-sky-300",
+};
+
+const TICKS = {
+  violet: "text-violet-400",
+  cyan: "text-cyan-400",
+  sky: "text-sky-400",
+};
+
 function LegacyCommandTable({ commands, accent = "violet", opLabel = "Admin" }) {
-  const head = accent === "cyan" ? "text-cyan-300" : "text-violet-300";
-  const tick = accent === "cyan" ? "text-cyan-400" : "text-violet-400";
+  const head = HEADS[accent] ?? HEADS.violet;
+  const tick = TICKS[accent] ?? TICKS.violet;
 
   return (
     <table className="w-full border-collapse text-left">

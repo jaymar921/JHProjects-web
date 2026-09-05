@@ -7,8 +7,10 @@
  * the copy developers are meant to read.
  *
  * Keep it in step with the doc in the plugin repo when the API changes. The
- * "since" flag marks what 2.0 added; everything without one has been there
- * since 1.x and kept its exact signature.
+ * "since" flag marks the release a method arrived in; everything without one
+ * has been there since 1.x and kept its exact signature. Nothing has ever been
+ * renamed or removed, so a plugin compiled against 1.7 still links against the
+ * current jar.
  */
 
 /** KumandrasAPI against Vault, which is the first thing a developer has to pick. */
@@ -49,7 +51,7 @@ export const ApiGroups = [
     title: "BALANCES",
     accent: "emerald",
     icon: "fa-solid fa-coins",
-    note: "transfer is the one to reach for when money changes hands. A withdraw followed by a deposit destroys money if the second call fails or your code returns early in between. transfer checks both accounts and the sender's balance before moving anything.",
+    note: "transfer is the one to reach for when money changes hands. A withdraw followed by a deposit destroys money if the second call fails or your code returns early in between. transfer checks both accounts and the sender's balance before moving anything. Since 2.1 the three argument overloads let you say what the movement was for, and the player sees it on their balance screen.",
     methods: [
       {
         signature: "getBalance(Player)",
@@ -83,6 +85,18 @@ export const ApiGroups = [
         returns: "boolean",
         since: "2.0",
         note: "The same, offline capable.",
+      },
+      {
+        signature: "deposit(UUID, double, String reason)",
+        returns: "boolean",
+        since: "2.1",
+        note: "Identical behaviour and return, and the reason is stored with the movement and shown to the player. Null or blank falls back to naming your plugin.",
+      },
+      {
+        signature: "withdraw(UUID, double, String reason)",
+        returns: "boolean",
+        since: "2.1",
+        note: "The same on the way out. Nothing is recorded when the call fails, because a movement that did not happen is not a movement.",
       },
       {
         signature: "setBalance(UUID, double)",
@@ -202,6 +216,39 @@ export const ApiGroups = [
     ],
   },
   {
+    key: "transactions",
+    title: "MOVEMENTS AND CE3",
+    accent: "amber",
+    icon: "fa-solid fa-list-ul",
+    note: "All of this is new in 2.1. getApiVersion() is the one to call first: it is a single integer where the alternative is probing eight methods to work out what you are talking to. Its absence means 1.x, the releases before the UUID overloads existed.",
+    methods: [
+      {
+        signature: "getApiVersion()",
+        returns: "int",
+        since: "2.1",
+        note: "The API contract version, currently 2. It is 2 for both 2.0 and 2.1, because the contract did not change shape.",
+      },
+      {
+        signature: "getRecentTransactions(UUID)",
+        returns: "List<Transaction>",
+        since: "2.1",
+        note: "The account's recent movements, newest first. An unmodifiable snapshot, never null, and empty when nothing has moved this session.",
+      },
+      {
+        signature: "getCustomEnchantmentsBalance(Player)",
+        returns: "Integer",
+        since: "2.1",
+        note: "The player's Custom Enchantments 3 balance, read reflectively for display. Null when CE3 is absent or its internals have moved.",
+      },
+      {
+        signature: "getCustomEnchantmentsCurrencySign()",
+        returns: "String",
+        since: "2.1",
+        note: "The currency sign CE3 is configured with. Null on the same terms.",
+      },
+    ],
+  },
+  {
     key: "register",
     title: "REGISTERING YOUR PLUGIN",
     accent: "rose",
@@ -236,6 +283,11 @@ export const ReturnConventions = [
     value: "A negative amount",
     meaning:
       "Refused by every write method, rather than being applied as its opposite.",
+  },
+  {
+    value: "null from the CE3 readers",
+    meaning:
+      "Custom Enchantments 3 is not installed, or something it names has moved. Treat it as absent and leave the line out, the way the balance screen does. It is never an error to check.",
   },
 ];
 
@@ -295,6 +347,12 @@ export const RuntimeNotes = [
     title: "RECORDS OUTLIVE THE SESSION",
     body: "An account record stays loaded after a player logs off, so the UUID overloads work for offline players without any extra loading step.",
   },
+  {
+    icon: "fa-solid fa-list-ul",
+    accent: "sky",
+    title: "THE MOVEMENT LIST IS NOT AN AUDIT LOG",
+    body: "It holds twenty movements per account, lives in memory, and starts empty after a restart. It answers where money just went, which needs the last handful and nothing older. Job wages are deliberately left out: they land a few coins at a time on every block a player breaks, and they would push everything worth reading off the list within a minute of mining.",
+  },
 ];
 
 export const WorkedExamples = [
@@ -311,6 +369,22 @@ export const WorkedExamples = [
     player.sendMessage(ChatColor.GREEN + "Charged "
         + cost + api.getCurrencyPrefix() + ".");
     return true;
+}`,
+  },
+  {
+    key: "attributed",
+    title: "Saying what the money was for (2.1)",
+    accent: "amber",
+    code: `// The two argument form still works and is not deprecated.
+// This one just fills in the line the player reads on
+// their balance screen, instead of your plugin's name.
+api.withdraw(player.getUniqueId(), price,
+        "Bought a Sharpness V book");
+
+// Check the contract once rather than probing for methods.
+// No getApiVersion() at all means 1.x.
+if (api.getApiVersion() >= 2) {
+    // UUID overloads, transfer, setBalance are all there
 }`,
   },
   {

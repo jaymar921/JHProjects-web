@@ -13,6 +13,7 @@
 #   node scripts/generate-kumandra-art.mjs
 #   node scripts/generate-og-cards.mjs
 #   node scripts/generate-project-art.mjs
+#   node scripts/generate-emr-art.mjs
 #   bash scripts/generate-og.sh
 #
 set -euo pipefail
@@ -29,6 +30,8 @@ cards=(
   "og-graphics-utils:2dgraphic-utils"
   "og-custom-enchants-2:custom-enchantments-2"
   "og-more-foods:more-foods-and-crops"
+  "og-epic-mobs:epic-mobs"
+  "og-epic-mobs-rework:epic-mobs-rework"
 )
 
 mkdir -p "$out_dir"

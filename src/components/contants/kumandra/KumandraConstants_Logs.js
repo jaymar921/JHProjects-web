@@ -10,6 +10,69 @@
 
 export const Kumandra_Logs = [
   {
+    update_version: "2.1",
+    release_date: "09/02/2026",
+    changes: [
+      {
+        update: "Read this first",
+        sublist: [
+          "A smaller release than 2.0. This is the Custom Enchantments 3 one",
+          "If you run both plugins, CE3 1.6.0 already talks to Kumandra's Economy 2.0 and works. Nothing here is a repair of that. What 2.1 does is finish the job from this side",
+          "If you do not run Custom Enchantments 3, the only thing here that affects you is the transaction list, which works on its own",
+          "Drop the new jar in. There is no config change and no data migration, and every method from 1.x and 2.0 keeps its exact signature and return values",
+          "New lang.yml keys fall back to English, so your existing lang.yml renders the new lines correctly rather than showing the word null. Add them if you translate",
+        ],
+      },
+      {
+        update: "Two currencies, one balance screen",
+        sublist: [
+          "A player on a server running both plugins has two wallets and has had one balance screen. /kumandra balance listed Custom Enchantments as a supported plugin: the name, and not the number, which is the less useful half of that information",
+          "The CE3 balance now sits directly under the Kumandra one, with CE3's own configured currency sign, so a renamed currency shows up renamed",
+          "With CE3 not installed the line is simply not there, and the screen looks exactly as it did in 2.0",
+        ],
+      },
+      {
+        update: "/kumandra convert [amount]",
+        sublist: [
+          "Buys Custom Enchantments currency with Kumandra currency. The amount is named in CE3's currency, the same way CE3's own exchange screen asks for it, so you always end up with a whole number of coins rather than whatever your Kd divides into",
+          "It does not do its own arithmetic. It calls the conversion inside Custom Enchantments 3, so the rate, the fee, the supply cap and the refund when a purchase fails all stay in CE3's config. Converting through this command and converting through CE3's screen are the same code path, and cannot drift apart when you change a number",
+          "If CE3 is not installed, the command says so. If you have switched conversion off in CE3's config, the command says that instead of failing silently",
+          "New permission node kumandraseconomy.kumandra.convert, default true",
+        ],
+      },
+      {
+        update: "Where did my money go",
+        sublist: [
+          "Money that left an account through the API left it smaller and left nothing behind to say why. If another plugin charged your players, you could see the balance drop and that was it",
+          "/kumandra balance has a Recent Movements panel now, showing the last six movements on your account, what each was for, and how long ago it happened",
+          "Callers that do not say what they were doing are named anyway. Every integration written against the 2.0 API calls a two-argument withdraw and has no way to pass a reason, CE3 1.6.0 included, so the plugin works out which plugin is on the other end of the call and files the movement under that plugin's name. Attribution works today rather than after every integration ships an update",
+          "Plugins can do better than that if they want to. There are new overloads that take a reason string, and it is shown instead of the plugin name",
+          "What is in the list: everything through KumandrasAPI, everything through Vault, and /kumandra pay and /kumandra economy. What is deliberately not: job wages, because they land a few coins at a time on every block you break and six of them would push everything worth reading off the list before you got back from mining",
+          "The list holds twenty movements per account, lives in memory, and starts empty after a restart. It answers where your money just went, which needs the last handful and nothing older. It is not an audit log and it is not trying to be one",
+        ],
+      },
+      {
+        update: "For plugin developers",
+        sublist: [
+          "getApiVersion() returns 2. Check it once instead of probing for methods, and treat its absence as 1.x, before the UUID overloads existed. It returns 2 for both 2.0 and 2.1 because the contract did not change shape",
+          "deposit(UUID, double, String) and withdraw(UUID, double, String) behave exactly as the two-argument forms and additionally say what the movement was for",
+          "getRecentTransactions(UUID) reads the list back, as an unmodifiable snapshot that is never null",
+          "getCustomEnchantmentsBalance(Player) and getCustomEnchantmentsCurrencySign() read CE3's currency for display, and return null when CE3 is absent",
+          "The developer guide has a new section on the CE3 integration: which nine methods CE3 resolves reflectively and why changing any of them would silently switch the integration off, that CE3 calls on the main thread, and why CE3 never turns Kumandra money into its own currency out of nothing",
+        ],
+      },
+      {
+        update: "Notes",
+        sublist: [
+          "CE3's currency stays in CE3. It is capped at 1,250,000 with a price curve driven by circulation. This plugin reads that balance for display and asks CE3 to move it. It never holds a copy, because a cap that two plugins both enforce is a cap that neither enforces",
+          "Nothing here can break your startup. Every CE3 lookup resolves by name, once, through CE3's own class loader, and is allowed to fail. A future CE3 that renames something costs you a line on the balance screen and a message from the command, not an exception on a screen a player just opened",
+          "Both plugins are still standalone. Neither depends on the other, and neither has a type from the other in its jar. That is deliberate on both sides",
+          "Still one jar for 1.16 through 26.2, still Java 8 bytecode, still no hard dependency on anything",
+        ],
+      },
+    ],
+  },
+  {
     update_version: "2.0",
     release_date: "08/26/2026",
     changes: [

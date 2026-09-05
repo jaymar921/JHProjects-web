@@ -17,6 +17,17 @@ const NEW_ISSUE =
   "https://github.com/JnH-Projects/Custom-Enchantments-3/issues/new/choose";
 const CONTACT_EMAIL = PluginInformation.payment.contactEmail;
 
+/** Enchantment flavoured examples for the shared form's empty boxes. */
+const EXAMPLES = {
+  summary: "Anvil eats the book when combining two of the same enchant",
+  expectedBehavior: "The book should have survived the combine.",
+  steps: `1. Put a Sharpness book in slot one
+2. Put the same book in slot two
+3. Take the result`,
+  pluginVersion: "1.5.0",
+  minecraftVersion: "1.21.4",
+};
+
 /**
  * The report panel.
  *
@@ -52,6 +63,7 @@ function CE3_BugReport() {
           project={PROJECTS.CE3}
           accent="lime"
           defaultPluginVersion={PluginInformation.version}
+          examples={EXAMPLES}
         />
       </Section>
 

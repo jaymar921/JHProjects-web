@@ -10,6 +10,8 @@ import {
   GraphicsUtilsPage,
   CustomEnchants2Page,
   MoreFoodsPage,
+  EpicMobsPage,
+  EpicMobsReworkPage,
 } from "./components/pages";
 
 /**
@@ -36,6 +38,7 @@ function App() {
         <Route index element={<HomePage />} />
         <Route path="customenchantments3" element={<CE3Page />} />
         <Route path="kumandras-economy" element={<KumandrasEconomyPage />} />
+        <Route path="epic-mobs-rework" element={<EpicMobsReworkPage />} />
         <Route path="donation" element={<DonationPage />} />
         <Route path="2dgraphic-utils" element={<GraphicsUtilsPage />} />
         {/* Archived. Kept routed so the old Spigot listings still land somewhere. */}
@@ -43,6 +46,7 @@ function App() {
         <Route path="fishing-contest" element={<FishingContestPage />} />
         <Route path="custom-enchantments-2" element={<CustomEnchants2Page />} />
         <Route path="more-foods-and-crops" element={<MoreFoodsPage />} />
+        <Route path="epic-mobs" element={<EpicMobsPage />} />
         {/* Unlinked, noindexed, and useless without a session. */}
         <Route
           path="admin"

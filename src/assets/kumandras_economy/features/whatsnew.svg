@@ -1,4 +1,4 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 360" width="640" height="360" role="img" aria-label="WHAT 2.0 CHANGED">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 360" width="640" height="360" role="img" aria-label="WHAT 2.1 ADDED">
 <defs>
 <pattern id="grid" width="32" height="32" patternUnits="userSpaceOnUse"><path d="M32 0H0V32" fill="none" stroke="#94a3b8" stroke-opacity="0.055"/></pattern>
 <pattern id="scan" width="3" height="3" patternUnits="userSpaceOnUse"><rect width="3" height="1" fill="#000" fill-opacity="0.18"/></pattern>
@@ -12,63 +12,34 @@
 <rect x="14" y="14" width="7" height="7" fill="#fb7185" fill-opacity="0.8"/>
 <rect x="27" y="14" width="7" height="7" fill="#fbbf24" fill-opacity="0.8"/>
 <rect x="40" y="14" width="7" height="7" fill="#34d399" fill-opacity="0.8"/>
-<text x="60" y="22" font-family="ui-monospace,'Cascadia Mono',Consolas,'DejaVu Sans Mono',monospace" font-size="12" font-weight="700" fill="#fb7185" fill-opacity="1" text-anchor="start" letter-spacing="2.2">WHAT 2.0 CHANGED</text>
-<text x="624" y="22" font-family="ui-monospace,'Cascadia Mono',Consolas,'DejaVu Sans Mono',monospace" font-size="9.5" font-weight="400" fill="#64748b" fill-opacity="1" text-anchor="end">release/2.0</text>
+<text x="60" y="22" font-family="ui-monospace,'Cascadia Mono',Consolas,'DejaVu Sans Mono',monospace" font-size="12" font-weight="700" fill="#fb7185" fill-opacity="1" text-anchor="start" letter-spacing="2.2">WHAT 2.1 ADDED</text>
+<text x="624" y="22" font-family="ui-monospace,'Cascadia Mono',Consolas,'DejaVu Sans Mono',monospace" font-size="9.5" font-weight="400" fill="#64748b" fill-opacity="1" text-anchor="end">release/2.1</text>
 <rect x="18" y="52" width="604" height="46" fill="rgba(255,255,255,0.02)" fill-opacity="1" stroke="#334155" stroke-opacity="0.8" stroke-width="1"/><path d="M18 60V52H26" fill="none" stroke="#34d399" stroke-width="1.5" stroke-opacity="0.75"/><path d="M614 52H622V60" fill="none" stroke="#34d399" stroke-width="1.5" stroke-opacity="0.75"/><path d="M18 90V98H26" fill="none" stroke="#34d399" stroke-width="1.5" stroke-opacity="0.75"/><path d="M614 98H622V90" fill="none" stroke="#34d399" stroke-width="1.5" stroke-opacity="0.75"/>
-<text x="34" y="72" font-family="ui-monospace,'Cascadia Mono',Consolas,'DejaVu Sans Mono',monospace" font-size="9" font-weight="400" fill="#475569" fill-opacity="1" text-anchor="start" letter-spacing="1.6">ONE JAR</text>
-<text x="34" y="88" font-family="ui-monospace,'Cascadia Mono',Consolas,'DejaVu Sans Mono',monospace" font-size="12" font-weight="700" fill="#34d399" fill-opacity="1" text-anchor="start">1.16  -&gt;  26.2</text>
-<text x="200" y="80" font-family="ui-monospace,'Cascadia Mono',Consolas,'DejaVu Sans Mono',monospace" font-size="8.4" font-weight="400" fill="#64748b" fill-opacity="1" text-anchor="start">NO NMS  -  NO PACKETS  -  JAVA 8 AND UP</text>
+<text x="34" y="72" font-family="ui-monospace,'Cascadia Mono',Consolas,'DejaVu Sans Mono',monospace" font-size="9" font-weight="400" fill="#475569" fill-opacity="1" text-anchor="start" letter-spacing="1.6">API VERSION</text>
+<text x="34" y="88" font-family="ui-monospace,'Cascadia Mono',Consolas,'DejaVu Sans Mono',monospace" font-size="12" font-weight="700" fill="#34d399" fill-opacity="1" text-anchor="start">getApiVersion()  -&gt;  2</text>
+<text x="250" y="80" font-family="ui-monospace,'Cascadia Mono',Consolas,'DejaVu Sans Mono',monospace" font-size="8.4" font-weight="400" fill="#64748b" fill-opacity="1" text-anchor="start">ADDITIVE ONLY - 2.0 CODE LINKS UNCHANGED</text>
 <rect x="470" y="62" width="136" height="26" fill="rgba(0,0,0,0.5)" fill-opacity="1" stroke="#fb7185" stroke-opacity="0.6" stroke-width="1"/>
-<text x="538" y="79" font-family="ui-monospace,'Cascadia Mono',Consolas,'DejaVu Sans Mono',monospace" font-size="8.6" font-weight="400" fill="#fb7185" fill-opacity="1" text-anchor="middle" letter-spacing="1.2">VAULT OPTIONAL</text>
-<rect x="18" y="110" width="604" height="156" fill="rgba(255,255,255,0.02)" fill-opacity="1" stroke="#334155" stroke-opacity="0.8" stroke-width="1"/><path d="M18 118V110H26" fill="none" stroke="#fb7185" stroke-width="1.5" stroke-opacity="0.75"/><path d="M614 110H622V118" fill="none" stroke="#fb7185" stroke-width="1.5" stroke-opacity="0.75"/><path d="M18 258V266H26" fill="none" stroke="#fb7185" stroke-width="1.5" stroke-opacity="0.75"/><path d="M614 266H622V258" fill="none" stroke="#fb7185" stroke-width="1.5" stroke-opacity="0.75"/><text x="34" y="132" font-family="ui-monospace,'Cascadia Mono',Consolas,'DejaVu Sans Mono',monospace" font-size="8.5" font-weight="400" fill="#475569" fill-opacity="1" text-anchor="start" letter-spacing="1.6">BEFORE  /  AFTER</text>
-<text x="196" y="132" font-family="ui-monospace,'Cascadia Mono',Consolas,'DejaVu Sans Mono',monospace" font-size="8" font-weight="400" fill="#475569" fill-opacity="1" text-anchor="start" letter-spacing="1.4">1.7</text>
-<text x="430" y="132" font-family="ui-monospace,'Cascadia Mono',Consolas,'DejaVu Sans Mono',monospace" font-size="8" font-weight="400" fill="#34d399" fill-opacity="1" text-anchor="start" letter-spacing="1.4">2.0</text>
-<text x="34" y="152" font-family="ui-monospace,'Cascadia Mono',Consolas,'DejaVu Sans Mono',monospace" font-size="7.8" font-weight="400" fill="#cbd5e1" fill-opacity="1" text-anchor="start">VERSION CHECK</text>
-<text x="196" y="152" font-family="ui-monospace,'Cascadia Mono',Consolas,'DejaVu Sans Mono',monospace" font-size="7.6" font-weight="400" fill="#fb7185" fill-opacity="0.85" text-anchor="start">string match, 1.16/17/18</text>
-<path d="M400 148h18" stroke="#475569" stroke-width="1"/>
-<path d="M418 148l-5-3v6z" fill="#475569"/>
-<text x="430" y="152" font-family="ui-monospace,'Cascadia Mono',Consolas,'DejaVu Sans Mono',monospace" font-size="7.6" font-weight="400" fill="#34d399" fill-opacity="1" text-anchor="start">parsed and compared</text>
-<text x="34" y="167" font-family="ui-monospace,'Cascadia Mono',Consolas,'DejaVu Sans Mono',monospace" font-size="7.8" font-weight="400" fill="#cbd5e1" fill-opacity="1" text-anchor="start">QUESTS ON 1.19+</text>
-<text x="196" y="167" font-family="ui-monospace,'Cascadia Mono',Consolas,'DejaVu Sans Mono',monospace" font-size="7.6" font-weight="400" fill="#fb7185" fill-opacity="0.85" text-anchor="start">silently off</text>
-<path d="M400 163h18" stroke="#475569" stroke-width="1"/>
-<path d="M418 163l-5-3v6z" fill="#475569"/>
-<text x="430" y="167" font-family="ui-monospace,'Cascadia Mono',Consolas,'DejaVu Sans Mono',monospace" font-size="7.6" font-weight="400" fill="#34d399" fill-opacity="1" text-anchor="start">on</text>
-<text x="34" y="182" font-family="ui-monospace,'Cascadia Mono',Consolas,'DejaVu Sans Mono',monospace" font-size="7.8" font-weight="400" fill="#cbd5e1" fill-opacity="1" text-anchor="start">VAULT</text>
-<text x="196" y="182" font-family="ui-monospace,'Cascadia Mono',Consolas,'DejaVu Sans Mono',monospace" font-size="7.6" font-weight="400" fill="#fb7185" fill-opacity="0.85" text-anchor="start">hard dependency</text>
-<path d="M400 178h18" stroke="#475569" stroke-width="1"/>
-<path d="M418 178l-5-3v6z" fill="#475569"/>
-<text x="430" y="182" font-family="ui-monospace,'Cascadia Mono',Consolas,'DejaVu Sans Mono',monospace" font-size="7.6" font-weight="400" fill="#34d399" fill-opacity="1" text-anchor="start">optional</text>
-<text x="34" y="197" font-family="ui-monospace,'Cascadia Mono',Consolas,'DejaVu Sans Mono',monospace" font-size="7.8" font-weight="400" fill="#cbd5e1" fill-opacity="1" text-anchor="start">format()</text>
-<text x="196" y="197" font-family="ui-monospace,'Cascadia Mono',Consolas,'DejaVu Sans Mono',monospace" font-size="7.6" font-weight="400" fill="#fb7185" fill-opacity="0.85" text-anchor="start">returned null</text>
-<path d="M400 193h18" stroke="#475569" stroke-width="1"/>
-<path d="M418 193l-5-3v6z" fill="#475569"/>
-<text x="430" y="197" font-family="ui-monospace,'Cascadia Mono',Consolas,'DejaVu Sans Mono',monospace" font-size="7.6" font-weight="400" fill="#34d399" fill-opacity="1" text-anchor="start">formatted string</text>
-<text x="34" y="212" font-family="ui-monospace,'Cascadia Mono',Consolas,'DejaVu Sans Mono',monospace" font-size="7.8" font-weight="400" fill="#cbd5e1" fill-opacity="1" text-anchor="start">ORE INCOME</text>
-<text x="196" y="212" font-family="ui-monospace,'Cascadia Mono',Consolas,'DejaVu Sans Mono',monospace" font-size="7.6" font-weight="400" fill="#fb7185" fill-opacity="0.85" text-anchor="start">paid block rate</text>
-<path d="M400 208h18" stroke="#475569" stroke-width="1"/>
-<path d="M418 208l-5-3v6z" fill="#475569"/>
-<text x="430" y="212" font-family="ui-monospace,'Cascadia Mono',Consolas,'DejaVu Sans Mono',monospace" font-size="7.6" font-weight="400" fill="#34d399" fill-opacity="1" text-anchor="start">pays ore rate</text>
-<text x="34" y="227" font-family="ui-monospace,'Cascadia Mono',Consolas,'DejaVu Sans Mono',monospace" font-size="7.8" font-weight="400" fill="#cbd5e1" fill-opacity="1" text-anchor="start">VillagerRadius</text>
-<text x="196" y="227" font-family="ui-monospace,'Cascadia Mono',Consolas,'DejaVu Sans Mono',monospace" font-size="7.6" font-weight="400" fill="#fb7185" fill-opacity="0.85" text-anchor="start">never read</text>
-<path d="M400 223h18" stroke="#475569" stroke-width="1"/>
-<path d="M418 223l-5-3v6z" fill="#475569"/>
-<text x="430" y="227" font-family="ui-monospace,'Cascadia Mono',Consolas,'DejaVu Sans Mono',monospace" font-size="7.6" font-weight="400" fill="#34d399" fill-opacity="1" text-anchor="start">read</text>
-<text x="34" y="242" font-family="ui-monospace,'Cascadia Mono',Consolas,'DejaVu Sans Mono',monospace" font-size="7.8" font-weight="400" fill="#cbd5e1" fill-opacity="1" text-anchor="start">JOB TIMERS</text>
-<text x="196" y="242" font-family="ui-monospace,'Cascadia Mono',Consolas,'DejaVu Sans Mono',monospace" font-size="7.6" font-weight="400" fill="#fb7185" fill-opacity="0.85" text-anchor="start">running 7x over</text>
-<path d="M400 238h18" stroke="#475569" stroke-width="1"/>
-<path d="M418 238l-5-3v6z" fill="#475569"/>
-<text x="430" y="242" font-family="ui-monospace,'Cascadia Mono',Consolas,'DejaVu Sans Mono',monospace" font-size="7.6" font-weight="400" fill="#34d399" fill-opacity="1" text-anchor="start">running once</text>
-<text x="34" y="257" font-family="ui-monospace,'Cascadia Mono',Consolas,'DejaVu Sans Mono',monospace" font-size="7.8" font-weight="400" fill="#cbd5e1" fill-opacity="1" text-anchor="start">FAILED DB SAVE</text>
-<text x="196" y="257" font-family="ui-monospace,'Cascadia Mono',Consolas,'DejaVu Sans Mono',monospace" font-size="7.6" font-weight="400" fill="#fb7185" fill-opacity="0.85" text-anchor="start">reported success</text>
-<path d="M400 253h18" stroke="#475569" stroke-width="1"/>
-<path d="M418 253l-5-3v6z" fill="#475569"/>
-<text x="430" y="257" font-family="ui-monospace,'Cascadia Mono',Consolas,'DejaVu Sans Mono',monospace" font-size="7.6" font-weight="400" fill="#34d399" fill-opacity="1" text-anchor="start">reports failure</text>
-<text x="20" y="288" font-family="ui-monospace,'Cascadia Mono',Consolas,'DejaVu Sans Mono',monospace" font-size="9" font-weight="400" fill="#cbd5e1" fill-opacity="1" text-anchor="start">PLUS CE3 INTEGRATION, BUNDLED CONNECTOR/J 26.7.0</text>
-<text x="620" y="288" font-family="ui-monospace,'Cascadia Mono',Consolas,'DejaVu Sans Mono',monospace" font-size="9" font-weight="400" fill="#64748b" fill-opacity="1" text-anchor="end">AND A LONG FIX LIST</text>
+<text x="538" y="79" font-family="ui-monospace,'Cascadia Mono',Consolas,'DejaVu Sans Mono',monospace" font-size="8.6" font-weight="400" fill="#fb7185" fill-opacity="1" text-anchor="middle" letter-spacing="1.2">THE CE3 RELEASE</text>
+<rect x="18" y="110" width="292" height="156" fill="rgba(255,255,255,0.02)" fill-opacity="1" stroke="#334155" stroke-opacity="0.8" stroke-width="1"/><path d="M18 118V110H26" fill="none" stroke="#fbbf24" stroke-width="1.5" stroke-opacity="0.75"/><path d="M302 110H310V118" fill="none" stroke="#fbbf24" stroke-width="1.5" stroke-opacity="0.75"/><path d="M18 258V266H26" fill="none" stroke="#fbbf24" stroke-width="1.5" stroke-opacity="0.75"/><path d="M302 266H310V258" fill="none" stroke="#fbbf24" stroke-width="1.5" stroke-opacity="0.75"/><text x="34" y="132" font-family="ui-monospace,'Cascadia Mono',Consolas,'DejaVu Sans Mono',monospace" font-size="8.5" font-weight="400" fill="#475569" fill-opacity="1" text-anchor="start" letter-spacing="1.6">ADDED</text>
+<rect x="34" y="142" width="7" height="7" fill="#fbbf24" fill-opacity="0.85"/><text x="50" y="149" font-family="ui-monospace,'Cascadia Mono',Consolas,'DejaVu Sans Mono',monospace" font-size="8.2" font-weight="400" fill="#cbd5e1" fill-opacity="1" text-anchor="start">Your CE3 balance on the balance screen</text>
+<rect x="34" y="162" width="7" height="7" fill="#2dd4bf" fill-opacity="0.85"/><text x="50" y="169" font-family="ui-monospace,'Cascadia Mono',Consolas,'DejaVu Sans Mono',monospace" font-size="8.2" font-weight="400" fill="#cbd5e1" fill-opacity="1" text-anchor="start">/kumandra convert &lt;amount&gt;</text>
+<rect x="34" y="182" width="7" height="7" fill="#34d399" fill-opacity="0.85"/><text x="50" y="189" font-family="ui-monospace,'Cascadia Mono',Consolas,'DejaVu Sans Mono',monospace" font-size="8.2" font-weight="400" fill="#cbd5e1" fill-opacity="1" text-anchor="start">Recent Movements, the last six shown</text>
+<rect x="34" y="202" width="7" height="7" fill="#38bdf8" fill-opacity="0.85"/><text x="50" y="209" font-family="ui-monospace,'Cascadia Mono',Consolas,'DejaVu Sans Mono',monospace" font-size="8.2" font-weight="400" fill="#cbd5e1" fill-opacity="1" text-anchor="start">deposit / withdraw with a reason</text>
+<rect x="34" y="222" width="7" height="7" fill="#38bdf8" fill-opacity="0.85"/><text x="50" y="229" font-family="ui-monospace,'Cascadia Mono',Consolas,'DejaVu Sans Mono',monospace" font-size="8.2" font-weight="400" fill="#cbd5e1" fill-opacity="1" text-anchor="start">getApiVersion(), returning 2</text>
+<rect x="34" y="242" width="7" height="7" fill="#38bdf8" fill-opacity="0.85"/><text x="50" y="249" font-family="ui-monospace,'Cascadia Mono',Consolas,'DejaVu Sans Mono',monospace" font-size="8.2" font-weight="400" fill="#cbd5e1" fill-opacity="1" text-anchor="start">getRecentTransactions(UUID)</text>
+<rect x="330" y="110" width="292" height="156" fill="rgba(255,255,255,0.02)" fill-opacity="1" stroke="#334155" stroke-opacity="0.8" stroke-width="1"/><path d="M330 118V110H338" fill="none" stroke="#34d399" stroke-width="1.5" stroke-opacity="0.75"/><path d="M614 110H622V118" fill="none" stroke="#34d399" stroke-width="1.5" stroke-opacity="0.75"/><path d="M330 258V266H338" fill="none" stroke="#34d399" stroke-width="1.5" stroke-opacity="0.75"/><path d="M614 266H622V258" fill="none" stroke="#34d399" stroke-width="1.5" stroke-opacity="0.75"/><text x="346" y="132" font-family="ui-monospace,'Cascadia Mono',Consolas,'DejaVu Sans Mono',monospace" font-size="8.5" font-weight="400" fill="#475569" fill-opacity="1" text-anchor="start" letter-spacing="1.6">UNTOUCHED</text>
+<rect x="346" y="142" width="7" height="7" fill="#34d399" fill-opacity="0.85"/><text x="362" y="149" font-family="ui-monospace,'Cascadia Mono',Consolas,'DejaVu Sans Mono',monospace" font-size="8.2" font-weight="400" fill="#cbd5e1" fill-opacity="1" text-anchor="start">Every 1.x and 2.0 signature</text>
+<rect x="346" y="162" width="7" height="7" fill="#34d399" fill-opacity="0.85"/><text x="362" y="169" font-family="ui-monospace,'Cascadia Mono',Consolas,'DejaVu Sans Mono',monospace" font-size="8.2" font-weight="400" fill="#cbd5e1" fill-opacity="1" text-anchor="start">The 2.0 API contract shape</text>
+<rect x="346" y="182" width="7" height="7" fill="#34d399" fill-opacity="0.85"/><text x="362" y="189" font-family="ui-monospace,'Cascadia Mono',Consolas,'DejaVu Sans Mono',monospace" font-size="8.2" font-weight="400" fill="#cbd5e1" fill-opacity="1" text-anchor="start">Your config.yml. No new keys</text>
+<rect x="346" y="202" width="7" height="7" fill="#34d399" fill-opacity="0.85"/><text x="362" y="209" font-family="ui-monospace,'Cascadia Mono',Consolas,'DejaVu Sans Mono',monospace" font-size="8.2" font-weight="400" fill="#cbd5e1" fill-opacity="1" text-anchor="start">Your lang.yml. New keys fall back</text>
+<rect x="346" y="222" width="7" height="7" fill="#34d399" fill-opacity="0.85"/><text x="362" y="229" font-family="ui-monospace,'Cascadia Mono',Consolas,'DejaVu Sans Mono',monospace" font-size="8.2" font-weight="400" fill="#cbd5e1" fill-opacity="1" text-anchor="start">Startup, with or without CE3</text>
+<rect x="346" y="242" width="7" height="7" fill="#34d399" fill-opacity="0.85"/><text x="362" y="249" font-family="ui-monospace,'Cascadia Mono',Consolas,'DejaVu Sans Mono',monospace" font-size="8.2" font-weight="400" fill="#cbd5e1" fill-opacity="1" text-anchor="start">Both plugins still stand alone</text>
+<text x="20" y="288" font-family="ui-monospace,'Cascadia Mono',Consolas,'DejaVu Sans Mono',monospace" font-size="9" font-weight="400" fill="#cbd5e1" fill-opacity="1" text-anchor="start">WITHOUT CE3 INSTALLED, ONLY THE MOVEMENT LIST APPLIES</text>
+<text x="620" y="288" font-family="ui-monospace,'Cascadia Mono',Consolas,'DejaVu Sans Mono',monospace" font-size="9" font-weight="400" fill="#64748b" fill-opacity="1" text-anchor="end">2 SEP 2026</text>
 <rect x="0" y="326" width="640" height="1" fill="#334155" fill-opacity="0.8"/>
 <rect x="0" y="327" width="640" height="33" fill="rgba(255,255,255,0.02)" fill-opacity="1"/>
 <rect x="0" y="327" width="220" height="2" fill="url(#rule)" fill-opacity="1"/>
-<text x="16" y="348" font-family="ui-monospace,'Cascadia Mono',Consolas,'DejaVu Sans Mono',monospace" font-size="9.5" font-weight="400" fill="#64748b" fill-opacity="1" text-anchor="start" letter-spacing="1.4">REPLACE THE JAR AND RESTART - YOUR CONFIG IS UPGRADED IN PLACE</text>
+<text x="16" y="348" font-family="ui-monospace,'Cascadia Mono',Consolas,'DejaVu Sans Mono',monospace" font-size="9.5" font-weight="400" fill="#64748b" fill-opacity="1" text-anchor="start" letter-spacing="1.4">DROP THE NEW JAR IN - NO CONFIG CHANGE, NO DATA MIGRATION</text>
 <rect x="0" y="34" width="640" height="292" fill="url(#scan)" fill-opacity="1"/>
 <rect x="0" y="0" width="640" height="360" fill="url(#vig)" fill-opacity="1"/>
 <rect x="0.5" y="0.5" width="639" height="359" fill="none" fill-opacity="1" stroke="#334155" stroke-opacity="1" stroke-width="1"/>

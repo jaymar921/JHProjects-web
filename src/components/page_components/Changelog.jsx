@@ -4,10 +4,16 @@ import { getYearsAndMonthsFromDate } from "../utils/PageUtility";
 /**
  * One release in a patch note list. Shared by every plugin page, so the accent
  * is passed in rather than baked in: CE3 runs lime, Kumandra's Economy runs
- * emerald, and the two archived plugins run violet and cyan. Written out in
- * full below so Tailwind keeps the classes.
+ * emerald, Epic Mobs Rework runs ember, and the archived plugins run violet,
+ * cyan and sky. Written out in full below so Tailwind keeps the classes.
  */
 const ACCENTS = {
+  ember: {
+    border: "border-orange-400/60",
+    text: "text-orange-300",
+    badge: "border-orange-400/50 bg-orange-500/15 text-orange-300",
+    marker: "text-orange-500",
+  },
   lime: {
     border: "border-lime-400/60",
     text: "text-lime-300",
@@ -31,6 +37,12 @@ const ACCENTS = {
     text: "text-cyan-300",
     badge: "border-cyan-400/50 bg-cyan-500/15 text-cyan-300",
     marker: "text-cyan-500",
+  },
+  sky: {
+    border: "border-sky-400/60",
+    text: "text-sky-300",
+    badge: "border-sky-400/50 bg-sky-500/15 text-sky-300",
+    marker: "text-sky-500",
   },
 };
 

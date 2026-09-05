@@ -13,15 +13,14 @@ import {
   Step,
   Steps,
   SubHeading,
-  Terminal,
-  TerminalLabel,
 } from "../../page_components/PixelUIKit";
 import * as FeatureArt from "../../../assets/kumandras_economy/features";
 
 /**
- * The 2.0 panel. This is the one people will open first after an update
- * notice, so it leads with the bug that caused the rest rather than with a
- * feature list.
+ * The 2.1 panel. This is the one people open first after an update notice, so
+ * it leads with how small the release is and who it is for. 2.0 was the one
+ * with a bug at the root of everything; this one is additive, and saying so
+ * plainly is worth more than dressing it up.
  */
 function KE_WhatsNew() {
   return (
@@ -29,58 +28,34 @@ function KE_WhatsNew() {
       <Section>
         <SectionHeading
           icon="fa-solid fa-rocket"
-          title="Version 2.0"
-          subtitle={`Released ${PluginInformation.versionReleaseDate}. One jar, ${PluginInformation.supportedVersions}.`}
+          title="Version 2.1"
+          subtitle={`Released ${PluginInformation.versionReleaseDate}. The Custom Enchantments 3 release.`}
           accent="rose"
         />
         <Body className="pt-5 text-justify">
-          Kumandra&apos;s Economy was written for 1.16 and it had been quietly
-          falling behind ever since. If you were running it on 1.19 or later,
-          you were running a version of the plugin that thought your server was
-          older than 1.16 and turned things off because of it. 2.0 fixes that at
-          the root, and the rest of this list is what turned up while going
-          through the whole plugin to get there.
+          A smaller one than 2.0. If you run Custom Enchantments 3 as well, CE3
+          1.6.0 already talks to Kumandra&apos;s Economy 2.0 and works. Nothing
+          in this update is a repair of that. What 2.1 does is finish the job
+          from this side: the balance screen shows both of your currencies, you
+          can convert between them without leaving the command you already use,
+          and money that another plugin takes out of your wallet now says which
+          plugin took it.
         </Body>
+        <div className="pt-5">
+          <Note accent="amber" icon="fa-solid fa-circle-info">
+            If you do not run Custom Enchantments 3, none of this affects you,
+            except the transaction list, which works on its own.
+          </Note>
+        </div>
       </Section>
 
       <Section>
         <Shot
           src={FeatureArt.whatsnew}
-          alt="What version 2.0 of Kumandra's Economy changed, before and after"
+          alt="What version 2.1 of Kumandra's Economy added, and what it left untouched"
           accent="rose"
-          caption="The short version, in the order the problems mattered"
+          caption="Everything the release adds, and everything it deliberately does not touch"
         />
-      </Section>
-
-      <Section>
-        <Panel accent="rose" className="p-5">
-          <SubHeading accent="rose">THE BUG THAT STARTED ALL OF IT</SubHeading>
-          <Body className="pt-3 text-justify">
-            The old version checked your server version by asking whether the
-            version text contained <Cmd accent="rose">1.16</Cmd>,{" "}
-            <Cmd accent="rose">1.17</Cmd> or <Cmd accent="rose">1.18</Cmd>. A
-            1.19 server contains none of those. Neither does 1.20, 1.21 or 26.2.
-            So the plugin concluded it was running on something older than 1.16,
-            and silently switched off:
-          </Body>
-          <Bullets className="pt-3">
-            <Bullet accent="rose">The entire quest system.</Bullet>
-            <Bullet accent="rose">
-              Nether logs for the Lumberjack, so warped and crimson stems paid
-              nothing.
-            </Bullet>
-            <Bullet accent="rose">
-              The Fisherman&apos;s rare catch effects.
-            </Bullet>
-          </Bullets>
-          <Body className="pt-3 text-justify">
-            Nothing in the console said so. 2.0 reads the version as numbers and
-            compares them, so a Minecraft release that did not exist when the
-            jar was built is still correctly treated as newer than 1.16. That is
-            what makes the whole 1.16 to 26.2 range work from one file, and it
-            is what keeps it working for the release after this one.
-          </Body>
-        </Panel>
       </Section>
 
       <Section>
@@ -103,81 +78,49 @@ function KE_WhatsNew() {
       </Section>
 
       <Section>
-        <SubHeading accent="sky">THE THREE WAYS TO RUN IT NOW</SubHeading>
-        <Body className="pt-3 text-justify">
-          Vault used to be a hard dependency, which meant installing a second
-          plugin just to use Kumandra&apos;s own currency on a server that had
-          no other economy. That is gone.
-        </Body>
-        <Terminal title="KumandrasEconomy / startup.log" className="mt-5">
-          <pre>
-            <code className="text-[10px] md:text-sm" lang="md">
-              <TerminalLabel accent="emerald">[VAULT INSTALLED]</TerminalLabel>
-              {`
-Separate_Economy: false
-  Registers as the Vault economy provider.
-  Every Vault-aware plugin sees Kd as the money.
-
-Separate_Economy: true
-  Reads the primary economy, and the exchange
-  screen converts between the two at your rate.
-              `}
-              <TerminalLabel accent="rose">[NO VAULT AT ALL]</TerminalLabel>
-              {`
-Everything works except the exchange screen,
-which needs a second economy to exchange with
-in the first place.
-              `}
-            </code>
-          </pre>
-        </Terminal>
-        <div className="pt-5">
-          <Note accent="amber" icon="fa-solid fa-triangle-exclamation">
-            If <Cmd accent="amber">Separate_Economy</Cmd> is true but nothing
-            has actually registered a primary economy, the plugin now says so in
-            the console and runs as primary for that session, instead of half
-            working in silence.
-          </Note>
-        </div>
-      </Section>
-
-      <Section>
         <Panel accent="teal" className="p-5">
-          <SubHeading accent="teal">UPGRADING FROM 1.x</SubHeading>
+          <SubHeading accent="teal">UPGRADING</SubHeading>
           <Steps className="pt-3">
             <Step n="1" accent="teal">
-              Drop the new jar in and restart. That is the whole procedure.
+              Drop the new jar in. That is the whole procedure: there is no
+              config change and no data migration.
             </Step>
             <Step n="2" accent="teal">
-              Your <Cmd accent="teal">config.yml</Cmd> is upgraded in place and
-              backed up as <Cmd accent="teal">old_config.yml</Cmd> first, so
-              your settings are kept and new settings arrive with their
-              defaults.
+              Your <Cmd accent="teal">lang.yml</Cmd> is fine as it is. The new
+              lines fall back to English if your file does not have the new
+              keys, so nothing renders as the word null. Add them if you
+              translate.
             </Step>
             <Step n="3" accent="teal">
-              <Cmd accent="teal">playerData.yml</Cmd> and shop data are
-              unchanged in format, so there is nothing to migrate.
-            </Step>
-            <Step n="4" accent="teal">
-              Vault can stay installed or be removed. Both work.
+              Every method from 1.x and 2.0 keeps its exact signature and return
+              values, so code compiled against either links against 2.1
+              unchanged.
             </Step>
           </Steps>
-          <div className="pt-4">
-            <Note accent="emerald" icon="fa-solid fa-wand-magic-sparkles">
-              If you were on 1.19 or newer, expect quests to start appearing.
-              They were switched off before, and they were in the jar the whole
-              time.
-            </Note>
-          </div>
         </Panel>
       </Section>
 
       <Section>
-        <Note accent="sky" icon="fa-solid fa-code">
-          Nothing breaks for developers. Every 1.x method keeps its signature
-          and its return values, and code compiled against 1.7 links against 2.0
-          unchanged. The new methods sit alongside the old ones.
-        </Note>
+        <SubHeading accent="sky">STILL TRUE FROM 2.0</SubHeading>
+        <Body className="pt-3 text-justify">
+          2.0 was the release that fixed the version check at the root of
+          everything. If you are coming from 1.7 rather than 2.0, that is the
+          one that matters to you, and the release history has the whole list.
+        </Body>
+        <Bullets className="pt-3">
+          <Bullet accent="sky">
+            One jar for Spigot and Paper, {PluginInformation.supportedVersions},
+            on Java 8 and up.
+          </Bullet>
+          <Bullet accent="sky">
+            Vault is optional. Without it everything works except cross-economy
+            exchange, which needs a second economy anyway.
+          </Bullet>
+          <Bullet accent="sky">
+            Quests, nether logs for the Lumberjack and the Fisherman&apos;s rare
+            catches all came back on for servers newer than 1.18.
+          </Bullet>
+        </Bullets>
       </Section>
     </div>
   );
