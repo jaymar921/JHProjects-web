@@ -47,12 +47,12 @@ export const ProjectInformation = {
   status_note: {
     headline: "Stopped in April 2023, and not coming back in this form.",
     body: "Epic Mobs was a premium plugin and it worked. Version 1.4.13 went out in April 2023 and that was the last one: a full time job left no evenings for it, so it stopped rather than rotting slowly in public. It is not sold, not supported, and there is no download here. This page is on the site because the work happened, not because you should be looking for the jar.",
-    rework: "The idea did not stop, though. Epic Mobs Rework is being built right now, as a rewrite rather than a patch, and it has its own page. There is still no release date for it.",
+    rework: "The idea did not stop, though. Epic Mobs Rework is a rewrite rather than a patch, and it shipped its first public build, 1.0-RC1, in September 2026. It has its own page, and a free Lite edition.",
   },
 
   successor: {
     headline: "It is being rebuilt, and the rebuild has its own page.",
-    body: "This used to say a successor was planned and that there was nothing to show. There is now. Epic Mobs Rework is a rewrite rather than a patch: the same idea, built again for the things that killed this one. It still has no release date, but it has a design, a build, and a page that says what is finished and what is not.",
+    body: "This used to say a successor was planned and that there was nothing to show. There is now. Epic Mobs Rework is a rewrite rather than a patch: the same idea, built again for the things that killed this one. Its first public build, 1.0-RC1, went up in September 2026, with a free Lite edition next to it. Nothing in it expires and nothing checks a licence, which is the specific thing that went wrong here.",
     href: "/epic-mobs-rework",
     linkLabel: "EPIC MOBS REWORK",
   },

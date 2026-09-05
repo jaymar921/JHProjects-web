@@ -3,10 +3,15 @@ import { EMR_Logs } from "../../contants/epic_mobs_rework/EMRConstants_Logs";
 import Changelog from "../../page_components/Changelog";
 
 /**
- * The release history, which right now is one entry with no date on it.
+ * The release history, which is one entry: 1.0-RC1.
  *
- * The search box is here from the start rather than added at the third
- * release, so the panel does not change shape under a returning visitor.
+ * The badge deliberately reads RELEASE CANDIDATE rather than LATEST. The
+ * shared Changelog component takes `latestLabel` for exactly this, and a
+ * release candidate that reads as a release on a web page is a release
+ * candidate nobody treats as one.
+ *
+ * The search box was here before there was anything to search, so the panel
+ * does not change shape under a returning visitor.
  */
 function EMR_ChangeLogs() {
   const [input, setInput] = useState("");
@@ -31,12 +36,14 @@ function EMR_ChangeLogs() {
                 : "border-amber-400/50 bg-amber-500/15 text-amber-300"
             }`}
           >
-            {released ? `LATEST v${released.update_version}` : "NOTHING RELEASED YET"}
+            {released
+              ? `RELEASE CANDIDATE v${released.update_version}`
+              : "NOTHING RELEASED YET"}
           </span>
         </div>
         <p className="py-2 text-xs text-slate-400 md:text-sm">
           {released
-            ? "Every release from newest to oldest. Click a version to open it."
+            ? "Every release from newest to oldest. Click a version to open it. This one is a release candidate: every feature is built, and what it has not had is servers other than the author's."
             : "One entry, and it has no date on it. It says what is finished rather than what is planned, because that is the only half of it that is true yet."}
         </p>
 
@@ -61,6 +68,7 @@ function EMR_ChangeLogs() {
               isLatest={log.update_version === released?.update_version}
               log={log}
               accent="ember"
+              latestLabel="RELEASE CANDIDATE"
             />
           ))}
           {filtered.length === 0 && (
@@ -73,7 +81,7 @@ function EMR_ChangeLogs() {
         <p className="pt-6 text-[11px] leading-relaxed text-slate-500 md:text-xs">
           The original Epic Mobs had thirteen releases between October 2021 and
           April 2023. They are not in this list, because folding them in would
-          make a plugin that has shipped nothing look like it has thirteen
+          make a rework on its first published build look like it has fourteen
           releases behind it. They are on{" "}
           <a className="text-orange-300 underline" href="/epic-mobs">
             the Epic Mobs page

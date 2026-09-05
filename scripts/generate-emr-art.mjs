@@ -19,10 +19,22 @@
  * up and og-epic-mobs-rework.svg into scripts/, which generate-og.sh
  * rasterises.
  *
- * Nothing drawn here is allowed to date: no version badge, no release date, no
- * Minecraft version ceiling, and no content count that moves every release.
+ * Nothing drawn here is allowed to date: no release date, no Minecraft version
+ * ceiling, and no content count that moves every release. The single exception
+ * is the release-candidate status, which is on the changelog panel and on the
+ * link preview card because it is load bearing: a page that reads as 1.0 is a
+ * page that gets treated as 1.0, and this build is not.
  * Counts written as a floor ("20+") and design constants (six tiers, six spawn
- * paths, the Lite ceilings) are the only numbers that go in.
+ * paths, the five raid anchors, the Lite ceilings) are the only numbers that go
+ * in. The one exception is the shipped mob set, which is written as a plain
+ * twenty rather than "20+", because on Lite that number is the deal: twenty
+ * built in, ten of your own, and it has to read as an exact figure to mean
+ * anything.
+ *
+ * Stat numbers on the mob panel are the ones out of the shipped
+ * defaults/mobs/frost-wolf.yml. They were the pre-1.0-RC1 numbers for a while,
+ * which drew a mob that no longer existed, so if a rebalance moves them again
+ * this file moves with it.
  */
 
 import { mkdirSync, writeFileSync } from "node:fs";
@@ -179,9 +191,9 @@ emr["mobs"] = frame({
   body: [
     panel(18, 52, 292, 214, "ONE READABLE FILE PER MOB", C.ember),
     row(34, 84, 260, "entity", "any vanilla one", C.ember),
-    row(34, 109, 260, "tier", "1 to 6", C.amber),
-    row(34, 134, 260, "stats.health", "750", C.rose),
-    row(34, 159, 260, "stats.damage", "45", C.rose),
+    row(34, 109, 260, "tier", "TIER_1 to TIER_6", C.amber),
+    row(34, 134, 260, "stats.health", "280", C.rose),
+    row(34, 159, 260, "stats.damage", "16", C.rose),
     row(34, 184, 260, "equipment", "worn and used", C.sky),
     row(34, 209, 260, "abilities", "by name", C.purple),
     row(34, 234, 260, "faction", "HOSTILE", C.lime),
@@ -206,7 +218,7 @@ emr["mobs"] = frame({
       fill: C.muted,
     }),
 
-    text(20, 288, "EDIT IT IN A TEXT EDITOR, SHARE IT, PUT IT IN GIT", {
+    text(20, 288, "TWENTY WRITTEN FOR YOU. COPY ONE TO MAKE THE NEXT", {
       size: 9,
       fill: C.text,
     }),
@@ -411,49 +423,49 @@ emr["world"] = frame({
 
 emr["raids"] = frame({
   title: "RAIDS, ARENAS & PACKS",
-  path: "raids/the-long-night.yml",
+  path: "raids/world-infestation.yml",
   accent: C.rose,
-  footer: "A SERVER EVENT WITH A PLACE, WAVES AND A BOSS ON THE LAST ONE",
+  footer: "A WAVE IS A SHARE OF THE KILL GOAL, NOT A TICK OF A CLOCK",
   body: [
-    panel(18, 52, 604, 82, "", C.rose),
-    text(320, 80, "THE LONG NIGHT", {
+    panel(18, 52, 604, 80, "", C.rose),
+    text(320, 78, "THE WORLD INFESTATION", {
       size: 11,
       weight: 700,
       fill: C.rose,
       anchor: "middle",
       spacing: 2,
     }),
-    bossbar(34, 88, 572, 0.58, C.rose, 12),
-    text(34, 122, "WAVE 4 OF 6", { size: 8.2, fill: C.text }),
-    text(606, 122, "TIER 5 UNLOCKS AT 70%", {
+    bossbar(34, 88, 572, 0.42, C.rose, 12),
+    text(34, 122, "WAVE 2 OF 4  -  30 KILLS EACH", { size: 8.2, fill: C.text }),
+    text(606, 122, "WAVE 3 WAITS FOR WAVE 2 TO DIE", {
       size: 8.2,
       fill: C.muted,
       anchor: "end",
     }),
 
-    panel(18, 146, 292, 120, "REWARDS GO TO WHO EARNED THEM", C.amber),
-    row(34, 176, 260, "Top damage", "the big share", C.amber, 20),
-    row(34, 198, 260, "Most kills", "its own reward", C.lime, 20),
-    row(34, 220, 260, "Everyone who came", "participation", C.emerald, 20),
-    text(34, 256, "SCHEDULE THEM FOR YOUR PEAK HOURS", {
-      size: 8,
-      fill: C.muted,
-    }),
+    panel(18, 140, 292, 126, "FIVE PLACES A RAID CAN BE", C.amber),
+    row(34, 168, 260, "PLAYERS", "wherever you are", C.muted, 18),
+    row(34, 187, 260, "GLOBAL", "everywhere at once", C.purple, 18),
+    row(34, 206, 260, "WORLD_SPAWN", "the town square", C.sky, 18),
+    row(34, 225, 260, "LOCATION", "a point you name", C.emerald, 18),
+    row(34, 244, 260, "PLAYER", "defend your base", C.rose, 18),
 
-    panel(330, 146, 292, 120, "PACKS AND ARENAS", C.sky),
-    row(346, 176, 260, "leader", "Alpha Wolf", C.sky, 20),
-    row(346, 198, 260, "formation", "SCATTER", C.sky, 20),
-    row(346, 220, 260, "on_leader_death", "FLEE", C.rose, 20),
-    text(346, 256, "AN ARENA IS A REGION AND A WAVE LIST", {
-      size: 8,
-      fill: C.muted,
-    }),
+    panel(330, 140, 292, 126, "AND WHAT ELSE FIGHTS IN WAVES", C.sky),
+    row(346, 168, 260, "arena", "pos1, pos2, create", C.sky, 18),
+    row(346, 187, 260, "pack leader", "Alpha Frost Wolf", C.lime, 18),
+    row(346, 206, 260, "on-leader-death", "FLEE", C.rose, 18),
+    row(346, 225, 260, "prizes", "damage, kills, all", C.amber, 18),
+    row(346, 244, 260, "boss:", "what the goal summons", C.ember, 18),
 
-    text(20, 288, "KILL THE ALPHA AND THE REST SCATTER, OR ENRAGE", {
+    text(20, 288, "THEY ARRIVE IN CLUSTERS, FROM THE SIDE THE WAVE NAMED", {
       size: 9,
       fill: C.text,
     }),
-    text(620, 288, "YOUR CALL", { size: 9, fill: C.muted, anchor: "end" }),
+    text(620, 288, "AND A TRAIL POINTS AT STRAGGLERS", {
+      size: 9,
+      fill: C.muted,
+      anchor: "end",
+    }),
   ].join("\n"),
 });
 
@@ -636,13 +648,14 @@ emr["editions"] = frame({
   footer: "TWO JARS FROM ONE SOURCE TREE, NOTHING EXPIRES IN EITHER",
   body: [
     panel(18, 52, 292, 214, "LITE, FREE", C.emerald),
-    row(34, 84, 260, "Mob definitions", "10", C.emerald),
-    row(34, 109, 260, "Abilities per mob", "2, built-in", C.emerald),
-    row(34, 134, 260, "Loot entries", "5", C.emerald),
-    row(34, 159, 260, "Raids", "1", C.emerald),
-    row(34, 184, 260, "Triggers", "3", C.emerald),
-    row(34, 209, 260, "Reward currencies", "1 per mob", C.emerald),
-    text(34, 250, "EVERY INTEGRATION WORKS HERE TOO", {
+    row(34, 82, 260, "Mobs that ship", "20, built in", C.lime, 20),
+    row(34, 104, 260, "Mobs of your own", "10", C.emerald, 20),
+    row(34, 126, 260, "Abilities per mob", "2, built-in", C.emerald, 20),
+    row(34, 148, 260, "Loot entries", "5", C.emerald, 20),
+    row(34, 170, 260, "Raids", "1", C.emerald, 20),
+    row(34, 192, 260, "Triggers", "3", C.emerald, 20),
+    row(34, 214, 260, "Reward currencies", "1 per mob", C.emerald, 20),
+    text(34, 252, "EVERY INTEGRATION WORKS HERE TOO", {
       size: 8,
       fill: C.muted,
     }),
@@ -659,7 +672,7 @@ emr["editions"] = frame({
       fill: C.muted,
     }),
 
-    text(20, 288, "NO TIMER, NO LICENCE CHECK, NO PHONING HOME", {
+    text(20, 288, "THE TWENTY DO NOT COUNT AGAINST YOUR TEN, AND STAY PUT", {
       size: 9,
       fill: C.text,
     }),
@@ -671,43 +684,147 @@ emr["editions"] = frame({
   ].join("\n"),
 });
 
-/* -------------------------------------------------------- the changelog */
+/* ----------------------------------------------------------- the set-up */
 
-emr["changelog"] = frame({
-  title: "STILL BEING BUILT",
-  path: "status",
-  accent: C.ember,
-  footer: "NO RELEASE DATE. WHEN IT IS READY IT GOES UP HERE FIRST",
+emr["setup"] = frame({
+  title: "THE FIRST EVENING",
+  path: "plugins/EpicMobsRework/",
+  accent: C.sky,
+  footer: "DROP IT IN, CHECK THE EDITION, FIGHT SOMETHING, THEN TURN SPAWNING ON",
   body: [
-    panel(18, 52, 604, 96, "WHERE 1.0 IS", C.ember),
-    text(34, 88, "The build, the edition split, the release pipeline and the", {
-      size: 8.8,
+    panel(18, 52, 292, 214, "IN ORDER", C.sky),
+    row(34, 82, 260, "1  drop the jar in", "nothing else needed", C.sky, 20),
+    row(34, 104, 260, "2  /ep info", "which jar is this", C.sky, 20),
+    row(34, 126, 260, "3  /ep list", "20 mobs already", C.lime, 20),
+    row(34, 148, 260, "4  general.worlds", "before anything spawns", C.amber, 20),
+    row(34, 170, 260, "5  /ep summon", "and fight it", C.ember, 20),
+    row(34, 192, 260, "6  /ep create mob", "or /ep editor", C.purple, 20),
+    row(34, 214, 260, "7  spawning.natural", "start it low", C.emerald, 20),
+    text(34, 252, "THEN /ep timings AFTER TEN MINUTES, NOT BEFORE", {
+      size: 8,
+      fill: C.muted,
+    }),
+
+    panel(330, 52, 292, 118, "WHEN NOTHING SPAWNS", C.rose),
+    text(346, 88, "/ep debug spawn", { size: 9, fill: C.rose }),
+    text(346, 110, "IT PRINTS THE REASON FOR EVERY", {
+      size: 8,
       fill: C.text,
     }),
-    text(34, 108, "specification are done. The source rework is not. Forty", {
-      size: 8.8,
+    text(346, 128, "SINGLE REFUSAL, WHICH IS ALMOST", { size: 8, fill: C.text }),
+    text(346, 146, "ALWAYS THE WHOLE ANSWER.", { size: 8, fill: C.text }),
+    text(346, 162, "A PROTECTION LAYER, THE WORLD LIST, OR A CONDITION", {
+      size: 7.4,
+      fill: C.muted,
+    }),
+
+    panel(330, 182, 292, 84, "WHAT TO CHECK FIRST", C.amber),
+    text(346, 224, "EDITION LINE ON BOOT, AND IN /ep info", {
+      size: 8,
+      fill: C.amber,
+    }),
+    text(346, 242, "THE TWO JARS LOOK IDENTICAL IN THE", {
+      size: 8,
       fill: C.text,
     }),
-    text(34, 128, "numbered defects in the old plugin are the order of work.", {
-      size: 8.8,
+    text(346, 260, "PLUGINS FOLDER APART FROM THE NAME", {
+      size: 8,
       fill: C.text,
     }),
 
-    panel(18, 160, 292, 106, "DONE", C.emerald),
-    row(34, 190, 260, "Two-jar build", "yes", C.emerald, 20),
-    row(34, 212, 260, "Config spec", "yes", C.emerald, 20),
-    row(34, 234, 260, "Release pipeline", "yes", C.emerald, 20),
-
-    panel(330, 160, 292, 106, "IN PROGRESS", C.amber),
-    row(346, 190, 260, "The source rework", "underway", C.amber, 20),
-    row(346, 212, 260, "Ability system", "underway", C.amber, 20),
-    row(346, 234, 260, "A release date", "not yet", C.rose, 20),
-
-    text(20, 288, "THIS PAGE IS THE CHANGELOG. IT GOES UP WHEN IT IS TRUE", {
+    text(20, 288, "DO IT ON A TEST SERVER. /ep clear TIDIES UP AFTER YOU", {
       size: 9,
       fill: C.text,
     }),
-    text(620, 288, "UNRELEASED", { size: 9, fill: C.ember, anchor: "end" }),
+    text(620, 288, "NO RESTART NEEDED", {
+      size: 9,
+      fill: C.muted,
+      anchor: "end",
+    }),
+  ].join("\n"),
+});
+
+/* ------------------------------------------------------- the developer API */
+
+emr["api"] = frame({
+  title: "THE DEVELOPER API",
+  path: "me.jaymar921.epicmobs.api",
+  accent: C.purple,
+  footer: "CLOSED SOURCE, SO THE CONTRACT IS PUBLISHED INSTEAD",
+  body: [
+    panel(18, 52, 604, 74, "ONE JAR, AND NOTHING INTERNAL IN IT", C.purple),
+    text(34, 94, "EpicMobsRework-api.jar", { size: 9.5, fill: C.purple }),
+    text(230, 94, "provided SCOPE, LIKE SPIGOT", {
+      size: 8.4,
+      fill: C.text,
+    }),
+    text(34, 114, "NOTHING IN THE PACKAGE NAMES A CLASS OUTSIDE IT BUT BUKKIT AND THE JDK", {
+      size: 8,
+      fill: C.text,
+    }),
+
+    panel(18, 138, 292, 128, "WHAT YOU GET", C.sky),
+    row(34, 168, 260, "views", "4", C.sky, 20),
+    row(34, 190, 260, "queries", "10", C.sky, 20),
+    row(34, 212, 260, "events", "11", C.rose, 20),
+    row(34, 234, 260, "mutating calls", "4, premium", C.amber, 20),
+
+    panel(330, 138, 292, 128, "THE RULES", C.amber),
+    text(346, 182, "MAIN THREAD ONLY. THERE IS NO", { size: 8, fill: C.text }),
+    text(346, 198, "LOCK THAT WOULD MAKE IT SAFE.", { size: 8, fill: C.text }),
+    text(346, 220, "RESOLVE IN onEnable, NOT STATIC.", { size: 8, fill: C.text }),
+    text(346, 240, "HANDLES SURVIVE A RELOAD.", { size: 8, fill: C.text }),
+    text(346, 256, "DEFINITION VIEWS DO NOT.", { size: 8, fill: C.text }),
+
+    text(20, 288, "EVERY QUERY AND EVERY EVENT WORKS ON LITE TOO", {
+      size: 9,
+      fill: C.text,
+    }),
+    text(620, 288, "apiVersion() SAYS WHEN IT MOVED", {
+      size: 9,
+      fill: C.muted,
+      anchor: "end",
+    }),
+  ].join("\n"),
+});
+
+/* -------------------------------------------------------- the changelog */
+
+emr["changelog"] = frame({
+  title: "RELEASE CANDIDATE",
+  path: "status",
+  accent: C.ember,
+  footer: "EVERY FEATURE IS BUILT. WHAT IT HAS NOT HAD IS OTHER PEOPLE'S SERVERS",
+  body: [
+    panel(18, 52, 604, 96, "WHERE 1.0 IS", C.ember),
+    text(34, 88, "Nothing on the 1.0 feature list is deferred, and both jars", {
+      size: 8.8,
+      fill: C.text,
+    }),
+    text(34, 108, "are published. Two rounds of playing it found the same kind", {
+      size: 8.8,
+      fill: C.text,
+    }),
+    text(34, 128, "of bug twice: a subsystem reporting progress it was not making.", {
+      size: 8.8,
+      fill: C.text,
+    }),
+
+    panel(18, 160, 292, 106, "SHIPPED", C.emerald),
+    row(34, 190, 260, "The feature list", "all of it", C.emerald, 20),
+    row(34, 212, 260, "Both editions", "on spigot", C.emerald, 20),
+    row(34, 234, 260, "Mobs in the box", "20", C.emerald, 20),
+
+    panel(330, 160, 292, 106, "STILL WANTED", C.amber),
+    row(346, 190, 260, "A raid, two players", "never had it", C.amber, 20),
+    row(346, 212, 260, "An arena, finished", "never seen", C.amber, 20),
+    row(346, 234, 260, "1.0 proper", "no date", C.rose, 20),
+
+    text(20, 288, "A RELEASE CANDIDATE IS PUBLISHED TO BE BROKEN. PLEASE DO", {
+      size: 9,
+      fill: C.text,
+    }),
+    text(620, 288, "1.0-RC1", { size: 9, fill: C.ember, anchor: "end" }),
   ].join("\n"),
 });
 
@@ -783,7 +900,10 @@ function ogCard() {
   ];
   const spread = chips.length * 200 - 10;
   const startX = (OW - spread) / 2;
-  const badge = "IN DEVELOPMENT";
+  // The one version-ish string in this file, and it is here because the
+  // difference between a release candidate and a release is exactly what a
+  // link preview has to carry. It becomes "OUT NOW" on 1.0 and not before.
+  const badge = "RELEASE CANDIDATE";
 
   return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${OW} ${OH}" width="${OW}" height="${OH}">
 <defs>

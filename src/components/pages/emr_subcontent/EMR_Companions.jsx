@@ -124,7 +124,16 @@ function EMR_Companions() {
             <Body className="pt-3">
               <Cmd accent="sky">/ep companion</Cmd> opens a small wheel:
               follow, stay, passive, aggressive, dismiss and rename. Everything
-              is stored per player, keyed by UUID, and survives a restart.
+              is stored per player, keyed by UUID, in{" "}
+              <Cmd accent="sky">data/players.yml</Cmd>, and survives a restart.
+            </Body>
+            <Body className="pt-3">
+              Claim one with <Cmd accent="sky">/ep companion claim</Cmd> while
+              standing next to a mob whose file allows it, or with a companion
+              token. <Cmd accent="amber">/ep companion token [mob]</Cmd> is the
+              admin command that hands one out, which is the thing to sell in a
+              shop or pay out as a reward. Right click a rideable companion to
+              mount it and right click again with an empty hand to get off.
             </Body>
             <div className="pt-4">
               <SubHeading accent="amber">AND TWO OTHER THINGS</SubHeading>
@@ -144,6 +153,18 @@ function EMR_Companions() {
             </div>
           </Panel>
         </div>
+      </Section>
+
+      <Section>
+        <Note accent="rose" icon="fa-solid fa-flask">
+          Worth knowing while 1.0-RC1 is out: mounting and the command wheel
+          have been driven with a player in the world, and claiming, following,
+          levelling and dying have not. If you run one, the things to watch for
+          are a companion catching up after a fall rather than standing where it
+          was left, and a companion refusing to hit its owner or anybody on the
+          owner&apos;s Custom Enchantments 3 ally list, which needs two players
+          to check properly.
+        </Note>
       </Section>
 
       <Section>

@@ -14,6 +14,7 @@ import {
 } from "../../page_components/PixelUIKit";
 import * as FeatureArt from "../../../assets/epic_mobs_rework/features";
 import * as StoreArt from "../../../assets/epic_mobs_rework/marketing";
+import * as Screens from "../../../assets/epic_mobs_rework/screenshots";
 
 function EMR_Mobs() {
   return (
@@ -31,6 +32,15 @@ function EMR_Mobs() {
           plugin rather than by the entity, so a zombie can carry ten thousand
           hit points without you touching a single attribute and without other
           plugins seeing a monster with a broken health bar.
+        </Body>
+        <Body className="pt-4 text-justify">
+          Twenty are written for you on the first start, across four lines: the
+          Hollow siege, the frost wilds, the desert, and the five infested mobs
+          the World Infestation raid is made of. They are balanced on an
+          iron-armour baseline, so a player in full iron with an iron sword
+          beats a tier one to three mob one on one with effort, and tier four
+          upward wants diamond, potions or a group. Copying one of those files
+          is the quickest way to your twenty-first.
         </Body>
       </Section>
 
@@ -70,7 +80,8 @@ function EMR_Mobs() {
               </Bullet>
               <Bullet accent="ember">
                 Summons, on a timer or on death, so killing one thing is not
-                always the end of it.
+                always the end of it, and codex flavour text for the entry a
+                player unlocks by killing it.
               </Bullet>
             </Bullets>
           </Panel>
@@ -112,43 +123,91 @@ function EMR_Mobs() {
         <Terminal title="EpicMobsRework / mobs / frost-wolf.yml" className="mt-5">
           <pre>
             <code className="text-[10px] md:text-sm" lang="yaml">
-              <TerminalLabel accent="ember">[A WHOLE MOB]</TerminalLabel>
+              <TerminalLabel accent="ember">[A WHOLE MOB, AS SHIPPED]</TerminalLabel>
               {`
 name: "Frost Wolf"
 entity: WOLF
-tier: 3
+tier: TIER_3
 
 stats:
-  health: 750
-  damage: 45
-  resistance: 20
+  health: 280
+  damage: 16
+  resistance: 10
 
-equipment:
-  main-hand: { material: IRON_SWORD, ce3: { BLEED: 2 } }
-  helmet:    { material: LEATHER_HELMET, colour: "#7dd3fc" }
+equipment: {}
 
-abilities: [ frost_nova, chilling_howl ]
+# Names from the built-in library, or from
+# abilities.yml on the full build. Lite allows two.
+abilities:
+  - frostbite_players
+  - poison_players
+
+spawn:
+  environment: NORMAL_NIGHT
+  biomes: [ SNOWY_TAIGA, GROVE, FROZEN_PEAKS,
+            SNOWY_PLAINS, SNOWY_SLOPES ]
+  chance: 0.2
+  group: 2-4
 
 state:
   ai: true
+  glowing: false
   faction: HOSTILE
   despawns: true
 
 cosmetics:
-  particle: BLUE_CIRCLE
+  particle: AQUA_CIRCLE
   aura: CHILLING
 
 potion-effects:
   SPEED: 2
 
-summons:
-  - mob: "Frost Pup"
-    trigger: ON_DEATH
-    count: 2
+loot:
+  guaranteed:
+    - { item: BONE, amount: 2-5 }
+  rolls: 2
+  table:
+    - { weight: 60, item: IRON_INGOT, amount: 1-3 }
+    - { weight: 25, item: PACKED_ICE, amount: 4-8 }
+    - { weight: 10, item: DIAMOND }
+    - { weight: 5, item: ENCHANTED_GOLDEN_APPLE }
+
+rewards:
+  xp-levels: 3
+  currencies:
+    - { type: KUMANDRA, amount: 15-40 }
+
+# [Full build] What the codex shows a player who has
+# killed one. The name, tier and kill count are filled
+# in by the plugin; this is the flavour.
+codex:
+  flavour:
+    - "Hunts in threes, and never at noon."
+    - "Its breath frosts the ground it stands on."
               `}
             </code>
           </pre>
         </Terminal>
+      </Section>
+
+      <Section>
+        <SubHeading accent="sky">WHAT THAT FILE LOOKS LIKE IN GAME</SubHeading>
+        <div className="mt-5 grid gap-4 md:grid-cols-2">
+          <Shot
+            className="emr-shot"
+            src={Screens.frostWolf}
+            alt="The Alpha Frost Wolf summoned in game"
+            accent="sky"
+            caption="The name plate, the frost trail from the cosmetics block, and the health readout on the action bar"
+          />
+          <Shot
+            className="emr-shot"
+            src={Screens.spawnEggs}
+            alt="The spawn egg menu, with a mob's tooltip open"
+            accent="lime"
+            caption="/ep spawneggs. One egg per mob, with its tier, its base entity and its numbers on the tooltip"
+          />
+        </div>
       </Section>
 
       <Section>
@@ -158,6 +217,48 @@ summons:
           accent="amber"
           caption="What a mob is made of, and what the plugin does with it"
         />
+      </Section>
+
+      <Section>
+        <SubHeading accent="emerald">AND WHAT PLAYERS SEE OF IT</SubHeading>
+        <Body className="pt-3 text-justify">
+          <Cmd accent="emerald">/ep codex</Cmd> is every Epic Mob a player has
+          personally killed. An entry is a silhouette until their first kill,
+          then unlocks in stages: the mob and its flavour text first, its
+          abilities and phases at <Cmd accent="emerald">codex.abilities-at</Cmd>{" "}
+          kills, its drops at <Cmd accent="emerald">codex.loot-at</Cmd>. A boss
+          entry also carries their best fight against it, recorded for everybody
+          who landed a hit rather than only the killer.
+        </Body>
+        <div className="mt-5 grid gap-4 md:grid-cols-2">
+          <Shot
+            className="emr-shot"
+            src={Screens.codex}
+            alt="The codex, four of twenty discovered"
+            accent="emerald"
+            caption="Four of twenty discovered. The codex itself is the full build, but the kill counters behind it are recorded in both"
+          />
+          <Panel accent="sky" className="p-5">
+            <SubHeading accent="sky">WHY THE COUNTERS ARE IN BOTH</SubHeading>
+            <Body className="pt-3">
+              A Lite server records every kill and every boss best time in{" "}
+              <Cmd accent="sky">data/players.yml</Cmd> even though it cannot
+              open the codex. That is deliberate.
+            </Body>
+            <Body className="pt-3">
+              A server that upgrades finds every kill its players have already
+              made waiting for them, rather than resetting the whole
+              server&apos;s collection to zero on the day they paid for it.
+            </Body>
+            <div className="pt-4">
+              <Note accent="amber" icon="fa-solid fa-circle-info">
+                <Cmd accent="amber">/ep info [mob]</Cmd> is the public stat
+                sheet and works in both builds. It is not the admin dump, which
+                stays behind the permission.
+              </Note>
+            </div>
+          </Panel>
+        </div>
       </Section>
 
       <Section>

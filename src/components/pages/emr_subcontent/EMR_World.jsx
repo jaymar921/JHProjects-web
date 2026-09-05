@@ -75,6 +75,10 @@ function EMR_World() {
               <TerminalLabel accent="sky">[SPAWN RULES]</TerminalLabel>
               {`
 spawn:
+  # Which of the six ways in this mob uses.
+  # NORMAL_NIGHT, NORMAL_DAY, NETHER, END, BOSS or SUMMON.
+  environment: NORMAL_NIGHT
+
   worlds: [ world, world_nether ]
   environments: [ NORMAL ]
   biomes: [ SNOWY_TAIGA, GROVE, "#is_cold" ]
@@ -85,7 +89,9 @@ spawn:
   moon_phase: [ FULL ]
   min_distance_from_spawn: 200
   max_nearby: 4
+  max_nearby_radius: 48
   requires_sky_access: false
+  replace_vanilla: [ WOLF ]
   group: 2-4
   chance: 0.15
   cooldown: 300s
@@ -161,6 +167,18 @@ spawn:
             </Bullets>
           </Panel>
         </div>
+      </Section>
+
+      <Section>
+        <Note accent="rose" icon="fa-solid fa-circle-exclamation">
+          One honest limit on that list. A biome entry starting with{" "}
+          <Cmd accent="rose">#</Cmd> is a tag, and the plugin parses it and
+          carries it, but Spigot exposes no biome tag accessor at all, so the
+          condition cannot be checked and is ignored.{" "}
+          <Cmd accent="rose">/ep info</Cmd> reports the capability as
+          unavailable rather than letting you find out from an empty tundra.
+          There is nothing to do on this side until Spigot adds one.
+        </Note>
       </Section>
 
       <Section>

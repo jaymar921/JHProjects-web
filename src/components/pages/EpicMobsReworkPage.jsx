@@ -1,14 +1,17 @@
 import { useEffect, useState } from "react";
 import {
-  BuildProgress,
   CommandList,
   EditionMatrix,
   Features,
+  KnownGaps,
   ModelCredits,
   Permissions,
   PluginInformation,
+  ReleaseState,
+  Screenshots,
   SetupSteps,
   SetupTests,
+  TestingAsks,
 } from "../contants/epic_mobs_rework/EMRConstants";
 import { EMR_Logs } from "../contants/epic_mobs_rework/EMRConstants_Logs";
 import WindowWrap from "../modals/windowWrap";
@@ -23,6 +26,8 @@ import EMR_World from "./emr_subcontent/EMR_World";
 import EMR_Raids from "./emr_subcontent/EMR_Raids";
 import EMR_Loot from "./emr_subcontent/EMR_Loot";
 import EMR_Integrations from "./emr_subcontent/EMR_Integrations";
+import EMR_Setup from "./emr_subcontent/EMR_Setup";
+import EMR_DevApi from "./emr_subcontent/EMR_DevApi";
 import EMR_Config from "./emr_subcontent/EMR_Config";
 import EMR_Editions from "./emr_subcontent/EMR_Editions";
 import EMR_BugReport from "./emr_subcontent/EMR_BugReport";
@@ -35,6 +40,7 @@ import {
   Note,
   Panel,
   SectionHeading,
+  Shot,
   StatChip,
   Step,
   Steps,
@@ -74,9 +80,21 @@ const pageStyles = `
     50% { opacity: 0.25; }
   }
   .emr-blink { animation: emr-blink 1.4s steps(2, end) infinite; }
+
+  /*
+    Real screenshots are nearest-neighbour Minecraft textures. Scaled up by the
+    browser's default smoothing they turn to mush, which is the same failure the
+    trailer had before its textures were pinned to anisotropy 1. The class is
+    global rather than scoped to this section because the feature panels use the
+    same screenshots inside the modal, which renders outside this subtree.
+  */
+  .emr-shot img {
+    image-rendering: pixelated;
+    image-rendering: crisp-edges;
+  }
 `;
 
-/** The three states a line of BuildProgress can be in. */
+/** The three states a line of ReleaseState can be in. */
 const PROGRESS_STYLE = {
   done: {
     accent: "emerald",
@@ -146,6 +164,10 @@ function EpicMobsReworkPage() {
         return <EMR_Loot />;
       case "integrations":
         return <EMR_Integrations />;
+      case "setup":
+        return <EMR_Setup />;
+      case "api":
+        return <EMR_DevApi />;
       case "config":
         return <EMR_Config />;
       case "editions":
@@ -175,7 +197,7 @@ function EpicMobsReworkPage() {
 
   const inDevelopment = EMR_Logs.find((log) => !log.release_date);
   const latestRelease = EMR_Logs.find((log) => log.release_date);
-  const { price } = PluginInformation;
+  const { price, spigot } = PluginInformation;
 
   return (
     <div className="relative w-full overflow-x-hidden bg-[#0e1014]">
@@ -235,29 +257,53 @@ function EpicMobsReworkPage() {
             </a>
           </p>
 
+          {/*
+            Two download buttons rather than one, and the free one first. Lite
+            is a complete plugin rather than a demo, so it is the honest thing
+            to lead with, and a release candidate is worth trying before it is
+            worth buying.
+          */}
           <div className="mt-8 flex flex-col place-items-center justify-center gap-3 md:flex-row">
             <a
+              href={PluginInformation.liteDownloadLink}
+              target="_blank"
+              rel="noreferrer"
+              className="pixel-font inline-flex w-full max-w-[280px] place-items-center justify-center gap-2 rounded-none border-2 border-emerald-400/70 bg-emerald-500/15 py-3 text-[10px] tracking-widest text-emerald-200 transition-all hover:-translate-y-0.5 hover:border-emerald-300 hover:bg-emerald-500/30 md:w-auto md:px-6 md:text-xs"
+            >
+              <i className="fa-solid fa-download"></i>
+              GET LITE, FREE
+            </a>
+            <a
+              href={PluginInformation.downloadLink}
+              target="_blank"
+              rel="noreferrer"
+              className="pixel-font inline-flex w-full max-w-[280px] place-items-center justify-center gap-2 rounded-none border-2 border-orange-400/70 bg-orange-500/15 py-3 text-[10px] tracking-widest text-orange-200 transition-all hover:-translate-y-0.5 hover:border-orange-300 hover:bg-orange-500/30 md:w-auto md:px-6 md:text-xs"
+            >
+              <i className="fa-solid fa-crown"></i>
+              FULL, {price.symbol}
+              {price.amount}
+            </a>
+            <a
               href="#trailer"
-              className="pixel-font inline-flex w-full max-w-[260px] place-items-center justify-center gap-2 rounded-none border-2 border-orange-400/70 bg-orange-500/15 py-3 text-[10px] tracking-widest text-orange-200 transition-all hover:-translate-y-0.5 hover:border-orange-300 hover:bg-orange-500/30 md:w-auto md:px-6 md:text-xs"
+              className="pixel-font inline-flex w-full max-w-[280px] place-items-center justify-center gap-2 rounded-none border-2 border-slate-400/50 bg-[rgba(0,0,0,0.6)] py-3 text-[10px] tracking-widest text-slate-200 transition-all hover:-translate-y-0.5 hover:border-slate-200 hover:bg-[rgba(255,255,255,0.08)] md:w-auto md:px-6 md:text-xs"
             >
               <i className="fa-solid fa-play"></i>
               WATCH THE TRAILER
             </a>
-            <button
-              className="pixel-font w-full max-w-[260px] rounded-none border-2 border-slate-400/50 bg-[rgba(0,0,0,0.6)] py-3 text-[10px] tracking-widest text-slate-200 transition-all hover:-translate-y-0.5 hover:border-slate-200 hover:bg-[rgba(255,255,255,0.08)] md:w-auto md:px-6 md:text-xs"
-              onClick={() => setSubcontent("editions")}
-            >
-              <i className="fa-solid fa-scale-balanced pr-2"></i>
-              LITE VS FULL
-            </button>
           </div>
 
           <div className="mt-8 flex flex-wrap place-items-center justify-center gap-2">
             <StatChip
+              icon="fa-solid fa-skull"
+              value="20"
+              label="Mobs in the box"
+              accent="ember"
+            />
+            <StatChip
               icon="fa-solid fa-layer-group"
               value="6"
               label="Tiers"
-              accent="ember"
+              accent="rose"
             />
             <StatChip
               icon="fa-solid fa-wand-sparkles"
@@ -270,6 +316,12 @@ function EpicMobsReworkPage() {
               value="6"
               label="Spawn paths"
               accent="sky"
+            />
+            <StatChip
+              icon="fa-solid fa-tower-observation"
+              value="5"
+              label="Raid anchors"
+              accent="rose"
             />
             <StatChip
               icon="fa-solid fa-terminal"
@@ -293,81 +345,119 @@ function EpicMobsReworkPage() {
         </div>
       </header>
 
-      {/* ------------------------------------------------- THE HONEST BIT */}
+      {/* --------------------------------------------- THE RELEASE CANDIDATE */}
       {/*
-        This is the first thing under the hero on purpose. A page for an
-        unreleased plugin that buries the word unreleased is how somebody ends
-        up planning a season around a jar that does not exist.
+        First thing under the hero, and it says release candidate before it
+        says anything else. RC1 has every 1.0 feature in it, which is exactly
+        why it would be easy to read as 1.0, and an owner putting it on a live
+        server has to know which one they have got. The known gaps are here
+        rather than three clicks into a changelog for the same reason.
       */}
       <section className="emr-grid relative w-full py-10">
         <div className="mx-auto w-[90%] md:w-[80%] lg:w-[70%]">
           <Panel accent="amber" className="p-5 md:p-6">
-            <div className="lg:flex lg:place-items-center lg:gap-6">
+            <div className="lg:flex lg:place-items-start lg:gap-6">
               <div className="grow">
                 <div className="flex flex-wrap place-items-center gap-2">
                   <span className="pixel-font border border-amber-400/60 bg-amber-500/15 px-2 py-1 text-[8px] tracking-widest text-amber-300">
-                    NOT RELEASED
+                    RELEASE CANDIDATE
                   </span>
                   <span className="pixel-font text-xs text-slate-200 md:text-sm">
                     v{PluginInformation.version}
                   </span>
                   <span className="text-[10px] text-slate-500 md:text-xs">
-                    no release date
+                    {PluginInformation.releaseDateLabel}
                   </span>
                 </div>
                 <p className="pixel-font pt-3 text-[10px] text-amber-300 md:text-xs">
-                  There is no download here yet, and no date for one.
+                  Everything on the 1.0 list is built. What it has not had is
+                  your server.
                 </p>
                 <p className="pt-3 text-xs leading-relaxed text-slate-300 md:text-sm">
-                  Epic Mobs Rework is being built. The two-jar build, the
-                  release pipeline, the configuration surface and the defect
-                  backlog are finished; the source rework is where the work is.
-                  When there is a build to download, the link goes on this page
-                  before it goes anywhere else. Until then this page is the
-                  design, in full, so you can decide whether it is worth waiting
-                  for rather than guessing.
+                  This is a real build of the whole plugin, published so it can
+                  be broken by somebody other than its author. Two rounds of
+                  playing it found bugs that nothing else was ever going to,
+                  and both rounds found the same kind: a subsystem reporting
+                  progress it was not making. A raid drew its bar, counted its
+                  waves and ran its timer while spawning nothing. An arena did
+                  the same. Neither threw, neither logged a word, and both
+                  looked fine right up until you counted the mobs.
+                </p>
+                <p className="pt-3 text-xs leading-relaxed text-slate-400 md:text-sm">
+                  Those are fixed, and the plugin now says so in the console
+                  when a raid or an arena places nothing three times running.
+                  There is no date for 1.0 proper and there will not be a guess
+                  at one: 1.0 is what this becomes when the reports stop
+                  turning things up. Back up{" "}
+                  <span className="text-slate-300">plugins/EpicMobs</span>{" "}
+                  before you update.
                 </p>
                 <p className="pt-3 text-[11px] leading-relaxed text-orange-300/90 md:text-xs">
                   <i className="fa-solid fa-tag pr-2"></i>
                   {price.symbol}
                   {price.amount} {price.currency} for the full build, bought
-                  once. A free Lite build ships alongside it.
+                  once through Spigot. The Lite build is free and is a complete
+                  plugin, not a trial.
                 </p>
                 <div className="flex flex-wrap gap-2 pt-4">
                   <StatChip
                     icon="fa-solid fa-circle-check"
                     value={
-                      BuildProgress.filter((row) => row.state === "done").length
+                      ReleaseState.filter((row) => row.state === "done").length
                     }
-                    label="Done"
+                    label="Shipped"
                     accent="emerald"
                   />
                   <StatChip
-                    icon="fa-solid fa-hammer"
-                    value={
-                      BuildProgress.filter((row) => row.state === "in progress")
-                        .length
-                    }
-                    label="In progress"
+                    icon="fa-solid fa-flask"
+                    value={TestingAsks.length}
+                    label="Needs testing"
                     accent="amber"
                   />
                   <StatChip
-                    icon="fa-solid fa-calendar-xmark"
-                    value="None"
-                    label="Release date"
+                    icon="fa-solid fa-triangle-exclamation"
+                    value={KnownGaps.length}
+                    label="Known gaps"
                     accent="rose"
                   />
                   <StatChip
-                    icon="fa-solid fa-gift"
-                    value="Free"
-                    label="Lite build"
-                    accent="lime"
+                    icon="fa-solid fa-code-branch"
+                    value="1"
+                    label="Payment, ever"
+                    accent="sky"
                   />
                 </div>
               </div>
-              <div className="flex shrink-0 flex-col gap-3 pt-5 lg:pt-0">
+              <div className="flex shrink-0 flex-col gap-3 pt-5 lg:w-[240px] lg:pt-0">
+                <a
+                  href={PluginInformation.liteDownloadLink}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="pixel-font inline-flex w-full place-items-center justify-center gap-2 rounded-none border-2 border-emerald-400/60 bg-[rgba(0,0,0,0.5)] px-4 py-3 text-[9px] tracking-widest text-emerald-200 transition-all hover:-translate-y-0.5 hover:border-emerald-300 hover:bg-emerald-500/20 lg:text-[10px]"
+                >
+                  <i className="fa-solid fa-download"></i>
+                  DOWNLOAD LITE
+                </a>
+                <a
+                  href={PluginInformation.downloadLink}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="pixel-font inline-flex w-full place-items-center justify-center gap-2 rounded-none border-2 border-orange-400/60 bg-[rgba(0,0,0,0.5)] px-4 py-3 text-[9px] tracking-widest text-orange-200 transition-all hover:-translate-y-0.5 hover:border-orange-300 hover:bg-orange-500/20 lg:text-[10px]"
+                >
+                  <i className="fa-solid fa-crown"></i>
+                  BUY THE FULL BUILD
+                </a>
+                <a
+                  href={spigot.premiumDiscussion}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="pixel-font inline-flex w-full place-items-center justify-center gap-2 rounded-none border-2 border-slate-500/50 bg-[rgba(0,0,0,0.5)] px-4 py-3 text-[9px] tracking-widest text-slate-300 transition-all hover:-translate-y-0.5 hover:border-slate-300 lg:text-[10px]"
+                >
+                  <i className="fa-solid fa-comments"></i>
+                  REPORT SOMETHING
+                </a>
                 <button
-                  className="pixel-font w-full rounded-none border-2 border-amber-400/60 bg-[rgba(0,0,0,0.5)] px-4 py-3 text-[9px] tracking-widest text-amber-200 transition-all hover:-translate-y-0.5 hover:border-amber-300 hover:bg-amber-500/20 lg:w-auto lg:text-[10px]"
+                  className="pixel-font w-full rounded-none border-2 border-amber-400/60 bg-[rgba(0,0,0,0.5)] px-4 py-3 text-[9px] tracking-widest text-amber-200 transition-all hover:-translate-y-0.5 hover:border-amber-300 hover:bg-amber-500/20 lg:text-[10px]"
                   onClick={() => setShowProgress((shown) => !shown)}
                   aria-expanded={showProgress}
                   aria-controls="emr-progress"
@@ -377,14 +467,7 @@ function EpicMobsReworkPage() {
                       showProgress ? "fa-chevron-up" : "fa-chevron-down"
                     }`}
                   ></i>
-                  {showProgress ? "HIDE THE LIST" : "WHAT IS FINISHED"}
-                </button>
-                <button
-                  className="pixel-font w-full rounded-none border-2 border-orange-400/50 bg-[rgba(0,0,0,0.5)] px-4 py-3 text-[9px] tracking-widest text-orange-200 transition-all hover:-translate-y-0.5 hover:border-orange-300 hover:bg-orange-500/20 lg:w-auto lg:text-[10px]"
-                  onClick={() => setSubcontent("change logs")}
-                >
-                  <i className="fa-solid fa-clipboard-list pr-2"></i>
-                  THE FULL WRITE-UP
+                  {showProgress ? "HIDE STATUS" : "1.0 STATUS"}
                 </button>
               </div>
             </div>
@@ -392,7 +475,7 @@ function EpicMobsReworkPage() {
 
           {showProgress && (
             <div id="emr-progress" className="mt-6 grid gap-3">
-              {BuildProgress.map((row) => {
+              {ReleaseState.map((row) => {
                 const style = PROGRESS_STYLE[row.state];
                 return (
                   <div
@@ -415,6 +498,80 @@ function EpicMobsReworkPage() {
               })}
             </div>
           )}
+
+          {/* What the RC is asking for, and what it cannot do. */}
+          <div className="mt-8 grid gap-6 lg:grid-cols-2">
+            <div>
+              <SubHeading accent="rose">WHAT WOULD MOST HELP</SubHeading>
+              <p className="pt-3 text-xs leading-relaxed text-slate-400 md:text-sm">
+                Four things, in the order they are worth. The first three need
+                somebody who is not the author, and two of them need a second
+                player.
+              </p>
+              <div className="mt-4 grid gap-3">
+                {TestingAsks.map((ask) => (
+                  <Panel key={ask.title} accent={ask.accent} className="p-4">
+                    <div className="flex place-items-center gap-3">
+                      <IconBadge icon={ask.icon} accent={ask.accent} />
+                      <p className="pixel-font text-[8px] tracking-wide text-slate-200 md:text-[10px]">
+                        {ask.title}
+                      </p>
+                    </div>
+                    <p className="pt-3 text-[11px] leading-relaxed text-slate-400 md:text-xs">
+                      {ask.body}
+                    </p>
+                  </Panel>
+                ))}
+              </div>
+            </div>
+
+            <div>
+              <SubHeading accent="amber">WHAT IT DOES NOT DO</SubHeading>
+              <p className="pt-3 text-xs leading-relaxed text-slate-400 md:text-sm">
+                On the page rather than buried in a changelog. Two of the four
+                cannot be fixed inside this plugin at all, and saying which is
+                the difference between a gap and an excuse.
+              </p>
+              <div className="mt-4 grid gap-3">
+                {KnownGaps.map((gap) => (
+                  <Panel key={gap.title} accent={gap.accent} className="p-4">
+                    <div className="flex flex-wrap place-items-center gap-2">
+                      <p className="pixel-font grow text-[8px] tracking-wide text-slate-200 md:text-[10px]">
+                        {gap.title}
+                      </p>
+                      <span
+                        className={`pixel-font shrink-0 border px-2 py-1 text-[7px] tracking-widest ${
+                          gap.ours
+                            ? "border-amber-400/40 bg-amber-400/10 text-amber-300"
+                            : "border-slate-500/40 bg-slate-500/10 text-slate-400"
+                        }`}
+                        title={
+                          gap.ours
+                            ? "A decision on this side"
+                            : "Blocked on another project"
+                        }
+                      >
+                        {gap.ours ? "OUR CALL" : "NOT OURS TO FIX"}
+                      </span>
+                    </div>
+                    <p className="pt-3 text-[11px] leading-relaxed text-slate-400 md:text-xs">
+                      {gap.body}
+                    </p>
+                  </Panel>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          <div className="pt-6 text-center">
+            <button
+              className="pixel-font rounded-none border-2 border-orange-400/50 bg-[rgba(0,0,0,0.5)] px-5 py-3 text-[9px] tracking-widest text-orange-200 transition-all hover:-translate-y-0.5 hover:border-orange-300 hover:bg-orange-500/20 md:text-[11px]"
+              onClick={() => setSubcontent("change logs")}
+            >
+              <i className="fa-solid fa-clipboard-list pr-2"></i>
+              THE FULL WRITE-UP
+            </button>
+          </div>
         </div>
       </section>
 
@@ -431,9 +588,11 @@ function EpicMobsReworkPage() {
             <div className="w-full lg:w-1/2">
               <Media accent="ember">
                 {/*
-                  Drawn rather than filmed. There is no build to record yet,
-                  so the trailer shows what the plugin is designed to do
-                  instead of pretending to be gameplay footage.
+                  Drawn rather than filmed. It was made before there was a
+                  build to record, and it stays because it is a better piece of
+                  film than a screen capture would be. The screenshots further
+                  down are the real thing, and they are labelled as such so
+                  neither one has to pretend to be the other.
 
                   It does not autoplay, so it is not muted either: it has a
                   music bed and somebody who presses play meant to press play.
@@ -451,8 +610,8 @@ function EpicMobsReworkPage() {
                 />
               </Media>
               <p className="pt-2 text-center text-[10px] tracking-wide text-slate-500 md:text-xs">
-                Drawn, not filmed. There is no build to record yet, so this
-                shows the design rather than gameplay.
+                Drawn, not filmed. It shows the design. For the plugin actually
+                running, the screenshots below are from a 1.0-RC1 server.
               </p>
 
               {/*
@@ -576,17 +735,84 @@ function EpicMobsReworkPage() {
         </div>
       </section>
 
+      {/* ----------------------------------------------------- SCREENSHOTS */}
+      {/*
+        Real screenshots, and the section says so, because everything else
+        illustrating this page is drawn. The three wide ones are the plugin in
+        the world and the rest are its menus, which are small because a
+        Minecraft inventory is small: they are rendered at their natural size
+        against a dark panel rather than stretched, since upscaling a
+        nearest-neighbour texture to fill a card is how a screenshot ends up
+        looking like a mistake.
+      */}
+      <section className="w-full py-12">
+        <div className="mx-auto w-[90%] md:w-[80%] lg:w-[70%]">
+          <SectionHeading
+            icon="fa-solid fa-camera"
+            title="What it looks like running"
+            subtitle="Photographs, not art. Taken on a server running 1.0-RC1."
+            accent="sky"
+          />
+
+          <div className="mt-8 grid gap-6">
+            {Screenshots.filter((shot) => shot.wide).map((shot) => (
+              <div key={shot.key}>
+                <p className="pixel-font pb-3 text-[9px] tracking-widest text-slate-300 md:text-[11px]">
+                  <i className="fa-solid fa-angle-right pr-2 text-orange-400"></i>
+                  {shot.title}
+                </p>
+                <Shot
+                  className="emr-shot"
+                  src={shot.src}
+                  alt={shot.caption}
+                  accent={shot.accent}
+                  caption={shot.caption}
+                />
+              </div>
+            ))}
+          </div>
+
+          <div className="pt-10">
+            <SubHeading accent="amber">AND THE MENUS BEHIND THEM</SubHeading>
+            <p className="pt-3 text-xs leading-relaxed text-slate-400 md:text-sm">
+              Every one of these is a real inventory window, which is why they
+              are this size. Nothing here is a mock-up and nothing is scaled up
+              to fill a card.
+            </p>
+            <div className="mt-6 grid gap-6 md:grid-cols-2 xl:grid-cols-3">
+              {Screenshots.filter((shot) => !shot.wide).map((shot) => (
+                <div key={shot.key}>
+                  <p className="pixel-font pb-2 text-[8px] tracking-widest text-slate-300 md:text-[10px]">
+                    <i className="fa-solid fa-angle-right pr-2 text-orange-400"></i>
+                    {shot.title}
+                  </p>
+                  <Shot
+                    className="emr-shot"
+                    src={shot.src}
+                    alt={shot.caption}
+                    accent={shot.accent}
+                    caption={shot.caption}
+                  />
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* --------------------------------------------------------- PRICING */}
       {/*
-        No buy button, because there is nothing to buy. What this section can
-        honestly do is set the expectation: one payment, a free build to try
-        first, and no subscription ever.
+        One place to buy it, and it is Spigot. Custom Enchantments 3 carries a
+        PayPal and a Wise flow with their own discounts on this site; this
+        plugin deliberately does not, at least not while it is a release
+        candidate. One listing, one price, no launch discount, and the free
+        build sitting next to it.
       */}
       <section className="w-full py-10">
         <div className="mx-auto w-[90%] md:w-[80%] lg:w-[70%]">
           <SectionHeading
             icon="fa-solid fa-tag"
-            title="What it will cost"
+            title="What it costs"
             subtitle="One payment, free updates for life. There is no subscription and there never will be."
             accent="amber"
           />
@@ -611,12 +837,22 @@ function EpicMobsReworkPage() {
                 add to.
               </p>
               <p className="pt-3 text-xs leading-relaxed text-slate-400 md:text-sm">
-                It is not on sale yet, so nothing on this page takes your money
-                and there is nothing to pre-order. The price is here so you can
-                decide whether it is worth waiting for, and it is what the
-                listing will say when there is a listing.
+                It is sold through the Spigot listing and nowhere else for now.
+                There is no launch discount and no separate payment flow to
+                work through: buy it on Spigot, and Spigot hands you the jar.
+                Buying the release candidate buys the plugin, so 1.0 and
+                everything after it is the same purchase.
               </p>
               <div className="flex flex-col gap-3 pt-5 sm:flex-row">
+                <a
+                  href={PluginInformation.downloadLink}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="pixel-font inline-flex w-full place-items-center justify-center gap-2 rounded-none border-2 border-orange-400/60 bg-orange-500/15 px-5 py-3 text-[9px] tracking-widest text-orange-200 transition-all hover:-translate-y-0.5 hover:border-orange-300 hover:bg-orange-500/30 sm:w-auto md:text-[11px]"
+                >
+                  <i className="fa-solid fa-cart-shopping"></i>
+                  BUY ON SPIGOT
+                </a>
                 <button
                   className="pixel-font w-full rounded-none border-2 border-orange-400/50 bg-[rgba(0,0,0,0.5)] px-5 py-3 text-[9px] tracking-widest text-orange-200 transition-all hover:-translate-y-0.5 hover:border-orange-300 hover:bg-orange-500/20 sm:w-auto md:text-[11px]"
                   onClick={() => setSubcontent("editions")}
@@ -647,14 +883,27 @@ function EpicMobsReworkPage() {
                 server before you spend anything.
               </p>
               <p className="pt-3 text-xs leading-relaxed text-slate-400 md:text-sm">
-                Nothing in it expires, nothing phones home, and every
-                integration works in it. Try that first. That is what it is for.
+                It carries the same twenty mobs, and they do not count against
+                the ten definitions you may write. Nothing in it expires,
+                nothing phones home, and every integration works in it. Try
+                that first. That is what it is for.
               </p>
               <div className="pt-5">
+                <a
+                  href={PluginInformation.liteDownloadLink}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="pixel-font inline-flex w-full place-items-center justify-center gap-2 rounded-none border-2 border-emerald-400/60 bg-emerald-500/15 px-5 py-3 text-[9px] tracking-widest text-emerald-200 transition-all hover:-translate-y-0.5 hover:border-emerald-300 hover:bg-emerald-500/30 md:text-[11px]"
+                >
+                  <i className="fa-solid fa-download"></i>
+                  DOWNLOAD LITE
+                </a>
+              </div>
+              <div className="pt-5">
                 <Note accent="rose" icon="fa-solid fa-circle-exclamation">
-                  There will be no refunds once the full build is bought, which
-                  is exactly why the free one exists and why it is a complete
-                  plugin rather than a demo.
+                  There are no refunds once the full build is bought, which is
+                  exactly why the free one exists and why it is a complete
+                  plugin rather than a demo. Run Lite on your own server first.
                 </Note>
               </div>
             </Panel>
@@ -777,7 +1026,8 @@ OPTIONAL, detected if present
 
 None of these is compiled against and none is
 shaded into the jar. /ep info says which ones
-hooked.
+hooked, and any that are absent are simply not
+listed rather than warned about.
                 `}
               </code>
             </pre>
@@ -807,6 +1057,22 @@ hooked.
             subtitle="Never run this plugin before? This is the whole of a first evening, in order."
             accent="ember"
           />
+
+          <div className="pt-5">
+            <Note accent="sky" icon="fa-solid fa-book">
+              Short version below. The full write-up, with the command
+              reference, the five permission nodes, where each command may be
+              run from, and what to do when something is not behaving, is in
+              the{" "}
+              <button
+                className="text-sky-300 underline"
+                onClick={() => setSubcontent("setup")}
+              >
+                Setup &amp; commands panel
+              </button>
+              .
+            </Note>
+          </div>
 
           <div className="mt-6 gap-6 lg:flex">
             <div className="w-full lg:w-1/2">
@@ -841,7 +1107,8 @@ hooked.
 Edition: LITE
 Detected server 1.21.4, feature set resolved
 No optional integrations found. Running standalone.
-Loaded 0 mob definitions, 0 raids, 0 triggers
+Wrote 20 mob definitions, 2 raids, 1 pack, 1 arena
+Loaded 20 mob definitions, 2 raids, 0 triggers
 
 The Edition line is the one to read. The two jars
 look identical in the plugins folder apart from
@@ -890,9 +1157,9 @@ prints the same set at any time.
           <div className="pt-8">
             <SubHeading accent="amber">TRY EACH SYSTEM ONCE</SubHeading>
             <p className="pt-3 text-xs leading-relaxed text-slate-400 md:text-sm">
-              Six things to check, in the order that needs least setup first.
-              Work down the list on a fresh server and you will have seen the
-              whole plugin in an evening.
+              {SetupTests.length} things to check, in the order that needs least
+              setup first. Work down the list on a fresh server and you will
+              have seen the whole plugin in an evening.
             </p>
             <div className="mt-5 grid gap-4 md:grid-cols-2 xl:grid-cols-3">
               {SetupTests.map((test) => (
@@ -912,6 +1179,16 @@ prints the same set at any time.
                 </Panel>
               ))}
             </div>
+          </div>
+
+          <div className="pt-6 text-center">
+            <button
+              className="pixel-font rounded-none border-2 border-sky-400/50 bg-[rgba(0,0,0,0.5)] px-5 py-3 text-[9px] tracking-widest text-sky-200 transition-all hover:-translate-y-0.5 hover:border-sky-300 hover:bg-sky-500/20 md:text-[11px]"
+              onClick={() => setSubcontent("setup")}
+            >
+              <i className="fa-solid fa-screwdriver-wrench pr-2"></i>
+              THE FULL SETUP GUIDE
+            </button>
           </div>
 
           <div className="pt-6">
@@ -972,14 +1249,17 @@ prints the same set at any time.
           <SectionHeading
             icon="fa-solid fa-key"
             title="Permissions"
-            subtitle="Sensible out of the box. Players get the player things, ops get the rest."
+            subtitle={`${Permissions.length} nodes, and only the first is an administrative one.`}
             accent="amber"
           />
           <p className="pt-5 text-justify text-xs leading-relaxed text-slate-300 md:text-sm">
             Every node is declared in the plugin&apos;s own plugin.yml, so any
-            permissions plugin can read them. You only need to touch them if you
-            want to hand mob building to staff who are not opped, or hand the
-            loot multiplier to a rank.
+            permissions plugin can read them. The four player nodes default to
+            everyone on purpose: a player looking up a mob they just fought, or
+            choosing which currency their kills pay out in, is not an
+            administrative act, and a server that disagrees can negate them.
+            You only need to touch the first one if you want to hand mob
+            building to staff who are not opped.
           </p>
           <div className="mt-6 grid gap-2">
             {Permissions.map((permission) => (
@@ -1014,7 +1294,7 @@ prints the same set at any time.
           <SectionHeading
             icon="fa-solid fa-clipboard-list"
             title="Release history"
-            subtitle="One entry so far, and it has no date on it. It says what exists rather than what is planned."
+            subtitle={`One entry so far: v${PluginInformation.version}, published ${PluginInformation.releaseDateLabel}.`}
             accent="ember"
           />
           <div className="mt-6 space-y-3">
@@ -1027,6 +1307,7 @@ prints the same set at any time.
                 log={latestRelease}
                 isLatest
                 accent="ember"
+                latestLabel="RELEASE CANDIDATE"
               />
             )}
           </div>
@@ -1048,7 +1329,7 @@ prints the same set at any time.
           <SectionHeading
             icon="fa-solid fa-headset"
             title="Developer support"
-            subtitle="Want something in it, or want to know what happened to the old one?"
+            subtitle="Running the release candidate, or want to know what happened to the old one?"
             accent="rose"
           />
           <div className="mt-6 grid gap-4 md:grid-cols-2 xl:grid-cols-4">
@@ -1056,7 +1337,7 @@ prints the same set at any time.
               accent="rose"
               icon="fa-solid fa-bug"
               title="REQUESTS & BUGS"
-              description="Nothing has shipped, so a feature request is worth more than a bug report right now. Both go to the same inbox."
+              description="A release candidate is published to be broken. Paste /ep info and /ep debug spawn with whatever you were doing, here or on the Spigot discussions tab."
               buttonIcon="fa-solid fa-paper-plane"
               buttonLabel="Send one"
               onClick={() => setSubcontent("bug report")}
@@ -1064,8 +1345,8 @@ prints the same set at any time.
             <ActionCard
               accent="ember"
               icon="fa-solid fa-clipboard-list"
-              title="WHAT IS DONE"
-              description="The full write-up of what is finished, what is being built, and what the rework is fixing from the old plugin."
+              title="WHAT CHANGED"
+              description="The full 1.0-RC1 write-up: what shipped, what was rewritten after somebody played it, and the four things it still cannot do."
               buttonIcon="fa-solid fa-clipboard-list"
               buttonLabel="Read it"
               onClick={() => setSubcontent("change logs")}
@@ -1078,6 +1359,15 @@ prints the same set at any time.
               buttonIcon="fa-solid fa-table-list"
               buttonLabel="Compare"
               onClick={() => setSubcontent("editions")}
+            />
+            <ActionCard
+              accent="purple"
+              icon="fa-solid fa-code"
+              title="BUILDING ON IT"
+              description="The plugin is closed source, so the API is a published contract instead: four views, ten queries, eleven events, and the rules you cannot discover any other way."
+              buttonIcon="fa-solid fa-code"
+              buttonLabel="Dev API"
+              onClick={() => setSubcontent("api")}
             />
             <ActionCard
               accent="sky"
