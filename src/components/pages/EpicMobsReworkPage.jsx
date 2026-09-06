@@ -32,9 +32,14 @@ import EMR_Config from "./emr_subcontent/EMR_Config";
 import EMR_Editions from "./emr_subcontent/EMR_Editions";
 import EMR_BugReport from "./emr_subcontent/EMR_BugReport";
 import EMR_ChangeLogs from "./emr_subcontent/EMR_ChangeLogs";
+import EMR_Guides from "./emr_subcontent/EMR_Guides";
+import EMR_Requirements from "./emr_subcontent/EMR_Requirements";
+import EMR_Gallery from "./emr_subcontent/EMR_Gallery";
+import { Walkthroughs } from "../contants/epic_mobs_rework/EMRConstants_Guides";
 import {
   ActionCard,
   Cmd,
+  Collapsible,
   IconBadge,
   Media,
   Note,
@@ -119,11 +124,50 @@ const PROGRESS_STYLE = {
 /** How many rows of the edition table the teaser shows before the window. */
 const EDITION_PREVIEW = EditionMatrix.slice(0, 7);
 
+/**
+ * The jump bar under the hero.
+ *
+ * The page is long because the plugin is large, and the fix for a long page is
+ * not to say less about it but to make the length navigable. Every section
+ * below has an id, and the bar sticks to the top so the way back out of the
+ * middle of the page is always one tap away rather than a scroll.
+ */
+const SECTIONS = [
+  { id: "rc", label: "RC1", icon: "fa-solid fa-flask" },
+  { id: "about", label: "ABOUT", icon: "fa-solid fa-book-open" },
+  { id: "features", label: "FEATURES", icon: "fa-solid fa-dice-d20" },
+  { id: "guides", label: "HOW TO", icon: "fa-solid fa-list-check" },
+  { id: "shots", label: "SCREENSHOTS", icon: "fa-solid fa-camera" },
+  { id: "pricing", label: "PRICE", icon: "fa-solid fa-tag" },
+  { id: "setup", label: "SETUP", icon: "fa-solid fa-screwdriver-wrench" },
+  { id: "commands", label: "COMMANDS", icon: "fa-solid fa-terminal" },
+  { id: "changelog", label: "CHANGES", icon: "fa-solid fa-clock-rotate-left" },
+  { id: "support", label: "SUPPORT", icon: "fa-solid fa-headset" },
+];
+
+/**
+ * The four walkthroughs the page itself puts a card in front of. The rest are
+ * one click further in, from the index inside the window: ten cards on the
+ * page would be the same wall of text this section exists to replace.
+ */
+const GUIDE_CARDS = [
+  "create-mob-chat",
+  "create-mob-editor",
+  "create-raid",
+  "arena-setup",
+];
+
 function EpicMobsReworkPage() {
   usePageView(PROJECTS.EPIC_MOBS_REWORK);
   const [subcontent, setSubcontent] = useState("none");
   const [showCommand, setShowCommand] = useState(false);
   const [showProgress, setShowProgress] = useState(false);
+  /*
+    Which walkthrough the guides window opens on. Every entry point into it
+    names one, because a window that always opens on "create a mob" makes
+    somebody who clicked "set up an arena" go and find it again.
+  */
+  const [guideKey, setGuideKey] = useState(Walkthroughs[0].key);
 
   const isPageOnly =
     typeof window !== "undefined" &&
@@ -145,6 +189,11 @@ function EpicMobsReworkPage() {
   }, []);
 
   const closeWindow = () => setSubcontent("none");
+
+  const openGuide = (key) => {
+    setGuideKey(key);
+    setSubcontent("guides");
+  };
 
   const subContent = () => {
     switch (subcontent) {
@@ -176,9 +225,34 @@ function EpicMobsReworkPage() {
         return <EMR_BugReport />;
       case "change logs":
         return <EMR_ChangeLogs />;
+      case "guides":
+        return <EMR_Guides initial={guideKey} />;
+      case "requirements":
+        return <EMR_Requirements />;
+      case "gallery":
+        return <EMR_Gallery />;
       default:
         return null;
     }
+  };
+
+  /* The window's own title bar, which reads better than the raw switch key. */
+  const WINDOW_TITLES = {
+    guides: "Step by step guides",
+    requirements: "Requirements & permissions",
+    gallery: "Screenshots",
+    "bug report": "Report something",
+    "change logs": "Release history",
+    api: "Developer API",
+  };
+
+  const WINDOW_ICONS = {
+    guides: "fa-solid fa-list-check",
+    requirements: "fa-solid fa-server",
+    gallery: "fa-solid fa-camera",
+    "bug report": "fa-solid fa-bug",
+    "change logs": "fa-solid fa-clipboard-list",
+    api: "fa-solid fa-code",
   };
 
   const subContentWindow = () => {
@@ -186,9 +260,9 @@ function EpicMobsReworkPage() {
     return (
       <WindowWrap
         close={closeWindow}
-        title={subcontent}
+        title={WINDOW_TITLES[subcontent] ?? subcontent}
         accent="ember"
-        icon="fa-solid fa-skull"
+        icon={WINDOW_ICONS[subcontent] ?? "fa-solid fa-skull"}
       >
         {subContent()}
       </WindowWrap>
@@ -197,7 +271,7 @@ function EpicMobsReworkPage() {
 
   const inDevelopment = EMR_Logs.find((log) => !log.release_date);
   const latestRelease = EMR_Logs.find((log) => log.release_date);
-  const { price, spigot } = PluginInformation;
+  const { price } = PluginInformation;
 
   return (
     <div className="relative w-full overflow-x-hidden bg-[#0e1014]">
@@ -345,6 +419,30 @@ function EpicMobsReworkPage() {
         </div>
       </header>
 
+      {/* ----------------------------------------------------------- NAV */}
+      {/*
+        Sticky, horizontally scrollable on a phone, and every target is a real
+        anchor rather than a scroll handler, so a middle click opens the
+        section in a new tab and the back button undoes a jump.
+      */}
+      <nav
+        aria-label="Sections of this page"
+        className="sticky top-0 z-40 border-b border-slate-800 bg-[rgba(11,13,17,0.94)] backdrop-blur-sm"
+      >
+        <div className="mx-auto flex w-[94%] gap-1 overflow-x-auto py-2 md:w-[80%] lg:w-[70%]">
+          {SECTIONS.map((section) => (
+            <a
+              key={section.id}
+              href={`#${section.id}`}
+              className="pixel-font shrink-0 border border-transparent px-2.5 py-2 text-[7px] tracking-widest whitespace-nowrap text-slate-400 transition-colors hover:border-orange-400/40 hover:bg-orange-500/10 hover:text-orange-200 md:text-[9px]"
+            >
+              <i className={`${section.icon} pr-1.5 opacity-70`}></i>
+              {section.label}
+            </a>
+          ))}
+        </div>
+      </nav>
+
       {/* --------------------------------------------- THE RELEASE CANDIDATE */}
       {/*
         First thing under the hero, and it says release candidate before it
@@ -353,7 +451,7 @@ function EpicMobsReworkPage() {
         server has to know which one they have got. The known gaps are here
         rather than three clicks into a changelog for the same reason.
       */}
-      <section className="emr-grid relative w-full py-10">
+      <section id="rc" className="emr-grid relative w-full scroll-mt-14 py-10">
         <div className="mx-auto w-[90%] md:w-[80%] lg:w-[70%]">
           <Panel accent="amber" className="p-5 md:p-6">
             <div className="lg:flex lg:place-items-start lg:gap-6">
@@ -447,15 +545,13 @@ function EpicMobsReworkPage() {
                   <i className="fa-solid fa-crown"></i>
                   BUY THE FULL BUILD
                 </a>
-                <a
-                  href={spigot.premiumDiscussion}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="pixel-font inline-flex w-full place-items-center justify-center gap-2 rounded-none border-2 border-slate-500/50 bg-[rgba(0,0,0,0.5)] px-4 py-3 text-[9px] tracking-widest text-slate-300 transition-all hover:-translate-y-0.5 hover:border-slate-300 lg:text-[10px]"
+                <button
+                  className="pixel-font inline-flex w-full place-items-center justify-center gap-2 rounded-none border-2 border-rose-400/50 bg-[rgba(0,0,0,0.5)] px-4 py-3 text-[9px] tracking-widest text-rose-200 transition-all hover:-translate-y-0.5 hover:border-rose-300 hover:bg-rose-500/20 lg:text-[10px]"
+                  onClick={() => setSubcontent("bug report")}
                 >
-                  <i className="fa-solid fa-comments"></i>
+                  <i className="fa-solid fa-paper-plane"></i>
                   REPORT SOMETHING
-                </a>
+                </button>
                 <button
                   className="pixel-font w-full rounded-none border-2 border-amber-400/60 bg-[rgba(0,0,0,0.5)] px-4 py-3 text-[9px] tracking-widest text-amber-200 transition-all hover:-translate-y-0.5 hover:border-amber-300 hover:bg-amber-500/20 lg:text-[10px]"
                   onClick={() => setShowProgress((shown) => !shown)}
@@ -499,16 +595,23 @@ function EpicMobsReworkPage() {
             </div>
           )}
 
-          {/* What the RC is asking for, and what it cannot do. */}
-          <div className="mt-8 grid gap-6 lg:grid-cols-2">
-            <div>
-              <SubHeading accent="rose">WHAT WOULD MOST HELP</SubHeading>
-              <p className="pt-3 text-xs leading-relaxed text-slate-400 md:text-sm">
-                Four things, in the order they are worth. The first three need
-                somebody who is not the author, and two of them need a second
-                player.
-              </p>
-              <div className="mt-4 grid gap-3">
+          {/*
+            What the RC is asking for, and what it cannot do. Both start closed.
+            They are the two most important blocks on the page for somebody who
+            has already decided to run the release candidate, and the two least
+            important for somebody still working out what the plugin is, so the
+            page offers them rather than spending eight panels of height on
+            them before anyone has asked.
+          */}
+          <div className="mt-8 grid gap-4 lg:grid-cols-2">
+            <Collapsible
+              accent="rose"
+              icon="fa-solid fa-hand-holding-heart"
+              title="WHAT WOULD MOST HELP"
+              hint="Four things, in the order they are worth. The first three need somebody who is not the author, and two of them need a second player."
+              count={TestingAsks.length}
+            >
+              <div className="grid gap-3">
                 {TestingAsks.map((ask) => (
                   <Panel key={ask.title} accent={ask.accent} className="p-4">
                     <div className="flex place-items-center gap-3">
@@ -523,16 +626,16 @@ function EpicMobsReworkPage() {
                   </Panel>
                 ))}
               </div>
-            </div>
+            </Collapsible>
 
-            <div>
-              <SubHeading accent="amber">WHAT IT DOES NOT DO</SubHeading>
-              <p className="pt-3 text-xs leading-relaxed text-slate-400 md:text-sm">
-                On the page rather than buried in a changelog. Two of the four
-                cannot be fixed inside this plugin at all, and saying which is
-                the difference between a gap and an excuse.
-              </p>
-              <div className="mt-4 grid gap-3">
+            <Collapsible
+              accent="amber"
+              icon="fa-solid fa-triangle-exclamation"
+              title="WHAT IT DOES NOT DO"
+              hint="On the page rather than buried in a changelog. Saying which of them is a decision on this side and which is waiting on another project is the difference between a gap and an excuse."
+              count={KnownGaps.length}
+            >
+              <div className="grid gap-3">
                 {KnownGaps.map((gap) => (
                   <Panel key={gap.title} accent={gap.accent} className="p-4">
                     <div className="flex flex-wrap place-items-center gap-2">
@@ -548,7 +651,7 @@ function EpicMobsReworkPage() {
                         title={
                           gap.ours
                             ? "A decision on this side"
-                            : "Blocked on another project"
+                            : "Waiting on something outside this developer's control"
                         }
                       >
                         {gap.ours ? "OUR CALL" : "NOT OURS TO FIX"}
@@ -560,7 +663,7 @@ function EpicMobsReworkPage() {
                   </Panel>
                 ))}
               </div>
-            </div>
+            </Collapsible>
           </div>
 
           <div className="pt-6 text-center">
@@ -576,7 +679,8 @@ function EpicMobsReworkPage() {
       </section>
 
       {/* ------------------------------------------------ ABOUT + TRAILER */}
-      <section id="trailer" className="w-full py-6">
+      <section id="about" className="w-full scroll-mt-14 py-6">
+        <span id="trailer" className="block" />
         <div className="mx-auto w-[90%] md:w-[80%] lg:w-[70%]">
           <SectionHeading
             icon="fa-solid fa-book-open"
@@ -708,7 +812,7 @@ function EpicMobsReworkPage() {
       </section>
 
       {/* -------------------------------------------------------- FEATURES */}
-      <section className="emr-grid w-full py-12">
+      <section id="features" className="emr-grid w-full scroll-mt-14 py-12">
         <div className="mx-auto w-[90%] md:w-[80%] lg:w-[70%]">
           <SectionHeading
             icon="fa-solid fa-dice-d20"
@@ -735,17 +839,91 @@ function EpicMobsReworkPage() {
         </div>
       </section>
 
+
+      {/* --------------------------------------------------- STEP BY STEP */}
+      <section id="guides" className="w-full scroll-mt-14 py-12">
+        <div className="mx-auto w-[90%] md:w-[80%] lg:w-[70%]">
+          <SectionHeading
+            icon="fa-solid fa-list-check"
+            title="How to actually do it"
+            subtitle={`${Walkthroughs.length} walkthroughs: build a mob, delete one, run a raid, mark out an arena. Each one is the commands in order, with what should happen after each.`}
+            accent="lime"
+          />
+
+          <div className="pt-5">
+            <Note accent="lime" icon="fa-solid fa-book">
+              The plugin is closed source, so anything you cannot work out by
+              reading it is written down instead: the chat wizard&apos;s
+              fourteen questions word for word, the editor&apos;s six pages, the
+              order the raid scheduler refuses in, and the one thing about an
+              arena region that everybody gets wrong.
+            </Note>
+          </div>
+
+          <div className="mt-6 grid gap-4 md:grid-cols-2 xl:grid-cols-4">
+            {GUIDE_CARDS.map((key) => {
+              const guide = Walkthroughs.find((entry) => entry.key === key);
+              return (
+                <ActionCard
+                  key={guide.key}
+                  accent={guide.accent}
+                  icon={guide.icon}
+                  title={guide.title}
+                  badge={guide.edition === "full" ? "FULL" : undefined}
+                  description={guide.blurb}
+                  buttonIcon="fa-solid fa-list-ol"
+                  buttonLabel={`${guide.steps.length} steps`}
+                  onClick={() => openGuide(guide.key)}
+                />
+              );
+            })}
+          </div>
+
+          {/*
+            The rest of the walkthroughs as one row of links rather than ten
+            more cards, which would be the same wall this section replaces.
+          */}
+          <div className="mt-6">
+            <Collapsible
+              accent="sky"
+              icon="fa-solid fa-list-ul"
+              title="EVERY WALKTHROUGH"
+              hint="The other six, and the four above, in one list."
+              count={Walkthroughs.length}
+            >
+              <div className="grid gap-2 md:grid-cols-2">
+                {Walkthroughs.map((guide) => (
+                  <button
+                    key={guide.key}
+                    onClick={() => openGuide(guide.key)}
+                    className="flex w-full place-items-center gap-3 border border-slate-800 bg-[rgba(0,0,0,0.35)] p-3 text-left transition-colors hover:border-orange-400/50 hover:bg-orange-500/10"
+                  >
+                    <i
+                      className={`${guide.icon} shrink-0 text-xs text-orange-400`}
+                    ></i>
+                    <span className="grow text-[11px] leading-relaxed text-slate-300 md:text-xs">
+                      {guide.short}
+                    </span>
+                    <span className="pixel-font shrink-0 text-[7px] tracking-widest text-slate-600 md:text-[8px]">
+                      {guide.group.toUpperCase()}
+                    </span>
+                  </button>
+                ))}
+              </div>
+            </Collapsible>
+          </div>
+        </div>
+      </section>
+
       {/* ----------------------------------------------------- SCREENSHOTS */}
       {/*
         Real screenshots, and the section says so, because everything else
-        illustrating this page is drawn. The three wide ones are the plugin in
-        the world and the rest are its menus, which are small because a
-        Minecraft inventory is small: they are rendered at their natural size
-        against a dark panel rather than stretched, since upscaling a
-        nearest-neighbour texture to fill a card is how a screenshot ends up
-        looking like a mistake.
+        illustrating this page is drawn. Only the three wide ones are here now.
+        The menus are in the gallery window: they are rendered at their natural
+        size, which is small, and nine of them in a row is a scroll rather than
+        a section.
       */}
-      <section className="w-full py-12">
+      <section id="shots" className="w-full scroll-mt-14 py-12">
         <div className="mx-auto w-[90%] md:w-[80%] lg:w-[70%]">
           <SectionHeading
             icon="fa-solid fa-camera"
@@ -772,30 +950,14 @@ function EpicMobsReworkPage() {
             ))}
           </div>
 
-          <div className="pt-10">
-            <SubHeading accent="amber">AND THE MENUS BEHIND THEM</SubHeading>
-            <p className="pt-3 text-xs leading-relaxed text-slate-400 md:text-sm">
-              Every one of these is a real inventory window, which is why they
-              are this size. Nothing here is a mock-up and nothing is scaled up
-              to fill a card.
-            </p>
-            <div className="mt-6 grid gap-6 md:grid-cols-2 xl:grid-cols-3">
-              {Screenshots.filter((shot) => !shot.wide).map((shot) => (
-                <div key={shot.key}>
-                  <p className="pixel-font pb-2 text-[8px] tracking-widest text-slate-300 md:text-[10px]">
-                    <i className="fa-solid fa-angle-right pr-2 text-orange-400"></i>
-                    {shot.title}
-                  </p>
-                  <Shot
-                    className="emr-shot"
-                    src={shot.src}
-                    alt={shot.caption}
-                    accent={shot.accent}
-                    caption={shot.caption}
-                  />
-                </div>
-              ))}
-            </div>
+          <div className="pt-8 text-center">
+            <button
+              className="pixel-font rounded-none border-2 border-sky-400/50 bg-[rgba(0,0,0,0.5)] px-5 py-3 text-[9px] tracking-widest text-sky-200 transition-all hover:-translate-y-0.5 hover:border-sky-300 hover:bg-sky-500/20 md:text-[11px]"
+              onClick={() => setSubcontent("gallery")}
+            >
+              <i className="fa-solid fa-images pr-2"></i>
+              ALL {Screenshots.length} SCREENSHOTS, AND THE MENUS
+            </button>
           </div>
         </div>
       </section>
@@ -808,7 +970,7 @@ function EpicMobsReworkPage() {
         candidate. One listing, one price, no launch discount, and the free
         build sitting next to it.
       */}
-      <section className="w-full py-10">
+      <section id="pricing" className="w-full scroll-mt-14 py-10">
         <div className="mx-auto w-[90%] md:w-[80%] lg:w-[70%]">
           <SectionHeading
             icon="fa-solid fa-tag"
@@ -979,65 +1141,50 @@ function EpicMobsReworkPage() {
         </div>
       </section>
 
-      {/* ---------------------------------------------------- REQUIREMENTS */}
+      {/* ------------------------------------------------------- REFERENCE */}
+      {/*
+        What used to be the server requirements section and the permissions
+        section. Both are reference: an owner reads them once, while working
+        out whether the plugin will run on what they have, and then never
+        again. Two full-height sections in the middle of the page was the wrong
+        price for that, so they are a row of cards and a window.
+      */}
       <section className="w-full py-10">
         <div className="mx-auto w-[90%] md:w-[80%] lg:w-[70%]">
           <SectionHeading
             icon="fa-solid fa-server"
-            title="Server requirements"
-            subtitle={`${PluginInformation.serverSoftware}, ${PluginInformation.supportedVersions}, and nothing else required.`}
+            title="Will it run on your server?"
+            subtitle={`${PluginInformation.serverSoftware}, ${PluginInformation.supportedVersions}. No required dependencies, no NMS, one jar for every supported version.`}
             accent="sky"
           />
-          <Terminal title="EpicMobsRework / server-check.log" className="mt-6">
-            <pre>
-              <code className="text-[10px] md:text-sm" lang="md">
-                <TerminalLabel accent="ember">
-                  [SUPPORTED SERVER SOFTWARE]
-                </TerminalLabel>
-                {`
-- SPIGOT [1.16.5 and upward]
-- PAPER  [1.16.5 and upward]
-
-api-version: 1.21
-
-There is no NMS anywhere in the plugin and no
-version-locked build. One jar covers every
-supported version, and a Minecraft release that
-did not exist when the jar was built is handled
-by feature detection rather than by parsing a
-version string.
-
-Not available on Aternos.
-                `}
-                <TerminalLabel accent="ember">[DEPENDENCIES]</TerminalLabel>
-                {`
-REQUIRED
-- nothing
-
-OPTIONAL, detected if present
-- Custom Enchantments 3, for mob enchantments,
-  CE3 loot, RACO rewards and protected boundaries
-- Kumandra's Economy, for Kd rewards tagged into
-  the player's own transaction history
-- Vault, with whatever economy sits behind it
-- WorldGuard, for region protection. Without it
-  the plugin has its own regions
-- PlaceholderAPI, for live counts on a scoreboard
-
-None of these is compiled against and none is
-shaded into the jar. /ep info says which ones
-hooked, and any that are absent are simply not
-listed rather than warned about.
-                `}
-              </code>
-            </pre>
-          </Terminal>
-          <div className="pt-5">
-            <Note accent="amber" icon="fa-solid fa-triangle-exclamation">
-              Java 21 is what the plugin is built with, because that is what
-              current Spigot needs. The jar itself still runs on the older
-              servers in the supported range, on whatever Java they are on.
-            </Note>
+          <div className="mt-6 grid gap-4 md:grid-cols-3">
+            <ActionCard
+              accent="sky"
+              icon="fa-solid fa-server"
+              title="REQUIREMENTS"
+              description="Supported server software and versions, the five optional integrations and what each one adds, and why there is no version-locked build."
+              buttonIcon="fa-solid fa-list-check"
+              buttonLabel="What it needs"
+              onClick={() => setSubcontent("requirements")}
+            />
+            <ActionCard
+              accent="amber"
+              icon="fa-solid fa-key"
+              title="PERMISSIONS"
+              description={`All ${Permissions.length} nodes, declared in the plugin's own plugin.yml. Only the first is administrative; the rest default to everyone on purpose.`}
+              buttonIcon="fa-solid fa-key"
+              buttonLabel="See the nodes"
+              onClick={() => setSubcontent("requirements")}
+            />
+            <ActionCard
+              accent="lime"
+              icon="fa-solid fa-gears"
+              title="CONFIGURATION"
+              description="Every number in a file, validated on load and reloadable in game. An update keeps your values and saves the old file next to it."
+              buttonIcon="fa-solid fa-gears"
+              buttonLabel="Config"
+              onClick={() => setSubcontent("config")}
+            />
           </div>
         </div>
       </section>
@@ -1049,7 +1196,7 @@ listed rather than warned about.
         mob, look at it, and only then let the world spawn anything. The config
         panel covers what every key does, so this section deliberately does not.
       */}
-      <section className="emr-grid w-full py-10">
+      <section id="setup" className="emr-grid w-full scroll-mt-14 py-10">
         <div className="mx-auto w-[90%] md:w-[80%] lg:w-[70%]">
           <SectionHeading
             icon="fa-solid fa-screwdriver-wrench"
@@ -1060,15 +1207,22 @@ listed rather than warned about.
 
           <div className="pt-5">
             <Note accent="sky" icon="fa-solid fa-book">
-              Short version below. The full write-up, with the command
-              reference, the five permission nodes, where each command may be
-              run from, and what to do when something is not behaving, is in
-              the{" "}
+              Short version below. For one job done start to finish, building a
+              mob, running a raid, marking out an arena, use the{" "}
+              <button
+                className="text-sky-300 underline"
+                onClick={() => openGuide("create-mob-chat")}
+              >
+                step by step guides
+              </button>
+              . For the command reference, the permission nodes, where each
+              command may be run from and what to do when something is not
+              behaving, use the{" "}
               <button
                 className="text-sky-300 underline"
                 onClick={() => setSubcontent("setup")}
               >
-                Setup &amp; commands panel
+                setup &amp; commands panel
               </button>
               .
             </Note>
@@ -1155,13 +1309,14 @@ prints the same set at any time.
           </div>
 
           <div className="pt-8">
-            <SubHeading accent="amber">TRY EACH SYSTEM ONCE</SubHeading>
-            <p className="pt-3 text-xs leading-relaxed text-slate-400 md:text-sm">
-              {SetupTests.length} things to check, in the order that needs least
-              setup first. Work down the list on a fresh server and you will
-              have seen the whole plugin in an evening.
-            </p>
-            <div className="mt-5 grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+            <Collapsible
+              accent="amber"
+              icon="fa-solid fa-clipboard-check"
+              title="TRY EACH SYSTEM ONCE"
+              hint={`${SetupTests.length} things to check, in the order that needs least setup first. Work down the list on a fresh server and you will have seen the whole plugin in an evening.`}
+              count={SetupTests.length}
+            >
+            <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
               {SetupTests.map((test) => (
                 <Panel key={test.name} accent={test.accent} className="p-5">
                   <div className="flex place-items-center gap-3">
@@ -1179,11 +1334,19 @@ prints the same set at any time.
                 </Panel>
               ))}
             </div>
+            </Collapsible>
           </div>
 
-          <div className="pt-6 text-center">
+          <div className="flex flex-col place-items-center justify-center gap-3 pt-6 sm:flex-row">
             <button
-              className="pixel-font rounded-none border-2 border-sky-400/50 bg-[rgba(0,0,0,0.5)] px-5 py-3 text-[9px] tracking-widest text-sky-200 transition-all hover:-translate-y-0.5 hover:border-sky-300 hover:bg-sky-500/20 md:text-[11px]"
+              className="pixel-font w-full rounded-none border-2 border-lime-400/50 bg-[rgba(0,0,0,0.5)] px-5 py-3 text-[9px] tracking-widest text-lime-200 transition-all hover:-translate-y-0.5 hover:border-lime-300 hover:bg-lime-500/20 sm:w-auto md:text-[11px]"
+              onClick={() => openGuide("create-mob-chat")}
+            >
+              <i className="fa-solid fa-list-check pr-2"></i>
+              STEP BY STEP GUIDES
+            </button>
+            <button
+              className="pixel-font w-full rounded-none border-2 border-sky-400/50 bg-[rgba(0,0,0,0.5)] px-5 py-3 text-[9px] tracking-widest text-sky-200 transition-all hover:-translate-y-0.5 hover:border-sky-300 hover:bg-sky-500/20 sm:w-auto md:text-[11px]"
               onClick={() => setSubcontent("setup")}
             >
               <i className="fa-solid fa-screwdriver-wrench pr-2"></i>
@@ -1206,7 +1369,7 @@ prints the same set at any time.
       </section>
 
       {/* -------------------------------------------------------- COMMANDS */}
-      <section className="w-full py-10">
+      <section id="commands" className="w-full scroll-mt-14 py-10">
         <div className="mx-auto w-[90%] md:w-[80%] lg:w-[70%]">
           <SectionHeading
             icon="fa-solid fa-terminal"
@@ -1243,53 +1406,8 @@ prints the same set at any time.
         </div>
       </section>
 
-      {/* ----------------------------------------------------- PERMISSIONS */}
-      <section className="w-full py-10">
-        <div className="mx-auto w-[90%] md:w-[80%] lg:w-[70%]">
-          <SectionHeading
-            icon="fa-solid fa-key"
-            title="Permissions"
-            subtitle={`${Permissions.length} nodes, and only the first is an administrative one.`}
-            accent="amber"
-          />
-          <p className="pt-5 text-justify text-xs leading-relaxed text-slate-300 md:text-sm">
-            Every node is declared in the plugin&apos;s own plugin.yml, so any
-            permissions plugin can read them. The four player nodes default to
-            everyone on purpose: a player looking up a mob they just fought, or
-            choosing which currency their kills pay out in, is not an
-            administrative act, and a server that disagrees can negate them.
-            You only need to touch the first one if you want to hand mob
-            building to staff who are not opped.
-          </p>
-          <div className="mt-6 grid gap-2">
-            {Permissions.map((permission) => (
-              <div
-                key={permission.node}
-                className="flex flex-wrap place-items-baseline justify-between gap-2 border border-slate-800 bg-[rgba(0,0,0,0.35)] p-3"
-              >
-                <span className="pixel-font text-[8px] text-slate-200 md:text-[10px]">
-                  {permission.node}
-                </span>
-                <span className="grow text-[11px] text-slate-400 md:text-xs">
-                  {permission.grants}
-                </span>
-                <span
-                  className={`pixel-font border px-2 py-1 text-[7px] tracking-widest md:text-[8px] ${
-                    permission.fallback === "op"
-                      ? "border-rose-400/40 bg-rose-400/10 text-rose-300"
-                      : "border-emerald-400/40 bg-emerald-400/10 text-emerald-300"
-                  }`}
-                >
-                  {permission.fallback.toUpperCase()}
-                </span>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
       {/* -------------------------------------------------------- CHANGELOG */}
-      <section className="emr-grid w-full py-10">
+      <section id="changelog" className="emr-grid w-full scroll-mt-14 py-10">
         <div className="mx-auto w-[90%] md:w-[80%] lg:w-[70%]">
           <SectionHeading
             icon="fa-solid fa-clipboard-list"
@@ -1324,7 +1442,7 @@ prints the same set at any time.
       </section>
 
       {/* ------------------------------------------------- SUPPORT / UPDATES */}
-      <section className="w-full py-12">
+      <section id="support" className="w-full scroll-mt-14 py-12">
         <div className="mx-auto w-[90%] md:w-[80%] lg:w-[70%]">
           <SectionHeading
             icon="fa-solid fa-headset"
@@ -1337,10 +1455,19 @@ prints the same set at any time.
               accent="rose"
               icon="fa-solid fa-bug"
               title="REQUESTS & BUGS"
-              description="A release candidate is published to be broken. Paste /ep info and /ep debug spawn with whatever you were doing, here or on the Spigot discussions tab."
+              description="A release candidate is published to be broken. Paste /ep info and /ep debug spawn with whatever you were doing, and the form sends it straight to the developer by email."
               buttonIcon="fa-solid fa-paper-plane"
               buttonLabel="Send one"
               onClick={() => setSubcontent("bug report")}
+            />
+            <ActionCard
+              accent="lime"
+              icon="fa-solid fa-list-check"
+              title="STEP BY STEP"
+              description={`${Walkthroughs.length} walkthroughs: build a mob by command or in the editor, delete one, run and schedule a raid, mark out an arena and see how a run ends.`}
+              buttonIcon="fa-solid fa-list-ol"
+              buttonLabel="How to"
+              onClick={() => openGuide("create-mob-chat")}
             />
             <ActionCard
               accent="ember"

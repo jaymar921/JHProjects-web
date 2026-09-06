@@ -1317,8 +1317,8 @@ export const KnownGaps = [
   {
     title: "CE3 enchantments on a mob deal damage but do not each behave",
     accent: "lime",
-    ours: false,
-    body: "A mob's Custom Enchantments 3 enchantments are read correctly and routed through CE3's own magic damage path, so Bleed on a mob's sword hurts, but it does not bleed. CE3 exposes no entry point for triggering one enchantment for one attacker against one victim, and Epic Mobs will not reimplement them: two implementations of Bleed drift apart within one release of either plugin, and the wrong one is the one players report. The request is written and sitting in the CE3 repository.",
+    ours: true,
+    body: "A mob's Custom Enchantments 3 enchantments are read correctly and routed through CE3's own magic damage path, so Bleed on a mob's sword hurts, but it does not bleed. CE3 exposes no entry point for triggering one enchantment for one attacker against one victim, and Epic Mobs will not reimplement them: two implementations of Bleed drift apart within one release of either plugin, and the wrong one is the one players report. Custom Enchantments 3 is written by the same developer, so this is one project waiting on another of its own rather than on a stranger: the entry point is going into CE3 and this side is already shaped to call it.",
   },
   {
     title: "Biome #tag spawn conditions parse but cannot work",
