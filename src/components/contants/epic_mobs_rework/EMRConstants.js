@@ -31,6 +31,11 @@ import * as Screens from "../../../assets/epic_mobs_rework/screenshots";
 import icon from "../../../assets/epic_mobs_rework/branding/icon.png";
 import iconLite from "../../../assets/epic_mobs_rework/branding/icon-lite.png";
 import spigotImg from "../../../assets/custom_enchants_3/spigot.png";
+// Same payee as Custom Enchantments 3, so the same logo and the same QR. There
+// is one Wise account behind both pages and duplicating the PNG would only
+// give it two places to go stale.
+import wiseImg from "../../../assets/custom_enchants_3/wise.png";
+import wisePaymentQr from "../../../assets/custom_enchants_3/wise-payment-qr.png";
 
 /** Both listings, in one place, because six things link to them. */
 const SPIGOT = {
@@ -81,17 +86,107 @@ export const PluginInformation = {
   contactEmail: "jaymarplugins@gmail.com",
 
   /**
-   * One number, one place to buy it. There is no PayPal or Wise flow on this
-   * page the way there is on Custom Enchantments 3: the Spigot listing takes
-   * the payment and hands over the jar, and that is the whole of it for now.
-   * No launch discount either.
+   * Two numbers while the plugin is a release candidate: `amount` is what you
+   * pay today, `regularAmount` is what it goes back to when 1.0 ships. The
+   * sale is the whole of the discount. PayPal and Wise carry their own
+   * percentage off on Custom Enchantments 3 and deliberately do not here,
+   * because stacking a payment-method discount on a pre-release price would
+   * take the same jar below what it costs to keep supporting.
+   *
+   * When 1.0 lands: set `onSale` to false and `amount` to `regularAmount`.
+   * Everything that renders a price reads `amount`, so that is the only edit.
    */
   price: {
     currency: "GBP",
     symbol: "£",
-    amount: "15.99",
-    note: "One payment, and every update after it. Bought through Spigot.",
+    amount: "7.99",
+    regularAmount: "15.99",
+    onSale: true,
+    saleLabel: "PRE-RELEASE SALE",
+    saleNote:
+      "£7.99 is the pre-release price and it holds while the plugin is a release candidate. When 1.0 ships it goes to £15.99. Buying now buys the plugin, so 1.0 and everything after it is the same purchase at the price you paid today.",
+    note: "One payment, and every update after it. Bought through Spigot, PayPal or Wise.",
   },
+
+  /**
+   * The two off-Spigot ways to pay, mirroring Custom Enchantments 3 step for
+   * step: send the exact amount, screenshot the receipt, email it with your
+   * Spigot username, and the resource is granted by hand.
+   *
+   * `discountPercent` is 0 on both and that is on purpose rather than an
+   * oversight. The pre-release price is already the discount. The field stays
+   * because the buy panels read it, so putting a number back is one edit in
+   * one place if that ever changes.
+   */
+  payment: {
+    contactEmail: "jaymarplugins@gmail.com",
+    paymentSubject: "Epic Mobs Rework Plugin Payment",
+    spigotAccountRequirement:
+      "You must have a Spigot account before paying. Your Spigot username is required to receive the plugin.",
+    exactPaymentNotice:
+      "Pay the exact amount shown. There is no return or refund policy for payments that are less or more than the required amount.",
+    noDiscountNotice:
+      "There is no payment method discount while the plugin is on its pre-release price. Every route below costs the same.",
+    paypal: {
+      link: "https://www.paypal.com/paypalme/JayMar921",
+      discountPercent: 0,
+      currencySymbol: "£",
+    },
+    wise: {
+      link: "https://wise.com/pay/me/jayharronmara",
+      qr: wisePaymentQr,
+      discountPercent: 0,
+      currencySymbol: "£",
+    },
+    wiseLogo: wiseImg,
+  },
+
+  /**
+   * The three ways to pay, rendered as tiles in the buy panel. Same shape as
+   * Custom Enchantments 3: a link goes straight out, an onClick opens another
+   * panel instead. Spigot is first because it is the one that hands over the
+   * jar without anybody waiting on an email.
+   */
+  buyLink: [
+    {
+      title: "Spigot",
+      link: SPIGOT.premium,
+      logo: spigotImg,
+    },
+    {
+      title: "PayPal",
+      onClick: (setSubcontent) => {
+        setSubcontent?.("buy through paypal");
+      },
+      icon: "fa-brands fa-paypal text-blue-400",
+    },
+    {
+      title: "Wise",
+      onClick: (setSubcontent) => {
+        setSubcontent?.("buy through wise");
+      },
+      logo: wiseImg,
+    },
+  ],
+
+  /** Donations, which are not a purchase and do not unlock the full build. */
+  supportLink: [
+    {
+      title: "Buy JayMar a coffee",
+      link: "https://buymeacoffee.com/jaymar921",
+      icon: "fa-solid fa-mug-hot text-yellow-500",
+    },
+    {
+      title: "PayPal",
+      link: "https://www.paypal.com/paypalme/JayMar921",
+      icon: "fa-brands fa-paypal text-blue-400",
+    },
+    {
+      title: "Donate via Wise",
+      link: "https://wise.com/pay/me/jayharronmara",
+      logo: wiseImg,
+    },
+  ],
 
   /** The predecessor, which this page has to be honest about. */
   predecessor: {
@@ -128,7 +223,7 @@ export const PluginInformation = {
     {
       title: "ONE PAYMENT",
       accent: "ember",
-      body: "Bought once through Spigot, with every update after it included. There is no subscription and there never will be.",
+      body: "£7.99 while it is a release candidate, £15.99 once 1.0 ships. Bought once, every update after it included, no subscription.",
     },
     {
       title: "TRY IT FIRST",
@@ -424,10 +519,10 @@ export const Integrations = [
       "Mobs trigger the CE3 enchantments on their own gear. Bleed, Light Spirit, Execute, Wind Strike, Dragon Breath, and armor ones like Tank and Poisonous Thorns",
       "You choose which enchantments a mob may use and how hard they land, because a mob with a maxed Soul Eater is not a fight",
       "Your CE3 weapons, wands and bows work against an Epic Mob exactly as they do against anything else",
-      "Drop CE3 treasures by rarity, or specific enchantment books, straight off a mob",
+      "Drop CE3 treasures by rarity, or specific enchantment books, straight off a mob, from the 1.0 release. RC1 reads and rolls those entries and then drops nothing, because asking CE3 for one item by name was not possible until CE3 1.7.0 added the call",
       "Pay kill rewards in RACO, drawn out of CE3's own capped supply rather than minted",
       "CE3 protected boundaries keep Epic Mobs out of your spawn and your builds",
-      "One honest limit in RC1: a mob's CE3 enchantments deal their damage through CE3's own magic damage path rather than each behaving individually. Bleed hurts, but it does not bleed. That needs an entry point CE3 does not expose yet, and the request is written and in the CE3 repository",
+      "One honest limit in RC1: a mob's CE3 enchantments deal their damage through CE3's own magic damage path rather than each behaving individually. Bleed hurts, but it does not bleed. The entry point that fixes it shipped in CE3 1.7.0, and this side calls it in the 1.0 release, so an RC1 build behaves the same whichever CE3 is underneath it",
     ],
   },
   {
@@ -1304,8 +1399,9 @@ export const TestingAsks = [
  * What RC1 does not do. On the page, next to the download button, rather than
  * three clicks into a changelog.
  *
- * Two of the three cannot be fixed in this plugin at all, and saying which is
- * the difference between a gap and an excuse.
+ * Only one of these cannot be fixed in this plugin at all, and saying which is
+ * the difference between a gap and an excuse. The two CE3 ones are waiting on
+ * this side now rather than on CE3: CE3 1.7.0 shipped what they were missing.
  */
 export const KnownGaps = [
   {
@@ -1315,10 +1411,16 @@ export const KnownGaps = [
     body: "Pack membership, a running raid and a running arena do not survive a server restart. A raid's mobs are left standing in the world as ordinary Epic Mobs; an arena takes its own with it. This is a deliberate trade against keeping a second persistence format in step with the first, and it is the first thing to revisit if anyone reports it.",
   },
   {
-    title: "CE3 enchantments on a mob deal damage but do not each behave",
+    title: "CE3 enchantments on a mob deal damage but do not each behave, until 1.0",
     accent: "lime",
     ours: true,
-    body: "A mob's Custom Enchantments 3 enchantments are read correctly and routed through CE3's own magic damage path, so Bleed on a mob's sword hurts, but it does not bleed. CE3 exposes no entry point for triggering one enchantment for one attacker against one victim, and Epic Mobs will not reimplement them: two implementations of Bleed drift apart within one release of either plugin, and the wrong one is the one players report. Custom Enchantments 3 is written by the same developer, so this is one project waiting on another of its own rather than on a stranger: the entry point is going into CE3 and this side is already shaped to call it.",
+    body: "A mob's Custom Enchantments 3 enchantments are read correctly and routed through CE3's own magic damage path, so Bleed on a mob's sword hurts, but it does not bleed. Epic Mobs will not reimplement CE3's effects: two implementations of Bleed drift apart within one release of either plugin, and the wrong one is the one players report. What was missing was an entry point on the CE3 side, and CE3 1.7.0 shipped it. Nothing has changed on this side yet, so RC1 behaves exactly as described here whichever CE3 version is under it, and the calls go in for the 1.0 release.",
+  },
+  {
+    title: "CE3 treasures and books in a loot table drop nothing, until 1.0",
+    accent: "amber",
+    ours: true,
+    body: "A ce3_treasure or ce3_book entry is read, validated and rolled like any other entry, and then produces no item. /ep debug loot says so rather than leaving you to work it out from an empty inventory. It is the same missing entry point as the one above: there was no way to ask CE3 for one treasure or one book by name until CE3 1.7.0 added it. Leave those entries in your tables, because the format is not changing, but do not count on them before 1.0. A book from a mob will be the same book the shop sells, custom model data and all.",
   },
   {
     title: "Biome #tag spawn conditions parse but cannot work",

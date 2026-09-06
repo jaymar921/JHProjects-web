@@ -148,7 +148,10 @@ rewards:
           full build has. Weights, roll counts, amount ranges and damage-share
           attribution all work, because paying the wrong player is a bug and not
           a feature. Dropping CE3 treasures and enchantment books directly is
-          the full build.
+          the full build, and those two entry types start producing real items
+          in the 1.0 release: RC1 rolls them and drops nothing, because asking
+          CE3 for one item by name was not possible until CE3 1.7.0 added the
+          call.
         </Note>
       </Section>
     </div>

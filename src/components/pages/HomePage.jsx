@@ -109,12 +109,22 @@ const LIVE_PROJECTS = [
     key: "emr",
     icon: "fa-solid fa-skull",
     title: EMRInfo.title,
-    badge: "RC",
+    /*
+      The badge carries the price, the way the Custom Enchantments 3 card does.
+      While the plugin is a release candidate that price is a sale one, so the
+      badge says so and the hint carries what it goes back to at 1.0. Both read
+      EMRInfo.price, so flipping `onSale` off there settles this card too.
+    */
+    badge: EMRInfo.price.onSale
+      ? `${EMRInfo.price.symbol}${EMRInfo.price.amount} SALE`
+      : `${EMRInfo.price.symbol}${EMRInfo.price.amount}`,
     description:
       "The rebuild of Epic Mobs. Custom mobs from any vanilla entity, abilities with telegraphs, boss phases, companions, raids and weighted loot. 1.0-RC1 is out on Spigot, with a free Lite build alongside it.",
     accent: "ember",
     href: "/epic-mobs-rework",
-    hint: `v${EMRInfo.version}, release candidate`,
+    hint: EMRInfo.price.onSale
+      ? `v${EMRInfo.version} pre-release sale, ${EMRInfo.price.symbol}${EMRInfo.price.regularAmount} at 1.0`
+      : `v${EMRInfo.version}, release candidate`,
   },
 ];
 

@@ -35,6 +35,11 @@ import EMR_ChangeLogs from "./emr_subcontent/EMR_ChangeLogs";
 import EMR_Guides from "./emr_subcontent/EMR_Guides";
 import EMR_Requirements from "./emr_subcontent/EMR_Requirements";
 import EMR_Gallery from "./emr_subcontent/EMR_Gallery";
+import EMR_BUY_PayPal from "./emr_subcontent/EMR_BUY_PayPal";
+import EMR_BUY_Wise from "./emr_subcontent/EMR_BUY_Wise";
+import EMR_BuyPlugin from "./emr_subcontent/EMR_BuyPlugin";
+import EMR_Support from "./emr_subcontent/EMR_Support";
+import EMR_TrialGate from "./emr_subcontent/EMR_TrialGate";
 import { Walkthroughs } from "../contants/epic_mobs_rework/EMRConstants_Guides";
 import {
   ActionCard,
@@ -57,7 +62,12 @@ import EMR_ICON from "../../assets/epic_mobs_rework/branding/icon.png";
 import EMR_BANNER from "../../assets/epic_mobs_rework/banner.svg";
 import EMR_TRAILER from "../../assets/epic_mobs_rework/video/epic-mobs-rework.mp4";
 import EMR_POSTER from "../../assets/epic_mobs_rework/video/epic-mobs-rework-poster.jpg";
-import { PROJECTS, usePageView } from "../../lib/analytics";
+import {
+  CLICK_ACTIONS,
+  PROJECTS,
+  trackClick,
+  usePageView,
+} from "../../lib/analytics";
 
 const pageStyles = `
   .emr-scanlines {
@@ -190,6 +200,17 @@ function EpicMobsReworkPage() {
 
   const closeWindow = () => setSubcontent("none");
 
+  /*
+    Opening one of the buy cards is the click worth counting: it is where
+    somebody decides they want the plugin. The outbound link inside each panel
+    is counted separately, under its own label, so the drop off between the two
+    is visible rather than collapsed into one number.
+  */
+  const openTracked = (panel, action, label) => () => {
+    trackClick(PROJECTS.EPIC_MOBS_REWORK, { action, label });
+    setSubcontent(panel);
+  };
+
   const openGuide = (key) => {
     setGuideKey(key);
     setSubcontent("guides");
@@ -231,6 +252,16 @@ function EpicMobsReworkPage() {
         return <EMR_Requirements />;
       case "gallery":
         return <EMR_Gallery />;
+      case "buy plugin":
+        return <EMR_BuyPlugin setSubcontent={setSubcontent} />;
+      case "free lite":
+        return <EMR_TrialGate setSubcontent={setSubcontent} />;
+      case "support":
+        return <EMR_Support setSubcontent={setSubcontent} />;
+      case "buy through paypal":
+        return <EMR_BUY_PayPal />;
+      case "buy through wise":
+        return <EMR_BUY_Wise />;
       default:
         return null;
     }
@@ -244,6 +275,11 @@ function EpicMobsReworkPage() {
     "bug report": "Report something",
     "change logs": "Release history",
     api: "Developer API",
+    "buy plugin": "Buy the full build",
+    "free lite": "Before you grab the free build",
+    support: "Support the developer",
+    "buy through paypal": "Buy through PayPal",
+    "buy through wise": "Buy through Wise",
   };
 
   const WINDOW_ICONS = {
@@ -253,6 +289,11 @@ function EpicMobsReworkPage() {
     "bug report": "fa-solid fa-bug",
     "change logs": "fa-solid fa-clipboard-list",
     api: "fa-solid fa-code",
+    "buy plugin": "fa-solid fa-cart-shopping",
+    "free lite": "fa-solid fa-gift",
+    support: "fa-solid fa-heart",
+    "buy through paypal": "fa-brands fa-paypal",
+    "buy through wise": "fa-solid fa-qrcode",
   };
 
   const subContentWindow = () => {
@@ -356,6 +397,12 @@ function EpicMobsReworkPage() {
               <i className="fa-solid fa-crown"></i>
               FULL, {price.symbol}
               {price.amount}
+              {price.onSale && (
+                <span className="text-orange-300/60 line-through">
+                  {price.symbol}
+                  {price.regularAmount}
+                </span>
+              )}
             </a>
             <a
               href="#trailer"
@@ -493,8 +540,10 @@ function EpicMobsReworkPage() {
                 <p className="pt-3 text-[11px] leading-relaxed text-orange-300/90 md:text-xs">
                   <i className="fa-solid fa-tag pr-2"></i>
                   {price.symbol}
-                  {price.amount} {price.currency} for the full build, bought
-                  once through Spigot. The Lite build is free and is a complete
+                  {price.amount} {price.currency} for the full build while it is
+                  a release candidate, up from there to {price.symbol}
+                  {price.regularAmount} when 1.0 ships. Buy it now and 1.0 is
+                  the same purchase. The Lite build is free and is a complete
                   plugin, not a trial.
                 </p>
                 <div className="flex flex-wrap gap-2 pt-4">
@@ -964,111 +1013,72 @@ function EpicMobsReworkPage() {
 
       {/* --------------------------------------------------------- PRICING */}
       {/*
-        One place to buy it, and it is Spigot. Custom Enchantments 3 carries a
-        PayPal and a Wise flow with their own discounts on this site; this
-        plugin deliberately does not, at least not while it is a release
-        candidate. One listing, one price, no launch discount, and the free
-        build sitting next to it.
+        The same three cards Custom Enchantments 3 puts under "Get your copy
+        now", in the same order: buy it, try it, or help pay for it. Each one
+        opens a panel rather than arguing its case here, because the version
+        that argued its case here was three screens of prose standing between
+        a reader and a button.
+
+        The payment routes, the refund position and what the pre-release price
+        means all live in the buy panel now. This is a menu, not a pitch.
       */}
       <section id="pricing" className="w-full scroll-mt-14 py-10">
         <div className="mx-auto w-[90%] md:w-[80%] lg:w-[70%]">
           <SectionHeading
             icon="fa-solid fa-tag"
-            title="What it costs"
-            subtitle="One payment, free updates for life. There is no subscription and there never will be."
+            title="Get your copy now"
+            subtitle={
+              price.onSale
+                ? `On pre-release sale, ${price.symbol}${price.amount} instead of ${price.symbol}${price.regularAmount}. One time payment, free updates for life. No subscription.`
+                : "One time payment, free updates for life. No subscription."
+            }
             accent="amber"
           />
-
-          <div className="mt-6 grid gap-4 lg:grid-cols-3">
-            <Panel accent="ember" className="p-5 lg:col-span-2">
-              <div className="flex flex-wrap place-items-center gap-3">
-                <IconBadge icon="fa-solid fa-crown" accent="ember" />
-                <p className="pixel-font text-[10px] tracking-wide text-orange-300 md:text-xs">
-                  THE FULL BUILD
-                </p>
-                <span className="pixel-font ml-auto border border-orange-400/50 bg-orange-500/15 px-3 py-1.5 text-[10px] tracking-widest text-orange-200 md:text-xs">
-                  {price.symbol}
-                  {price.amount} {price.currency}
-                </span>
-              </div>
-              <p className="pt-4 text-xs leading-relaxed text-slate-300 md:text-sm">
-                {price.note} You buy it once and every update after it is
-                included, the same way Custom Enchantments 3 has worked since it
-                went on sale. A monthly plugin bill on a server that already
-                costs you money to run is not a thing this developer is going to
-                add to.
-              </p>
-              <p className="pt-3 text-xs leading-relaxed text-slate-400 md:text-sm">
-                It is sold through the Spigot listing and nowhere else for now.
-                There is no launch discount and no separate payment flow to
-                work through: buy it on Spigot, and Spigot hands you the jar.
-                Buying the release candidate buys the plugin, so 1.0 and
-                everything after it is the same purchase.
-              </p>
-              <div className="flex flex-col gap-3 pt-5 sm:flex-row">
-                <a
-                  href={PluginInformation.downloadLink}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="pixel-font inline-flex w-full place-items-center justify-center gap-2 rounded-none border-2 border-orange-400/60 bg-orange-500/15 px-5 py-3 text-[9px] tracking-widest text-orange-200 transition-all hover:-translate-y-0.5 hover:border-orange-300 hover:bg-orange-500/30 sm:w-auto md:text-[11px]"
-                >
-                  <i className="fa-solid fa-cart-shopping"></i>
-                  BUY ON SPIGOT
-                </a>
-                <button
-                  className="pixel-font w-full rounded-none border-2 border-orange-400/50 bg-[rgba(0,0,0,0.5)] px-5 py-3 text-[9px] tracking-widest text-orange-200 transition-all hover:-translate-y-0.5 hover:border-orange-300 hover:bg-orange-500/20 sm:w-auto md:text-[11px]"
-                  onClick={() => setSubcontent("editions")}
-                >
-                  <i className="fa-solid fa-scale-balanced pr-2"></i>
-                  WHAT YOU GET
-                </button>
-                <a
-                  href="/customenchantments3"
-                  className="pixel-font inline-flex w-full place-items-center justify-center rounded-none border-2 border-lime-400/50 bg-[rgba(0,0,0,0.5)] px-5 py-3 text-[9px] tracking-widest text-lime-200 transition-all hover:-translate-y-0.5 hover:border-lime-300 hover:bg-lime-500/20 sm:w-auto md:text-[11px]"
-                >
-                  <i className="fa-solid fa-arrow-right pr-2"></i>
-                  SAME DEAL ON CE3
-                </a>
-              </div>
-            </Panel>
-
-            <Panel accent="emerald" className="p-5">
-              <div className="flex place-items-center gap-3">
-                <IconBadge icon="fa-solid fa-gift" accent="emerald" />
-                <p className="pixel-font text-[10px] tracking-wide text-emerald-300 md:text-xs">
-                  THE LITE BUILD
-                </p>
-              </div>
-              <p className="pt-4 text-xs leading-relaxed text-slate-300 md:text-sm">
-                Free, and not a trial. The same plugin with limits on how much
-                you can build, so you can see exactly how it runs on your own
-                server before you spend anything.
-              </p>
-              <p className="pt-3 text-xs leading-relaxed text-slate-400 md:text-sm">
-                It carries the same twenty mobs, and they do not count against
-                the ten definitions you may write. Nothing in it expires,
-                nothing phones home, and every integration works in it. Try
-                that first. That is what it is for.
-              </p>
-              <div className="pt-5">
-                <a
-                  href={PluginInformation.liteDownloadLink}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="pixel-font inline-flex w-full place-items-center justify-center gap-2 rounded-none border-2 border-emerald-400/60 bg-emerald-500/15 px-5 py-3 text-[9px] tracking-widest text-emerald-200 transition-all hover:-translate-y-0.5 hover:border-emerald-300 hover:bg-emerald-500/30 md:text-[11px]"
-                >
-                  <i className="fa-solid fa-download"></i>
-                  DOWNLOAD LITE
-                </a>
-              </div>
-              <div className="pt-5">
-                <Note accent="rose" icon="fa-solid fa-circle-exclamation">
-                  There are no refunds once the full build is bought, which is
-                  exactly why the free one exists and why it is a complete
-                  plugin rather than a demo. Run Lite on your own server first.
-                </Note>
-              </div>
-            </Panel>
+          <div className="mt-6 grid gap-4 md:grid-cols-3">
+            <ActionCard
+              accent="ember"
+              icon="fa-solid fa-crown"
+              title="FULL"
+              badge={`${price.symbol}${price.amount}`}
+              description="Every limit lifted, plus companions, boss phases, packs, arenas, custom ability authoring and both admin editors. Buy once, keep it forever."
+              buttonIcon="fa-solid fa-cart-shopping"
+              buttonLabel="Buy Plugin"
+              hint={
+                price.onSale
+                  ? `Pre-release, ${price.symbol}${price.regularAmount} at 1.0`
+                  : "One time payment"
+              }
+              onClick={openTracked(
+                "buy plugin",
+                CLICK_ACTIONS.BUY,
+                "Buy Plugin (card)",
+              )}
+            />
+            <ActionCard
+              accent="emerald"
+              icon="fa-solid fa-gift"
+              title="FREE LITE"
+              badge="FREE"
+              description="Not a trial. The same twenty mobs and every integration, with limits on how much of your own you build. Nothing in it expires."
+              buttonIcon="fa-solid fa-file-arrow-down"
+              buttonLabel="Try Plugin"
+              hint="Run it on your own server first"
+              onClick={openTracked(
+                "free lite",
+                CLICK_ACTIONS.DOWNLOAD,
+                "Try Plugin (card)",
+              )}
+            />
+            <ActionCard
+              accent="rose"
+              icon="fa-solid fa-shield-heart"
+              title="SUPPORT DEV"
+              description="Already running it? A donation keeps the updates coming."
+              buttonIcon="fa-solid fa-heart"
+              buttonLabel="Support"
+              hint="Thank you"
+              onClick={() => setSubcontent("support")}
+            />
           </div>
         </div>
       </section>
