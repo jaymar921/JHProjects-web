@@ -35,6 +35,8 @@ import EMR_ChangeLogs from "./emr_subcontent/EMR_ChangeLogs";
 import EMR_Guides from "./emr_subcontent/EMR_Guides";
 import EMR_Requirements from "./emr_subcontent/EMR_Requirements";
 import EMR_Gallery from "./emr_subcontent/EMR_Gallery";
+import EMR_BUY_PayPal from "./emr_subcontent/EMR_BUY_PayPal";
+import EMR_BUY_Wise from "./emr_subcontent/EMR_BUY_Wise";
 import { Walkthroughs } from "../contants/epic_mobs_rework/EMRConstants_Guides";
 import {
   ActionCard,
@@ -231,6 +233,10 @@ function EpicMobsReworkPage() {
         return <EMR_Requirements />;
       case "gallery":
         return <EMR_Gallery />;
+      case "buy through paypal":
+        return <EMR_BUY_PayPal />;
+      case "buy through wise":
+        return <EMR_BUY_Wise />;
       default:
         return null;
     }
@@ -244,6 +250,8 @@ function EpicMobsReworkPage() {
     "bug report": "Report something",
     "change logs": "Release history",
     api: "Developer API",
+    "buy through paypal": "Buy through PayPal",
+    "buy through wise": "Buy through Wise",
   };
 
   const WINDOW_ICONS = {
@@ -253,6 +261,8 @@ function EpicMobsReworkPage() {
     "bug report": "fa-solid fa-bug",
     "change logs": "fa-solid fa-clipboard-list",
     api: "fa-solid fa-code",
+    "buy through paypal": "fa-brands fa-paypal",
+    "buy through wise": "fa-solid fa-qrcode",
   };
 
   const subContentWindow = () => {
@@ -356,6 +366,12 @@ function EpicMobsReworkPage() {
               <i className="fa-solid fa-crown"></i>
               FULL, {price.symbol}
               {price.amount}
+              {price.onSale && (
+                <span className="text-orange-300/60 line-through">
+                  {price.symbol}
+                  {price.regularAmount}
+                </span>
+              )}
             </a>
             <a
               href="#trailer"
@@ -493,8 +509,10 @@ function EpicMobsReworkPage() {
                 <p className="pt-3 text-[11px] leading-relaxed text-orange-300/90 md:text-xs">
                   <i className="fa-solid fa-tag pr-2"></i>
                   {price.symbol}
-                  {price.amount} {price.currency} for the full build, bought
-                  once through Spigot. The Lite build is free and is a complete
+                  {price.amount} {price.currency} for the full build while it is
+                  a release candidate, up from there to {price.symbol}
+                  {price.regularAmount} when 1.0 ships. Buy it now and 1.0 is
+                  the same purchase. The Lite build is free and is a complete
                   plugin, not a trial.
                 </p>
                 <div className="flex flex-wrap gap-2 pt-4">
@@ -964,18 +982,18 @@ function EpicMobsReworkPage() {
 
       {/* --------------------------------------------------------- PRICING */}
       {/*
-        One place to buy it, and it is Spigot. Custom Enchantments 3 carries a
-        PayPal and a Wise flow with their own discounts on this site; this
-        plugin deliberately does not, at least not while it is a release
-        candidate. One listing, one price, no launch discount, and the free
-        build sitting next to it.
+        Three ways to pay, the same three Custom Enchantments 3 offers: the
+        Spigot listing, PayPal, or Wise. CE3 takes a few percent off for the
+        two manual routes. This does not, because the price is already a
+        pre-release one: £7.99 while the plugin is a release candidate, and
+        £15.99 once 1.0 ships. One discount at a time, and the sale is it.
       */}
       <section id="pricing" className="w-full scroll-mt-14 py-10">
         <div className="mx-auto w-[90%] md:w-[80%] lg:w-[70%]">
           <SectionHeading
             icon="fa-solid fa-tag"
             title="What it costs"
-            subtitle="One payment, free updates for life. There is no subscription and there never will be."
+            subtitle="On pre-release sale. One payment, free updates for life. There is no subscription and there never will be."
             accent="amber"
           />
 
@@ -986,11 +1004,23 @@ function EpicMobsReworkPage() {
                 <p className="pixel-font text-[10px] tracking-wide text-orange-300 md:text-xs">
                   THE FULL BUILD
                 </p>
-                <span className="pixel-font ml-auto border border-orange-400/50 bg-orange-500/15 px-3 py-1.5 text-[10px] tracking-widest text-orange-200 md:text-xs">
+                <span className="pixel-font ml-auto flex flex-wrap place-items-center gap-2 border border-orange-400/50 bg-orange-500/15 px-3 py-1.5 text-[10px] tracking-widest text-orange-200 md:text-xs">
+                  {price.onSale && (
+                    <span className="text-orange-300/60 line-through">
+                      {price.symbol}
+                      {price.regularAmount}
+                    </span>
+                  )}
                   {price.symbol}
                   {price.amount} {price.currency}
                 </span>
               </div>
+              {price.onSale && (
+                <p className="pixel-font pt-4 text-[9px] tracking-widest text-amber-300 md:text-[11px]">
+                  <i className="fa-solid fa-bolt pr-2"></i>
+                  {price.saleLabel}
+                </p>
+              )}
               <p className="pt-4 text-xs leading-relaxed text-slate-300 md:text-sm">
                 {price.note} You buy it once and every update after it is
                 included, the same way Custom Enchantments 3 has worked since it
@@ -999,11 +1029,14 @@ function EpicMobsReworkPage() {
                 add to.
               </p>
               <p className="pt-3 text-xs leading-relaxed text-slate-400 md:text-sm">
-                It is sold through the Spigot listing and nowhere else for now.
-                There is no launch discount and no separate payment flow to
-                work through: buy it on Spigot, and Spigot hands you the jar.
-                Buying the release candidate buys the plugin, so 1.0 and
-                everything after it is the same purchase.
+                {price.saleNote}
+              </p>
+              <p className="pt-3 text-xs leading-relaxed text-slate-400 md:text-sm">
+                Three ways to pay it. Spigot is the quick one: it takes the
+                payment and hands you the jar. PayPal and Wise are handled by
+                hand, so you send the exact amount, email the receipt with your
+                Spigot username, and the resource is granted to your account.{" "}
+                {PluginInformation.payment.noDiscountNotice}
               </p>
               <div className="flex flex-col gap-3 pt-5 sm:flex-row">
                 <a
@@ -1015,6 +1048,26 @@ function EpicMobsReworkPage() {
                   <i className="fa-solid fa-cart-shopping"></i>
                   BUY ON SPIGOT
                 </a>
+                {/*
+                  The two manual routes. They open the step by step panel
+                  rather than the payment link, because the steps are the
+                  point: pay the exact amount, then email the receipt with a
+                  Spigot username or nothing can be granted.
+                */}
+                <button
+                  className="pixel-font w-full rounded-none border-2 border-sky-400/60 bg-sky-500/10 px-5 py-3 text-[9px] tracking-widest text-sky-200 transition-all hover:-translate-y-0.5 hover:border-sky-300 hover:bg-sky-500/25 sm:w-auto md:text-[11px]"
+                  onClick={() => setSubcontent("buy through paypal")}
+                >
+                  <i className="fa-brands fa-paypal pr-2"></i>
+                  PAY WITH PAYPAL
+                </button>
+                <button
+                  className="pixel-font w-full rounded-none border-2 border-lime-400/60 bg-lime-500/10 px-5 py-3 text-[9px] tracking-widest text-lime-200 transition-all hover:-translate-y-0.5 hover:border-lime-300 hover:bg-lime-500/25 sm:w-auto md:text-[11px]"
+                  onClick={() => setSubcontent("buy through wise")}
+                >
+                  <i className="fa-solid fa-qrcode pr-2"></i>
+                  PAY WITH WISE
+                </button>
                 <button
                   className="pixel-font w-full rounded-none border-2 border-orange-400/50 bg-[rgba(0,0,0,0.5)] px-5 py-3 text-[9px] tracking-widest text-orange-200 transition-all hover:-translate-y-0.5 hover:border-orange-300 hover:bg-orange-500/20 sm:w-auto md:text-[11px]"
                   onClick={() => setSubcontent("editions")}

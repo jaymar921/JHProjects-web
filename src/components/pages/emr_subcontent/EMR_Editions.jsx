@@ -131,14 +131,20 @@ function EMR_Editions() {
                 <p className="pt-1 text-[11px] text-slate-400 md:text-xs">
                   {price.symbol}
                   {price.amount} {price.currency}, bought once
+                  {price.onSale && (
+                    <span className="pl-1 text-amber-300">
+                      (pre-release, {price.symbol}
+                      {price.regularAmount} at 1.0)
+                    </span>
+                  )}
                 </p>
               </div>
             </div>
             <Body className="pt-4">
               Every limit lifted, plus companions, boss phases, packs, arenas,
               custom ability authoring, player-count scaling, the codex and both
-              admin editors. One payment through Spigot, and every update after
-              it.
+              admin editors. One payment, through Spigot, PayPal or Wise, and
+              every update after it.
             </Body>
           </Panel>
         </div>

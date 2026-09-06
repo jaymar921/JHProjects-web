@@ -31,6 +31,11 @@ import * as Screens from "../../../assets/epic_mobs_rework/screenshots";
 import icon from "../../../assets/epic_mobs_rework/branding/icon.png";
 import iconLite from "../../../assets/epic_mobs_rework/branding/icon-lite.png";
 import spigotImg from "../../../assets/custom_enchants_3/spigot.png";
+// Same payee as Custom Enchantments 3, so the same logo and the same QR. There
+// is one Wise account behind both pages and duplicating the PNG would only
+// give it two places to go stale.
+import wiseImg from "../../../assets/custom_enchants_3/wise.png";
+import wisePaymentQr from "../../../assets/custom_enchants_3/wise-payment-qr.png";
 
 /** Both listings, in one place, because six things link to them. */
 const SPIGOT = {
@@ -81,16 +86,59 @@ export const PluginInformation = {
   contactEmail: "jaymarplugins@gmail.com",
 
   /**
-   * One number, one place to buy it. There is no PayPal or Wise flow on this
-   * page the way there is on Custom Enchantments 3: the Spigot listing takes
-   * the payment and hands over the jar, and that is the whole of it for now.
-   * No launch discount either.
+   * Two numbers while the plugin is a release candidate: `amount` is what you
+   * pay today, `regularAmount` is what it goes back to when 1.0 ships. The
+   * sale is the whole of the discount. PayPal and Wise carry their own
+   * percentage off on Custom Enchantments 3 and deliberately do not here,
+   * because stacking a payment-method discount on a pre-release price would
+   * take the same jar below what it costs to keep supporting.
+   *
+   * When 1.0 lands: set `onSale` to false and `amount` to `regularAmount`.
+   * Everything that renders a price reads `amount`, so that is the only edit.
    */
   price: {
     currency: "GBP",
     symbol: "£",
-    amount: "15.99",
-    note: "One payment, and every update after it. Bought through Spigot.",
+    amount: "7.99",
+    regularAmount: "15.99",
+    onSale: true,
+    saleLabel: "PRE-RELEASE SALE",
+    saleNote:
+      "£7.99 is the pre-release price and it holds while the plugin is a release candidate. When 1.0 ships it goes to £15.99. Buying now buys the plugin, so 1.0 and everything after it is the same purchase at the price you paid today.",
+    note: "One payment, and every update after it. Bought through Spigot, PayPal or Wise.",
+  },
+
+  /**
+   * The two off-Spigot ways to pay, mirroring Custom Enchantments 3 step for
+   * step: send the exact amount, screenshot the receipt, email it with your
+   * Spigot username, and the resource is granted by hand.
+   *
+   * `discountPercent` is 0 on both and that is on purpose rather than an
+   * oversight. The pre-release price is already the discount. The field stays
+   * because the buy panels read it, so putting a number back is one edit in
+   * one place if that ever changes.
+   */
+  payment: {
+    contactEmail: "jaymarplugins@gmail.com",
+    paymentSubject: "Epic Mobs Rework Plugin Payment",
+    spigotAccountRequirement:
+      "You must have a Spigot account before paying. Your Spigot username is required to receive the plugin.",
+    exactPaymentNotice:
+      "Pay the exact amount shown. There is no return or refund policy for payments that are less or more than the required amount.",
+    noDiscountNotice:
+      "There is no payment method discount while the plugin is on its pre-release price. Every route below costs the same.",
+    paypal: {
+      link: "https://www.paypal.com/paypalme/JayMar921",
+      discountPercent: 0,
+      currencySymbol: "£",
+    },
+    wise: {
+      link: "https://wise.com/pay/me/jayharronmara",
+      qr: wisePaymentQr,
+      discountPercent: 0,
+      currencySymbol: "£",
+    },
+    wiseLogo: wiseImg,
   },
 
   /** The predecessor, which this page has to be honest about. */
@@ -128,7 +176,7 @@ export const PluginInformation = {
     {
       title: "ONE PAYMENT",
       accent: "ember",
-      body: "Bought once through Spigot, with every update after it included. There is no subscription and there never will be.",
+      body: "£7.99 while it is a release candidate, £15.99 once 1.0 ships. Bought once, every update after it included, no subscription.",
     },
     {
       title: "TRY IT FIRST",
