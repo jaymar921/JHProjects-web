@@ -7,6 +7,7 @@ import bandits from "./bandits.svg";
 import racoEconomy from "./raco-economy.svg";
 import configuration from "./configuration.svg";
 import crafting from "./crafting.svg";
+import integrations from "./integrations.svg";
 
 export {
   classes,
@@ -18,4 +19,5 @@ export {
   racoEconomy,
   configuration,
   crafting,
+  integrations,
 };
