@@ -122,6 +122,12 @@ ShowActionBar: true                # health, speed and mana readout
 GenerateLootPlots: true      # rebuild saved plots near players
 CustomLootingAllowed: true   # inject LootItems.yml into chests
 `}
+              <TerminalLabel>[Integrations]</TerminalLabel>
+              {`
+KumandraEconomySupport: true    # inert without Kumandra
+PlaceholderAPISupport: true     # new in 1.7.0, inert
+                                # without PlaceholderAPI
+`}
               <TerminalLabel>[Treasures, new in 1.5.0]</TerminalLabel>
               {`
 TreasureItemChance: 0.05        # chance a chest slot gives a treasure
@@ -138,6 +144,60 @@ MagicWandNoEnchantOnCraft: false # true crafts a blank wand
             The snippet above is a shortened view of the keys people ask about
             most. Your config.yml holds a lot more, including a price line for
             every single enchantment.
+          </Note>
+        </div>
+      </Section>
+
+      <Section>
+        <SectionHeading
+          icon="fa-solid fa-gauge-high"
+          title="Placeholders and what the plugin costs"
+          accent="lime"
+        />
+        <Body className="pt-5 text-justify">
+          Added in 1.7.0, on both editions. With PlaceholderAPI installed the
+          player values go anywhere PlaceholderAPI works, a scoreboard, a
+          hologram, a chat format or the tab list. Without it,{" "}
+          <Cmd accent="lime">/ce perf</Cmd> prints the timings in chat and{" "}
+          <Cmd accent="lime">/ce perf reset</Cmd> clears them.
+        </Body>
+        <Terminal title="CustomEnchantments3 / placeholders" className="mt-6">
+          <pre>
+            <code className="text-[10px] md:text-sm" lang="md">
+              <TerminalLabel>[The player ones]</TerminalLabel>
+              {`
+%ce3_level%           the CE3 level, not the vanilla one
+%ce3_class%           WARRIOR, ARCHER, WIZARD or NONE
+%ce3_mana%            and %ce3_max_mana%, %ce3_mana_percent%
+%ce3_raco%            their RACO balance
+%ce3_skill_strength%  any skill, by its own name
+%ce3_enchant_bleed%   the level on what they are holding
+%ce3_edition%         PREMIUM or LITE
+`}
+              <TerminalLabel accent="purple">
+                [The ones for when something is wrong]
+              </TerminalLabel>
+              {`
+%ce3_perf_melee_tick%   share of a server tick it costs
+%ce3_perf_melee%        average ms per hit, last 5 minutes
+%ce3_perf_melee_peak%   worst single hit since boot
+%ce3_perf_melee_calls%  how many hits that is
+
+Eight sections are measured the same way: melee,
+projectile, passive, treasure, magnetic, status,
+shop and mining.
+`}
+            </code>
+          </pre>
+        </Terminal>
+        <div className="pt-4">
+          <Note accent="sky" icon="fa-solid fa-circle-info">
+            The _tick one is the number to look at. Milliseconds on their own
+            are misleading, because half a millisecond is free once a second
+            and is your whole tick budget a hundred times a second. Measuring
+            costs two nanoTime calls per sample, so it is always on: a
+            diagnostic you have to switch on before the problem cannot explain
+            the problem.
           </Note>
         </div>
       </Section>

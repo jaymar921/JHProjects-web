@@ -12,10 +12,10 @@ import wisePaymentQr from "../../../assets/custom_enchants_3/wise-payment-qr.png
 export const PluginInformation = {
   title: "Custom Enchantments 3",
   subtitle: "Elevate your server with Epic RPG Gameplay!",
-  version: "1.6.0",
-  versionReleaseDate: "09/02/2026",
+  version: "1.7.0",
+  versionReleaseDate: "09/06/2026",
   versionHighlight:
-    "The economy release. Kumandra's Economy is supported as an optional soft dependency, so a RACO price can be settled in Kd without RACO ever being minted out of nothing. Plus 25 new enchantments and 15 new treasure items, taking the totals to 159 and 149. Tested on Minecraft 26.2.",
+    "The integration and performance release. Epic Mobs Rework mobs can trigger real CE3 enchantments instead of a flat magic number, PlaceholderAPI is supported on both editions including the plugin's own timings, and one hit no longer reads the same sword thirty times. Still 159 enchantments and 149 treasures, none of them rebalanced. Tested on Minecraft 26.2.",
   supportedVersions: "1.16.4 - 26.2",
   treasureCount: 149,
   price: 18.99,
@@ -29,6 +29,7 @@ export const PluginInformation = {
     "Your players pick a lane and build into it. XP comes from mobs, blocks, crops and quests, every level pays an attribute point, every tenth level pays a passive point, and the cap sits at 200. Spend that first passive point and you commit: Warrior for swords, spears and maces, Archer for the bow, Wizard for the wand and its spells. Changed your mind halfway? The Reset Elixir hands the points back and keeps your level.",
     "Around all of that sits a whole server's worth of systems. 15 shop types you place as real entities that cannot be stolen with a boat. Quests written in chat, no config editing, with 25 already waiting on a fresh install. RACO, a currency with a fixed supply of 1.25 million coins and a price that genuinely moves when your players trade, with its own candlestick chart in game. Loot plots you build yourself that the plugin drops near players and fills with loot, guarded by bandit camps that hit back. 149 treasure items that work from your inventory with nothing to equip.",
     "1.6.0 opens the currency up without giving up standing alone. If you run Kumandra's Economy too, a player can settle a RACO price in Kd and swap between the two in the exchange screen, and the plugin buys that RACO out of the circulating supply rather than minting it, so the supply cap still means what it always meant. If you do not run it, or you switch one setting off, nothing changes at all.",
+    "1.7.0 is about the rest of your server. Run Epic Mobs Rework and a mob carrying a Bleed sword now makes you bleed, running the same code a player's Bleed sword runs, and its loot tables can hand out real CE3 books and treasure items. Run PlaceholderAPI and every player value goes on your scoreboard, along with the plugin's own timings, so \"CE3 is lagging my server\" is finally something you can check rather than argue about. Neither plugin is required. Combat got cheaper on its own too: a single hit used to read the same sword about thirty times and the same armour about ninety, and it reads each of them once now.",
     "Everything is a config line. Every price, every drop rate, every XP curve, every enchantment. Set a price to 0 and that enchantment stops existing on your server. It runs on Spigot and Paper from 1.16.4 all the way to 26.2, it needs no other plugins, and there is no NMS anywhere in it, so an update to Minecraft does not take the plugin down with it. One payment, updates for life, no subscription.",
   ],
   trialLink:
@@ -278,6 +279,18 @@ export const CommandList = [
     command: "/ce settings",
     description: "Modify plugin settings | may require admin access",
     requireOp: false,
+  },
+  {
+    command: "/ce perf",
+    description:
+      "Print what the plugin is costing your server: eight measured sections, milliseconds per call and the share of a tick each one takes. Added in 1.7.0, and it needs no PlaceholderAPI",
+    requireOp: true,
+  },
+  {
+    command: "/ce perf reset",
+    description:
+      "Clear the performance counters and start measuring again. A /ce reload clears them too",
+    requireOp: true,
   },
   {
     command: "/ce reload",

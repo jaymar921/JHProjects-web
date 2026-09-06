@@ -31,6 +31,7 @@ import CE3_BUY_PayPal from "./ce3_subcontent/CE3_BUY_PayPal";
 import CE3_BUY_Wise from "./ce3_subcontent/CE3_BUY_Wise";
 import CE3_ChangeLogs from "./ce3_subcontent/CE3_ChangeLogs";
 import CE3_BuyEnchantment from "./ce3_subcontent/CE3_BuyEnchantment";
+import CE3_Integrations from "./ce3_subcontent/CE3_Integrations";
 import {
   ActionCard,
   Cmd,
@@ -47,9 +48,10 @@ import {
   TerminalLabel,
 } from "../page_components/PixelUIKit";
 import * as FeatureArt from "../../assets/custom_enchants_3/features";
-import * as ReleaseArt from "../../assets/custom_enchants_3/marketing_1_6_0";
-// The 1.6.0 set has no "systems" draw. The 1.5.0 one is still accurate, so the
-// features section keeps using it rather than a re-cut that would say the same.
+import * as ReleaseArt from "../../assets/custom_enchants_3/marketing_1_7_0";
+// Neither the 1.6.0 nor the 1.7.0 set has a "systems" draw. The 1.5.0 one is
+// still accurate, so the features section keeps using it rather than a re-cut
+// that would say the same thing.
 import { systems as SystemsShot } from "../../assets/custom_enchants_3/marketing_1_5_0";
 import {
   CLICK_ACTIONS,
@@ -167,6 +169,8 @@ function CE3Page() {
         return <CE3_ChangeLogs />;
       case "buy enchantments":
         return <CE3_BuyEnchantment />;
+      case "integrations":
+        return <CE3_Integrations />;
       default:
         return (
           <>
@@ -318,7 +322,7 @@ function CE3Page() {
         </div>
       </header>
 
-      {/* ------------------------------------------------ WHAT IS NEW 1.6.0 */}
+      {/* ------------------------------------------------ WHAT IS NEW 1.7.0 */}
       {/*
         1.5.0 had a release banner and a separate "what is new" section, and the
         two said much the same thing one after the other. They are one section
@@ -342,35 +346,35 @@ function CE3Page() {
                   </span>
                 </div>
                 <p className="pixel-font pt-3 text-[10px] text-rose-300 md:text-xs">
-                  The economy release.
+                  The integration and performance release.
                 </p>
                 <p className="pt-3 text-xs leading-relaxed text-slate-300 md:text-sm">
                   {PluginInformation.versionHighlight}
                 </p>
                 <div className="flex flex-wrap gap-2 pt-4">
                   <StatChip
-                    icon="fa-solid fa-wand-magic-sparkles"
-                    value="+25"
-                    label="Enchants"
+                    icon="fa-solid fa-droplet"
+                    value="Bleed"
+                    label="Mobs really bleed you"
+                    accent="rose"
+                  />
+                  <StatChip
+                    icon="fa-solid fa-percent"
+                    value="8"
+                    label="Timed paths"
+                    accent="sky"
+                  />
+                  <StatChip
+                    icon="fa-solid fa-gauge-high"
+                    value="30x"
+                    label="Fewer gear reads"
                     accent="purple"
                   />
                   <StatChip
-                    icon="fa-solid fa-gem"
-                    value="+15"
-                    label="Treasures"
-                    accent="amber"
-                  />
-                  <StatChip
-                    icon="fa-solid fa-right-left"
-                    value="Kd"
-                    label="Now spends"
+                    icon="fa-solid fa-plug"
+                    value="0"
+                    label="Required plugins"
                     accent="lime"
-                  />
-                  <StatChip
-                    icon="fa-solid fa-lock"
-                    value="1.25M"
-                    label="Still capped"
-                    accent="sky"
                   />
                 </div>
               </div>
@@ -404,89 +408,100 @@ function CE3Page() {
               <Shot
                 className="mt-6"
                 src={ReleaseArt.hero}
-                alt="Custom Enchantments 3 version 1.6.0, 159 enchantments and 149 treasures"
+                alt="Custom Enchantments 3 version 1.7.0, still 159 enchantments and 149 treasures"
                 accent="lime"
-                caption="Enchantments go from 134 to 159. Treasure items go from 134 to 149."
+                caption="Nothing was added to the catalogue and nothing was rebalanced. This one is about what the plugin costs and what it works with."
               />
 
               <Shot
                 className="mt-6"
-                src={ReleaseArt.economy}
-                alt="How Custom Enchantments 3 spends Kumandra currency without minting RACO"
-                accent="amber"
-                caption="Pay in Kd, the plugin buys the RACO out of circulating supply, the seller is paid in RACO"
+                src={ReleaseArt.mobs}
+                alt="How an Epic Mobs Rework mob triggers a real Custom Enchantments 3 enchantment"
+                accent="rose"
+                caption="A mob with a Bleed sword used to deal a bit of extra magic damage. Now it runs the same Bleed a player's sword runs."
               />
 
               <div className="mt-8 grid gap-4 md:grid-cols-2">
-                <Panel accent="amber" className="p-5">
-                  <p className="pixel-font text-[10px] tracking-widest text-amber-300 md:text-xs">
-                    TWO ECONOMIES, ONE RULE
+                <Panel accent="rose" className="p-5">
+                  <p className="pixel-font text-[10px] tracking-widest text-rose-300 md:text-xs">
+                    MOBS THAT ENCHANT PROPERLY
                   </p>
                   <p className="pt-3 text-xs leading-relaxed text-slate-400 md:text-sm">
-                    Run Kumandra&apos;s Economy alongside this and your players
-                    can settle a RACO price in Kd, or swap between the two in
-                    the exchange screen. Kd never becomes RACO out of thin air:
-                    the plugin buys the RACO out of circulating supply first, so
-                    the 1.25 million cap still means what it always meant. Run
-                    out of supply and the payment is refused and the Kd handed
-                    back.
+                    Run Epic Mobs Rework and a mob carrying a Bleed sword now
+                    makes you bleed, because CE3 runs the real effect rather
+                    than handing back a scaled magic number. It is the same
+                    code a player&apos;s swing runs, not a second copy of it.
+                    Its loot tables can name a CE3 book or treasure too, and
+                    get the same item the shop sells. Nothing to configure: if
+                    you run both, it is on.
                   </p>
                 </Panel>
                 <Panel accent="lime" className="p-5">
                   <p className="pixel-font text-[10px] tracking-widest text-lime-300 md:text-xs">
-                    STILL COMPLETELY STANDALONE
+                    PLACEHOLDERAPI, BOTH EDITIONS
                   </p>
                   <p className="pt-3 text-xs leading-relaxed text-slate-400 md:text-sm">
-                    You do not need Kumandra&apos;s Economy. Without it the
-                    plugin runs exactly as 1.5.0 did, and the six new config
-                    keys do nothing at all. With it installed and{" "}
-                    <span className="pixel-font">
-                      KumandraEconomySupport: false
-                    </span>{" "}
-                    you get 1.5.0 behaviour back on one line. A player holding
-                    enough RACO always spends the RACO.
+                    <span className="pixel-font">%ce3_level%</span> is the CE3
+                    level rather than the vanilla one, and class, mana, RACO,
+                    XP, any skill by its own name and the level of one
+                    enchantment on what a player is holding all go on your
+                    scoreboard, hologram or tab list. Nothing about seeing what
+                    the plugin is doing is a premium feature, so the lite build
+                    gets all of it.
+                  </p>
+                </Panel>
+                <Panel accent="sky" className="p-5">
+                  <p className="pixel-font text-[10px] tracking-widest text-sky-300 md:text-xs">
+                    IS IT ACTUALLY THIS PLUGIN
+                  </p>
+                  <p className="pt-3 text-xs leading-relaxed text-slate-400 md:text-sm">
+                    A profiler blames one damage listener, and that listener is
+                    thirty enchantment handlers and a whole defence pass. Eight
+                    paths are timed now and published seven ways each, and{" "}
+                    <span className="pixel-font">%ce3_perf_melee_tick%</span> is
+                    the share of a server tick combat is costing, which is the
+                    only form of the number you can compare against anything
+                    else. No PlaceholderAPI?{" "}
+                    <span className="pixel-font">/ce perf</span> prints the same
+                    thing in chat.
                   </p>
                 </Panel>
                 <Panel accent="purple" className="p-5">
                   <p className="pixel-font text-[10px] tracking-widest text-purple-300 md:text-xs">
-                    25 NEW ENCHANTS
+                    COMBAT GOT CHEAPER
                   </p>
                   <p className="pt-3 text-xs leading-relaxed text-slate-400 md:text-sm">
-                    7 weapon, 2 trident, 3 bow, 4 wand, 6 armor, 3 tool.
-                    Cofferguard spends a coin to soak a heavy hit, the first
-                    defensive enchantment with a running cost. Coinvein,
-                    Titherow and Dredgeline pay you as you mine, harvest and
-                    fish, out of the same supply rather than out of nothing.
+                    A single hit read the same sword about thirty times and the
+                    same armour about ninety, once per handler. Both are read
+                    once now and shared. Inventory scans stop before copying
+                    the metadata of an item that can never carry an
+                    enchantment, and Magnetic pulls once instead of once per
+                    magnetic tool you are carrying. No number a player sees
+                    changed.
                   </p>
                 </Panel>
-                <Panel accent="rose" className="p-5">
-                  <p className="pixel-font text-[10px] tracking-widest text-rose-300 md:text-xs">
-                    15 NEW TREASURES, AND FOUR FIXES
+                <Panel accent="amber" className="p-5 md:col-span-2">
+                  <p className="pixel-font text-[10px] tracking-widest text-amber-300 md:text-xs">
+                    AND 1.6.1, IF YOU SKIPPED IT
                   </p>
                   <p className="pt-3 text-xs leading-relaxed text-slate-400 md:text-sm">
-                    Pirate named, each with its own sprite, flavour line and
-                    stat block, on the same weighted table. Fixed: you can take
-                    your own RACO shop listing back down again, and the trident,
-                    spear, bow and animal armor shop screens all draw their books
-                    inside the frame now instead of over it.
+                    An item already carrying the maximum number of enchantments
+                    refused every book, including one that only levelled up an
+                    enchantment it already had, which is most of what you do
+                    with a finished weapon. Levelling takes no new slot, so it
+                    is no longer counted against the limit. The limit itself
+                    has not moved, and a genuinely new enchantment on a full
+                    item is still refused with the same message.
                   </p>
                 </Panel>
               </div>
 
-              <div className="mt-8 gap-6 lg:flex">
+              <div className="mt-8">
                 <Shot
-                  className="w-full lg:w-1/2"
-                  src={ReleaseArt.enchants}
-                  alt="A sample of the 25 new enchantments across weapons, bows, wands, armor and tools"
-                  accent="purple"
-                  caption="A dozen of the 25, across weapons, bows, wands, armor and tools"
-                />
-                <Shot
-                  className="w-full pt-6 lg:w-1/2 lg:pt-0"
-                  src={ReleaseArt.update}
-                  alt="What was added and fixed in Custom Enchantments 3 version 1.6.0"
+                  src={ReleaseArt.perf}
+                  alt="The eight timed paths Custom Enchantments 3 publishes through PlaceholderAPI and /ce perf"
                   accent="lime"
-                  caption="Everything the release touched, and what it left alone"
+                  caption="Eight measured paths, published as placeholders and printed by /ce perf. Always on, because a diagnostic you have to switch on first cannot explain yesterday."
                 />
               </div>
 
@@ -494,14 +509,18 @@ function CE3Page() {
                 <Note accent="amber" icon="fa-solid fa-triangle-exclamation">
                   Your config carries over. On the first start after updating,
                   the plugin rewrites{" "}
-                  <span className="pixel-font">config.yml</span> with the new
-                  keys and keeps every value you had set, saving the old file as{" "}
-                  <span className="pixel-font">config.yml.old</span>. Back up{" "}
+                  <span className="pixel-font">config.yml</span> and keeps every
+                  value you had set, saving the old file as{" "}
+                  <span className="pixel-font">config.yml.old</span>. One key
+                  was added,{" "}
+                  <span className="pixel-font">PlaceholderAPISupport</span>, and
+                  it defaults to on. The resource pack does not need
+                  re-downloading this time, and no player data, shop or quest
+                  file is touched. Back up{" "}
                   <span className="pixel-font">
                     plugins/CustomEnchantments3
                   </span>{" "}
-                  first, as always. And re-download the resource pack, or the 15
-                  new treasures show as plain gold nuggets and coal.
+                  first, as always.
                 </Note>
               </div>
 
@@ -688,14 +707,21 @@ Note: [PREMIUM VERSION] is not available in Aternos.
 - SPIGOT [1.16.4 - 26.2] (Recommended)
 - PAPER  [1.16.4 - 26.2]
 
-Latest build 1.6.0 was tested on Minecraft 26.2.
+Latest build 1.7.0 was tested on Minecraft 26.2.
 Version 1.3.3 added support for the new numbered
 release scheme (26, 27, 28, 29).
 
-No other plugins are required. Kumandra's Economy
-2.0 or newer is optional: install it and the two
-currencies can be spent on each other, leave it
-out and nothing changes.
+No other plugins are required. Three are optional
+and none of them is bundled:
+
+- Kumandra's Economy 2.0+ lets the two currencies
+  be spent on each other
+- PlaceholderAPI publishes the player values and
+  the plugin's own timings
+- Epic Mobs Rework mobs can trigger real CE3
+  enchantments and drop CE3 items
+
+Leave all three out and nothing changes.
                 `}
               </code>
             </pre>
@@ -762,8 +788,8 @@ it is there.
                       [THE BANNER, A FEW SECONDS LATER]
                     </TerminalLabel>
                     {`
-      Current Version: 1.6.0
-      Update Version:  1.6.0
+      Current Version: 1.7.0
+      Update Version:  1.7.0
       License: PREMIUM
 
 The banner rides along with the update check, so it
@@ -771,14 +797,17 @@ prints shortly after boot rather than in the middle
 of startup. License says LITE on the free build.
                     `}
                     <TerminalLabel accent="sky">
-                      [WITH KUMANDRA&apos;S ECONOMY INSTALLED]
+                      [WITH THE OPTIONAL PLUGINS INSTALLED]
                     </TerminalLabel>
                     {`
 Kumandra's Economy 2.1 hooked
+PlaceholderAPI expansion registered
 
-Without it, the line reads "This plugin supports
-Kumandra's Economy" instead, which is an advert and
-not a warning. Nothing here is required.
+Without Kumandra, that first line reads "This plugin
+supports Kumandra's Economy" instead, which is an
+advert and not a warning. Without PlaceholderAPI the
+second one is simply absent and /ce perf still prints
+the same numbers. Nothing here is required.
                     `}
                   </code>
                 </pre>
@@ -1015,6 +1044,17 @@ plugin_admin_access:
               onClick={() => setSubcontent("buy enchantments")}
             />
             <ActionCard
+              accent="emerald"
+              icon="fa-solid fa-plug"
+              title="INTEGRATIONS"
+              image={FeatureArt.integrations}
+              description="Kumandra's Economy, Epic Mobs Rework and PlaceholderAPI. All three optional, all three standalone plugins in their own right."
+              buttonIcon="fa-solid fa-plug"
+              buttonLabel="Integrations"
+              badge="NEW"
+              onClick={() => setSubcontent("integrations")}
+            />
+            <ActionCard
               accent="sky"
               icon="fa-solid fa-gears"
               title="SETTINGS"
@@ -1042,7 +1082,7 @@ plugin_admin_access:
               accent="rose"
               icon="fa-solid fa-bug"
               title="REPORT BUGS"
-              description="Four fixes in 1.6.0 came from reports like yours. Keep them coming."
+              description="1.6.1 shipped because somebody reported an enchanting bug the day after 1.6.0. Keep them coming."
               buttonIcon="fa-solid fa-bug"
               buttonLabel="Report"
               onClick={() => setSubcontent("bug report")}

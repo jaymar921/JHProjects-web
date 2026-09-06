@@ -1,5 +1,95 @@
 export const CE3_Logs = [
   {
+    update_version: "1.7.0",
+    release_date: "09/06/2026",
+    changes: [
+      {
+        update: "Read this first",
+        sublist: [
+          "This is the integration and performance release. Nothing was added to the catalogue and nothing was rebalanced: still 159 enchantments and 149 treasure items, at the same prices",
+          "Three things are in it. Epic Mobs Rework mobs can trigger real CE3 enchantments, PlaceholderAPI is supported on both editions, and melee combat costs meaningfully less than it did in 1.6.1",
+          "Your config carries over. On the first start after updating the plugin rewrites config.yml and keeps every value you had set, saving the old file as config.yml.old. One key was added, PlaceholderAPISupport, and it defaults to on",
+          "No player data, shop, quest or resource pack changes. The resource pack does not need re-downloading this time",
+          "Both optional plugins are genuinely optional. Nothing is bundled, no PlaceholderAPI or Epic Mobs class is loaded on a server that does not have them, and without either one the plugin runs exactly as it did before",
+          "Supported range is unchanged at 1.16.4 to 26.2, still with no NMS. The lite build gets PlaceholderAPI and /ce perf too",
+        ],
+      },
+      {
+        update: "Epic Mobs Rework: mob enchantments behave like enchantments",
+        sublist: [
+          "An Epic Mob could already carry a CE3 enchanted weapon and Epic Mobs already read the enchantments on it. What it could not do was make them behave like themselves, so a mob with a Bleed sword dealt a bit of extra magic damage and every enchantment on every mob weapon felt the same",
+          "CE3 can now be asked to run one named enchantment for an attacker against a victim, and the player bleeds exactly the way they would from another player's Bleed sword. It is the same code that runs when a player swings, not a second copy of it, because two versions of Bleed drift apart inside one release and the wrong one is the one that gets reported",
+          "Refusing is a legitimate answer, and CE3 refuses four things: a name it does not know, an enchantment with no melee effect, a world CE3 is switched off in, and the seven enchantments that need a player behind the swing because they read the attacker's own mana, health, class or balance. Those seven still work when the attacker is a player, which is what lets a companion trigger its owner's enchantments",
+          "Epic Mobs loot tables can name a CE3 treasure or a CE3 enchantment book and actually get one. Those entries have existed since Epic Mobs 1.0 and could never produce an item, because there was no way to ask CE3 for one by name. A book from a mob is the same book the shop sells, custom model data and all",
+          "Nothing to configure. If you run both plugins it is on, and the dependency still runs one way: CE3 declares nothing on Epic Mobs and calls nothing in it",
+          "The Epic Mobs side of this needs an Epic Mobs release too. Until that lands, an Epic Mob on a 1.7.0 server behaves the way it does today. Nothing gets worse in the meantime",
+        ],
+      },
+      {
+        update: "PlaceholderAPI, on both editions",
+        sublist: [
+          "The player values are the ones you would expect and they go anywhere PlaceholderAPI works: %ce3_level% is the CE3 level rather than the vanilla one, plus %ce3_class%, %ce3_mana%, %ce3_max_mana%, %ce3_raco%, %ce3_xp%, %ce3_attribute_points%, %ce3_edition% and the rest",
+          "Any skill resolves by its own name, %ce3_skill_strength% and so on, and %ce3_enchant_bleed% gives the level of one enchantment on whatever the player is holding. Underscores in an enchantment name become spaces, so %ce3_enchant_life_steal% works",
+          "The timings are why it exists. An owner reporting that CE3 is costing them tick time has had nothing to report with: a profiler blames one damage listener, and that listener is thirty enchantment handlers and a whole defence pass",
+          "Eight repeating paths are measured (melee, projectile, passive, treasure, magnetic, status, shop and mining) and each is published seven ways, including %ce3_perf_melee_tick%, the share of a server tick it is currently costing. That share is the only form of the number you can compare against anything else on the server",
+          "Measuring costs two nanoTime calls per sample against work measured in hundreds of microseconds, so it is always on. A diagnostic you have to switch on before the problem cannot explain the problem",
+          "Nothing about seeing what the plugin is doing is a premium feature. The lite build gets all of it",
+          "No PlaceholderAPI? /ce perf prints the same numbers in chat, admin only, and /ce perf reset clears them. A /ce reload clears them too, because numbers measured before a reload describe a configuration that no longer exists",
+          "A server without PlaceholderAPI is unaffected. The one class that names a PlaceholderAPI type is reached by name and only after the plugin manager confirms it is installed, so it is never loaded, and nothing is shaded into the jar",
+        ],
+      },
+      {
+        update: "Optimizations",
+        sublist: [
+          "None of these changes a number a player sees",
+          "One hit read the same sword about thirty times. Every attack handler built its own player adapter and each one read and parsed the main hand's enchantment data. They share one now, built fresh per damage event so it cannot report stale gear",
+          "And the same armour about ninety times. The defence handlers each cached the four armour pieces separately, which cached nothing: one instance per handler per event. The cache moved onto the adapter the whole event already shares, so it is read once and no handler changed",
+          "Every inventory scan copied an item's metadata before discovering there was nothing on it. Cobblestone, food and arrows are skipped without the copy now. This is the most called path in the plugin and it helps everywhere, not just in combat",
+          "Magnetic was pulling once per magnetic item carried, four times a second, each sweeping its own radius. Identical on screen, double the work. The strongest level pulls once",
+          "Protected boundary checks leave immediately on a server with no boundaries, which is most of them. That check runs on every hit and every mob spawn",
+          "Two console lines per cached player, written from inside the damage pipeline, are gone. The size of the cache is on /ce perf for anybody who wants it",
+        ],
+      },
+      {
+        update: "Fixed",
+        sublist: [
+          "A main hand enchantment level lookup unboxed a null for an enchantment the item does not carry. Every shipped caller guarded it first so it could not fire, but it was one careless handler away from an exception in the middle of the damage pipeline",
+        ],
+      },
+    ],
+  },
+  {
+    update_version: "1.6.1",
+    release_date: "09/05/2026",
+    changes: [
+      {
+        update: "Read this first",
+        sublist: [
+          "Patch release. One enchanting bug, reported after 1.6.0 went out, and the Epic Mobs Rework integration written down and pinned",
+          "No new enchantments, no new treasures, no new settings, nothing to migrate. Drop the jar in and restart",
+          "Player data, RACO balances, shop listings and the resource pack are all untouched, and the pack does not need re-downloading",
+        ],
+      },
+      {
+        update: "Fixed: a full item could not level up the enchantments it already had",
+        sublist: [
+          "Applying a book to an item already carrying the maximum number of enchantments was refused with 'You have reached the maximum enchant limit of 5', whether the book was a new enchantment or an upgrade to one the item already had. The second case is most of what you do with a finished weapon",
+          "Only a new enchantment takes a slot. Levelling one the item already has takes none, so it is no longer counted against the limit and a maxed out item can be levelled the rest of the way as intended",
+          "The limit itself has not moved. A genuinely new enchantment on a full item is still refused with the same message. Anvil combining was already correct, and the lite build's own three enchantment cap still reports itself in its own words",
+        ],
+      },
+      {
+        update: "Epic Mobs Rework, pinned",
+        sublist: [
+          "Epic Mobs Rework 1.0 integrates with Custom Enchantments 3: Epic Mobs can carry CE3 enchantments, they respect CE3 protected boundaries, they can pay out RACO, their effects go through CE3's magic damage path, and their difficulty scaling can read player CE3 levels",
+          "All of that already worked against 1.6.0. Nothing had to be added and there is nothing to configure on this side. If you run both plugins, it is on",
+          "What this release adds is the guarantee that it stays working. Epic Mobs reaches into CE3 by name at runtime, so a rename in a later CE3 version would quietly switch one of those features off without failing loudly. The eight things it reaches for are now pinned by a test that fails the build if any of them move",
+          "You do not need Epic Mobs Rework. Custom Enchantments 3 does not require it, does not look for it, and runs exactly the same without it",
+        ],
+      },
+    ],
+  },
+  {
     update_version: "1.6.0",
     release_date: "09/02/2026",
     changes: [
