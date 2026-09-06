@@ -141,6 +141,53 @@ export const PluginInformation = {
     wiseLogo: wiseImg,
   },
 
+  /**
+   * The three ways to pay, rendered as tiles in the buy panel. Same shape as
+   * Custom Enchantments 3: a link goes straight out, an onClick opens another
+   * panel instead. Spigot is first because it is the one that hands over the
+   * jar without anybody waiting on an email.
+   */
+  buyLink: [
+    {
+      title: "Spigot",
+      link: SPIGOT.premium,
+      logo: spigotImg,
+    },
+    {
+      title: "PayPal",
+      onClick: (setSubcontent) => {
+        setSubcontent?.("buy through paypal");
+      },
+      icon: "fa-brands fa-paypal text-blue-400",
+    },
+    {
+      title: "Wise",
+      onClick: (setSubcontent) => {
+        setSubcontent?.("buy through wise");
+      },
+      logo: wiseImg,
+    },
+  ],
+
+  /** Donations, which are not a purchase and do not unlock the full build. */
+  supportLink: [
+    {
+      title: "Buy JayMar a coffee",
+      link: "https://buymeacoffee.com/jaymar921",
+      icon: "fa-solid fa-mug-hot text-yellow-500",
+    },
+    {
+      title: "PayPal",
+      link: "https://www.paypal.com/paypalme/JayMar921",
+      icon: "fa-brands fa-paypal text-blue-400",
+    },
+    {
+      title: "Donate via Wise",
+      link: "https://wise.com/pay/me/jayharronmara",
+      logo: wiseImg,
+    },
+  ],
+
   /** The predecessor, which this page has to be honest about. */
   predecessor: {
     title: "Epic Mobs",
