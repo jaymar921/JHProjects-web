@@ -701,3 +701,75 @@ export function FormStatus({ tone = "success", title, children }) {
     </div>
   );
 }
+
+/**
+ * A titled block that starts closed.
+ *
+ * The Epic Mobs Rework page is long because the plugin is large, and the
+ * honest fix is not to cut what it says but to stop saying all of it at once.
+ * Everything below a summary line lives in one of these, so the page reads as
+ * a list of things you may open rather than as a wall you have to scroll past.
+ *
+ * It is a real <details>/<summary> rather than a div and a piece of state, so
+ * the keyboard, the screen reader and the browser's own find-in-page all work
+ * without anything being wired up for them.
+ */
+export function Collapsible({
+  title,
+  icon,
+  hint,
+  count,
+  accent = "lime",
+  defaultOpen = false,
+  children,
+  className = "",
+}) {
+  const a = accentOf(accent);
+  return (
+    <details
+      open={defaultOpen}
+      className={`group border border-slate-700/70 bg-[rgba(11,13,17,0.72)] ${className}`}
+    >
+      <summary className="flex cursor-pointer list-none place-items-center gap-3 p-4 transition-colors hover:bg-[rgba(255,255,255,0.03)]">
+        {icon && (
+          <span
+            className={`inline-flex h-8 w-8 shrink-0 place-items-center justify-center border-2 text-xs ${a.chip}`}
+          >
+            <i className={icon}></i>
+          </span>
+        )}
+        <span className="grow">
+          <span
+            className={`pixel-font block text-[9px] tracking-wide md:text-[11px] ${a.text}`}
+          >
+            {title}
+          </span>
+          {hint && (
+            <span className="block pt-1.5 text-[10px] leading-relaxed text-slate-500 md:text-xs">
+              {hint}
+            </span>
+          )}
+        </span>
+        {count !== undefined && (
+          <span
+            className={`pixel-font shrink-0 border px-2 py-1 text-[7px] tracking-widest md:text-[8px] ${a.chip}`}
+          >
+            {count}
+          </span>
+        )}
+        {/*
+          Two icons rather than one that rotates. A rotating chevron animates
+          through a diagonal, and on a pixel font page a diagonal chevron is
+          the one frame that looks broken.
+        */}
+        <i
+          className={`fa-solid fa-plus shrink-0 text-xs ${a.text} group-open:hidden`}
+        ></i>
+        <i
+          className={`fa-solid fa-minus hidden shrink-0 text-xs ${a.text} group-open:inline`}
+        ></i>
+      </summary>
+      <div className="border-t border-slate-800 p-4">{children}</div>
+    </details>
+  );
+}
