@@ -3,11 +3,18 @@ import { CommandList } from "../contants/epic_mobs_rework/EMRConstants";
 /**
  * The Epic Mobs Rework command table.
  *
- * It carries a third column the other plugins' tables do not: which edition a
- * command exists in. The commands missing from Lite are missing from the Lite
+ * It carries two columns the other plugins' tables do not.
+ *
+ * **Edition**, because the commands missing from Lite are missing from the Lite
  * command tree entirely rather than refusing when you run them, so an owner
  * reading this table wants to know that before they type one and get "unknown
  * command" back.
+ *
+ * **Run from**, because roughly a third of the tree cannot be run by the
+ * console. Each of those needs either a location or an inventory and the
+ * console has neither, so each says "That command has to be run by a player"
+ * rather than failing quietly. Somebody wiring a command block, an RCON script
+ * or a scheduler needs that column before they write the script, not after.
  */
 function EMR_CommandTableComponent() {
   return (
@@ -25,6 +32,9 @@ function EMR_CommandTableComponent() {
           </th>
           <th className="pixel-font px-2 py-2 text-center text-[8px] tracking-wider text-orange-300 md:text-[10px]">
             Edition
+          </th>
+          <th className="pixel-font px-2 py-2 text-center text-[8px] tracking-wider text-orange-300 md:text-[10px]">
+            Run from
           </th>
         </tr>
       </thead>
@@ -57,6 +67,22 @@ function EMR_CommandTableComponent() {
                 }`}
               >
                 {command.lite ? "BOTH" : "FULL"}
+              </span>
+            </td>
+            <td className="px-2 py-3 text-center align-top">
+              <span
+                className={`pixel-font inline-block border px-2 py-1 text-[7px] tracking-widest md:text-[8px] ${
+                  command.playerOnly
+                    ? "border-sky-400/40 bg-sky-400/10 text-sky-300"
+                    : "border-slate-600/50 bg-slate-500/10 text-slate-400"
+                }`}
+                title={
+                  command.playerOnly
+                    ? "Needs a location or an inventory, so the console cannot run it"
+                    : "Console and player"
+                }
+              >
+                {command.playerOnly ? "PLAYER" : "EITHER"}
               </span>
             </td>
           </tr>

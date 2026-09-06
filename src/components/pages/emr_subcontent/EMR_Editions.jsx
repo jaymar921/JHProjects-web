@@ -67,6 +67,18 @@ function EMR_Editions() {
           something you were already enjoying, rather than being stopped at the
           door.
         </Body>
+        <Body className="pt-4 text-justify">
+          The first row of the table is the one worth reading twice, and it is
+          the one that changed for 1.0-RC1. Lite used to allow ten mob
+          definitions in total, which meant the first thing a new owner did was
+          delete most of what the plugin came with, and it made the shipped
+          content read as a sample rather than as content. The twenty built-in
+          mobs are now exempt from the ceiling: you get all twenty and still
+          have all ten to spend on your own ideas. The other half of that
+          bargain is that Lite cannot delete them. Editing them is always
+          allowed, an edited one is never overwritten, and only a missing one is
+          written back.
+        </Body>
       </Section>
 
       <Section>
@@ -124,8 +136,9 @@ function EMR_Editions() {
             </div>
             <Body className="pt-4">
               Every limit lifted, plus companions, boss phases, packs, arenas,
-              custom ability authoring, player-count scaling, the codex and the
-              admin editor. One payment, and every update after it.
+              custom ability authoring, player-count scaling, the codex and both
+              admin editors. One payment through Spigot, and every update after
+              it.
             </Body>
           </Panel>
         </div>

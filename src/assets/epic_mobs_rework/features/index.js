@@ -11,6 +11,8 @@ import world from "./world.svg";
 import raids from "./raids.svg";
 import loot from "./loot.svg";
 import integrations from "./integrations.svg";
+import setup from "./setup.svg";
+import api from "./api.svg";
 import config from "./config.svg";
 import editions from "./editions.svg";
 import changelog from "./changelog.svg";
@@ -24,6 +26,8 @@ export {
   raids,
   loot,
   integrations,
+  setup,
+  api,
   config,
   editions,
   changelog,

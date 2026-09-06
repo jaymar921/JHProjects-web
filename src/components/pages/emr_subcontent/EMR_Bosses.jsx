@@ -12,6 +12,7 @@ import {
   TerminalLabel,
 } from "../../page_components/PixelUIKit";
 import * as FeatureArt from "../../../assets/epic_mobs_rework/features";
+import * as Screens from "../../../assets/epic_mobs_rework/screenshots";
 
 function EMR_Bosses() {
   return (
@@ -111,31 +112,76 @@ function EMR_Bosses() {
         >
           <pre>
             <code className="text-[10px] md:text-sm" lang="yaml">
-              <TerminalLabel accent="rose">[PHASES]</TerminalLabel>
+              <TerminalLabel accent="rose">[THE SHIPPED BOSS]</TerminalLabel>
               {`
+name: "Crypt Warden"
+entity: WITHER_SKELETON
+tier: TIER_6
+
+stats:
+  health: 3200
+  damage: 38
+  resistance: 22
+
+equipment:
+  main-hand: { item: NETHERITE_SWORD, name: "&5Wardens Cleaver" }
+  helmet:    { item: NETHERITE_HELMET }
+  chestplate: { item: NETHERITE_CHESTPLATE }
+
+abilities:
+  - cleave
+  - last_stand
+              `}
+              <TerminalLabel accent="purple">[AND ITS PHASES]</TerminalLabel>
+              {`
+# A phase that names abilities replaces the list above
+# for as long as it lasts. A phase that names none
+# keeps them, so a phase can change only the colour.
 phases:
   - at: 1.0
-    abilities: [ cleave, summon_adds ]
-    bar_colour: RED
+    abilities: [ cleave, last_stand ]
+    bar-colour: RED
 
   - at: 0.6
-    abilities: [ cleave, frost_nova, summon_adds ]
-    on_enter:
-      - broadcast: "&c{mob} roars and the air turns cold"
-      - ability: knockback_burst
-      - immune_for: 2s
-    bar_colour: PURPLE
+    abilities: [ cleave, root_players, lightning_players ]
+    bar-colour: PURPLE
+    on-enter:
+      broadcast: "&5{mob} sheds its armour and the crypt goes cold."
+      ability: knockback_burst
+      immune-for: 2s
 
   - at: 0.25
-    abilities: [ enrage_cleave, meteor ]
-    on_enter:
-      - ability: shield
-      - speed_multiplier: 1.4
-    bar_colour: WHITE
+    abilities: [ cleave, lightning_all, disarm_players ]
+    bar-colour: WHITE
+    on-enter:
+      broadcast: "&f{mob} has nothing left to lose."
+      ability: lightning_all
+      immune-for: 2s
+      speed-multiplier: 1.35
               `}
             </code>
           </pre>
         </Terminal>
+      </Section>
+
+      <Section>
+        <Shot
+          className="emr-shot"
+          src={Screens.cryptWarden}
+          alt="The Crypt Warden in game with its boss bar and two summoned servants"
+          accent="rose"
+          caption="The Crypt Warden, its bar across the top of every player's screen, two Crypt Servants it summoned, and the announcement naming its power and where it woke up"
+        />
+      </Section>
+
+      <Section>
+        <Note accent="sky" icon="fa-solid fa-heart-pulse">
+          A boss with less health than its file asks for is not a bug: the
+          server caps maximum health at 2048, so a file asking for more gets
+          2048 and the plugin says so on load. The Crypt Warden above asks for
+          3200 and the fight is still long, because resistance does the rest.
+          If you want a longer fight, that is the number to reach for.
+        </Note>
       </Section>
 
       <Section>

@@ -22,7 +22,7 @@ const EXAMPLES = {
   steps: `1. Spawn a tier 6 mob with a boss bar
 2. Have two players fight it from opposite sides
 3. Let one of them land the killing blow`,
-  pluginVersion: `${PluginInformation.version} (unreleased)`,
+  pluginVersion: PluginInformation.version,
   minecraftVersion: "1.21.4",
 };
 
@@ -30,13 +30,17 @@ const CONTEXT_HINT =
   "Which system it is (mobs, abilities, bosses, spawning, raids, loot, rewards or an integration), which edition you are on, and which of Custom Enchantments 3, Kumandra's Economy, Vault, WorldGuard or PlaceholderAPI you have installed.";
 
 /**
- * The report panel for a plugin that has not shipped.
+ * The report panel for a release candidate.
  *
- * That changes what is worth sending, so this panel says so rather than
- * copying the Kumandra one word for word. Nobody can have a bug in a jar they
- * do not have. What they can have is a feature request while the design is
- * still moving, and a bug in the old Epic Mobs that this rework should not
- * repeat, and both of those are genuinely useful right now.
+ * It is where the page's REPORT SOMETHING button goes, rather than the Spigot
+ * discussions tab: the form below reaches the developer by email and asks for
+ * the things that decide whether a report can be acted on, which a forum post
+ * written from a blank box does not.
+ *
+ * A release candidate changes what is worth sending, so this panel says so
+ * rather than copying the Kumandra one word for word. There is a jar now and
+ * bugs in it are the point, but the design is still moving, which makes a
+ * feature request cheaper to act on today than it will be after 1.0.
  */
 function EMR_BugReport() {
   return (
@@ -49,11 +53,12 @@ function EMR_BugReport() {
           accent="rose"
         />
         <Body className="pt-5 text-justify">
-          There is no jar to find a bug in yet. What is worth sending, and
-          worth sending now rather than after release, is what you want it to
-          do and what the old Epic Mobs did to your server. The design is still
-          moving, so a request today is cheap to act on and a request after
-          release is not.
+          A release candidate is published to be broken, so a bug in{" "}
+          {PluginInformation.version} is exactly what this is for. It goes
+          straight to the developer&apos;s inbox from the form below. Requests
+          are worth sending now too, and worth sending now rather than after
+          1.0: the design is still moving, so a request today is cheap to act on
+          and the same request after release is not.
         </Body>
       </Section>
 
@@ -83,11 +88,11 @@ function EMR_BugReport() {
           </Panel>
 
           <Panel accent="sky" className="p-5">
-            <SubHeading accent="sky">WORTH SENDING LATER</SubHeading>
+            <SubHeading accent="sky">WHAT MAKES A BUG REPORT USABLE</SubHeading>
             <Bullets className="pt-3">
               <Bullet accent="sky">
-                An actual bug, once there is a build to hit it in. Include the
-                full stack trace from your console, not the first few lines.
+                The full stack trace from your console, not the first few
+                lines. The interesting half is usually below the fold.
               </Bullet>
               <Bullet accent="sky">
                 Which edition you are on. <span className="text-sky-300">/ep info</span>{" "}
@@ -119,7 +124,7 @@ function EMR_BugReport() {
         <BugReportForm
           project={PROJECTS.EPIC_MOBS_REWORK}
           accent="ember"
-          defaultPluginVersion={`${PluginInformation.version} (unreleased)`}
+          defaultPluginVersion={PluginInformation.version}
           examples={EXAMPLES}
           contextHint={CONTEXT_HINT}
         />
@@ -129,16 +134,17 @@ function EMR_BugReport() {
         <Panel accent="sky" className="p-5">
           <SubHeading accent="sky">OTHER WAYS TO REACH THE DEVELOPER</SubHeading>
           <Body className="pt-3">
-            There is no Spigot discussion page yet, because there is no listing
-            yet. Until there is, email{" "}
+            The form above is the one to use: it reaches the developer by email
+            with the version, the server software and the log already attached
+            to it. If you would rather write the mail yourself, it is{" "}
             <a
               className="text-sky-300 underline"
               href={`mailto:${CONTACT_EMAIL}`}
             >
               {CONTACT_EMAIL}
-            </a>{" "}
-            directly. Leave an address on the form if you want an answer:
-            without one the report can be read but not replied to.
+            </a>
+            . Either way, leave an address if you want an answer: without one a
+            report can be read but not replied to.
           </Body>
         </Panel>
       </Section>

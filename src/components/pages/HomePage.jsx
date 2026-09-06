@@ -109,17 +109,21 @@ const LIVE_PROJECTS = [
     key: "emr",
     icon: "fa-solid fa-skull",
     title: EMRInfo.title,
-    badge: "IN DEV",
+    badge: "RC",
     description:
-      "The rebuild of Epic Mobs. Custom mobs from any vanilla entity, abilities with telegraphs, boss phases, companions, raids and weighted loot. Not released yet, and there is no date.",
+      "The rebuild of Epic Mobs. Custom mobs from any vanilla entity, abilities with telegraphs, boss phases, companions, raids and weighted loot. 1.0-RC1 is out on Spigot, with a free Lite build alongside it.",
     accent: "ember",
     href: "/epic-mobs-rework",
-    hint: "No release date",
-    dev: true,
+    hint: `v${EMRInfo.version}, release candidate`,
   },
 ];
 
-/** How many of the above have actually shipped. */
+/**
+ * How many of the above have actually shipped, and how many of those are
+ * still on a release candidate rather than a settled version. The second
+ * number is drawn only when it is not zero, so the banner does not advertise
+ * "0 IN DEVELOPMENT" the moment everything ships.
+ */
 const LIVE_COUNT = LIVE_PROJECTS.filter((project) => !project.dev).length;
 const DEV_COUNT = LIVE_PROJECTS.length - LIVE_COUNT;
 
@@ -256,7 +260,9 @@ function HomePage() {
           <div className="mt-6 inline-flex place-items-center gap-2 border border-sky-400/50 bg-[rgba(0,0,0,0.6)] px-3 py-1">
             <span className="jh-blink h-2 w-2 bg-sky-400"></span>
             <span className="pixel-font text-[8px] md:text-[10px] tracking-widest text-sky-300">
-              {LIVE_COUNT} LIVE, {DEV_COUNT} IN DEVELOPMENT, {ARCHIVE.length} ARCHIVED
+              {LIVE_COUNT} LIVE
+              {DEV_COUNT > 0 ? `, ${DEV_COUNT} IN DEVELOPMENT` : ""},{" "}
+              {ARCHIVE.length} ARCHIVED
             </span>
           </div>
 
@@ -352,7 +358,7 @@ customenchantments3/   [PREMIUM]  v${CE3Info.version}
 kumandras-economy/     [FREE]     v${KEInfo.version}, live
 2dgraphic-utils/       [NPM]      v${GraphicsInfo.version}, live
 custom-enchantments-2/ [FREE]     open source, ended 2022
-epic-mobs-rework/      [SOON]     in development
+epic-mobs-rework/      [PREMIUM]  v${EMRInfo.version}, and a free Lite
 epic-mobs/             [PREMIUM]  abandoned 2023
 custom-warps/          [FREE]     archived 2021
 fishing-contest/       [FREE]     archived 2021
