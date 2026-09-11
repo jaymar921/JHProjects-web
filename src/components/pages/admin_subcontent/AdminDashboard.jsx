@@ -9,17 +9,21 @@ import {
   formatRelative,
   toRows,
 } from "./AdminCharts";
+import AdminClickTables from "./AdminClickTables";
 import AdminEvents from "./AdminEvents";
+import AdminTimeline from "./AdminTimeline";
+import AdminWorldMap from "./AdminWorldMap";
 import { fetchStats, isSignedOut, logout } from "../../../lib/api/admin";
 
 /**
  * The dashboard.
  *
- * Everything on this page comes from one call to GET /api/stats, which reads
- * the rolled up counters rather than the raw events, so a refresh costs one
- * document read per project however many events are behind them. The raw rows
- * are only fetched when a project is opened, which is the one place they
- * actually answer a question the counters cannot.
+ * Everything on this page comes from one call to GET /api/stats. The totals,
+ * the breakdowns and the project table are read from the rolled up counters,
+ * so they cost one document read per project however many events are behind
+ * them. The timeline and the "people" columns are the two things a counter
+ * cannot answer, and the server runs them as bounded aggregations in the same
+ * call. The raw rows are only fetched when a project is opened.
  */
 
 const COLUMNS = [
@@ -29,21 +33,36 @@ const COLUMNS = [
   { key: "clicksTotal", label: "Clicks", align: "right" },
   { key: "download", label: "Download", align: "right" },
   { key: "buy", label: "Buy", align: "right" },
+  { key: "donate", label: "Donate", align: "right" },
+  { key: "conversion", label: "Dl rate", align: "right" },
   { key: "lastEventAt", label: "Last event", align: "right" },
 ];
 
 /** Flattens the nested click counters so a table row is one flat object. */
 function toRow(project) {
+  const views = project.views ?? 0;
+  const download = project.clicks?.download ?? 0;
+
   return {
     project: project.project,
     label: project.label ?? project.project,
-    views: project.views ?? 0,
+    views,
     uniqueViews: project.uniqueViews ?? 0,
     clicksTotal: project.clicks?.total ?? 0,
-    download: project.clicks?.download ?? 0,
+    download,
     buy: project.clicks?.buy ?? 0,
+    donate: project.clicks?.donate ?? 0,
+    // Downloads per hundred views. Null rather than zero when there are no
+    // views, so a project with no traffic sorts to the quiet end.
+    conversion: views > 0 ? (download / views) * 100 : null,
     lastEventAt: project.lastEventAt ?? null,
   };
+}
+
+/** "3.4%", or a dash where there is nothing to divide by. */
+function formatPercent(value) {
+  if (value === null || value === undefined || !Number.isFinite(value)) return "-";
+  return `${value < 10 ? value.toFixed(1) : Math.round(value)}%`;
 }
 
 function AdminDashboard({ session, onSignedOut, onChangePassword }) {
@@ -130,6 +149,7 @@ function AdminDashboard({ session, onSignedOut, onChangePassword }) {
 
   const summary = data?.summary;
   const totalViews = summary?.views ?? 0;
+  const bugReports = data?.bugReports;
 
   function toggleSort(key) {
     setSort((current) =>
@@ -189,7 +209,7 @@ function AdminDashboard({ session, onSignedOut, onChangePassword }) {
         ) : (
           data && (
             <>
-              <section className="grid grid-cols-2 gap-3 md:grid-cols-5">
+              <section className="grid grid-cols-2 gap-3 md:grid-cols-4 xl:grid-cols-7">
                 <StatTile
                   icon="fa-solid fa-eye"
                   label="Views"
@@ -221,7 +241,32 @@ function AdminDashboard({ session, onSignedOut, onChangePassword }) {
                   value={summary?.buyClicks}
                   accent="sky"
                 />
+                <StatTile
+                  icon="fa-solid fa-heart"
+                  label="Donate clicks"
+                  value={summary?.donateClicks}
+                  accent="sky"
+                />
+                <StatTile
+                  icon="fa-solid fa-bug"
+                  label="Bug reports"
+                  value={bugReports?.total}
+                  hint={
+                    bugReports?.failed
+                      ? `${formatNumber(bugReports.failed)} never emailed`
+                      : bugReports?.lastReportAt
+                        ? `last ${formatRelative(bugReports.lastReportAt)}`
+                        : "none yet"
+                  }
+                  accent={bugReports?.failed ? "rose" : "sky"}
+                />
               </section>
+
+              <AdminTimeline daily={data.daily} />
+
+              <AdminWorldMap summary={summary} />
+
+              <AdminClickTables projects={data.projects} clickers={data.clickers} />
 
               <div className="grid gap-4 lg:grid-cols-[3fr_2fr]">
                 <ChartPanel
@@ -255,13 +300,30 @@ function AdminDashboard({ session, onSignedOut, onChangePassword }) {
                 </ChartPanel>
               </div>
 
+              <div className="grid gap-4 md:grid-cols-2">
+                <ChartPanel
+                  title="WHERE THEY CAME FROM"
+                  subtitle="Referrer of each view. Direct is a typed URL, a bookmark or a link that hid its referrer; internal is another page of this site"
+                  accent="lime"
+                >
+                  <BarList rows={toRows(summary?.referrers)} accent="lime" />
+                </ChartPanel>
+                <ChartPanel
+                  title="LANGUAGES"
+                  subtitle="The browser's first preferred language, region dropped"
+                  accent="violet"
+                >
+                  <BarList rows={toRows(summary?.languages)} accent="violet" />
+                </ChartPanel>
+              </div>
+
               <ChartPanel
                 title="EVERY PROJECT"
                 subtitle="Click a column to sort, or a row to see the events behind it"
                 accent="slate"
               >
                 <div className="overflow-x-auto">
-                  <table className="w-full min-w-[640px] border-collapse text-left">
+                  <table className="w-full min-w-[820px] border-collapse text-left">
                     <thead>
                       <tr className="border-b border-slate-700/70">
                         {COLUMNS.map((column) => (
@@ -282,7 +344,15 @@ function AdminDashboard({ session, onSignedOut, onChangePassword }) {
                             <button
                               type="button"
                               onClick={() => toggleSort(column.key)}
-                              className="border-none bg-transparent p-0 text-[9px] tracking-widest text-slate-500 uppercase hover:text-slate-300"
+                              // index.css styles every <button> outside
+                              // Tailwind's layers, so these have to be inline.
+                              style={{
+                                border: "none",
+                                padding: 0,
+                                fontSize: "9px",
+                                backgroundColor: "transparent",
+                              }}
+                              className="tracking-widest text-slate-500 uppercase hover:text-slate-300"
                             >
                               {column.label}
                               {sort.key === column.key && (
@@ -335,6 +405,12 @@ function AdminDashboard({ session, onSignedOut, onChangePassword }) {
                           <td className="px-2 py-2 text-right text-[11px] text-slate-400 tabular-nums">
                             {formatNumber(row.buy)}
                           </td>
+                          <td className="px-2 py-2 text-right text-[11px] text-slate-400 tabular-nums">
+                            {formatNumber(row.donate)}
+                          </td>
+                          <td className="px-2 py-2 text-right text-[11px] text-slate-400 tabular-nums">
+                            {formatPercent(row.conversion)}
+                          </td>
                           <td className="px-2 py-2 text-right text-[10px] text-slate-500">
                             {row.lastEventAt ? formatDate(row.lastEventAt) : "never"}
                           </td>
@@ -355,8 +431,10 @@ function AdminDashboard({ session, onSignedOut, onChangePassword }) {
               )}
 
               <p className="pb-4 text-center text-[10px] text-slate-600">
-                Bots are recorded but never counted. Unique views only count a visitor
-                whose browser kept its id, so the real number is this or higher.
+                Bots are recorded but never counted. Unique views and people only count a
+                visitor whose browser kept its id, so the real number is this or higher.
+                Countries come from the hosting edge and are never looked up from an
+                address here.
               </p>
             </>
           )

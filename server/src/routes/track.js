@@ -1,7 +1,7 @@
 import { Router } from "express";
 import env from "../config/env.js";
 import { EVENT_TYPES } from "../db/collections.js";
-import { describeClient } from "../lib/clientInfo.js";
+import { describeClient, readReferrerHost } from "../lib/clientInfo.js";
 import { rateLimit } from "../lib/rateLimit.js";
 import {
   ValidationError,
@@ -56,6 +56,30 @@ function readPath(value) {
   return cleaned.startsWith("/") ? cleaned.split("?")[0] : null;
 }
 
+/**
+ * The referrer the page saw, which is the one that matters. The request's own
+ * Referer header is the page sending the beacon, so it is only used when the
+ * body has nothing to say, which means an old copy of the site still in a tab.
+ *
+ * A referrer on the site's own host is a visitor walking from one page to
+ * another and is recorded as "internal", so the outside sources are not
+ * buried under the home page.
+ */
+function resolveReferrer(req, body) {
+  if (typeof body.referrer !== "string") return req.client.referrerHost;
+
+  const host = readReferrerHost(body.referrer);
+  if (host === null) return null;
+
+  const own = req.headers["x-forwarded-host"] ?? req.headers.host ?? "";
+  return host === own || host === req.client.referrerHost ? "internal" : host;
+}
+
+/** The client as recorded, with the page's referrer in place of the beacon's. */
+function clientFor(req, body) {
+  return { ...req.client, referrerHost: resolveReferrer(req, body) };
+}
+
 router.post("/view", async (req, res, next) => {
   try {
     const body = req.body ?? {};
@@ -68,7 +92,7 @@ router.post("/view", async (req, res, next) => {
       path: readPath(body.path),
       visitorId: optionalId(body.visitorId),
       sessionId: optionalId(body.sessionId),
-      client: req.client,
+      client: clientFor(req, body),
     });
 
     res.status(202).json({ ok: true, counted: result.counted });
@@ -96,7 +120,7 @@ router.post("/click", async (req, res, next) => {
       path: readPath(body.path),
       visitorId: optionalId(body.visitorId),
       sessionId: optionalId(body.sessionId),
-      client: req.client,
+      client: clientFor(req, body),
     });
 
     res.status(202).json({ ok: true, counted: result.counted });
@@ -146,7 +170,7 @@ router.post("/batch", async (req, res, next) => {
           path: readPath(entry.path),
           visitorId: optionalId(entry.visitorId),
           sessionId: optionalId(entry.sessionId),
-          client: req.client,
+          client: clientFor(req, entry),
         });
 
         accepted += 1;

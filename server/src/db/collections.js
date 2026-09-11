@@ -52,6 +52,10 @@ async function createIndexes() {
     events.createIndex({ project: 1, createdAt: -1 }),
     events.createIndex({ type: 1, createdAt: -1 }),
     events.createIndex({ project: 1, type: 1, action: 1 }),
+    // The last 30 days, by day, for the dashboard's timeline. When the TTL
+    // index below is on it covers this already, but a deploy that keeps every
+    // event should not have to scan them all to draw a month.
+    events.createIndex({ counted: 1, createdAt: -1 }),
     // Answers "has this visitor seen this project before", which is what makes
     // a view unique. Sparse because a visitor id is not guaranteed.
     events.createIndex({ visitorId: 1, project: 1 }, { sparse: true }),

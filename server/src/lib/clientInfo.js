@@ -42,6 +42,36 @@ export function hashIp(ip) {
     .slice(0, 32);
 }
 
+/**
+ * Where the visitor is, to the country, and no closer.
+ *
+ * Nothing here looks an address up. Vercel resolves the visitor's country at
+ * the edge and passes it down as a header, and Cloudflare does the same under
+ * a different name, so the API only ever sees a two letter ISO code. Running
+ * locally there is no such header and the country is null, which the counters
+ * record as "unknown".
+ *
+ * Vercel also sends the region and city. They are deliberately not read: a
+ * country is enough to say where the plugins are used, and a city next to a
+ * timestamp is closer to a person than this site has any reason to get.
+ */
+export function readCountry(req) {
+  const candidates = [
+    req.headers["x-vercel-ip-country"],
+    req.headers["cf-ipcountry"],
+    req.headers["x-country-code"],
+  ];
+
+  for (const value of candidates) {
+    if (typeof value !== "string") continue;
+    const code = value.trim().toUpperCase();
+    // Cloudflare uses XX for "unknown" and T1 for Tor. Neither is a place.
+    if (/^[A-Z]{2}$/.test(code) && code !== "XX" && code !== "T1") return code;
+  }
+
+  return null;
+}
+
 /** Reads the Chromium client hints, when the browser bothered to send them. */
 function readClientHints(req) {
   const mobileHint = req.headers["sec-ch-ua-mobile"];
@@ -87,6 +117,7 @@ export function describeClient(req) {
     ipHash: hashIp(ip),
     ip,
     language: readLanguage(req.headers["accept-language"]),
+    country: readCountry(req),
     referrerHost: readReferrerHost(req.headers.referer ?? req.headers.referrer),
   };
 }
