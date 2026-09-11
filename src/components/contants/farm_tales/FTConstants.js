@@ -586,7 +586,7 @@ export const SetupSteps = [
     n: 7,
     title: "THE PACK IS OPTIONAL",
     cmd: "/ft pack",
-    body: "Everything works with no resource pack; an eggplant is a beetroot with the right name and behaviour. When you want the sprites, /ft pack names the zip your version needs and where players get it.",
+    body: "Everything works with no resource pack; an eggplant is a beetroot with the right name and behaviour. When you want the sprites, there is a zip for 1.16.5, 1.20.4, 1.21.1, 1.21.5 and 26.2 on GitHub, and /ft pack names the one your version needs and where players get it.",
   },
 ];
 

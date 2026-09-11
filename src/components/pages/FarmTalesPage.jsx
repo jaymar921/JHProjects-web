@@ -4,6 +4,7 @@ import {
   EditionMatrix,
   Features,
   KnownLimits,
+  PackBuckets,
   Permissions,
   PluginInformation,
   PremiumReasons,
@@ -941,6 +942,7 @@ function FarmTalesPage() {
                     ["Depends on", "Nothing. PlaceholderAPI is optional"],
                     ["NMS", "None. Version differences are asked of the server at enable"],
                     ["Database", "None. Flat files under plugins/FarmTales/data/"],
+                    ["Resource pack", `Optional. Zips for ${PackBuckets.map((b) => b.bucket).join(", ")}`],
                     ["Aternos", "Not available"],
                   ].map(([label, value]) => (
                     <div key={label} className="flex flex-wrap gap-2 border-b border-slate-800/80 py-1.5">
@@ -950,6 +952,34 @@ function FarmTalesPage() {
                       <span className="text-[11px] text-slate-300 md:text-xs">{value}</span>
                     </div>
                   ))}
+                </div>
+                <div className="pt-4">
+                  <SubHeading accent="amber">RESOURCE PACKS</SubHeading>
+                  <p className="pt-2 text-[11px] leading-relaxed text-slate-300 md:text-xs">
+                    Optional, and never pushed unless you turn it on. One zip
+                    per Minecraft version per edition, so pick the one that
+                    matches your server, or run /ft pack and it names the zip
+                    for you.
+                  </p>
+                  <div className="mt-3 flex flex-wrap gap-2">
+                    {PackBuckets.map((b) => (
+                      <span
+                        key={b.bucket}
+                        className="pixel-font border border-amber-400/40 bg-amber-500/10 px-2 py-1 text-[8px] tracking-widest text-amber-200 md:text-[9px]"
+                      >
+                        {b.bucket}
+                      </span>
+                    ))}
+                  </div>
+                  <a
+                    href={PluginInformation.packsLink}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="pixel-font mt-3 inline-flex place-items-center gap-2 rounded-none border-2 border-amber-400/60 bg-[rgba(0,0,0,0.5)] px-4 py-2.5 text-[8px] tracking-widest text-amber-200 transition-all hover:-translate-y-0.5 hover:border-amber-300 hover:bg-amber-500/20 md:text-[9px]"
+                  >
+                    <i className="fa-brands fa-github"></i>
+                    DOWNLOAD THE RESOURCE PACKS
+                  </a>
                 </div>
                 <div className="pt-4">
                   <SubHeading accent="amber">PERMISSIONS</SubHeading>
