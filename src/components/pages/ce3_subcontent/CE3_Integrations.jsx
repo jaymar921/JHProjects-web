@@ -160,7 +160,8 @@ function CE3_Integrations() {
               The Epic Mobs side of the enchantment triggers and the loot table
               items needs an Epic Mobs release too. Custom Enchantments 3 1.7.0
               has opened the door; Epic Mobs walks through it in its 1.0
-              release, and 1.0-RC1 behaves as it does today until then. Nothing
+              release, and the release candidates behave as they do today until
+              then. Nothing
               gets worse in the meantime, and there is nothing for you to
               configure on either side.
             </Note>

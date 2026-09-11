@@ -5,11 +5,11 @@
  * copy and the links, then a named export per list the page renders.
  *
  * This page used to be for a plugin that had not shipped. It has now, on
- * 6 September 2026, as **1.0-RC1**, and that distinction is the rule the whole
- * file obeys:
+ * 6 September 2026 as **1.0-RC1** and on 11 September 2026 as **1.0-RC2**,
+ * and that distinction is the rule the whole file obeys:
  *
- *   1. The page says release candidate everywhere it says a version. RC1 is a
- *      published build with every 1.0 feature in it, and it is not 1.0. An
+ *   1. The page says release candidate everywhere it says a version. An RC is
+ *      a published build with every 1.0 feature in it, and it is not 1.0. An
  *      owner deciding whether to put it on a live server has to be able to
  *      read that in the first screen rather than work it out from a suffix.
  *   2. Nothing here claims a date for 1.0 proper, because there is not one.
@@ -37,14 +37,20 @@ import spigotImg from "../../../assets/custom_enchants_3/spigot.png";
 import wiseImg from "../../../assets/custom_enchants_3/wise.png";
 import wisePaymentQr from "../../../assets/custom_enchants_3/wise-payment-qr.png";
 
-/** Both listings, in one place, because six things link to them. */
+/**
+ * Both listings, in one place, because six things link to them.
+ *
+ * The full build moved to resource 97476 when 1.0-RC2 went public. Lite
+ * stayed where it was. If either changes again this is the only place to
+ * edit.
+ */
 const SPIGOT = {
-  premiumId: 138549,
+  premiumId: 97476,
   liteId: 138550,
   premium:
-    "https://www.spigotmc.org/resources/epic-mobs-rework-1-16.138549/",
+    "https://www.spigotmc.org/resources/%E2%9C%AF-epic-mobs-rework-%E2%9C%AF-1-16.97476/",
   lite: "https://www.spigotmc.org/resources/epic-mobs-rework-lite-1-16.138550/",
-  premiumDiscussion: "https://www.spigotmc.org/resources/138549/",
+  premiumDiscussion: "https://www.spigotmc.org/resources/97476/",
   liteDiscussion: "https://www.spigotmc.org/resources/138550/",
 };
 
@@ -59,11 +65,11 @@ export const PluginInformation = {
    * is printed, because a release candidate that reads as 1.0 on a web page is
    * a release candidate nobody treats as one.
    */
-  version: "1.0-RC1",
+  version: "1.0-RC2",
   status: "release candidate",
-  statusLabel: "1.0-RC1 IS OUT, RELEASE CANDIDATE",
-  releaseDate: "2026-09-06",
-  releaseDateLabel: "6 September 2026",
+  statusLabel: "1.0-RC2 IS OUT, RELEASE CANDIDATE",
+  releaseDate: "2026-09-11",
+  releaseDateLabel: "11 September 2026",
 
   supportedVersions: "1.16.5 and up",
   serverSoftware: "Spigot and Paper",
@@ -196,7 +202,7 @@ export const PluginInformation = {
   },
 
   description:
-    "Epic Mobs Rework is the rebuilt version of Epic Mobs. Same idea, rewritten from the ground up: you take any vanilla entity, give it a name, stats, gear, abilities and a loot table, then tell the plugin where in the world it belongs. It handles the rest. Twenty mobs, two raids, a pack and an arena are written for you on the first start, so there is something to fight before you have built anything.",
+    "Epic Mobs Rework is the rebuilt version of Epic Mobs. Same idea, rewritten from the ground up: you take any vanilla entity, give it a name, stats, gear, abilities and a loot table, then tell the plugin where in the world it belongs. It handles the rest. Twenty mobs, the World Infestation raid, a pack and an arena are written for you on the first start, and the full build adds twenty more mobs and three more raids on top, two of them in the Nether and the End. There is something to fight before you have built anything.",
   descriptionMore: [
     "The old plugin worked, and then it did not get updated. This one is written for the problems that killed it. There is no NMS anywhere in it, so a Minecraft release does not need a new jar. Every number the plugin uses lives in a file rather than in the source. Bad values are caught on load and named, with the default they fell back to, instead of silently becoming zero. And the spawn system runs on a budget, so it cannot spend a long tick looking for somewhere to put a wolf.",
     "Every mob is a readable file under mobs/, one per mob, so you can edit one in a text editor, hand it to somebody, or track it in git. The old format was a serialized blob nobody could open. If you are coming from the old plugin, your mob definitions, raids, spawners and loot are converted on first start and nothing is deleted.",
@@ -339,7 +345,7 @@ export const Features = [
     accent: "rose",
     image: FeatureArt.raids,
     description:
-      "Waves paced by the kill goal, five anchor modes including one that happens everywhere at once, arenas you mark out in two commands, and packs with a leader worth killing.",
+      "Waves paced by the kill goal, five anchor modes including one that happens everywhere at once, raids that wait for dark or happen in the Nether and the End, arenas you mark out in two commands, and packs with a leader worth killing.",
     button: "Raids",
   },
   {
@@ -519,10 +525,10 @@ export const Integrations = [
       "Mobs trigger the CE3 enchantments on their own gear. Bleed, Light Spirit, Execute, Wind Strike, Dragon Breath, and armor ones like Tank and Poisonous Thorns",
       "You choose which enchantments a mob may use and how hard they land, because a mob with a maxed Soul Eater is not a fight",
       "Your CE3 weapons, wands and bows work against an Epic Mob exactly as they do against anything else",
-      "Drop CE3 treasures by rarity, or specific enchantment books, straight off a mob, from the 1.0 release. RC1 reads and rolls those entries and then drops nothing, because asking CE3 for one item by name was not possible until CE3 1.7.0 added the call",
+      "Drop CE3 treasures by rarity, or specific enchantment books, straight off a mob, from the 1.0 release. The release candidates read and roll those entries and then drop nothing, because asking CE3 for one item by name was not possible until CE3 1.7.0 added the call",
       "Pay kill rewards in RACO, drawn out of CE3's own capped supply rather than minted",
       "CE3 protected boundaries keep Epic Mobs out of your spawn and your builds",
-      "One honest limit in RC1: a mob's CE3 enchantments deal their damage through CE3's own magic damage path rather than each behaving individually. Bleed hurts, but it does not bleed. The entry point that fixes it shipped in CE3 1.7.0, and this side calls it in the 1.0 release, so an RC1 build behaves the same whichever CE3 is underneath it",
+      "One honest limit while it is a release candidate: a mob's CE3 enchantments deal their damage through CE3's own magic damage path rather than each behaving individually. Bleed hurts, but it does not bleed. The entry point that fixes it shipped in CE3 1.7.0, and this side calls it in the 1.0 release, so an RC build behaves the same whichever CE3 is underneath it",
     ],
   },
   {
@@ -564,7 +570,8 @@ export const Integrations = [
     icon: "fa-solid fa-code",
     required: false,
     points: [
-      "32 placeholders: live mob counts, the boss and its phase, raid state and time left, the player's kills, codex progress, companion and level, the arena they are standing in, and their personal best against a named boss",
+      "33 placeholders: live mob counts, the boss and its phase, raid state, dimension and time left, the player's kills, codex progress, companion and level, the arena they are standing in, and their personal best against a named boss",
+      "Every raid placeholder answers about the raid the viewing player is actually in, so a scoreboard in the Nether reads the fight in front of them rather than one in another dimension",
       "Registered reflectively, so PlaceholderAPI stays optional",
     ],
   },
@@ -614,6 +621,12 @@ export const EditionMatrix = [
   { feature: "Raid boss wave", lite: false, full: true },
   { feature: "Raid wave that spawns a pack", lite: false, full: true },
   { feature: "Raid scheduling windows", lite: false, full: true },
+  { feature: "Raid dimension and day-night gate", lite: true, full: true },
+  {
+    feature: "Nether and End raids, and the 20 mobs in them",
+    lite: false,
+    full: true,
+  },
   { feature: "Per-wave delay: and boss:", lite: true, full: true },
   { feature: "Packs, leaders, formations", lite: false, full: true },
   { feature: "Arenas and waves", lite: false, full: true },
@@ -796,7 +809,7 @@ export const CommandList = [
   {
     command: "/ep editor raid [raid]",
     description:
-      "The raid editor, the same shape as the mob editor: goal and wave split, the anchor with a Set to where I am standing button, the waves and their mobs, the fallback pool, the boss and the three prize tiers. Test start saves and runs it.",
+      "The raid editor, the same shape as the mob editor: goal and wave split, the anchor with a Set to where I am standing button plus the dimension and whether it waits for day or night, the waves and their mobs, the fallback pool, the boss and the three prize tiers. Test start saves and runs it.",
     requireOp: true,
     lite: false,
     playerOnly: true,
@@ -818,20 +831,21 @@ export const CommandList = [
   {
     command: "/ep raid list",
     description:
-      "Every defined raid, with its kill goal, where it happens, its time limit and its boss.",
+      "Every defined raid, with its kill goal, where it happens, which dimension it belongs to, whether it waits for day or night, its time limit and its boss.",
     requireOp: true,
     lite: true,
   },
   {
     command: "/ep raid start [name]",
     description:
-      "Start one. With more than one raid defined, name the one you want: running it bare prints the list rather than picking at random. A raid needs at least one player online to do anything at all.",
+      "Start one. With more than one raid defined, name the one you want: running it bare prints the list rather than picking at random. It runs on its own dimension's scheduler, so a Nether raid is not refused because the overworld is mid-siege, and it ignores time-of-day the same way it ignores the chance roll: somebody testing a night raid at noon is testing the raid. A raid needs at least one player in its dimension to do anything at all.",
     requireOp: true,
     lite: true,
   },
   {
     command: "/ep raid stop",
-    description: "End the running raid and remove its mobs. Nothing is paid out.",
+    description:
+      "End every running raid and remove its mobs. Nothing is paid out.",
     requireOp: true,
     lite: true,
   },
@@ -981,12 +995,12 @@ export const FileLayout = [
   {
     path: "mobs/",
     accent: "ember",
-    note: "One readable file per mob, twenty of them written on the first start. Edit one in a text editor, share it, or put it in git.",
+    note: "One readable file per mob, twenty of them written on the first start, forty on the full build. Edit one in a text editor, share it, or put it in git.",
   },
   {
     path: "raids/",
     accent: "amber",
-    note: "One file per raid definition. Hollow Siege and World Infestation ship in here.",
+    note: "One file per raid definition. World Infestation ships in here on both builds; the full build adds the Hollow Siege, the Nether Legion and the End Incursion.",
   },
   {
     path: "packs/  arenas/",
@@ -1005,7 +1019,7 @@ export const SetupSteps = [
   {
     n: "1",
     title: "DROP THE JAR IN",
-    body: "Stop the server, put the jar in the plugins folder, start it again. There is nothing to install alongside it. Custom Enchantments 3, Kumandra's Economy, Vault, WorldGuard and PlaceholderAPI are all optional and each is detected only if it happens to be there. The plugins/EpicMobsRework folder is written on that first start, with twenty mobs, two raids, a pack and an arena already in it.",
+    body: "Stop the server, put the jar in the plugins folder, start it again. There is nothing to install alongside it. Custom Enchantments 3, Kumandra's Economy, Vault, WorldGuard and PlaceholderAPI are all optional and each is detected only if it happens to be there. The plugins/EpicMobsRework folder is written on that first start, with twenty mobs, the World Infestation raid, a pack and an arena already in it, and forty mobs and four raids on the full build. Upgrading from an older build? Back the folder up first. Your config and your raid files are never overwritten, and new built-in content is written once, ever, so what you deleted stays deleted.",
   },
   {
     n: "2",
@@ -1023,7 +1037,7 @@ export const SetupSteps = [
     n: "4",
     title: "PICK YOUR WORLDS",
     cmd: "general.worlds",
-    body: "One line in config.yml. Name the worlds the plugin is allowed to act in, or leave the list empty to run everywhere. Do this before anything spawns, not after.",
+    body: "One line in config.yml. Name the worlds the plugin is allowed to act in, or leave the list empty to run everywhere. A fresh install lists world, world_nether and world_the_end, because raids can happen in the Nether and the End and a raid whose dimension is not on this list can never start. An upgrade keeps whatever its own config.yml had, and the boot summary names the line to edit. Do this before anything spawns, not after.",
   },
   {
     n: "5",
@@ -1047,7 +1061,7 @@ export const SetupSteps = [
     n: "8",
     title: "RUN A RAID BEFORE ANYONE ELSE IS ON",
     cmd: "raids.ignore-min-players: true",
-    body: "Set that, /ep reload, then /ep raid start Hollow Siege. It starts with whoever is online, and /ep info says min players ignored (testing) the whole time it is on, so you cannot forget you left it there. Turn it back off before the server opens.",
+    body: "Set that, /ep reload, then /ep raid start World Infestation. That is the raid both editions ship. It starts with whoever is online, and a command start ignores time-of-day the same way it ignores the chance roll, so you do not have to wait for dusk. /ep info says min players ignored (testing) the whole time it is on, so you cannot forget you left it there. Turn it back off before the server opens.",
   },
 ];
 
@@ -1082,8 +1096,8 @@ export const SetupTests = [
     name: "A RAID",
     icon: "fa-solid fa-tower-observation",
     accent: "amber",
-    cmd: "/ep raid start Hollow Siege",
-    body: "Set raids.ignore-min-players: true first. Watch the wave counter: a wave is a share of the kill goal, so wave two should not begin until the first share is dead. Each wave arrives from its own side and the announcement says which way to look.",
+    cmd: "/ep raid start World Infestation",
+    body: "Set raids.ignore-min-players: true first. Watch the wave counter: a wave is a share of the kill goal, so wave two should not begin until the first share is dead. Each wave arrives from its own side and the announcement says which way to look. On the full build, /ep raid start The Nether Legion with nobody in the Nether starts it with its clock paused, and /ep info says so until somebody walks through a portal.",
   },
   {
     name: "AN ARENA",
@@ -1334,7 +1348,7 @@ export const ReleaseState = [
   {
     area: "Content out of the box",
     state: "done",
-    note: "Twenty mobs on an iron-armour baseline across four lines, two raids including World Infestation, a pack and an arena, all written on the first start. Seven shipped before RC1 and they were tuned for a different game.",
+    note: "Twenty mobs on an iron-armour baseline across four lines, the World Infestation raid, a pack and an arena, all written on the first start. The full build adds twenty more mobs and three more raids, the Hollow Siege, the Nether Legion and the End Incursion, and since RC2 new built-in content reaches an existing install rather than only a fresh one. Seven shipped before RC1 and they were tuned for a different game.",
   },
   {
     area: "Both editions, published",
@@ -1344,12 +1358,12 @@ export const ReleaseState = [
   {
     area: "Tests, and the compatibility check",
     state: "done",
-    note: "332 tests in the Premium build and 313 in the Lite one, where the old plugin had none, plus a bytecode check that every Bukkit call the jar makes exists on 1.16.5 as well as on 26.2. That check caught a break neither the tests nor a clean boot showed.",
+    note: "366 tests in the Premium build and 341 in the Lite one, where the old plugin had none, plus a bytecode check that every Bukkit call the jar makes exists on 1.16.5 as well as on 26.2. That check caught a break neither the tests nor a clean boot showed, and every regression test in RC2 was confirmed to fail with its fix reverted.",
   },
   {
     area: "Servers that are not the author's",
     state: "in progress",
-    note: "This is the whole reason RC1 exists. Two rounds of playing it found bugs that nothing else was going to, and both rounds found the same kind: a subsystem reporting progress it was not making. A third round wants other people's servers.",
+    note: "This is the whole reason the release candidates exist. Two rounds of playing RC1 found bugs that nothing else was going to, and a third round, playing the new Nether raid for RC2, found four more in an evening. Every round found the same kind: a subsystem reporting progress it was not making. The next round wants other people's servers.",
   },
   {
     area: "Three paths nobody has finished",
@@ -1359,14 +1373,14 @@ export const ReleaseState = [
   {
     area: "1.0 proper",
     state: "not yet",
-    note: "There is no date and there will not be a guess at one. 1.0 is what RC1 becomes when the reports stop turning things up, and the version number stops moving on the day that is true rather than on a day picked in advance.",
+    note: "There is no date and there will not be a guess at one. 1.0 is what the release candidate becomes when the reports stop turning things up, and the version number stops moving on the day that is true rather than on a day picked in advance.",
   },
 ];
 
 /**
- * The three things the release candidate most needs from somebody else's
- * server, in the order they are worth. Straight out of
- * releases/1.0-RC1-release.md.
+ * The things the release candidate most needs from somebody else's server, in
+ * the order they are worth. Straight out of releases/1.0-RC1-release.md, and
+ * RC2 closes with the same three, because none of them has happened yet.
  */
 export const TestingAsks = [
   {
@@ -1396,12 +1410,15 @@ export const TestingAsks = [
 ];
 
 /**
- * What RC1 does not do. On the page, next to the download button, rather than
- * three clicks into a changelog.
+ * What the release candidate does not do. On the page, next to the download
+ * button, rather than three clicks into a changelog.
  *
  * Only one of these cannot be fixed in this plugin at all, and saying which is
  * the difference between a gap and an excuse. The two CE3 ones are waiting on
  * this side now rather than on CE3: CE3 1.7.0 shipped what they were missing.
+ * RC1 listed a fifth, new built-in content never reaching an existing
+ * install, and RC2 closed it with installed-content.yml, so it is in the
+ * changelog now rather than here.
  */
 export const KnownGaps = [
   {
@@ -1414,7 +1431,7 @@ export const KnownGaps = [
     title: "CE3 enchantments on a mob deal damage but do not each behave, until 1.0",
     accent: "lime",
     ours: true,
-    body: "A mob's Custom Enchantments 3 enchantments are read correctly and routed through CE3's own magic damage path, so Bleed on a mob's sword hurts, but it does not bleed. Epic Mobs will not reimplement CE3's effects: two implementations of Bleed drift apart within one release of either plugin, and the wrong one is the one players report. What was missing was an entry point on the CE3 side, and CE3 1.7.0 shipped it. Nothing has changed on this side yet, so RC1 behaves exactly as described here whichever CE3 version is under it, and the calls go in for the 1.0 release.",
+    body: "A mob's Custom Enchantments 3 enchantments are read correctly and routed through CE3's own magic damage path, so Bleed on a mob's sword hurts, but it does not bleed. Epic Mobs will not reimplement CE3's effects: two implementations of Bleed drift apart within one release of either plugin, and the wrong one is the one players report. What was missing was an entry point on the CE3 side, and CE3 1.7.0 shipped it. Nothing has changed on this side yet, so RC2 behaves exactly as described here whichever CE3 version is under it, and the calls go in for the 1.0 release.",
   },
   {
     title: "CE3 treasures and books in a loot table drop nothing, until 1.0",
@@ -1427,12 +1444,6 @@ export const KnownGaps = [
     accent: "sky",
     ours: false,
     body: "A spawn rule may say #is_cold and the plugin carries it, but Spigot exposes no biome tag accessor at all, so the condition is ignored. /ep info reports the capability as unavailable rather than letting you find out from an empty tundra. Nothing to do on this side until Spigot adds one.",
-  },
-  {
-    title: "New built-in content will not reach an existing install",
-    accent: "rose",
-    ours: true,
-    body: "On the full build, the shipped mobs and raids are written only on a genuinely fresh start, so a server upgrading from an older build keeps what it has. It does not bite for RC1, where every install is a first run, and the obvious fix is wrong: the full build may delete a built-in mob and a deleted one has to stay deleted, so writing missing files back every boot would be the plugin arguing with its owner. Lite is unaffected, because its twenty are restored on every boot by design.",
   },
 ];
 

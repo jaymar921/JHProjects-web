@@ -142,8 +142,10 @@ function EMR_Config() {
               <TerminalLabel accent="lime">[START HERE]</TerminalLabel>
               {`
 general:
-  # Leave empty to run everywhere.
-  worlds: [ world ]
+  # Leave empty to run everywhere. The Nether and the
+  # End are listed because raids can happen in them,
+  # and a raid in a world not listed here never starts.
+  worlds: [ world, world_nether, world_the_end ]
   # ACTION_BAR, SUBTITLE, BOSS_BAR or NONE
   health-display: ACTION_BAR
 

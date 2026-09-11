@@ -3,7 +3,7 @@ import { EMR_Logs } from "../../contants/epic_mobs_rework/EMRConstants_Logs";
 import Changelog from "../../page_components/Changelog";
 
 /**
- * The release history, which is one entry: 1.0-RC1.
+ * The release history: 1.0-RC2 and 1.0-RC1, both release candidates.
  *
  * The badge deliberately reads RELEASE CANDIDATE rather than LATEST. The
  * shared Changelog component takes `latestLabel` for exactly this, and a
