@@ -119,7 +119,7 @@ const LIVE_PROJECTS = [
       ? `${EMRInfo.price.symbol}${EMRInfo.price.amount} SALE`
       : `${EMRInfo.price.symbol}${EMRInfo.price.amount}`,
     description:
-      "The rebuild of Epic Mobs. Custom mobs from any vanilla entity, abilities with telegraphs, boss phases, companions, raids and weighted loot. 1.0-RC1 is out on Spigot, with a free Lite build alongside it.",
+      "The rebuild of Epic Mobs. Custom mobs from any vanilla entity, abilities with telegraphs, boss phases, companions, raids that happen in the Nether and the End, and weighted loot. 1.0-RC2 is out on Spigot, with a free Lite build alongside it.",
     accent: "ember",
     href: "/epic-mobs-rework",
     hint: EMRInfo.price.onSale

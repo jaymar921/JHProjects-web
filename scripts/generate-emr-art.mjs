@@ -801,11 +801,11 @@ emr["changelog"] = frame({
       size: 8.8,
       fill: C.text,
     }),
-    text(34, 108, "are published. Two rounds of playing it found the same kind", {
+    text(34, 108, "are published. RC2 added raids that wait for dark and happen", {
       size: 8.8,
       fill: C.text,
     }),
-    text(34, 128, "of bug twice: a subsystem reporting progress it was not making.", {
+    text(34, 128, "in the Nether and the End, and playing one found four bugs.", {
       size: 8.8,
       fill: C.text,
     }),
@@ -813,7 +813,7 @@ emr["changelog"] = frame({
     panel(18, 160, 292, 106, "SHIPPED", C.emerald),
     row(34, 190, 260, "The feature list", "all of it", C.emerald, 20),
     row(34, 212, 260, "Both editions", "on spigot", C.emerald, 20),
-    row(34, 234, 260, "Mobs in the box", "20", C.emerald, 20),
+    row(34, 234, 260, "Mobs in the box", "20 lite, 40 full", C.emerald, 20),
 
     panel(330, 160, 292, 106, "STILL WANTED", C.amber),
     row(346, 190, 260, "A raid, two players", "never had it", C.amber, 20),
@@ -824,7 +824,7 @@ emr["changelog"] = frame({
       size: 9,
       fill: C.text,
     }),
-    text(620, 288, "1.0-RC1", { size: 9, fill: C.ember, anchor: "end" }),
+    text(620, 288, "1.0-RC2", { size: 9, fill: C.ember, anchor: "end" }),
   ].join("\n"),
 });
 

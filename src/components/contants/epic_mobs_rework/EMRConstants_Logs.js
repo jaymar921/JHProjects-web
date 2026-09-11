@@ -5,25 +5,113 @@
  * it the same way: an entry with no `release_date` is still in development and
  * renders with the IN DEV badge instead of a date.
  *
- * There is one entry and it has a date on it now. **It is 1.0-RC1, not 1.0**,
- * and that is the whole reason the version string carries the suffix
- * everywhere it is printed rather than only in the title. A release candidate
- * that reads as a release on a web page is a release candidate nobody treats
- * as one, and the point of publishing it is to be told what breaks.
+ * Two entries, both release candidates. **Neither is 1.0**, and that is the
+ * whole reason the version string carries the suffix everywhere it is printed
+ * rather than only in the title. A release candidate that reads as a release
+ * on a web page is a release candidate nobody treats as one, and the point of
+ * publishing it is to be told what breaks.
  *
- * When 1.0 proper ships, add an entry above this one rather than editing this
- * one's version. What RC1 was is part of the record: the three things it asked
- * testers for are the three things 1.0 will be able to say it has had.
+ * RC2 was coded in the days after RC1 and made public on 11 September 2026,
+ * and the date on it is the day it went public, because that is the day a
+ * server owner could have had it.
+ *
+ * When 1.0 proper ships, add an entry above these rather than editing either
+ * one's version. What each RC was is part of the record: the three things
+ * RC1 asked testers for are the three things RC2 still asks for, and the
+ * three things 1.0 will be able to say it has had.
  *
  * The old Epic Mobs releases are not in here. They are on /epic-mobs, which is
  * the record of a plugin that stopped, and folding them into this list would
  * make the rework look like it has fourteen releases behind it.
  *
  * Source of truth for everything below: CHANGELOG.md and
- * releases/1.0-RC1-release.md in the plugin repository.
+ * releases/1.0-RC1-release.md and releases/1.0-RC2-release.md in the plugin
+ * repository.
  */
 
 export const EMR_Logs = [
+  {
+    update_version: "1.0-RC2",
+    release_date: "2026-09-11",
+    changes: [
+      {
+        update: "Read this first",
+        sublist: [
+          "Second release candidate. If you are on RC1, this is the one to run. Raids can now happen at a time of day and in a dimension, and playing the new Nether raid found four bugs in an evening, one of which had been quietly making the whole feature impossible",
+          "Back up plugins/EpicMobsRework before updating. Your config.yml and your raid files are never overwritten, so two of the changes below need a line added by hand on an upgrading server, and both are spelled out under Read this before you update",
+          "Tested on Minecraft 26.2 and checked against the 1.16.5 API",
+          "The full build has moved to a new Spigot listing. The download button on this page points at it; the Lite listing is unchanged",
+        ],
+      },
+      {
+        update: "Raids can wait for dark",
+        sublist: [
+          "One line in a raid file: time-of-day: NIGHT, or DAY, or ANY, which is the default. It reads the world clock, not your server's",
+          "It matters most for a raid built out of spiders, which are hostile at night and passive by day, so the World Infestation ships with it set. A hundred and twenty mobs that will not fight anybody is not a raid",
+          "It gates the start and nothing else. A night raid that runs past sunrise keeps running, because a raid you could win by waiting for morning is not a raid",
+          "This is a different setting from raids.schedule, which reads the wall clock on the machine and is the one for raids in the evening when your players are online. A raid can want a weekday evening and a dark sky, so the two are independent",
+          "A command start ignores it, the same way it ignores the chance roll. Somebody testing a night raid at noon is testing the raid",
+        ],
+      },
+      {
+        update: "Raids can happen in the Nether and the End",
+        sublist: [
+          "dimension: NETHER, or END, OVERWORLD, or ANY, the default. Three things follow from that line",
+          "Only players in that dimension are in the raid. Somebody mining in the overworld gets no bar, no kill count and no payout, however close to the portal they are standing",
+          "Each dimension raids on its own clock. raids.nether and raids.end carry their own interval, chance, min-players, abandon-after and enabled, each falling back to the server-wide setting. The Nether tries every 10 Minecraft days and the End every 15, against the overworld's 20, because a dimension people visit for twenty minutes at a time has to try more often to happen at all. The three schedulers are independent, so the Nether being under siege never stops the overworld starting a raid",
+          "The raid clock pauses while the dimension is empty. Going back through the portal for blocks or food is part of fighting in the Nether and must not cost you the raid, so the time limit stops running whenever nobody is in it. /ep info says clock paused while it is stopped, and abandon-after, 20 minutes there, still ends a raid nobody ever comes back to",
+          "A Nether or End raid is always GLOBAL. The dimension is the participation radius, and a fixed point in the Nether is a point nobody is standing at. A file that says otherwise is corrected with a warning rather than skipped",
+          "Two new raids and twenty new mobs come with it, full build: The Nether Legion, 70 kills from the Ashvein Skulker up to the Gloomforge Tyrant, and The End Incursion, 100 kills from the Void Mite up to the Voidmaw Sovereign. Same iron-armour ladder as the shipped twenty",
+          "/ep raid start routes to the raid's own dimension's manager, /ep raid stop stops every running raid, /ep raid list prints the dimension and the hour, and /ep editor raid has buttons for both new settings on its anchor page. Every raid placeholder answers about the raid the viewing player is actually in, and %epicmobs_raid_dimension% is new",
+        ],
+      },
+      {
+        update: "Read this before you update",
+        sublist: [
+          "Add your Nether and End worlds to general.worlds. Nothing spawns and no raid runs in a world that is not on that list, and your config.yml is never overwritten, so an upgrading server keeps whatever it has. A dimension: NETHER raid on a server that lists only world can never start. The boot summary now says so by name, and names the line to edit",
+          "Your existing raid files are not overwritten either, so the World Infestation on a server that already has it will not become a night raid on its own. Add time-of-day: NIGHT to raids/world-infestation.yml by hand, or delete the file and let the plugin write the new one",
+          "New built-in content now reaches an existing install. Until this build the shipped set was only ever written on a genuinely fresh start, so an RC1 server would have kept its twenty mobs and never seen these twenty. Each built-in file is now written once, ever, recorded in installed-content.yml. That is what lets new content arrive on an upgrade while a mob you deleted stays deleted. This closes the last known gap RC1 listed",
+        ],
+      },
+      {
+        update: "Lite",
+        sublist: [
+          "Lite ships one raid now, and it is the World Infestation. It loads one raid definition, so being sent two meant carrying a raid it could never run and naming it in the limit summary on every start: content you can see, can edit, and cannot use",
+          "The World Infestation is the one because at: GLOBAL has no world name and no radius to get wrong, where the Hollow Siege anchors at world: world and quietly degrades on any server that renamed its overworld. All the commentary moved into it, so the raid format is still documented on disk",
+          "An existing Lite install is untouched and keeps the Hollow Siege. Changing the raid a running server fights is not worth a tidier boot summary",
+          "dimension: and time-of-day: themselves work in Lite. What Lite does not get is the two new raids and the twenty mobs in them",
+          "With one raid file, choosing a dimension is choosing it instead of everything else. A Lite server whose only raid says dimension: NETHER has no overworld raids at all, and nothing is broken: that is the one raid doing exactly what it was told",
+        ],
+      },
+      {
+        update: "What playing it found",
+        sublist: [
+          "Four bugs, and the reason they are worth writing down is that three of them printed the same message, placed 0 of 1 wanted, with no reason attached. Each one looked exactly like the last, which is why it took three passes to get to the bottom of it. The raid debug line now reports what it actually asked for",
+          "A mob with no environments: list is overworld only. Correct for natural spawning, wrong for a summoned one, and this was the fault actually stopping the Nether raid. The raid file said the Nether, the raid ran in the Nether, the search found good ground, and every candidate was refused because the mob had not separately been told the Nether exists. Fixed at the rule rather than by adding a line to twenty files, because the next person writing a Nether raid would hit the same trap and the same silence",
+          "The Nether has no surface. The location finder reads the heightmap, which in a roofed world answers with the bedrock roof for every column. A roofed world is searched in a band around your own height now. Third time a surface finder has been pointed at something that is not a surface, after natural spawning and arenas",
+          "The search geometry was wrong for the terrain. A 90 degree wedge 17 to 35 blocks out is solid rock in a Nether cavern. raids.nether has its own tighter ring and no compass arc, and there is now a minimum placement distance everywhere, because without an arc the inner radius was zero and that put mobs on the player's face",
+          "A raid that could place nothing retried forever. The throttle that exists to prevent exactly that measured from the last successful placement, and a raid placing nothing never has one",
+          "The Nether Legion is retuned for the fight it turned out to be: mobs from every side at 15 blocks in tunnels with nowhere to back into. Damage came down harder than health, because in a corridor what you feel is how hard each hit lands rather than how long the mob lives. Kill goal 90 to 70, every wave smaller. Judged from the terrain and confirmed by playing it once; it still wants more",
+        ],
+      },
+      {
+        update: "Also fixed",
+        sublist: [
+          "/ep raid start said 0 players online to somebody standing in the game, because a player in an unlisted world is counted as nobody. It now says how many are connected, which worlds Epic Mobs acts in, and what to edit",
+          "Opening a GLOBAL raid in /ep editor raid and pressing save quietly turned it into an ordinary local one, whether or not you touched that page. The regression test is a real round trip and was confirmed to fail without the fix",
+          "366 tests in the full build and 341 in Lite, up from 332 and 313. Every regression test in this build was confirmed to fail with its fix reverted. The 1.16.5 compatibility check is clean, including every Material and EntityType in the new content",
+        ],
+      },
+      {
+        update: "Still what the RC is for",
+        sublist: [
+          "Nobody has finished an arena, fought a raid with two people, or claimed and levelled a companion. Those need servers other than the author's",
+          "The four remaining known gaps are unchanged from RC1: a restart ends a running event, the two CE3 gaps waiting on the 1.0 release, and biome #tags that Spigot gives no way to read",
+        ],
+      },
+    ],
+    note: "1.0-RC2, coded in the days after RC1 and made public 11 September 2026. Still a release candidate, still no date for 1.0 and still no guess at one. Bugs and feedback go to the discussions tab on either Spigot listing, or to the form on this page.",
+  },
   {
     update_version: "1.0-RC1",
     release_date: "2026-09-06",

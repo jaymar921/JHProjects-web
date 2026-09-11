@@ -157,7 +157,7 @@ function EMR_Companions() {
 
       <Section>
         <Note accent="rose" icon="fa-solid fa-flask">
-          Worth knowing while 1.0-RC1 is out: mounting and the command wheel
+          Worth knowing while 1.0 is a release candidate: mounting and the command wheel
           have been driven with a player in the world, and claiming, following,
           levelling and dying have not. If you run one, the things to watch for
           are a companion catching up after a fall rather than standing where it

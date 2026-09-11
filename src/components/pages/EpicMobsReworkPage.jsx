@@ -143,7 +143,7 @@ const EDITION_PREVIEW = EditionMatrix.slice(0, 7);
  * middle of the page is always one tap away rather than a scroll.
  */
 const SECTIONS = [
-  { id: "rc", label: "RC1", icon: "fa-solid fa-flask" },
+  { id: "rc", label: "RC2", icon: "fa-solid fa-flask" },
   { id: "about", label: "ABOUT", icon: "fa-solid fa-book-open" },
   { id: "features", label: "FEATURES", icon: "fa-solid fa-dice-d20" },
   { id: "guides", label: "HOW TO", icon: "fa-solid fa-list-check" },
@@ -493,10 +493,13 @@ function EpicMobsReworkPage() {
       {/* --------------------------------------------- THE RELEASE CANDIDATE */}
       {/*
         First thing under the hero, and it says release candidate before it
-        says anything else. RC1 has every 1.0 feature in it, which is exactly
+        says anything else. An RC has every 1.0 feature in it, which is exactly
         why it would be easy to read as 1.0, and an owner putting it on a live
         server has to know which one they have got. The known gaps are here
         rather than three clicks into a changelog for the same reason.
+
+        The version, the date and the counts all come out of the constants, so
+        a new RC is an edit there and a paragraph here, not a rewrite.
       */}
       <section id="rc" className="emr-grid relative w-full scroll-mt-14 py-10">
         <div className="mx-auto w-[90%] md:w-[80%] lg:w-[70%]">
@@ -520,22 +523,27 @@ function EpicMobsReworkPage() {
                 </p>
                 <p className="pt-3 text-xs leading-relaxed text-slate-300 md:text-sm">
                   This is a real build of the whole plugin, published so it can
-                  be broken by somebody other than its author. Two rounds of
-                  playing it found bugs that nothing else was ever going to,
-                  and both rounds found the same kind: a subsystem reporting
-                  progress it was not making. A raid drew its bar, counted its
-                  waves and ran its timer while spawning nothing. An arena did
-                  the same. Neither threw, neither logged a word, and both
-                  looked fine right up until you counted the mobs.
+                  be broken by somebody other than its author. Second release
+                  candidate: if you are on RC1, this is the one to run. Raids
+                  can now wait for dark and happen in the Nether and the End,
+                  and playing the new Nether raid found four bugs in an
+                  evening, one of which had been quietly making the whole
+                  feature impossible. Three of the four printed the same
+                  message with no reason attached, which is the same kind of
+                  fault RC1 was full of: a subsystem reporting progress it was
+                  not making.
                 </p>
                 <p className="pt-3 text-xs leading-relaxed text-slate-400 md:text-sm">
-                  Those are fixed, and the plugin now says so in the console
-                  when a raid or an arena places nothing three times running.
-                  There is no date for 1.0 proper and there will not be a guess
-                  at one: 1.0 is what this becomes when the reports stop
-                  turning things up. Back up{" "}
-                  <span className="text-slate-300">plugins/EpicMobs</span>{" "}
-                  before you update.
+                  Those are fixed, and the raid debug line now says what it
+                  actually asked for. There is no date for 1.0 proper and there
+                  will not be a guess at one: 1.0 is what this becomes when the
+                  reports stop turning things up. Back up{" "}
+                  <span className="text-slate-300">plugins/EpicMobsRework</span>{" "}
+                  before you update, and if you are upgrading, add your Nether
+                  and End worlds to{" "}
+                  <span className="text-slate-300">general.worlds</span>: your
+                  config is never overwritten, and a raid in a world that is
+                  not on that list can never start.
                 </p>
                 <p className="pt-3 text-[11px] leading-relaxed text-orange-300/90 md:text-xs">
                   <i className="fa-solid fa-tag pr-2"></i>
@@ -1483,7 +1491,7 @@ prints the same set at any time.
               accent="ember"
               icon="fa-solid fa-clipboard-list"
               title="WHAT CHANGED"
-              description="The full 1.0-RC1 write-up: what shipped, what was rewritten after somebody played it, and the four things it still cannot do."
+              description="Both release candidate write-ups: what 1.0-RC2 added and what it found in the Nether, what RC1 shipped, and the four things it still cannot do."
               buttonIcon="fa-solid fa-clipboard-list"
               buttonLabel="Read it"
               onClick={() => setSubcontent("change logs")}

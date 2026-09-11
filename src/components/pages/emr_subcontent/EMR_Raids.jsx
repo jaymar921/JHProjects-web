@@ -32,7 +32,9 @@ function EMR_Raids() {
           world, five attempts per mob per player every thirty seconds, with no
           cap on how many were alive at once. It could only be won or manually
           stopped. All three of those are gone, and most of what replaced them
-          was rewritten again for 1.0-RC1 after somebody actually played one.
+          was rewritten again for 1.0-RC1 after somebody actually played one,
+          then taught to wait for dark and to happen in the Nether and the End
+          for 1.0-RC2, after somebody played one there too.
         </Body>
       </Section>
 
@@ -173,6 +175,66 @@ function EMR_Raids() {
       </Section>
 
       <Section>
+        <SubHeading accent="emerald">WHEN, AND IN WHICH DIMENSION</SubHeading>
+        <Body className="pt-3 text-justify">
+          Two optional lines in a raid file, both in both editions, added for
+          1.0-RC2 after the World Infestation was started at noon and a hundred
+          and twenty spiders stood around not fighting anybody.
+        </Body>
+        <div className="mt-5 grid gap-4 md:grid-cols-2">
+          <Panel accent="emerald" className="p-5">
+            <SubHeading accent="emerald">IT CAN WAIT FOR DARK</SubHeading>
+            <Body className="pt-3">
+              <Cmd accent="emerald">time-of-day: NIGHT</Cmd>, or DAY, or ANY,
+              the default. It reads the world clock, not your server&apos;s,
+              which makes it a different question from{" "}
+              <Cmd accent="emerald">raids.schedule</Cmd>: that one is for raids
+              in the evening when your players are online, this one is whether
+              it is dark in the game. A raid can want both.
+            </Body>
+            <Body className="pt-3">
+              It gates the start and nothing else. A night raid that runs past
+              sunrise keeps running, because a raid you could win by waiting for
+              morning is not a raid. A command start ignores it, the same way it
+              ignores the chance roll.
+            </Body>
+          </Panel>
+
+          <Panel accent="rose" className="p-5">
+            <SubHeading accent="rose">IT CAN HAPPEN IN THE NETHER</SubHeading>
+            <Body className="pt-3">
+              <Cmd accent="rose">dimension: NETHER</Cmd>, or END, OVERWORLD, or
+              ANY, the default. Only players in that dimension are in the raid:
+              somebody mining in the overworld gets no bar, no kill count and no
+              payout, however close to the portal they are standing.
+            </Body>
+            <Body className="pt-3">
+              Each dimension raids on its own clock, under{" "}
+              <Cmd accent="rose">raids.nether</Cmd> and{" "}
+              <Cmd accent="rose">raids.end</Cmd>, and the three schedulers are
+              independent. The raid clock pauses while the dimension is empty,
+              so going back through the portal for blocks never costs you the
+              raid. A Nether or End raid is always GLOBAL, because a fixed point
+              in the Nether is a point nobody is standing at.
+            </Body>
+          </Panel>
+        </div>
+        <div className="pt-4">
+          <Note accent="amber" icon="fa-solid fa-fire">
+            Two raids and twenty mobs come with it on the full build:{" "}
+            <span className="text-amber-300">The Nether Legion</span>, 70 kills
+            from the Ashvein Skulker up to the Gloomforge Tyrant, and{" "}
+            <span className="text-amber-300">The End Incursion</span>, 100
+            kills from the Void Mite up to the Voidmaw Sovereign, on the same
+            iron-armour ladder as the shipped twenty. Add your Nether and End
+            worlds to <Cmd accent="amber">general.worlds</Cmd> on an upgrading
+            server, or neither can ever start; the boot summary says so by
+            name.
+          </Note>
+        </div>
+      </Section>
+
+      <Section>
         <SubHeading accent="rose">HOW A RAID IS WRITTEN</SubHeading>
         <Terminal
           title="EpicMobsRework / raids / world-infestation.yml"
@@ -189,6 +251,13 @@ kill-goal: 120
 
 anchor:
   at: GLOBAL
+
+# ANY (the default), OVERWORLD, NETHER or END.
+dimension: ANY
+
+# Spiders are passive by day. Reads the world clock,
+# gates the start only: past sunrise it keeps going.
+time-of-day: NIGHT
 
 time-limit: 30m
 
@@ -266,8 +335,9 @@ rewards:
               <span className="text-amber-300">
                 Set to where I am standing
               </span>{" "}
-              button, the waves and the mobs in each, the fallback pool, the
-              boss and the three prize tiers.
+              button plus the dimension and the day-night gate, the waves and
+              the mobs in each, the fallback pool, the boss and the three prize
+              tiers.
             </Bullet>
             <Bullet accent="amber">
               A live preview of what the file will do, with every loader warning
@@ -436,13 +506,17 @@ raids:
         <Note accent="amber" icon="fa-solid fa-scale-balanced">
           Lite runs one raid definition, and it is a whole raid: an anchor with
           a participation radius, an ordered wave list, a kill goal, a boss bar,
-          a time limit it can be lost on and the three tiered prizes. It does
-          not run a raid boss as the final wave, so the kill goal ends the raid
+          a time limit it can be lost on and the three tiered prizes. The one it
+          ships is the World Infestation, since 1.0-RC2, and{" "}
+          <Cmd accent="amber">dimension:</Cmd> and{" "}
+          <Cmd accent="amber">time-of-day:</Cmd> both work in it. It does not
+          run a raid boss as the final wave, so the kill goal ends the raid
           rather than summoning anything, and it has no scheduling windows. A
           wave that names a pack falls back to its own mob list rather than
           being skipped, so a Lite server gets a wave rather than a hole where
-          one used to be. Packs and arenas are the full build. Triggers are in
-          both, capped at three in Lite.
+          one used to be. The Nether Legion, the End Incursion and the twenty
+          mobs in them are the full build, as are packs and arenas. Triggers are
+          in both, capped at three in Lite.
         </Note>
       </Section>
     </div>

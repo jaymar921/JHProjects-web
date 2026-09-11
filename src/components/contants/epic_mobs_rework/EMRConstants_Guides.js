@@ -399,36 +399,42 @@ spawning:
       },
       {
         n: "2",
+        title: "THEN WHEN, AND IN WHICH DIMENSION",
+        cmd: "dimension: NETHER",
+        body: "Two optional lines, both in both editions. dimension: is ANY by default, which is everybody everywhere and the behaviour every raid had before it existed; OVERWORLD, NETHER or END confines the raid to that dimension, gives it its own scheduler under raids.nether or raids.end, and pauses its clock while nobody is in it. time-of-day: NIGHT or DAY reads the world clock and gates the start only, which is a different question from raids.schedule, which reads the machine's. The World Infestation ships with NIGHT set because a spider is passive by day.",
+      },
+      {
+        n: "3",
         title: "WRITE IT WITH A COMMAND",
         cmd: "/ep create raid <name> <goal> <mob,mob>",
         body: "The quickest way to a raid that runs. It writes raids/<name>.yml with the kill goal and the mob pool you named and sensible defaults for the rest, which you then edit in the file.",
       },
       {
-        n: "3",
+        n: "4",
         title: "OR BUILD IT IN THE RAID EDITOR",
         cmd: "/ep editor raid",
-        body: "The mob editor's design applied to a raid, deliberately down to the last detail. A list with a New raid button, then pages for the goal and timer, where it happens with a Set to where I am standing button, the waves and the mobs in each, the fallback pool, the final boss and the three prize tiers. Full build.",
+        body: "The mob editor's design applied to a raid, deliberately down to the last detail. A list with a New raid button, then pages for the goal and timer, where it happens with a Set to where I am standing button plus the dimension and the day-night gate, the waves and the mobs in each, the fallback pool, the final boss and the three prize tiers. Full build.",
       },
       {
-        n: "4",
+        n: "5",
         title: "SPLIT THE GOAL ACROSS THE WAVES",
         cmd: "wave-count: 4",
         body: "A wave is a share of the kill goal, not a tick of a clock. 120 kills over four waves is thirty each, and wave two does not begin until the first thirty are dead. Write wave-count: yourself, or write a waves: block and the goal is split by however many waves you wrote.",
       },
       {
-        n: "5",
+        n: "6",
         title: "WRITE THE WAVES",
         cmd: "delay: after_previous_cleared",
         body: "Each wave names its mobs and how many, and may carry an announce: line sent when it lands. A wave may instead name a pack, which arrives as a pack with its leader and formation, or a boss, which is spawned once and announced. delay: 20s lands it that long after the previous one; delay: after_previous_cleared waits for the field to be empty instead.",
       },
       {
-        n: "6",
+        n: "7",
         title: "GIVE IT A POOL, A BOSS AND PRIZES",
         cmd: "boss:",
         body: "mobs: is what a wave draws from when it tops the field back up beyond what the wave itself names. boss: is the mob the kill goal summons, wherever the most defenders are standing, so reaching the goal does not win the raid: it starts the last fight. rewards: pays three tiers, for top damage, most kills, and participation for everybody who turned up.",
       },
       {
-        n: "7",
+        n: "8",
         title: "RUN IT, THEN READ THE FILE BACK",
         cmd: "/ep raid start <name>",
         body: "Do it on a test server first, the way the next guide describes. Most raids need their goal or their wave count moved once somebody has actually watched one.",
@@ -438,7 +444,8 @@ spawning:
       "A wave that names a mob you have since deleted is reported by name on load, rather than producing an empty wave at run time.",
       "The full build's boss: block is ignored on Lite, so the kill goal simply ends the raid instead of summoning anything. A wave that names a pack falls back to its own mob list on Lite rather than being skipped, so a Lite server gets a wave rather than a hole where one used to be.",
       "Which tiers a raid may send, and how far into it each one unlocks, is a table in config.yml under raids.tiers. A wave that names a pack uses the pack and ignores the table.",
-      "Lite runs one raid definition, and it is a whole raid: anchor, waves, kill goal, boss bar, a time limit it can be lost on, and the three prizes.",
+      "Lite runs one raid definition, and it is a whole raid: anchor, waves, kill goal, boss bar, a time limit it can be lost on, and the three prizes. The one Lite ships is the World Infestation, and with one file, writing dimension: NETHER into it is choosing the Nether instead of everywhere else.",
+      "A Nether or End raid is always GLOBAL, because the dimension is the participation radius and a fixed point in the Nether is a point nobody is standing at. A file that says otherwise is corrected with a warning. time-of-day is ignored there, with a warning, because those dimensions have no sky.",
     ],
     file: {
       title: "EpicMobsRework / raids / world-infestation.yml",
@@ -452,6 +459,14 @@ kill-goal: 120
 
 anchor:
   at: GLOBAL
+
+# ANY, OVERWORLD, NETHER or END. ANY is the default:
+# everybody, everywhere the plugin acts.
+dimension: ANY
+
+# Spiders are passive by day. Reads the world clock,
+# gates the start only: past sunrise it keeps running.
+time-of-day: NIGHT
 
 time-limit: 30m
 
@@ -538,7 +553,7 @@ rewards:
         n: "5",
         title: "STOP IT AND GO AGAIN",
         cmd: "/ep raid stop",
-        body: "Ends the running raid and removes its mobs. Nothing is paid out, which is what you want while testing. Change the file, /ep reload, start it again.",
+        body: "Ends every running raid and removes its mobs. Nothing is paid out, which is what you want while testing. Change the file, /ep reload, start it again.",
       },
       {
         n: "6",
@@ -548,8 +563,9 @@ rewards:
       },
     ],
     watch: [
-      "Two things refuse a start and neither is overridden by the command: raids.enabled: false in config.yml, and not enough players online.",
-      "One player is still needed even with the testing switch on. Every wave path looks for a participant, so a raid started into an empty world would spawn nothing and then call itself off.",
+      "Two things refuse a start and neither is overridden by the command: raids.enabled: false in config.yml, and not enough players online. time-of-day does not refuse a command start, the same way the chance roll does not, so you do not have to wait for dusk to test a night raid.",
+      "One player is still needed even with the testing switch on. Every wave path looks for a participant, so a raid started into an empty world would spawn nothing and then call itself off. The exception is a Nether or End raid, which may be started with nobody in that dimension: it begins with its clock paused and nothing runs down until somebody walks through the portal.",
+      "If /ep raid start says nobody is online while you are standing in the game, you are standing in a world that is not in general.worlds. The message names which worlds Epic Mobs acts in and what to edit.",
       "If the raid runs but nothing arrives, /ep debug spawn. The plugin also says so in the console by itself after three placements that put nothing down, and names the likely causes. That log line exists because this failure used to be completely silent.",
       "A scheduled raid picks at random. A command start does not. That is the difference between an event and a test.",
     ],
@@ -654,24 +670,24 @@ Raid started: World Infestation, goal 120,
         n: "1",
         title: "RAIDS HAVE TO BE ENABLED",
         cmd: "raids.enabled: true",
-        body: "The first and cheapest check. With this off nothing is ever scheduled, and /ep raid start is refused too: the command deliberately does not override it, because a switch an admin turned off should stay off.",
+        body: "The first and cheapest check. With this off nothing is ever scheduled, and /ep raid start is refused too: the command deliberately does not override it, because a switch an admin turned off should stay off. Then the dimension's own switch: raids.nether.enabled and raids.end.enabled, so a server with no Nether portals turns that one off and never thinks about it again.",
       },
       {
         n: "2",
-        title: "NOTHING MAY BE RUNNING ALREADY",
-        body: "One raid at a time, server wide. Whether one is running is checked before anything else is worked out, and at least one raid has to be defined for there to be anything to pick.",
+        title: "NOTHING MAY BE RUNNING ALREADY, IN THAT DIMENSION",
+        body: "One raid at a time per dimension. There are three schedulers, one each for the overworld, the Nether and the End, and a dimension: ANY raid rides the overworld's. They are independent, so the Nether being under siege never stops the overworld starting a raid. Whether one is running is checked before anything else is worked out, and at least one raid has to be defined for there to be anything to pick.",
       },
       {
         n: "3",
         title: "THE INTERVAL HAS TO HAVE ELAPSED",
         cmd: "raids.interval: 20d",
-        body: "Counted in Minecraft days, twenty of them as shipped, at twenty-four real minutes each. The clock starts on the first pass after a boot rather than firing immediately, so restarting a server does not summon a raid.",
+        body: "Counted in Minecraft days, twenty of them as shipped, at twenty-four real minutes each. The Nether tries every ten and the End every fifteen, under raids.nether.interval and raids.end.interval, because a dimension people visit for twenty minutes at a time has to try more often to happen at all. The clock starts on the first pass after a boot rather than firing immediately, so restarting a server does not summon a raid.",
       },
       {
         n: "4",
-        title: "ENOUGH PLAYERS HAVE TO BE ONLINE",
+        title: "ENOUGH PLAYERS HAVE TO BE THERE",
         cmd: "raids.min-players: 5",
-        body: "Five as shipped. With raids.ignore-min-players on it is one instead, which is the testing switch and is the only thing that number is for. A skip is printed on the raid debug channel with the count it saw and the count it wanted.",
+        body: "Five as shipped, counted across the server for the overworld scheduler and inside the dimension for the Nether and the End, where it is two. With raids.ignore-min-players on it is one instead, which is the testing switch and is the only thing that number is for. A skip is printed on the raid debug channel with the count it saw and the count it wanted.",
       },
       {
         n: "5",
@@ -683,10 +699,16 @@ Raid started: World Infestation, goal 120,
         n: "6",
         title: "AND THEN IT ROLLS",
         cmd: "raids.chance: 0.9",
-        body: "The last gate, so the expensive checks are never done for a roll that fails. A pass picks one of your defined raids at random and starts it. That randomness is the difference between an event and a test, which is why /ep raid start names the one you want.",
+        body: "The last gate, so the expensive checks are never done for a roll that fails. A pass picks at random from the raids that belong to this scheduler's dimension and whose time-of-day allows it right now, and starts it. A night raid at noon is simply not in the draw. That randomness is the difference between an event and a test, which is why /ep raid start names the one you want.",
       },
       {
         n: "7",
+        title: "AND IT HAS TO BE A WORLD THE PLUGIN ACTS IN",
+        cmd: "general.worlds",
+        body: "Nothing spawns and no raid runs in a world that is not on that list. A fresh install lists world, world_nether and world_the_end; an upgrade keeps whatever its own config.yml had, so a dimension: NETHER raid on a server that lists only world can never start. The boot summary says so by name and names the line to edit.",
+      },
+      {
+        n: "8",
         title: "THE OTHER KIND OF TRIGGER",
         cmd: "/ep create trigger <delay> <radius> <mob>",
         body: "Not a raid at all, and worth knowing about because the word collides. A trigger is a timed spawn point at your feet: every delay it places that mob within radius, and only while somebody is close enough to see it happen. No region, no party, no waves. It is the lightweight alternative to an arena, and /ep create remove_trigger <mob> takes it away again. Lite allows three.",
@@ -695,7 +717,8 @@ Raid started: World Infestation, goal 120,
     watch: [
       "Every refusal above is printed on /ep debug raid with its reason, so a raid that never happens is a question you can answer rather than one you have to guess at.",
       "The interval is a Minecraft day count, not a real hour count. 20d is roughly eight real hours of server uptime.",
-      "A scheduled raid picks at random from everything in raids/. If you only want one of them happening on its own, that is a reason to keep the others out of the folder.",
+      "A scheduled raid picks at random from everything in raids/ that belongs to its dimension. If you only want one of them happening on its own, that is a reason to keep the others out of the folder.",
+      "A Nether or End raid's clock pauses while nobody is in the dimension, so going back through the portal for blocks never costs the players the raid. abandon-after under raids.nether and raids.end is the backstop, twenty minutes of real time as shipped, and /ep info says clock paused while it is stopped.",
     ],
     file: {
       title: "EpicMobsRework / config.yml",
@@ -730,6 +753,29 @@ raids:
   schedule:
     enabled: false
     windows: [ "18:00-23:00" ]
+
+  # A raid file with dimension: NETHER runs on this
+  # clock. Every key falls back to the server-wide
+  # setting of the same name above. min-players is
+  # counted in the dimension, not on the server.
+  nether:
+    enabled: true
+    interval: 10d
+    chance: 0.9
+    min-players: 2
+    # Real time. A dimensional raid's clock is PAUSED
+    # while nobody is there; this is how long it
+    # waits for somebody to come back.
+    abandon-after: 20m
+
+  # The End is somewhere a server clears once and
+  # visits rarely, so 15d rather than 10d.
+  end:
+    enabled: true
+    interval: 15d
+    chance: 0.9
+    min-players: 2
+    abandon-after: 20m
       `,
     },
   },
