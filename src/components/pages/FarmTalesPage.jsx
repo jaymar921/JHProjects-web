@@ -261,9 +261,9 @@ function FarmTalesPage() {
   const { price, spigot } = PluginInformation;
 
   /*
-    The two download buttons. While the Spigot listing is not up they still
-    go somewhere real, the developer's profile, and say so in their label
-    rather than pretending to be a download.
+    The two download buttons. If a listing is ever pending again they still
+    go somewhere real and say so in their label rather than pretending to be
+    a download.
   */
   const liteLabel = spigot.pending ? "LITE, FREE, COMING TO SPIGOT" : "GET LITE, FREE";
   const premiumLabel = spigot.pending
@@ -379,63 +379,123 @@ function FarmTalesPage() {
 
       {/* ------------------------------------------------- STATUS BANNER */}
       {/*
-        First thing under the hero: the build is done and it is not for sale
-        yet. Somebody arriving from a link has to be able to read that in the
-        first screen, and it comes out the day the listing goes up.
+        First thing under the hero. Before the listings went up this said the
+        build was done and not for sale yet; now it says 1.0.0 is out and
+        points at the two listings. The pending branch stays so the page can
+        carry a future edition before its listing exists.
       */}
-      {spigot.pending && (
-        <section className="ft-grid w-full py-8">
-          <div className="mx-auto w-[90%] md:w-[80%] lg:w-[70%]">
-            <Panel accent="amber" className="p-5 md:p-6">
-              <div className="lg:flex lg:place-items-start lg:gap-6">
-                <div className="grow">
-                  <div className="flex flex-wrap place-items-center gap-2">
+      <section className="ft-grid w-full py-8">
+        <div className="mx-auto w-[90%] md:w-[80%] lg:w-[70%]">
+          <Panel accent={spigot.pending ? "amber" : "green"} className="p-5 md:p-6">
+            <div className="lg:flex lg:place-items-start lg:gap-6">
+              <div className="grow">
+                <div className="flex flex-wrap place-items-center gap-2">
+                  {spigot.pending ? (
                     <span className="pixel-font border border-amber-400/60 bg-amber-500/15 px-2 py-1 text-[8px] tracking-widest text-amber-300">
                       COMING SOON
                     </span>
-                    <span className="pixel-font text-xs text-slate-200 md:text-sm">
-                      v{PluginInformation.version}
+                  ) : (
+                    <span className="pixel-font border border-green-400/60 bg-green-500/15 px-2 py-1 text-[8px] tracking-widest text-green-300">
+                      OUT NOW
                     </span>
-                    <span className="text-[10px] text-slate-500 md:text-xs">
-                      no release date yet
-                    </span>
-                  </div>
-                  <p className="pixel-font pt-3 text-[10px] text-amber-300 md:text-xs">
-                    The plugin is built and tested. The Spigot listings are not
-                    up yet.
-                  </p>
-                  <p className="pt-3 text-xs leading-relaxed text-slate-300 md:text-sm">
-                    Everything on this page describes the 1.0.0 jar as it
-                    stands: {FTCatalogCounts.total} catalog entries, tested on
-                    Spigot 1.16.5 and 26.2 with the same jar. When the two
-                    listings go live the buttons on this page start pointing at
-                    them. Until then they open the developer&apos;s Spigot
-                    profile, where both will appear, and the price stays{" "}
-                    {price.symbol}
-                    {price.amount} {price.currency}.
-                  </p>
+                  )}
+                  <span className="pixel-font text-xs text-slate-200 md:text-sm">
+                    v{PluginInformation.version}
+                  </span>
+                  <span className="text-[10px] text-slate-500 md:text-xs">
+                    {spigot.pending
+                      ? "no release date yet"
+                      : `released ${PluginInformation.releaseDateLabel}`}
+                  </span>
                 </div>
-                <div className="flex shrink-0 flex-col gap-3 pt-5 lg:w-[240px] lg:pt-0">
-                  <button
-                    className="pixel-font inline-flex w-full place-items-center justify-center gap-2 rounded-none border-2 border-green-400/60 bg-[rgba(0,0,0,0.5)] px-4 py-3 text-[9px] tracking-widest text-green-200 transition-all hover:-translate-y-0.5 hover:border-green-300 hover:bg-green-500/20 lg:text-[10px]"
-                    onClick={() => setSubcontent("catalog")}
-                  >
-                    <i className="fa-solid fa-list"></i>
-                    THE WHOLE CATALOG
-                  </button>
-                  <button
-                    className="pixel-font inline-flex w-full place-items-center justify-center gap-2 rounded-none border-2 border-sky-400/60 bg-[rgba(0,0,0,0.5)] px-4 py-3 text-[9px] tracking-widest text-sky-200 transition-all hover:-translate-y-0.5 hover:border-sky-300 hover:bg-sky-500/20 lg:text-[10px]"
-                    onClick={() => setSubcontent("change logs")}
-                  >
-                    <i className="fa-solid fa-clipboard-list"></i>
-                    WHAT IS IN 1.0.0
-                  </button>
-                </div>
+                {spigot.pending ? (
+                  <>
+                    <p className="pixel-font pt-3 text-[10px] text-amber-300 md:text-xs">
+                      The plugin is built and tested. The Spigot listings are
+                      not up yet.
+                    </p>
+                    <p className="pt-3 text-xs leading-relaxed text-slate-300 md:text-sm">
+                      Everything on this page describes the{" "}
+                      {PluginInformation.version} jar as it stands:{" "}
+                      {FTCatalogCounts.total} catalog entries, tested on Spigot
+                      1.16.5 and 26.2 with the same jar. When the two listings
+                      go live the buttons on this page start pointing at them.
+                      Until then they open the developer&apos;s Spigot profile,
+                      where both will appear, and the price stays{" "}
+                      {price.symbol}
+                      {price.amount} {price.currency}.
+                    </p>
+                  </>
+                ) : (
+                  <>
+                    <p className="pixel-font pt-3 text-[10px] text-green-300 md:text-xs">
+                      Farm Tales {PluginInformation.version} is on Spigot. Lite
+                      is free, Premium is {price.symbol}
+                      {price.amount} once.
+                    </p>
+                    <p className="pt-3 text-xs leading-relaxed text-slate-300 md:text-sm">
+                      Both listings are live. Lite is the full plugin with
+                      part of the catalog and two of the grades, and it never
+                      expires, so run it on your own server first. When you
+                      want all {FTCatalogCounts.total} entries, six grades,
+                      five animals, fertilizer, storage, wine and beer and the
+                      admin menu, Premium is one payment of {price.symbol}
+                      {price.amount} {price.currency} and every update after
+                      it is included. No subscription, and the same jar runs
+                      on Spigot and Paper from 1.16.5 to 26.2.
+                    </p>
+                  </>
+                )}
               </div>
-            </Panel>
-          </div>
-        </section>
-      )}
+              <div className="flex shrink-0 flex-col gap-3 pt-5 lg:w-[240px] lg:pt-0">
+                {spigot.pending ? (
+                  <>
+                    <button
+                      className="pixel-font inline-flex w-full place-items-center justify-center gap-2 rounded-none border-2 border-green-400/60 bg-[rgba(0,0,0,0.5)] px-4 py-3 text-[9px] tracking-widest text-green-200 transition-all hover:-translate-y-0.5 hover:border-green-300 hover:bg-green-500/20 lg:text-[10px]"
+                      onClick={() => setSubcontent("catalog")}
+                    >
+                      <i className="fa-solid fa-list"></i>
+                      THE WHOLE CATALOG
+                    </button>
+                    <button
+                      className="pixel-font inline-flex w-full place-items-center justify-center gap-2 rounded-none border-2 border-sky-400/60 bg-[rgba(0,0,0,0.5)] px-4 py-3 text-[9px] tracking-widest text-sky-200 transition-all hover:-translate-y-0.5 hover:border-sky-300 hover:bg-sky-500/20 lg:text-[10px]"
+                      onClick={() => setSubcontent("change logs")}
+                    >
+                      <i className="fa-solid fa-clipboard-list"></i>
+                      WHAT IS IN {PluginInformation.version}
+                    </button>
+                  </>
+                ) : (
+                  <>
+                    <button
+                      className="pixel-font inline-flex w-full place-items-center justify-center gap-2 rounded-none border-2 border-green-400/60 bg-[rgba(0,0,0,0.5)] px-4 py-3 text-[9px] tracking-widest text-green-200 transition-all hover:-translate-y-0.5 hover:border-green-300 hover:bg-green-500/20 lg:text-[10px]"
+                      onClick={openTracked("buy plugin", CLICK_ACTIONS.BUY, "Premium (banner)")}
+                    >
+                      <i className="fa-solid fa-crown"></i>
+                      BUY PREMIUM, {price.symbol}
+                      {price.amount}
+                    </button>
+                    <button
+                      className="pixel-font inline-flex w-full place-items-center justify-center gap-2 rounded-none border-2 border-emerald-400/60 bg-[rgba(0,0,0,0.5)] px-4 py-3 text-[9px] tracking-widest text-emerald-200 transition-all hover:-translate-y-0.5 hover:border-emerald-300 hover:bg-emerald-500/20 lg:text-[10px]"
+                      onClick={openTracked("free lite", CLICK_ACTIONS.DOWNLOAD, "Lite (banner)")}
+                    >
+                      <i className="fa-solid fa-download"></i>
+                      GET LITE, FREE
+                    </button>
+                    <button
+                      className="pixel-font inline-flex w-full place-items-center justify-center gap-2 rounded-none border-2 border-sky-400/60 bg-[rgba(0,0,0,0.5)] px-4 py-3 text-[9px] tracking-widest text-sky-200 transition-all hover:-translate-y-0.5 hover:border-sky-300 hover:bg-sky-500/20 lg:text-[10px]"
+                      onClick={() => setSubcontent("change logs")}
+                    >
+                      <i className="fa-solid fa-clipboard-list"></i>
+                      WHAT IS IN {PluginInformation.version}
+                    </button>
+                  </>
+                )}
+              </div>
+            </div>
+          </Panel>
+        </div>
+      </section>
 
       {/* ----------------------------------------------------------- ABOUT */}
       <section id="about" className="w-full scroll-mt-14 py-10">
@@ -804,11 +864,13 @@ function FarmTalesPage() {
 
           <div className="pt-6">
             <Note accent="rose" icon="fa-solid fa-triangle-exclamation">
-              Before purchasing, please try the Lite version. There will be no
-              refund once the plugin is bought: a free version is provided so
-              you can find out exactly how it behaves before you spend
-              anything. The plugin is not available on Aternos. DM the
-              developer any time if you have an issue.
+              Before purchasing, please try the Lite version. There is no
+              refund once the plugin is bought: the free edition exists so you
+              can find out exactly how it behaves before you spend anything.
+              If Lite does what you hoped, Premium is the same plugin with
+              every limit lifted, for one payment. The plugin is not
+              available on Aternos. DM the developer any time if you have an
+              issue.
             </Note>
           </div>
         </div>
@@ -1170,9 +1232,9 @@ function FarmTalesPage() {
           <div className="pt-6">
             <Note accent="green" icon="fa-solid fa-comments">
               Bug reports and questions also work as a DM on Spigot, or in the
-              Spigot discussion thread once the listing is up. Either way,
-              include /ft info pasted whole, which edition, which Minecraft
-              version, and the console lines from the boot.
+              discussion tab of either listing. Either way, include /ft info
+              pasted whole, which edition, which Minecraft version, and the
+              console lines from the boot.
             </Note>
           </div>
         </div>
