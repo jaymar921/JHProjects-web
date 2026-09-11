@@ -3,8 +3,10 @@ import { Panel } from "../../page_components/PixelUIKit";
 /**
  * The pieces the dashboard draws its numbers with.
  *
- * Three rules shape all of them, and they are why there is no chart library
- * here:
+ * Three rules shape all of them. The bar lists and tiles are plain HTML
+ * because nothing about them needs a canvas; Chart.js is only brought in, in
+ * adminChartSetup.js, for the two things HTML cannot draw, a world map and a
+ * line over time.
  *
  *   A single number is a number, not a one bar chart. The headline figures are
  *   stat tiles.

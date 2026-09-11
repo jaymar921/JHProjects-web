@@ -30,13 +30,15 @@ export const DOWNLOAD_FALLBACK = {
 export const LITE_VERSION_FALLBACK = "1.5.0-lite";
 
 /**
- * 221 stays "220+", 1500 becomes "1k+", 322859 becomes "320k+". Always rounds
- * down, so the figure on the page is never larger than the real one.
+ * 221 stays "220+", 1500 becomes "1k+", 18592 becomes "18k+" and 322859
+ * becomes "320k+". Always rounds down, so the figure on the page is never
+ * larger than the real one. Below 100k the thousands are kept, because
+ * "10k+" for a listing at 18k throws away most of what the number says.
  */
 export function formatDownloads(count) {
   if (typeof count !== "number" || !isFinite(count) || count < 0) return "0";
 
-  if (count >= 10000) return `${Math.floor(count / 10000) * 10}k+`;
+  if (count >= 100000) return `${Math.floor(count / 10000) * 10}k+`;
   if (count >= 1000) return `${Math.floor(count / 1000)}k+`;
   if (count >= 100) return `${Math.floor(count / 10) * 10}+`;
 
@@ -112,8 +114,8 @@ export const KUMANDRA_RESOURCE = 96466;
 
 /** Shown when the Kumandra listing cannot be reached. */
 export const KUMANDRA_FALLBACK = {
-  downloads: 3200,
-  version: "1.7",
+  downloads: 18000,
+  version: "2.1",
 };
 
 /**

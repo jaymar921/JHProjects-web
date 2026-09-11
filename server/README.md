@@ -15,7 +15,7 @@ duplicated between the two.
 | `POST` | `/api/track/view` | A project page was opened |
 | `POST` | `/api/track/click` | A download, buy, donate or source button was hit |
 | `POST` | `/api/track/batch` | Several events in one request |
-| `GET` | `/api/stats` | Every project, plus a rolled up total. Signed in only |
+| `GET` | `/api/stats` | Every project, a rolled up total, who clicked what, the last 30 days by day and the bug report queue. Signed in only |
 | `GET` | `/api/stats/:project` | One project's counters. Signed in only |
 | `GET` | `/api/stats/:project/events` | The raw rows behind one project. Signed in only |
 | `GET` | `/api/bug-report/status` | Whether email delivery is switched on |
@@ -89,9 +89,17 @@ salted hash of the IP and the visitor and session ids. Expires after
 
 **`project_stats`** — one document per project, holding counters bumped with
 `$inc`: `views`, `uniqueViews`, `clicks.total` and one per action, plus
-breakdowns by device, OS and browser, and `clickActionDevices` so "how many buy
-clicks came from a phone" is answerable without touching the raw rows. Never
-expired, so the totals outlive the events they came from.
+breakdowns by device, OS, browser, country, language and referrer, and
+`clickActionDevices` and `clickActionCountries` so "how many buy clicks came
+from a phone" or "where do the downloads come from" is answerable without
+touching the raw rows. Never expired, so the totals outlive the events they
+came from. Referrer hosts are stored with their dots swapped for tildes,
+because a dot in a Mongo field path means "go one level down"; the API puts
+them back.
+
+`npm run rebuild-breakdowns` re-derives the country, language and referrer
+maps from the raw rows. Run it once after deploying the version that added
+them; it is safe to run again at any time.
 
 **`bug_reports`** — one document per report, with an `emailStatus` of `sent`,
 `failed` or `skipped`. The report is written before the email is attempted, so a
@@ -108,6 +116,18 @@ hash of the cookie value. Carries both clocks, `expiresAt` and
 them.
 
 Indexes are built once per process, on first use.
+
+## Where visitors are
+
+Nothing here looks an address up. Vercel resolves the visitor's country at the
+edge and sends it as `x-vercel-ip-country` (Cloudflare's `cf-ipcountry` is read
+too), so the API only ever sees a two letter ISO code and stores that. Vercel
+also sends the region and city; they are deliberately not read. Locally there
+is no such header and every view is counted under `unknown`.
+
+The referrer is `document.referrer`, sent by the page in the body, because the
+beacon's own `Referer` header only ever names the page that sent it. A referrer
+on the site's own host is recorded as `internal`; none at all is `direct`.
 
 ## What is not recorded
 

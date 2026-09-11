@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Note, PixelButton } from "../../page_components/PixelUIKit";
 import { ChartPanel, formatDate, formatRelative } from "./AdminCharts";
+import { countryName } from "./AdminWorldMap";
 import { fetchEvents, isSignedOut } from "../../../lib/api/admin";
 
 /**
@@ -87,10 +88,10 @@ function AdminEvents({ project, label, onClose, onSignedOut }) {
         </p>
       ) : (
         <div className="overflow-x-auto">
-          <table className="w-full min-w-[720px] border-collapse text-left">
+          <table className="w-full min-w-[800px] border-collapse text-left">
             <thead>
               <tr className="border-b border-slate-700/70">
-                {["When", "Type", "What", "Device", "Browser", "From", "Path"].map(
+                {["When", "Type", "What", "Device", "Browser", "Where", "From", "Path"].map(
                   (heading) => (
                     <th
                       key={heading}
@@ -128,6 +129,12 @@ function AdminEvents({ project, label, onClose, onSignedOut }) {
                   </td>
                   <td className="px-2 py-2 text-[10px] text-slate-500">
                     {event.device?.browser ?? "unknown"}
+                  </td>
+                  <td
+                    className="px-2 py-2 text-[10px] text-slate-500"
+                    title={event.country ? countryName(event.country) : undefined}
+                  >
+                    {event.country ?? "unknown"}
                   </td>
                   <td className="px-2 py-2 text-[10px] text-slate-500">
                     {event.referrerHost ?? "direct"}

@@ -47,11 +47,26 @@ function shouldSend() {
   return ENABLED && isRealVisit() && !optedOut();
 }
 
+/**
+ * Where the visitor came from, as the browser knows it. The beacon's own
+ * Referer header only ever names this page, so the real answer has to travel
+ * in the body. It is sent even when empty, so the server can tell "arrived
+ * direct" from "an old client that never said".
+ */
+function readReferrer() {
+  try {
+    return typeof document.referrer === "string" ? document.referrer.slice(0, 500) : "";
+  } catch {
+    return "";
+  }
+}
+
 function baseFields() {
   return {
     visitorId: getVisitorId(),
     sessionId: getSessionId(),
     path: window.location.pathname,
+    referrer: readReferrer(),
   };
 }
 

@@ -3,16 +3,18 @@ import env from "../config/env.js";
 import { noStore, requireAdmin } from "../lib/requireAdmin.js";
 import { ValidationError, oneOf } from "../lib/validate.js";
 import {
+  readDashboard,
   readProjectStats,
   readRecentEvents,
-  readSummary,
 } from "../services/analytics.js";
 import { PROJECT_SLUGS } from "../../../shared/projects.js";
 
 /**
  * Reading the numbers back.
  *
- *   GET /api/stats                   every project, plus a rolled up total
+ *   GET /api/stats                   every project, a rolled up total, who
+ *                                    clicked what, the last 30 days by day and
+ *                                    the bug report queue
  *   GET /api/stats/:project          one project
  *   GET /api/stats/:project/events   the raw rows behind one project
  *
@@ -69,8 +71,8 @@ router.use((req, res, next) => {
 
 router.get("/", async (_req, res, next) => {
   try {
-    const { summary, projects } = await readSummary();
-    res.json({ ok: true, summary, projects });
+    const dashboard = await readDashboard();
+    res.json({ ok: true, ...dashboard });
   } catch (error) {
     next(error);
   }
