@@ -23,11 +23,9 @@
  * catalog/*.yml by scripts/generate-farm-tales-catalog.mjs so it cannot
  * drift.
  *
- * SPIGOT IDS: the plugin is built and not yet listed, and there is no
- * release date. Both ids below are placeholders. Fill them in, and the two
- * URLs, the moment the resources are created, and set a release date in
- * PluginInformation and FTConstants_Logs. Every link on the page reads from
- * the SPIGOT object, so that is the only place the links change.
+ * SPIGOT IDS: 1.0.0 went live on 11 September 2026. Lite is resource 138717
+ * and Premium is 138718. Every link on the page reads from the SPIGOT
+ * object, so that is the only place the links change if a listing moves.
  */
 
 import * as FeatureArt from "../../../assets/farm_tales/features";
@@ -43,22 +41,19 @@ import wisePaymentQr from "../../../assets/custom_enchants_3/wise-payment-qr.png
 /**
  * Both listings, in one place, because everything links to them.
  *
- * PLACEHOLDER until the resources go up. Every URL points at the author's
- * Spigot profile, which is where both listings will appear, so nobody lands
- * on a 404 in the meantime. `pending` is read by the page so the buttons say
- * the listing is on its way rather than pretending to be a download. Set it
- * to false and fill in the ids and URLs when the resources exist.
+ * `pending` is read by the page: while it was true the buttons said the
+ * listing was on its way instead of pretending to be a download. It stays
+ * as a field so the same page can carry a future edition before its listing
+ * exists, but for 1.0.0 both resources are live.
  */
 const SPIGOT = {
-  pending: true,
-  premiumId: 0,
-  liteId: 0,
-  premium: "https://www.spigotmc.org/members/jaymar921.1073076/",
-  lite: "https://www.spigotmc.org/members/jaymar921.1073076/",
-  premiumDiscussion:
-    "https://www.spigotmc.org/members/jaymar921.1073076/",
-  liteDiscussion:
-    "https://www.spigotmc.org/members/jaymar921.1073076/",
+  pending: false,
+  premiumId: 138718,
+  liteId: 138717,
+  premium: "https://www.spigotmc.org/resources/138718/",
+  lite: "https://www.spigotmc.org/resources/138717/",
+  premiumDiscussion: "https://www.spigotmc.org/resources/138718/",
+  liteDiscussion: "https://www.spigotmc.org/resources/138717/",
 };
 
 /** Where the resource packs live. One zip per Minecraft version per edition. */
@@ -72,16 +67,15 @@ export const PluginInformation = {
     "A farming plugin where how you tend a crop decides what you harvest.",
 
   /**
-   * 1.0.0 is built, tested on both ends of the version range, and not yet
-   * listed on Spigot. There is no release date and the page does not guess
-   * one. When it ships: set `releaseDate` and `releaseDateLabel`, flip
-   * SPIGOT.pending, and date the entry in FTConstants_Logs.
+   * 1.0.0 shipped on 11 September 2026, tested on both ends of the version
+   * range. `releaseDate` matches the `release_date` of the newest entry in
+   * FTConstants_Logs; keep the two in step when the next version lands.
    */
   version: "1.0.0",
-  status: "coming soon",
-  statusLabel: "1.0.0 IS BUILT. SPIGOT LISTING COMING SOON",
-  releaseDate: null,
-  releaseDateLabel: "not yet dated",
+  status: "released",
+  statusLabel: "1.0.0 IS OUT. LITE IS FREE, PREMIUM IS £13.89",
+  releaseDate: "2026-09-11",
+  releaseDateLabel: "11 September 2026",
 
   supportedVersions: "1.16.5 to 26.2",
   serverSoftware: "Spigot and Paper",
@@ -592,7 +586,7 @@ export const SetupSteps = [
     n: 7,
     title: "THE PACK IS OPTIONAL",
     cmd: "/ft pack",
-    body: "Everything works with no resource pack; an eggplant is a beetroot with the right name and behaviour. When you want the sprites, /ft pack names the zip your version needs and where players get it.",
+    body: "Everything works with no resource pack; an eggplant is a beetroot with the right name and behaviour. When you want the sprites, there is a zip for 1.16.5, 1.20.4, 1.21.1, 1.21.5 and 26.2 on GitHub, and /ft pack names the one your version needs and where players get it.",
   },
 ];
 
@@ -809,9 +803,9 @@ export const Screenshots = [
     key: "dish",
     src: Screens.craftingDish,
     accent: "amber",
-    title: "THE FIRST DISH",
+    title: "A WELL BALANCED DISH",
     caption:
-      "Eggplant and Good Beef in a crafting grid. The dish names itself from what went in, sums the nutrition, takes the lowest grade among its ingredients, and earns a balance bonus for covering five food groups.",
+      "Blueberry, Mulberry and Shallot in a crafting grid. The dish names itself from what went in, sums the nutrition, takes the lowest grade among its ingredients, and this one earns the Well balanced bonus for covering five food groups.",
     wide: true,
   },
   {
@@ -860,8 +854,25 @@ export const Screenshots = [
     key: "codex",
     src: Screens.codex,
     accent: "sky",
-    title: "THE CODEX",
+    title: "THE CODEX, THREE PAGES SIDE BY SIDE",
+    caption:
+      "Vegetables, fruits and meat grades from /ft codex, every entry drawn as its own item with the resource pack on. Fifty-four vegetables and fifty fruits over two pages each, thirty meat grades on one.",
+    wide: true,
+  },
+  {
+    key: "codex-menu",
+    src: Screens.codexMenu,
+    accent: "sky",
+    title: "THE CODEX MENU",
     caption: "/ft codex. Vegetables, fruits, meat grades and recipes, with your discovery progress.",
+  },
+  {
+    key: "dish-beef",
+    src: Screens.craftingDishBeef,
+    accent: "amber",
+    title: "A DISH WITH MEAT IN IT",
+    caption:
+      "Eggplant and Good Beef in the same grid. The dish takes the grade of the beef, its worst ingredient, so a Spoiled cut would spoil the whole plate.",
   },
   {
     key: "codex-fruits",
@@ -911,6 +922,14 @@ export const Screenshots = [
     accent: "amber",
     title: "BEER",
     caption: "Two brewing grains make a wort; sugar in the same container turns it into beer. Barley, oats, malt and hops are the brewing crops. Premium.",
+  },
+  {
+    key: "wine-beer-process",
+    src: Screens.wineAndBeerProcess,
+    accent: "purple",
+    title: "MUST TO WINE, WORT TO BEER",
+    caption:
+      "The same chest before and after. Banana Must, Good, unfermented; twenty days later, Vintage Fruit Wine, still Good. Barley Wort, Common; then Vintage Fruit Beer, still Common. The sugar in the first slot is what makes the chest a fermenter, the days decide the tier, and the grade you put in is the grade you get out. Premium.",
   },
   {
     key: "dry-aging",

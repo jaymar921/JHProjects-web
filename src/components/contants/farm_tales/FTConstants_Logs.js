@@ -11,11 +11,8 @@
  * top of that entry, then one line per bullet, grouped the way the file
  * groups them. The wording is the file's own, shortened, never rephrased.
  *
- * There is no `release_date` on it yet, on purpose: the build is finished
- * and the Spigot listing is not up, and there is no date for it. The shared
- * Changelog component renders an undated entry with the IN DEV badge, which
- * is the honest badge for a plugin that is built and not yet sold. Set the
- * date the day the listing goes live.
+ * 1.0.0 went live on Spigot on 11 September 2026, Lite as resource 138717
+ * and Premium as 138718. The `release_date` below is that day.
  *
  * Source of truth: CHANGELOG.md and releases/1.0.0-release.md in the plugin
  * repository. When 1.0.1 ships, add an entry above this one.
@@ -24,7 +21,7 @@
 export const FT_Logs = [
   {
     update_version: "1.0.0",
-    release_date: null,
+    release_date: "2026-09-11",
     changes: [
       {
         update: "In one paragraph",
