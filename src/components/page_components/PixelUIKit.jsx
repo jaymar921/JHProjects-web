@@ -2,8 +2,8 @@
 /**
  * Shared "HUD" building blocks for the plugin pages. Custom Enchantments 3
  * runs on lime and purple, Kumandra's Economy on emerald and amber, Epic Mobs
- * Rework on ember and amber, the archived Custom Warps on violet and Fishing
- * Contest on cyan.
+ * Rework on ember and amber, Farm Tales on green and amber, the archived
+ * Custom Warps on violet and Fishing Contest on cyan.
  * Every accent below is written out in full so Tailwind keeps the class.
  */
 const ACCENTS = {
@@ -22,6 +22,21 @@ const ACCENTS = {
       "border-orange-400/40 text-orange-200 hover:border-orange-300 hover:bg-orange-400/15",
     glow: "[text-shadow:0_0_14px_rgba(249,115,22,0.5)]",
     field: "focus:border-orange-400/70",
+  },
+  /**
+   * Farm Tales' primary. Tailwind green rather than lime or emerald, so a
+   * farming page reads as its own thing next to the other two green pages.
+   */
+  green: {
+    text: "text-green-300",
+    chip: "border-green-400/40 bg-green-400/10 text-green-300",
+    corner: "border-green-400/70",
+    hover:
+      "hover:border-green-400/70 hover:shadow-[0_0_25px_rgba(74,222,128,0.22)]",
+    button:
+      "border-green-400/40 text-green-200 hover:border-green-300 hover:bg-green-400/15",
+    glow: "[text-shadow:0_0_14px_rgba(74,222,128,0.45)]",
+    field: "focus:border-green-400/70",
   },
   lime: {
     text: "text-lime-300",

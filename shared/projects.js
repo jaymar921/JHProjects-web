@@ -23,6 +23,7 @@ export const PROJECTS = Object.freeze({
   MORE_FOODS: "more-foods-and-crops",
   EPIC_MOBS: "epic-mobs",
   EPIC_MOBS_REWORK: "epic-mobs-rework",
+  FARM_TALES: "farm-tales",
 });
 
 /** Every valid slug, for validation on both sides. */
@@ -41,6 +42,7 @@ export const PROJECT_LABELS = Object.freeze({
   [PROJECTS.MORE_FOODS]: "More Foods and Crops",
   [PROJECTS.EPIC_MOBS]: "Epic Mobs",
   [PROJECTS.EPIC_MOBS_REWORK]: "Epic Mobs Rework",
+  [PROJECTS.FARM_TALES]: "Farm Tales",
 });
 
 /**

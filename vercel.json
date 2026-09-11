@@ -41,6 +41,10 @@
       "destination": "/epic-mobs.html"
     },
     {
+      "source": "/farm-tales",
+      "destination": "/farm-tales.html"
+    },
+    {
       "source": "/(.*)",
       "destination": "/"
     }

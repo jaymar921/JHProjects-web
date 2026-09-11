@@ -6,12 +6,32 @@ import Changelog from "./Changelog";
  *
  * CE3 and Kumandra's Economy each have their own copy of this, because each
  * one reads its own constants file and has its own accent baked in. The two
- * archived plugins share this one instead: they differ only by their log list
- * and their colour, and neither will ever gain a release that changes that.
+ * archived plugins share this one instead, and so does Farm Tales: they
+ * differ only by their log list and their colour.
  *
  * `latestLabel` exists because "LATEST" reads like a promise of a next one.
  * For a finished plugin the top entry is the final release, not the latest.
+ *
+ * Accents are written out in full so Tailwind keeps the classes.
  */
+const ACCENTS = {
+  violet: {
+    heading: "text-violet-300",
+    badge: "border-violet-400/50 bg-violet-500/15 text-violet-300",
+    focus: "focus:border-violet-400/60",
+  },
+  cyan: {
+    heading: "text-cyan-300",
+    badge: "border-cyan-400/50 bg-cyan-500/15 text-cyan-300",
+    focus: "focus:border-cyan-400/60",
+  },
+  green: {
+    heading: "text-green-300",
+    badge: "border-green-400/50 bg-green-500/15 text-green-300",
+    focus: "focus:border-green-400/60",
+  },
+};
+
 function ChangelogBrowser({
   logs,
   accent = "violet",
@@ -28,13 +48,7 @@ function ChangelogBrowser({
 
   const newest = logs[0];
 
-  const heading = accent === "cyan" ? "text-cyan-300" : "text-violet-300";
-  const badge =
-    accent === "cyan"
-      ? "border-cyan-400/50 bg-cyan-500/15 text-cyan-300"
-      : "border-violet-400/50 bg-violet-500/15 text-violet-300";
-  const focus =
-    accent === "cyan" ? "focus:border-cyan-400/60" : "focus:border-violet-400/60";
+  const { heading, badge, focus } = ACCENTS[accent] ?? ACCENTS.violet;
 
   return (
     <div className="w-full font-mono">

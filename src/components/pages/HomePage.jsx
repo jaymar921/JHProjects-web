@@ -7,6 +7,7 @@ import { ProjectInformation as CE2Info } from "../contants/projects/CustomEnchan
 import { ProjectInformation as FoodsInfo } from "../contants/projects/MoreFoodsConstants";
 import { ProjectInformation as EpicMobsInfo } from "../contants/projects/EpicMobsConstants";
 import { PluginInformation as EMRInfo } from "../contants/epic_mobs_rework/EMRConstants";
+import { PluginInformation as FTInfo } from "../contants/farm_tales/FTConstants";
 import {
   formatDownloads,
   KUMANDRA_FALLBACK,
@@ -125,6 +126,24 @@ const LIVE_PROJECTS = [
     hint: EMRInfo.price.onSale
       ? `v${EMRInfo.version} pre-release sale, ${EMRInfo.price.symbol}${EMRInfo.price.regularAmount} at 1.0`
       : `v${EMRInfo.version}, release candidate`,
+  },
+  {
+    key: "ft",
+    icon: "fa-solid fa-seedling",
+    title: FTInfo.title,
+    badge: `${FTInfo.price.symbol}${FTInfo.price.amount}`,
+    description:
+      "A farming plugin where how you tend a crop decides what you harvest. 134 crops, fruits and meats, six quality grades, nutrition that matters, tracked animals, dishes, dry-aging, wine and beer. Free Lite alongside Premium.",
+    accent: "green",
+    href: "/farm-tales",
+    /*
+      Built and tested, not yet on Spigot, and there is no date. The card
+      says so rather than reading as a live listing, and it counts as live
+      on this page because the page exists and the plugin is finished.
+    */
+    hint: FTInfo.spigot.pending
+      ? `v${FTInfo.version} built, Spigot listing coming soon`
+      : `v${FTInfo.version}`,
   },
 ];
 
@@ -369,6 +388,7 @@ kumandras-economy/     [FREE]     v${KEInfo.version}, live
 2dgraphic-utils/       [NPM]      v${GraphicsInfo.version}, live
 custom-enchantments-2/ [FREE]     open source, ended 2022
 epic-mobs-rework/      [PREMIUM]  v${EMRInfo.version}, and a free Lite
+farm-tales/            [PREMIUM]  v${FTInfo.version}, coming soon, free Lite
 epic-mobs/             [PREMIUM]  abandoned 2023
 custom-warps/          [FREE]     archived 2021
 fishing-contest/       [FREE]     archived 2021

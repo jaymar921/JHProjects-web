@@ -30,7 +30,7 @@ export default defineConfig(({ mode }) => {
     build: {
       rollupOptions: {
         /**
-         * Ten entry points, one app. Each plugin page carries the Open Graph
+         * Eleven entry points, one app. Each plugin page carries the Open Graph
          * tags for its own link preview, because the crawlers that build those
          * previews do not run JavaScript and would otherwise only ever see
          * index.html. vercel.json serves each one for its route.
@@ -58,6 +58,7 @@ export default defineConfig(({ mode }) => {
             import.meta.dirname,
             "epic-mobs-rework.html",
           ),
+          farmTales: resolve(import.meta.dirname, "farm-tales.html"),
         },
       },
     },
