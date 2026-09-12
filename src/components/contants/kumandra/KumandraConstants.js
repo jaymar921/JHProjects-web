@@ -35,8 +35,15 @@ export const PluginInformation = {
   author: "JayMar921",
   authorSocial: "https://jayharronabejar.vercel.app/",
 
+  /**
+   * The jar itself, not the listing. Spigot's Download Now button on
+   * resource 96466 carries a version id that changes with every upload, so
+   * when a new build goes up, read the button off the listing and put the
+   * new id here. Anything that should land on the listing (reviews,
+   * discussion) uses `discussionLink`.
+   */
   downloadLink:
-    "https://www.spigotmc.org/resources/%E2%9C%AFkumandras-economy-1-16-1-19-%E2%9C%AF.96466",
+    "https://www.spigotmc.org/resources/%E2%9C%AFkumandras-economy-1-16-26-2-%E2%9C%AF.96466/download?version=651102",
   discussionLink: "https://www.spigotmc.org/resources/96466/",
   contactEmail: "jaymarplugins@gmail.com",
 

@@ -88,7 +88,7 @@ function KE_Support() {
           <div className="pt-5">
             <PixelButton
               as="a"
-              href={PluginInformation.downloadLink}
+              href={PluginInformation.discussionLink}
               accent="amber"
               icon="fa-solid fa-star"
             >

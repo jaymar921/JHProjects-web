@@ -45,6 +45,11 @@ import wisePaymentQr from "../../../assets/custom_enchants_3/wise-payment-qr.png
  * listing was on its way instead of pretending to be a download. It stays
  * as a field so the same page can carry a future edition before its listing
  * exists, but for 1.0.0 both resources are live.
+ *
+ * `liteDownload` is the jar, not the listing: Spigot's Download Now button
+ * carries a version id that changes with every upload, so when a new Lite
+ * build goes up, read the button off the listing and put the new id here.
+ * The premium jar needs a logged-in buyer, so its button stays on the listing.
  */
 const SPIGOT = {
   pending: false,
@@ -52,6 +57,8 @@ const SPIGOT = {
   liteId: 138717,
   premium: "https://www.spigotmc.org/resources/138718/",
   lite: "https://www.spigotmc.org/resources/138717/",
+  liteDownload:
+    "https://www.spigotmc.org/resources/%E2%9C%AF-farm-tales-%E2%9C%AF-lite.138717/download?version=652007",
   premiumDiscussion: "https://www.spigotmc.org/resources/138718/",
   liteDiscussion: "https://www.spigotmc.org/resources/138717/",
 };
@@ -88,7 +95,7 @@ export const PluginInformation = {
 
   spigot: SPIGOT,
   downloadLink: SPIGOT.premium,
-  liteDownloadLink: SPIGOT.lite,
+  liteDownloadLink: SPIGOT.liteDownload,
   discussionLink: SPIGOT.premiumDiscussion,
   packsLink: PACKS_URL,
 

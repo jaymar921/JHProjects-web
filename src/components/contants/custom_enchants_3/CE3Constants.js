@@ -32,8 +32,15 @@ export const PluginInformation = {
     "1.7.0 is about the rest of your server. Run Epic Mobs Rework and a mob carrying a Bleed sword now makes you bleed, running the same code a player's Bleed sword runs, and its loot tables can hand out real CE3 books and treasure items. Run PlaceholderAPI and every player value goes on your scoreboard, along with the plugin's own timings, so \"CE3 is lagging my server\" is finally something you can check rather than argue about. Neither plugin is required. Combat got cheaper on its own too: a single hit used to read the same sword about thirty times and the same armour about ninety, and it reads each of them once now.",
     "Everything is a config line. Every price, every drop rate, every XP curve, every enchantment. Set a price to 0 and that enchantment stops existing on your server. It runs on Spigot and Paper from 1.16.4 all the way to 26.2, it needs no other plugins, and there is no NMS anywhere in it, so an update to Minecraft does not take the plugin down with it. One payment, updates for life, no subscription.",
   ],
+  /**
+   * The Lite jar itself, not the listing. Spigot's Download Now button on
+   * resource 89793 carries a version id that changes with every upload, so
+   * when a new Lite build goes up, read the button off the listing and put
+   * the new id here. The listing page stays in `trialListing`.
+   */
   trialLink:
-    "https://www.spigotmc.org/resources/%E2%9C%AF-custom-enchantments-3-1-16-free-%E2%9C%AF.89793/",
+    "https://www.spigotmc.org/resources/%E2%9C%AF-custom-enchantments-3-rpg-%E2%9C%AF-1-16-26-2-%E2%9C%AF-lite.89793/download?version=651478",
+  trialListing: "https://www.spigotmc.org/resources/89793/",
   payment: {
     contactEmail: "jaymarplugins@gmail.com",
     paymentSubject: "Custom Enchantments 3 Plugin Payment",

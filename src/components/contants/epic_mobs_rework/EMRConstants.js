@@ -43,13 +43,20 @@ import wisePaymentQr from "../../../assets/custom_enchants_3/wise-payment-qr.png
  * The full build moved to resource 97476 when 1.0-RC2 went public. Lite
  * stayed where it was. If either changes again this is the only place to
  * edit.
+ *
+ * `liteDownload` is the jar, not the listing: Spigot's Download Now button
+ * carries a version id that changes with every upload, so when a new Lite
+ * build goes up, read the button off the listing and put the new id here.
+ * The premium jar needs a logged-in buyer, so its button stays on the listing.
  */
 const SPIGOT = {
   premiumId: 97476,
   liteId: 138550,
   premium:
     "https://www.spigotmc.org/resources/%E2%9C%AF-epic-mobs-rework-%E2%9C%AF-1-16.97476/",
-  lite: "https://www.spigotmc.org/resources/epic-mobs-rework-lite-1-16.138550/",
+  lite: "https://www.spigotmc.org/resources/%E2%9C%AF-epic-mobs-rework-lite-%E2%9C%AF-1-16.138550/",
+  liteDownload:
+    "https://www.spigotmc.org/resources/%E2%9C%AF-epic-mobs-rework-lite-%E2%9C%AF-1-16.138550/download?version=651977",
   premiumDiscussion: "https://www.spigotmc.org/resources/97476/",
   liteDiscussion: "https://www.spigotmc.org/resources/138550/",
 };
@@ -84,7 +91,7 @@ export const PluginInformation = {
   /** Both listings. Lite went up first so the premium page could link to it. */
   spigot: SPIGOT,
   downloadLink: SPIGOT.premium,
-  liteDownloadLink: SPIGOT.lite,
+  liteDownloadLink: SPIGOT.liteDownload,
   discussionLink: SPIGOT.premiumDiscussion,
 
   author: "JayMar921",
