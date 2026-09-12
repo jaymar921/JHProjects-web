@@ -4,7 +4,7 @@ import { getDb } from "./mongo.js";
 /**
  * Collection names and their indexes.
  *
- * Five collections, each with a job:
+ * Seven collections, each with a job:
  *
  *   events        every raw view and click, one document each. Optionally
  *                 expires, so the collection does not grow without bound.
@@ -17,6 +17,15 @@ import { getDb } from "./mongo.js";
  *   admin_sessions one document per signed in session, keyed by a hash of the
  *                 cookie value. Expires itself, so a forgotten session does
  *                 not stay valid forever.
+ *   plugin_pings  the hourly heartbeat from every server running one of the
+ *                 plugins, one document per plugin, server and hour. A second
+ *                 ping inside the same hour lands on the same document, so the
+ *                 collection is bounded by servers times hours, not by how
+ *                 often someone hits the URL. Expires after the plugin stats
+ *                 retention window.
+ *   plugin_servers one document per server the plugins have been seen on,
+ *                 carrying which plugins it runs and when each was last heard
+ *                 from. Expires on its own once the server stops pinging.
  */
 
 export const COLLECTIONS = Object.freeze({
@@ -25,6 +34,8 @@ export const COLLECTIONS = Object.freeze({
   BUG_REPORTS: "bug_reports",
   ADMIN_USERS: "admin_users",
   ADMIN_SESSIONS: "admin_sessions",
+  PLUGIN_PINGS: "plugin_pings",
+  PLUGIN_SERVERS: "plugin_servers",
 });
 
 export const EVENT_TYPES = Object.freeze({
@@ -47,6 +58,9 @@ async function createIndexes() {
   const reports = db.collection(COLLECTIONS.BUG_REPORTS);
   const adminUsers = db.collection(COLLECTIONS.ADMIN_USERS);
   const adminSessions = db.collection(COLLECTIONS.ADMIN_SESSIONS);
+  const pluginPings = db.collection(COLLECTIONS.PLUGIN_PINGS);
+  const pluginServers = db.collection(COLLECTIONS.PLUGIN_SERVERS);
+  const pluginTtlSeconds = env.pluginStats.ttlDays * 24 * 60 * 60;
 
   const indexes = [
     events.createIndex({ project: 1, createdAt: -1 }),
@@ -71,6 +85,18 @@ async function createIndexes() {
     // in requireAdmin still checks the date, because the TTL monitor only runs
     // once a minute.
     adminSessions.createIndex({ expiresAt: 1 }, { expireAfterSeconds: 0 }),
+    // One row per plugin, server and hour is what the unique index enforces;
+    // the upsert in recordPing is what makes a repeat ping land on it.
+    pluginPings.createIndex({ plugin: 1, serverKey: 1, hour: 1 }, { unique: true }),
+    pluginPings.createIndex({ serverKey: 1, hour: -1 }),
+    // The charts read a window of hours, so the expiry index doubles as the
+    // one they walk.
+    pluginPings.createIndex({ hour: 1 }, { expireAfterSeconds: pluginTtlSeconds }),
+    pluginServers.createIndex({ serverKey: 1 }, { unique: true }),
+    pluginServers.createIndex({ lastSeenAt: -1 }),
+    // A server that has not pinged for the whole window is dropped, which is
+    // the "flush after three months" rule with no job to run.
+    pluginServers.createIndex({ lastSeenAt: 1 }, { expireAfterSeconds: pluginTtlSeconds }),
   ];
 
   // A TTL of 0 days means keep raw events forever. The counters in
@@ -110,3 +136,5 @@ export const projectStatsCollection = () => collection(COLLECTIONS.PROJECT_STATS
 export const bugReportsCollection = () => collection(COLLECTIONS.BUG_REPORTS);
 export const adminUsersCollection = () => collection(COLLECTIONS.ADMIN_USERS);
 export const adminSessionsCollection = () => collection(COLLECTIONS.ADMIN_SESSIONS);
+export const pluginPingsCollection = () => collection(COLLECTIONS.PLUGIN_PINGS);
+export const pluginServersCollection = () => collection(COLLECTIONS.PLUGIN_SERVERS);

@@ -6,9 +6,14 @@
 # noindex header and carries a noindex meta tag, and it shows nothing at all
 # without a session, so this is about keeping it out of search results rather
 # than about keeping anyone out.
+#
+# /plugin-stat is the address the plugins report to. It is not a page, it is
+# served noindex, and it answers a crawler with a 404, so the rule here is
+# only so that a well behaved one does not bother asking.
 
 User-agent: *
 Disallow: /admin
+Disallow: /plugin-stat
 Allow: /
 
 # The plugin pages are the point of the site, so they are named explicitly
@@ -32,54 +37,67 @@ Allow: /*.jpg$
 # training and for answering questions about these projects.
 User-agent: GPTBot
 Disallow: /admin
+Disallow: /plugin-stat
 Allow: /
 
 User-agent: ChatGPT-User
 Disallow: /admin
+Disallow: /plugin-stat
 Allow: /
 
 User-agent: OAI-SearchBot
 Disallow: /admin
+Disallow: /plugin-stat
 Allow: /
 
 User-agent: ClaudeBot
 Disallow: /admin
+Disallow: /plugin-stat
 Allow: /
 
 User-agent: Claude-User
 Disallow: /admin
+Disallow: /plugin-stat
 Allow: /
 
 User-agent: Claude-SearchBot
 Disallow: /admin
+Disallow: /plugin-stat
 Allow: /
 
 User-agent: anthropic-ai
 Disallow: /admin
+Disallow: /plugin-stat
 Allow: /
 
 User-agent: PerplexityBot
 Disallow: /admin
+Disallow: /plugin-stat
 Allow: /
 
 User-agent: Perplexity-User
 Disallow: /admin
+Disallow: /plugin-stat
 Allow: /
 
 User-agent: Google-Extended
 Disallow: /admin
+Disallow: /plugin-stat
 Allow: /
 
 User-agent: Applebot-Extended
 Disallow: /admin
+Disallow: /plugin-stat
 Allow: /
 
 User-agent: Meta-ExternalAgent
 Disallow: /admin
+Disallow: /plugin-stat
 Allow: /
 
 User-agent: CCBot
 Disallow: /admin
+Disallow: /plugin-stat
 Allow: /
 
 Sitemap: https://jhprojects.vercel.app/sitemap.xml

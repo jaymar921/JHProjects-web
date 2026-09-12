@@ -5,6 +5,14 @@
       "destination": "/api"
     },
     {
+      "source": "/plugin-stat",
+      "destination": "/api"
+    },
+    {
+      "source": "/plugin-stat/(.*)",
+      "destination": "/api"
+    },
+    {
       "source": "/customenchantments3",
       "destination": "/customenchantments3.html"
     },
@@ -130,6 +138,23 @@
         {
           "key": "Content-Security-Policy",
           "value": "frame-ancestors 'none'"
+        },
+        {
+          "key": "X-Content-Type-Options",
+          "value": "nosniff"
+        }
+      ]
+    },
+    {
+      "source": "/plugin-stat/(.*)",
+      "headers": [
+        {
+          "key": "X-Robots-Tag",
+          "value": "noindex, nofollow, noarchive, nosnippet"
+        },
+        {
+          "key": "Cache-Control",
+          "value": "no-store, no-cache, must-revalidate, private"
         },
         {
           "key": "X-Content-Type-Options",

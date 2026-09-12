@@ -5,6 +5,7 @@ import { ValidationError } from "./lib/validate.js";
 import adminRouter from "./routes/admin.js";
 import bugReportRouter from "./routes/bugReport.js";
 import healthRouter from "./routes/health.js";
+import pluginStatRouter from "./routes/pluginStat.js";
 import statsRouter from "./routes/stats.js";
 import trackRouter from "./routes/track.js";
 
@@ -48,6 +49,10 @@ export function createApp() {
   app.use("/api/bug-report", bugReportRouter);
   app.use("/api/admin", adminRouter);
 
+  // The plugins' hourly heartbeat. Outside /api on purpose: it is not part of
+  // the site's API and is not listed in the index below. See routes/pluginStat.js.
+  app.use("/plugin-stat", pluginStatRouter);
+
   app.get("/api", (_req, res) => {
     res.json({
       ok: true,
@@ -60,6 +65,7 @@ export function createApp() {
         "GET  /api/stats             (admin session or STATS_TOKEN)",
         "GET  /api/stats/:project    (admin session or STATS_TOKEN)",
         "GET  /api/stats/:project/events (admin session or STATS_TOKEN)",
+        "GET  /api/stats/plugins     (admin session or STATS_TOKEN)",
         "GET  /api/bug-report/status",
         "POST /api/bug-report",
         "GET  /api/admin/session",
