@@ -7,6 +7,7 @@ import {
   readProjectStats,
   readRecentEvents,
 } from "../services/analytics.js";
+import { readPluginDashboard } from "../services/pluginStats.js";
 import { PROJECT_SLUGS } from "../../../shared/projects.js";
 
 /**
@@ -17,6 +18,8 @@ import { PROJECT_SLUGS } from "../../../shared/projects.js";
  *                                    the bug report queue
  *   GET /api/stats/:project          one project
  *   GET /api/stats/:project/events   the raw rows behind one project
+ *   GET /api/stats/plugins           the servers running the plugins, per
+ *                                    hour and per day, and the server list
  *
  * These are read only, and they are the site's own traffic figures, so they
  * are not public. There are two ways in: the admin session cookie the
@@ -72,6 +75,25 @@ router.use((req, res, next) => {
 router.get("/", async (_req, res, next) => {
   try {
     const dashboard = await readDashboard();
+    res.json({ ok: true, ...dashboard });
+  } catch (error) {
+    next(error);
+  }
+});
+
+/**
+ * Sits above /:project because "plugins" is not a project slug. `days` is the
+ * daily window; the hourly series is always the last week.
+ */
+router.get("/plugins", async (req, res, next) => {
+  try {
+    const days = Number.parseInt(req.query.days ?? "30", 10);
+
+    if (Number.isNaN(days)) {
+      throw new ValidationError("days must be a number", "days");
+    }
+
+    const dashboard = await readPluginDashboard({ days });
     res.json({ ok: true, ...dashboard });
   } catch (error) {
     next(error);

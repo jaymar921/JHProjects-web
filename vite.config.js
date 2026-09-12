@@ -24,6 +24,12 @@ export default defineConfig(({ mode }) => {
           target: `http://localhost:${apiPort}`,
           changeOrigin: true,
         },
+        // The plugins' heartbeat, which lives outside /api. Proxied for the
+        // same reason, so a plugin pointed at the dev server is recorded.
+        "/plugin-stat": {
+          target: `http://localhost:${apiPort}`,
+          changeOrigin: true,
+        },
       },
     },
 

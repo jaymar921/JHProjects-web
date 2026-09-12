@@ -1,5 +1,7 @@
 import { useEffect, useRef } from "react";
 import {
+  BarController,
+  BarElement,
   CategoryScale,
   Chart,
   Filler,
@@ -20,14 +22,17 @@ import {
 /**
  * Chart.js, registered once, with only the pieces the dashboard draws.
  *
- * Chart.js is tree shakeable, so the line chart and the choropleth each cost
- * only the controllers, elements and scales they use. Nothing imports
- * "chart.js/auto", which would pull in every chart type for the two in use.
+ * Chart.js is tree shakeable, so the line chart, the stacked bars and the
+ * choropleth each cost only the controllers, elements and scales they use.
+ * Nothing imports "chart.js/auto", which would pull in every chart type for
+ * the three in use.
  * This module is only ever reached through the lazy loaded admin page, so a
  * normal visitor never downloads any of it.
  */
 
 Chart.register(
+  BarController,
+  BarElement,
   CategoryScale,
   LinearScale,
   LineController,
@@ -56,6 +61,24 @@ export const CHART_INK = {
 export const SERIES = {
   views: "#0284c7", // sky-600
   clicks: "#d97706", // amber-600
+};
+
+/**
+ * One colour per plugin, in the order of shared/plugins.js, so a plugin keeps
+ * its colour whichever of them are on screen. The seven were checked as a set
+ * against the chart surface: every neighbouring pair stays apart under
+ * simulated colour blindness, and every one clears 3:1 on the surface. The
+ * legend and the tooltip name each series, so colour is never the only way to
+ * tell them apart.
+ */
+export const PLUGIN_SERIES = {
+  "ce3-lite": "#3987e5",
+  "ce3-premium": "#d95926",
+  "emr-lite": "#199e70",
+  "emr-premium": "#c98500",
+  "ft-lite": "#d55181",
+  "ft-premium": "#008300",
+  kd: "#9085e9",
 };
 
 /** The tooltip box, styled like the rest of the page rather than Chart.js's default. */

@@ -4,7 +4,8 @@ The site behind JayMar921's plugins and libraries: Custom Enchantments 3,
 Kumandra's Economy, 2dgraphic-utils and the archived projects.
 
 A React front end built with Vite, and a small Express API that records how each
-project page is doing and takes bug reports.
+project page is doing, takes the hourly ping from every server running one of
+the plugins, and takes bug reports.
 
 ## Layout
 
@@ -16,8 +17,10 @@ project page is doing and takes bug reports.
 ├── ...
 │
 ├── shared/
-│   └── projects.js          the project slugs, imported by BOTH the browser and
-│                            the server so a typo fails loudly
+│   ├── projects.js          the project slugs, imported by BOTH the browser and
+│   │                        the server so a typo fails loudly
+│   └── plugins.js           the plugins that phone home, in the order they are
+│                            coloured on the dashboard
 ├── src/                     the browser
 │   ├── lib/
 │   │   ├── analytics/       view and click tracking, and the visitor id
@@ -36,8 +39,8 @@ project page is doing and takes bug reports.
 │       ├── config/env.js    every environment value, read in one place
 │       ├── db/              the cached Mongo connection and the indexes
 │       ├── lib/             UA parsing, rate limiting, validation, the admin guard
-│       ├── routes/          track, stats, bug-report, health, admin
-│       └── services/        analytics, mailer, bug reports, admin auth
+│       ├── routes/          track, stats, bug-report, health, admin, plugin-stat
+│       └── services/        analytics, plugin stats, mailer, bug reports, admin auth
 │
 ├── api/
 │   └── index.js             the Vercel entry point, which hands Vercel the very
@@ -107,6 +110,19 @@ visit, and `navigator.doNotTrack` is respected.
 it wants the admin session cookie, or a bearer token if `STATS_TOKEN` is set for
 something that cannot hold a cookie.
 
+### The plugin heartbeat
+
+Every running copy of Custom Enchantments 3, Epic Mobs Rework, Farm Tales and
+Kumandra's Economy calls `GET /plugin-stat/<plugin id>/<version>` once an hour
+with the server's name and Minecraft version, how many players are on, and how
+many errors the plugin hit since its last ping. One ping is one server, so the
+dashboard can say how many servers were running each plugin in any hour, and
+a server running several of the plugins is grouped onto one row.
+
+The URL only answers the plugin ids it knows and gives everything else the
+same friendly `404`. It is not linked, not indexed and refuses crawlers. The
+pings are kept for 90 days and then dropped by the database itself.
+
 See `server/README.md` for the endpoints and the document shapes.
 
 ## The admin dashboard
@@ -152,10 +168,16 @@ What is holding the door:
 - The dashboard is a lazily loaded route, so a visitor who never opens `/admin`
   never downloads any of it.
 
-The page itself is one call to `GET /api/stats` on load and a quiet refresh a
-minute while the tab is visible: headline totals, views by project, breakdowns
-by device, OS and browser, a sortable table of every project, and the raw
-events behind whichever row you open.
+The page is four tabs. **Plugins** is the heartbeat: live servers and players,
+installs per hour and per day stacked by plugin, a card per plugin with the
+versions in the wild, and a modal listing every server with the plugins it
+runs, searchable and filterable. It reads `GET /api/stats/plugins` and
+refreshes every five minutes. **Traffic**, **Audience** and **Projects** are
+the site's own numbers from one call to `GET /api/stats`, refreshed a minute
+while the tab is visible: headline totals and the last thirty days, the world
+map and the breakdowns by device, OS, browser, referrer and language, and a
+sortable table of every project with the raw events behind whichever row you
+open.
 
 ## Deploying
 

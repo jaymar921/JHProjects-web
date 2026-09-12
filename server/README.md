@@ -1,7 +1,8 @@
 # The API
 
-Express, MongoDB and Nodemailer. Two jobs: record what people do on the project
-pages, and get bug reports to the developer.
+Express, MongoDB and Nodemailer. Three jobs: record what people do on the
+project pages, take the hourly ping from every server running one of the
+plugins, and get bug reports to the developer.
 
 `src/app.js` exports the app and never calls `listen`. `src/index.js` runs it as
 a Node process; `../api/index.js` hands the same app to Vercel. Nothing is
@@ -18,6 +19,8 @@ duplicated between the two.
 | `GET` | `/api/stats` | Every project, a rolled up total, who clicked what, the last 30 days by day and the bug report queue. Signed in only |
 | `GET` | `/api/stats/:project` | One project's counters. Signed in only |
 | `GET` | `/api/stats/:project/events` | The raw rows behind one project. Signed in only |
+| `GET` | `/api/stats/plugins` | The servers running the plugins: per hour, per day and the server list. Signed in only |
+| `GET` | `/plugin-stat/:pluginId/:version` | The plugins' hourly heartbeat. Not under `/api`, see below |
 | `GET` | `/api/bug-report/status` | Whether email delivery is switched on |
 | `POST` | `/api/bug-report` | File a bug report |
 | `GET` | `/api/admin/session` | Who, if anyone, this browser is signed in as |
@@ -33,6 +36,42 @@ The stats endpoints are not public. They take either the admin session cookie
 that `/admin` holds, or, when `STATS_TOKEN` is set, an
 `Authorization: Bearer <token>` header for something that cannot hold a cookie.
 With no token configured the session is the only way in.
+
+## The plugin heartbeat
+
+Every running copy of a plugin calls, once an hour,
+
+```
+GET /plugin-stat/<plugin id>/<plugin version>?serverName=Jay&serverVersion=1.21.4&totalPlayers=2&errors=0&serverId=<id>
+```
+
+One ping is one server, so "how many servers are running this plugin" is a
+count of distinct servers in an hour. That is the shape the data is kept in:
+`plugin_pings` has one document per plugin, server and hour, and a second
+ping inside the same hour updates it rather than adding one. It is also what
+stops anyone who pulls a plugin id out of a jar from inflating the count by
+calling the URL in a loop.
+
+`serverId` is optional. The plugins generate one id per server and keep it in
+`plugins/.jaymar921/server-id`, shared by all of them, so two plugins on one
+server land on one row in `plugin_servers`. Without it the salted hash of the
+address plus the server name stands in. Neither the address nor the raw id is
+stored; the server is keyed by a hash of one or the other.
+
+`totalPlayers` is a snapshot and the latest wins. `errors` is the number the
+plugin counted since its previous ping, so it is summed.
+
+The plugin ids are in `src/config/env.js` and each can be overridden with
+`PLUGIN_STAT_ID_<KEY>`, which is how one is rotated. Everything that is not a
+recorded ping, an unknown id, a `POST`, a malformed version, a request with a
+crawler's `User-Agent` or none at all, gets the same friendly `404`, so the
+URL tells someone probing it nothing about which mistake they made. It is
+outside `/api` so the API's own index does not list it, disallowed in
+`robots.txt`, and served `noindex`.
+
+Both collections expire through TTL indexes after `PLUGIN_STAT_TTL_DAYS`, 90
+by default, so three months of history is the most the database ever holds
+and nothing has to be run to flush it.
 
 ## The admin gateway
 
@@ -101,6 +140,16 @@ them back.
 maps from the raw rows. Run it once after deploying the version that added
 them; it is safe to run again at any time.
 
+**`plugin_pings`** — one document per plugin, server and hour: the version,
+the server's version, the player count, the errors reported and the country
+from the hosting edge. Upserted, so a repeat ping in the same hour lands on
+the same row. Expires after `PLUGIN_STAT_TTL_DAYS`.
+
+**`plugin_servers`** — one document per server the plugins have been seen on,
+keyed by a one way hash, with a sub document per plugin it runs: version,
+players, pings, errors, first and last seen. Expires on its own once the
+server has not pinged for the retention window.
+
 **`bug_reports`** — one document per report, with an `emailStatus` of `sent`,
 `failed` or `skipped`. The report is written before the email is attempted, so a
 report is never lost to an SMTP outage, and the failed ones can be found with
@@ -133,6 +182,8 @@ on the site's own host is recorded as `internal`; none at all is `direct`.
 
 No raw IP addresses. The address is hashed with `ANALYTICS_HASH_SALT` and
 truncated, and the hash is only used for rate limiting and unique counting.
+The same goes for the plugin pings: the server key is a hash, and the raw
+server id the plugin sends is never stored either.
 
 No full referrer URLs, only the host, because a search query or a private link
 in the path is not something this site needs.
@@ -154,7 +205,7 @@ gets the same report filed three more times.
 ## Rate limiting
 
 Fixed window, in memory, keyed on the hashed address: 120 tracking requests a
-minute and 5 bug reports an hour by default.
+minute, 60 plugin pings a minute and 5 bug reports an hour by default.
 
 On a serverless deploy each instance keeps its own counters, so a flood spread
 across cold starts gets more through than those numbers suggest. That is

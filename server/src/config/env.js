@@ -1,4 +1,5 @@
 import "dotenv/config";
+import { PLUGIN_KEYS } from "../../../shared/plugins.js";
 
 /**
  * Every environment value the server reads, resolved once and in one place.
@@ -30,6 +31,32 @@ const oneOfEnv = (name, allowed, fallback) => {
   const value = read(name, fallback).toLowerCase();
   return allowed.includes(value) ? value : fallback;
 };
+
+/**
+ * The ids the plugins identify themselves with on /plugin-stat. These are the
+ * values shipped inside the jars today. Each can be overridden with
+ * PLUGIN_STAT_ID_<KEY>, so a leaked id can be rotated without a deploy of the
+ * front end: change it here and in the next plugin build, and the old id
+ * simply stops being recognised.
+ */
+const DEFAULT_PLUGIN_IDS = {
+  [PLUGIN_KEYS.CE3_LITE]: "7433c67f-9288-4576-8011-1f9ab1de3804",
+  [PLUGIN_KEYS.CE3_PREMIUM]: "b0f4ac12-894e-4ca2-9b85-a9867e84b138",
+  [PLUGIN_KEYS.EMR_LITE]: "c6e4be7a-5ef7-4703-a4c6-69a254861fdf",
+  [PLUGIN_KEYS.EMR_PREMIUM]: "c88ff4db-1f67-4627-99fc-7c86cdeed3b0",
+  [PLUGIN_KEYS.FT_LITE]: "91a3d660-91b8-4cfe-be25-34ee87b57e40",
+  [PLUGIN_KEYS.FT_PREMIUM]: "2776c349-6d92-4a21-a8ed-f94eb36c8b2a",
+  [PLUGIN_KEYS.KD]: "07eb4be4-7f48-4cfb-92f6-92ed1f53ebf0",
+};
+
+/** "ce3-lite" reads PLUGIN_STAT_ID_CE3_LITE. */
+const readPluginIds = () =>
+  Object.fromEntries(
+    Object.entries(DEFAULT_PLUGIN_IDS).map(([key, fallback]) => [
+      key,
+      read(`PLUGIN_STAT_ID_${key.toUpperCase().replaceAll("-", "_")}`, fallback).toLowerCase(),
+    ]),
+  );
 
 const mongoUri = read("MONGODB_URI");
 const smtpUser = read("SMTP_USER");
@@ -84,6 +111,19 @@ export const env = {
   rateLimit: {
     trackPerMinute: readInt("RATE_LIMIT_TRACK_PER_MINUTE", 120),
     bugReportPerHour: readInt("RATE_LIMIT_BUG_REPORT_PER_HOUR", 5),
+    pluginStatPerMinute: readInt("RATE_LIMIT_PLUGIN_STAT_PER_MINUTE", 60),
+  },
+
+  /**
+   * The hourly ping the plugins send to /plugin-stat.
+   *
+   * Every row it writes expires after ttlDays, servers included, so a server
+   * that stopped pinging disappears on its own and the collections never grow
+   * past three months of history however many servers there are.
+   */
+  pluginStats: {
+    ids: readPluginIds(),
+    ttlDays: Math.max(1, readInt("PLUGIN_STAT_TTL_DAYS", 90)),
   },
 
   /**

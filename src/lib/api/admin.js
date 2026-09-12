@@ -122,3 +122,11 @@ export function fetchEvents(project, { limit = 25, signal } = {}) {
     signal,
   });
 }
+
+/**
+ * The plugin heartbeat: which servers are running which plugin, per hour for
+ * the last week and per day for `days`, plus the server list.
+ */
+export function fetchPluginStats({ days = 30, signal } = {}) {
+  return request(`/api/stats/plugins?days=${encodeURIComponent(days)}`, { signal });
+}
